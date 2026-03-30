@@ -6,6 +6,7 @@
   </PropertyGroup>
   <!-- Support files and analyzers -->
   <ItemGroup>
+    <PackageVersion Include="MessageBox.Avalonia" Version="3.3.1.1" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.183" />
     <PackageVersion Include="PerfView.SupportFiles" Version="1.0.8" />
     <PackageVersion Include="Microsoft.Diagnostics.Tracing.TraceEvent.SupportFiles" Version="1.0.30" />
@@ -13,8 +14,14 @@
   </ItemGroup>
   <!-- External dependencies -->
   <ItemGroup>
+    <PackageVersion Include="Avalonia" Version="11.3.12" />
+    <PackageVersion Include="Avalonia.Desktop" Version="11.3.12" />
+    <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.3.12" />
+    <PackageVersion Include="Avalonia.Fonts.Inter" Version="11.3.12" />
+    <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.12" />
     <PackageVersion Include="Azure.Core" Version="1.38.0" />
     <PackageVersion Include="Azure.Identity" Version="1.11.4" />
+    <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.1" />
     <PackageVersion Include="MicroBuild.Core" Version="0.3.1" />
     <PackageVersion Include="Microsoft.Diagnostics.NETCore.Client" Version="0.2.510501" />
     <PackageVersion Include="Microsoft.Identity.Client" Version="4.74.1" />
