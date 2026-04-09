@@ -127,7 +127,9 @@
             throw new NotSupportedException("NotSupported");
         }
 
+#if NETFRAMEWORK
         [HostProtection(ExternalThreading = true)]
+#endif
         public override IAsyncResult BeginRead(byte[] array, int offset, int count, AsyncCallback asyncCallback, object asyncState)
         {
             if (deflateStream == null)
@@ -146,7 +148,9 @@
             return deflateStream.EndRead(asyncResult);
         }
 
+#if NETFRAMEWORK
         [HostProtection(ExternalThreading = true)]
+#endif
         public override IAsyncResult BeginWrite(byte[] array, int offset, int count, AsyncCallback asyncCallback, object asyncState)
         {
             if (deflateStream == null)
