@@ -1,8 +1,13 @@
 // #define PUBLIC_BUILD
+#if AVALONIA
+using Avalonia;
+#endif
 using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Session;
 using Microsoft.Diagnostics.Utilities;
+using PerfView.Avalonia;
+
 
 #if !PERFVIEW_COLLECT
 using PerfView.Dialogs;
@@ -357,10 +362,18 @@ namespace PerfView
         private static void DoMainForGui()
         {
 #if !PERFVIEW_COLLECT
+#if AVALONIA
+            AppBuilder.Configure<Avalonia.GuiApp>()
+                .UsePlatformDetect()
+                .WithInterFont()
+                .LogToTrace()
+                .StartWithClassicDesktopLifetime(Array.Empty<string>());
+#else
             DisplaySplashScreen();          // If we have not already displayed the splash screen do it now.  
             s_splashScreen = null;          // this serves no purpose any more.  
             var app = new PerfView.GuiApp();
             app.Run();
+#endif
 #endif
         }
 
@@ -1010,6 +1023,7 @@ namespace PerfView
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         private static void DisplaySplashScreen()
         {
+#if !AVALONIA
 #if !PERFVIEW_COLLECT
             try
             {
@@ -1022,10 +1036,12 @@ namespace PerfView
             }
             catch (Exception) { }
 #endif
+#endif
         }
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
         private static void CloseSplashScreen()
         {
+#if !AVALONIA
 #if !PERFVIEW_COLLECT
             if (s_splashScreen != null)
             {
@@ -1036,6 +1052,7 @@ namespace PerfView
                     splashScreen.Close(new TimeSpan(0));
                 }
             }
+#endif
 #endif
         }
 #if !PERFVIEW_COLLECT

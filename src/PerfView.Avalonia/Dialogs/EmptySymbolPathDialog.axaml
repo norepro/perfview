@@ -1,0 +1,41 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="PerfView.Dialogs.EmptySymbolPathDialog"
+        Title="Empty Symbol Path" Height="269" Width="486" MinHeight="230" MinWidth="475">
+    <Grid RowDefinitions="Auto,*,Auto,*">
+        <Border Grid.Row="0" Background="{DynamicResource HelpRibbonBackground}" Padding="4">
+            <StackPanel>
+                <TextBlock TextWrapping="Wrap" Margin="2">
+                    The search locations for symbolic information has not been set up.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Margin="2">
+                    You have two choices.
+                </TextBlock>
+                <StackPanel Margin="0,2,0,0" Spacing="4">
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <TextBlock>•</TextBlock>
+                        <TextBlock TextWrapping="Wrap">
+                            <Run FontWeight="Bold">Use the Microsoft symbol server.</Run>
+                            <Run>  This will allow you to see the symbolic names for code developed by Microsoft, including the operating system DLLs as well as the .NET framework.   To do this PerfView try to contact the Microsoft symbol server on the web when 'Lookup Symbols' command are executed to retrieve the necessary symbolic information. This is the recommended option.</Run>
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="4">
+                        <TextBlock>•</TextBlock>
+                        <TextBlock TextWrapping="Wrap">
+                            <Run FontWeight="Bold">Use the Empty Symbol Path.</Run>
+                            <Run>  Choosing this option will mean that 'Lookup Symbols' commands will fail on any Microsoft code.   However this does insure that PerfView does not issue network operations during symbol lookup.</Run>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <Grid Grid.Row="2" ColumnDefinitions="*,*">
+            <Button Grid.Column="0" Margin="10,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                    Content="  Use Microsoft Symbol Server  " Click="UseMSSymbolsClicked"
+                    ToolTip.Tip="Adds the URL for the Microsoft symbol server to the Symbol path (it not already present)" />
+            <Button Grid.Column="1" Margin="10,2" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                    Content="  Use Empty Symbol Path  " Click="UseEmptyPathClicked"
+                    ToolTip.Tip="Adds the URL for the Microsoft symbol server to the Symbol path (it not already present)" />
+        </Grid>
+    </Grid>
+</Window>

@@ -19,15 +19,29 @@
       <Link>Program.cs</Link>
     </Compile> -->
     <Compile Include="../PerfView/CommandLineArgs.cs" />
-    <Compile Include="../PerfView/CommandProcessor.cs" />
+    <!-- <Compile Include="../PerfView/CommandProcessor.cs" /> -->
     <Compile Include="../PerfView/ConfigData.cs" />
+    <Compile Include="../PerfView/DotNetVersionLogger.cs" />
+    <!-- <Compile Include="../PerfView/Extensibility.cs" /> -->
+    <Compile Include="../PerfView/memory/ETWClrProfilerTraceEventParser.cs" />
+    <Compile Include="../PerfView/memory/HeapSnapshot.cs" />
+    <Compile Include="../PerfView/OtherSources/XMLStackSource.cs" />
+    <!-- <Compile Include="../PerfView/PerfViewData.cs" /> -->
+    <Compile Include="../PerfView/PerfViewLogger.cs" />
     <Compile Include="../PerfView/Properties/BuildDateAttribute.cs" />
+    <Compile Include="../PerfView/Triggers.cs" />
+    <!-- <Compile Include="../PerfView/UserCommands.cs" /> -->
     <Compile Include="../PerfView/Utilities/CacheFiles.cs" />
+    <Compile Include="../PerfView/Utilities/commandLine.cs" />
     <Compile Include="../PerfView/Utilities/ExceptionMessage.cs" />
+    <Compile Include="../PerfView/Utilities/ResourceUtilities.cs" />
+    <Compile Include="../PerfView/Utilities/StreamUtilities.cs" />
     <Compile Include="../PerfView/Utilities/SupportFiles.cs" />
     <Compile Include="../Utilities/DirectoryUtilities.cs" />
     <Compile Include="../Utilities/EnvironmentUtilities.cs" />
     <Compile Include="../Utilities/FileUtilities.cs" />
+    <Compile Include="../Utilities/SymbolsAuthenticationUtilities.cs" />
+    <Compile Include="../Utilities/XmlUtilities.cs" />
   </ItemGroup>
 
 
@@ -41,8 +55,12 @@
       <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Azure.Core" GeneratePathProperty="true" />
+    <PackageReference Include="Azure.Identity" GeneratePathProperty="true" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="MessageBox.Avalonia" />
+    <PackageReference Include="System.Diagnostics.EventLog" />
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +69,7 @@
     <ProjectReference Include="..\FastSerialization\FastSerialization.csproj" />
     <ProjectReference Include="..\PerfView.Tutorial\PerfView.Tutorial.csproj" />
     <ProjectReference Include="..\SymbolsAuth\SymbolsAuth.csproj" /> -->
+    <ProjectReference Include="../CSVReader/CSVReader.csproj" />
     <ProjectReference Include="../TraceEvent/TraceEvent.csproj" />
   </ItemGroup>
 </Project>
