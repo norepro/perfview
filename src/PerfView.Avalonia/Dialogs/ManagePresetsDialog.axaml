@@ -1,0 +1,117 @@
+<src:WindowBase x:Class="PerfView.Dialogs.ManagePresetsDialog"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        Background="{DynamicResource ControlDarkerBackground}"
+        Title="Manage Presets" Height="462" Width="800">
+    <!-- TODO_AVALONIA: Style conversion needed for keyed style 'TextBoxStyle' -->
+    <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left part (master one) -->
+        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+        <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="10,2,5,2" >
+            <Run Name="TitleHyperLinkText" Text="Presets"/>
+        </TextBlock>
+        <ListBox x:Name="PresetListBox" Grid.Row="1" Grid.Column="0" Margin="10,10,10,10" SelectionMode="Single" SelectionChanged="DoPresetSelected"/>
+
+        <!-- Right part (details) -->
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="10,10,10,10" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
+                           Text="Name:"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Name="PresetName" Margin="10,2,10,2">
+                    <ToolTip.Tip>
+                        <TextBlock>
+                            Preset name.
+                        </TextBlock>
+                    </ToolTip.Tip>
+                </TextBox>
+
+                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
+                           Text="GroupPats:"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Name="GroupPatsTextBox" Margin="10,2,10,2">
+                    <ToolTip.Tip>
+                        <TextBlock>
+                            A semicolon list of expressions pattern and replacements which define groups
+                            PAT -&gt; GROUP : Replaces frame name matching PAT with GROUP
+                            PAT =&gt; GROUP : Like -&gt; but groups by entry point into the group
+                            PAT :  * = any,  % = alphaNumeric, ^ = begin, {PAT} = captures match
+                            GROUP can have $1, $2 ... strings which get replaced with pattern captures.
+                            Every Frame will have these patterns applied (in order) before stack trees are formed.
+                        </TextBlock>
+                    </ToolTip.Tip>
+                </TextBox>
+                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
+                           Text="Fold%:"/>
+                <TextBox Name="FoldPercentTextBox" Grid.Row="2" Grid.Column="1" Margin="10,2,10,2">
+                    <ToolTip.Tip>
+                        <TextBlock> Nodes that have less than this % Inclusive metric will be removed and their
+                        metric added to their caller.</TextBlock>
+                    </ToolTip.Tip>
+                </TextBox>
+                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
+                           Text="FoldPats:"/>
+                <TextBox Name="FoldRegExTextBox" Grid.Row="3" Grid.Column="1" MinWidth="80" Margin="10,2,10,2">
+                    <ToolTip.Tip>
+                        <TextBlock>
+                            A semicolon list of string patterns (* = any, % = anyAlphaNumeric, ^ = begin)
+                            All nodes matching any group will be removed and their metric added to their caller.
+                        </TextBlock>
+                    </ToolTip.Tip>
+                </TextBox>
+                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Margin="5,0,1,0"
+                           Text="Comment:"/>
+                <TextBox Name="CommentTextBox" Grid.Row="4" Grid.Column="1"  MinWidth="80" Margin="10,2,10,2" TextWrapping="Wrap" AcceptsReturn="True" Height="72">
+                    <ToolTip.Tip>
+                        <TextBlock>
+                            A semicolon list of string patterns (* = any, % = anyAlphaNumeric, ^ = begin)
+                            Only stacks that have at least on fram that matches this pattern
+                            will be included in the trace.
+                        </TextBlock>
+                    </ToolTip.Tip>
+                </TextBox>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,10,0">
+                <Button Width="80" Content="Save" Click="SaveClicked" HorizontalAlignment="Right" />
+                <Button Width="80" Content="Delete" Click="DeleteClicked" HorizontalAlignment="Right" Margin="10,0,0,0"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Bottom (OK) -->
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="10,10,10,10" HorizontalAlignment="Right">
+            <Button Width="80" Content="Export" Click="ExportPresets"/>
+            <Button Width="80" Content="Import" Click="ImportPresets" Margin="10,0,0,0"/>
+            <Button Width="80" Content="OK" Click="OKClicked" Margin="30,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</src:WindowBase>

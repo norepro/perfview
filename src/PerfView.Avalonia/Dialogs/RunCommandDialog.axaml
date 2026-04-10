@@ -1,0 +1,477 @@
+<src:WindowBase x:Class="PerfView.RunCommandDialog"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        xmlns:controls="using:Controls"
+        Background="{DynamicResource ControlDarkerBackground}"
+        Title="Collecting ETW Data while running a command"
+        Height="222" Width="925" MinHeight="222" MinWidth="925">
+    <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- Help message at top -->
+            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="#ABADB3" BorderThickness="1">
+                <TextBlock Background="{DynamicResource HelpRibbonBackground}" TextWrapping="Wrap" AutomationProperties.Name="Run collection help">
+                    This dialog give options for collecting ETW profile data. The only required field the 'Command' field and
+                    this is only necessary when using the 'Run' command.
+                    <LineBreak/>
+                    <Run FontWeight="Bold">If you wish to analyze on another machine use the Zip option when collecting data.</Run>
+                    <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                    See Collecting ETW Profile Data for more.
+                </TextBlock>
+            </Border>
+            <!-- CommandToRun section for running specific process -->
+            <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+            <TextBlock Grid.Row="1" Grid.Column="0" x:Name="CommandToRunLabel" Margin="5,0" VerticalAlignment="Center" ToolTip.Tip="The command line of the process to run while collecting data."
+                       Text="Command:"/>
+            <controls:HistoryComboBox Grid.Row="1" Margin="0,5,0,0"  Grid.Column="1" x:Name="CommandToRunTextBox" VerticalAlignment="Center" KeyDown="CommandToRunKeyDown" AutomationProperties.Name="Command to run" />
+
+            <!-- FocusProcess section for Collect command-->
+            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                <TextBlock Name="FocusProcessLabel" Margin="5,0" VerticalAlignment="Center" ToolTip.Tip="Name or PID of the process to collect user-mode events for."
+                           Text="Focus process:"/>
+                <CheckBox Name="FocusProcessCheckBox" VerticalAlignment="Center" Margin="1,2,2,0" Click="FocusProcessCheckBoxClicked" IsChecked="False" AutomationProperties.Name="Focus process" />
+            </StackPanel>
+            <TextBox Grid.Row="1" Margin="0,5,0,0"  Grid.Column="1" x:Name="FocusProcessTextBox" VerticalAlignment="Center" />
+
+            <!-- Data file name row -->
+            <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+            <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,0" VerticalAlignment="Center" ToolTip.Tip="The name of the data file to create."
+                       Text="Data File:"/>
+            <TextBox  Grid.Row="2" Grid.Column="1"  Name="DataFileNameTextBox" VerticalAlignment="Center" KeyDown="DataFileKeyDown" AutomationProperties.Name="Data File" />
+            <Button Grid.Row="2" Grid.Column="2" Content="..."  Width="25" Margin="5,5"
+            VerticalAlignment="Center" Click="DataFileButtonClick" ToolTip.Tip="Click to select the file name in a file chooser dialog." />
+
+            <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+            <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="5,0" ToolTip.Tip="The directory in which the command is run."
+                       Text="Current Dir:"/>
+            <TextBox  Grid.Row="3" Grid.Column="1"  Name="CurrentDirTextBox" VerticalAlignment="Center" AutomationProperties.Name="Current Directory" />
+
+            <!-- Row with Merge, run button cancel ... -->
+            <Grid Grid.Row="4" Grid.ColumnSpan="3" Margin="0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="18*"/>
+                    <ColumnDefinition Width="11*"/>
+                </Grid.ColumnDefinitions>
+                <WrapPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                        <TextBlock VerticalAlignment="Center" Margin="5,0,2,0" ToolTip.Tip="Use this option if you wish to analyze on another machine."
+                                   Text="Zip:"/>
+                        <CheckBox Name="ZipCheckBox" VerticalAlignment="Center" Margin="0,0,10,0" Click="ZipCheckBoxClicked" AutomationProperties.Name="Zip" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                        <TextBlock VerticalAlignment="Center" Margin="5,0,2,0" ToolTip.Tip="After this size (in megabytes) old events are thrown away to keep file size under control">
+                            <Run Text="Circular"/><LineBreak/><Run Text="MB:"/>
+                        </TextBlock>
+                        <TextBox Name="CircularTextBox" VerticalAlignment="Center" Width="35" Margin="5,0" AutomationProperties.Name="Circular Buffer Size in Megabytes"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                        <TextBlock VerticalAlignment="Center" Margin="5,0,2,0" ToolTip.Tip="If checked will merge data into a single file, implied by Zip."
+                                   Text="Merge:"/>
+                        <CheckBox Name="MergeCheckBox" VerticalAlignment="Center" Click="MergeCheckBoxClicked" Margin="0,0,10,0" AutomationProperties.Name="Merge"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                        <TextBlock VerticalAlignment="Center" Margin="8,2,5,2" ToolTip.Tip="Needed for Thread Time views. Fire an event (and stack trace) every time the processor switches from one thread to another.">
+                            <Run Text="Thread"/><LineBreak/><Run Text="Time:"/>
+                        </TextBlock>
+                        <CheckBox Name="ThreadTimeCheckbox" VerticalAlignment="Center" AutomationProperties.Name="Thread Time" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                        <TextBlock VerticalAlignment="Center" Margin="5,0,2,0" ToolTip.Tip="This text is attached to the Mark event when the 'Mark' button is pressed."
+                                   Text="Mark Text:"/>
+                        <TextBox Name="MarkTextBox" VerticalAlignment="Center" Width="150" Margin="5,0" KeyDown="MarkTextKeyDown" AutomationProperties.Name="Mark Text" />
+                        <Button Name="MarkButton" Margin="5,0" Padding="5,1" VerticalAlignment="Center" Click="MarkButtonClick">Mark</Button>
+                    </StackPanel>
+                </WrapPanel>
+
+                <WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Name="CopyCommandLineButton" Margin="5,2" Padding="5,1" Click="CopyCommandLineButtonClick">Copy Command Line</Button>
+                    <Button Name="OKButton" Margin="5,2" Padding="5,1" Click="OKButtonClick">Run Command</Button>
+                    <Button Name="LogButton" Margin="5,2" Padding="5,1" Click="LogButtonClick">Log</Button>
+                    <Button Name="CancelButton" Margin="5,2" Padding="5,1" Click="CancelButtonClick">Cancel</Button>
+                </WrapPanel>
+            </Grid>
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Status:" />
+
+            <TextBox Grid.Row="5" Grid.Column="1" Name="StatusTextBox"  Grid.ColumnSpan="2"  Margin="5,0,5,0" VerticalAlignment="Center" IsEnabled="False"
+                 Text="Enter a command to run." ToolTip.Tip="Status information."/>
+
+            <Expander Name="AdvancedOptionsExpander" Grid.Row="6" Header="Advanced Options" Grid.ColumnSpan="3" Expanded="DoExpand" Collapsed="DoCollapsed">
+                <Grid Name="AdvancedOptionsGrid">
+                    <!-- TODO_AVALONIA: Style conversion needed - default style for TextBlock with TextWrapping -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                        <!-- Row 4 Additional Providers -->
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Check boxes for individual kernel events -->
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia (all hyperlinks in this section replaced with plain TextBlock) -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Fire an event (and stack trace) every time the processor switch from one thread to another."
+                           Text="Kernel Base:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="1" Name="KernelBaseCheckBox" VerticalAlignment="Center" AutomationProperties.Name="Kernel Base"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Fire an event after every time a small amount (typicaly 1MSec) of CPU is consumed."
+                           Text="Cpu Samples:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="3" Name="CpuSamplesCheckBox" VerticalAlignment="Center" AutomationProperties.Name="CPU Samples"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Fire an event (and stack trace) on page faults and other virtual memory transitions."
+                           Text="Page Faults:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="5" Name="MemoryCheckBox" VerticalAlignment="Center" AutomationProperties.Name="Page Faults" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Fire an event (and a stack trace) when various file operations occur (even if the disk is not accessed)."
+                           Text="File I/O:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="7" Name="FileIOCheckBox" VerticalAlignment="Center" AutomationProperties.Name="File I/O" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Fire an event (and a stack trace) when various registry operations occur."
+                           Text="Registry:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="9" Name="RegistryCheckBox" VerticalAlignment="Center" AutomationProperties.Name="Registry"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="10" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Fire an event (and a stack trace) when low level VirtualAlloc VirtualFree calls are made."
+                           Text="VirtAlloc:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="11" Name="VirtualAllocCheckBox" VerticalAlignment="Center" AutomationProperties.Name="VirtualAlloc"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="12" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Fire an event every half second to monitor memory stats for each process on the system.."
+                           Text="MemInfo:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="13" Name="MemInfoCheckBox" VerticalAlignment="Center" AutomationProperties.Name="Memory Info"/>
+                    </Grid>
+
+                    <!-- Check boxes for more kernel events -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="92*"/>
+                            <ColumnDefinition Width="13*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="104*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="21*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Collect information about creation and closing of Windows OS handles."
+                           Text="Handle:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="1" Name="HandleCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="Handle"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Collect detailed information on memory usage of all processes."
+                           Text="RefSet:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="3" Name="RefSetCheckBox" VerticalAlignment="Center" AutomationProperties.Name="RefSet"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Collect detailed information Internet Information Services (IIS)"
+                           Text="IIS:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="5" Name="IISCheckBox" VerticalAlignment="Center" AutomationProperties.Name="IIS"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Collect a _Netmon.etl file that can be used with NetMon.  Also implies NetCap."
+                           Text="NetMon:"/>
+                        <CheckBox Grid.Column="7" Name="NetMonCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="NetMon"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Capture the full payload of all network packets that enter or leave the machine." Grid.ColumnSpan="2"
+                           Text="Net Capture:"/>
+                        <CheckBox Grid.Column="10" Name="NetCaptureCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="Net Capture" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="11" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Capture events from the Task Parallel Library."
+                           Text="Tasks (TPL):"/>
+                        <CheckBox Grid.Column="12" Name="TplCaptureCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="Tasks (TPL)" />
+
+                        <CheckBox Grid.Row="0" Grid.Column="14" Name="Box7" VerticalAlignment="Center" IsVisible="False" Margin="0,2" />
+                    </Grid>
+
+                    <!-- Check boxes for clr events -->
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="20*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="These are the default .NET runtime events.  They should usually be left on."
+                           Text=".NET :"/>
+                        <CheckBox Grid.Row="0" Grid.Column="1" Name="ClrCheckBox" AutomationProperties.Name=".NET" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Turn on logging of the .NET STress log, which logs unusual events that help track down random failure."
+                           Text=".NET Stress:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="3" Name="StressCheckBox" VerticalAlignment="Center" AutomationProperties.Name="Stress" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Turn on events associated with background JIT compilation."
+                           Text="Background JIT:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="5" Name="BackgroundJITCheckBox" VerticalAlignment="Center" AutomationProperties.Name="Background JIT" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Log an event every time a method is called (expensive!)."
+                           Text=".NET Calls:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="7" Name="DotNetCallsCheckBox" VerticalAlignment="Center" AutomationProperties.Name=".NET Calls"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Log information about successful and failed inlining attempts."
+                           Text="JIT Inlining:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="9" Name="JITInliningCheckBox" VerticalAlignment="Center" AutomationProperties.Name="JIT Inlining"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="10" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                            ToolTip.Tip="Log information about .NET Native CCW Ref Counting."
+                            Text=" .NET Native CCW:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="11" Name="CCWRefCountCheckBox" VerticalAlignment="Center" AutomationProperties.Name=".NET Native CCW"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="12" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Log extended information about .NET Runtime loading including R2R and type load events."
+                           Text=".NET Loader:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="13" Name="RuntimeLoadingCheckBox" VerticalAlignment="Center" AutomationProperties.Name=".NET Loader" />
+                    </Grid>
+
+                    <!-- Check boxes for more clr events (GC Heap related) -->
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="92*"/>
+                            <ColumnDefinition Width="13*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="105*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="104*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="21*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Turn off everything except events which happen when .NET Garbage Collections happen."
+                           Text="GC Collect Only:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="1" Name="GCCollectOnlyCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="GC Collect Only" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,4,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Turn off everything except events needed to trace .NET GC heap allocations."
+                           Text="GC Only:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="3" Name="GCOnlyCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="GC Only"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Fire an event whenever a .NET object is allocated capturing its stack."
+                           Text=".NET Alloc:"/>
+                        <CheckBox Grid.Column="5" Name="DotNetAllocCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name=".NET Alloc" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Do smart sampling which aggressive trims commonly allocated types, and rare time not at all."
+                           Text=".NET SampAlloc:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="7" Name="DotNetAllocSampledCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name=".NET Sample Alloc" />
+
+                        <TextBlock Grid.Row="0" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="16.2,2,0,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Do smart sampling which aggressive trims commonly allocated types, and rare time not at all." Grid.ColumnSpan="2"
+                           Text="ETW .NET Alloc:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="10" Name="ETWDotNetAllocSampledCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="ETW .NET Alloc"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="11" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Collect a heap snapshot prior to stopping collection."
+                           Text="Dump Heap:"/>
+                        <CheckBox Grid.Row="0" Grid.Column="12" Name="HeapSnapshotCheckBox" VerticalAlignment="Center" AutomationProperties.Name="Dump Heap"/>
+
+                        <CheckBox Grid.Row="0" Grid.Column="14" VerticalAlignment="Center" IsVisible="False" Margin="0,2" />
+                    </Grid>
+
+                    <!-- Additional Providers -->
+                    <Grid Grid.Row="4" Margin="0,2,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5,2,0,2" TextWrapping="Wrap"
+                           ToolTip.Tip="A comma separated list of additional providers to turn on during data collection."
+                           Text="Additional Providers:"/>
+                        <controls:HistoryComboBox  x:Name="AdditionalProvidersTextBox" Grid.Column="1" Margin="2,2,5,2" AutomationProperties.Name="Additional Providers" />
+                        <Button Grid.Column="2" Margin="0,2,5,2" Content=" Provider Browser " Click="ProviderBrowserButtonClick" ToolTip.Tip="Click to browse the available ETW providers."/>
+                        <TextBlock  Grid.Column="3" Margin="2,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12"
+                                    Text="?" AutomationProperties.Name="Help with Provider Browser"/>
+                    </Grid>
+
+                    <!-- CPU Sample interval CPU Ctrs, OS Heap stuff -->
+                    <Grid Grid.Row="5" Margin="0,2,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0" ToolTip.Tip="The number of MSec between CPU samples when sample profiling. Can be less than 1MSec but needs to be > .125MSec." TextWrapping="Wrap">
+                            <Run Text="CPU Sample"/><LineBreak/><Run Text="Interval Msec"/>
+                        </TextBlock>
+                        <TextBox Grid.Column="1" Name="SampleIntervalTextBox" VerticalAlignment="Center" Width="30" Margin="0,0,10,0" AutomationProperties.Name="CPU Sample Interval in milliseconds"/>
+
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap">
+                            <Run Text="Cpu"/><LineBreak/><Run Text="Ctrs"/>
+                        </TextBlock>
+                        <Button Grid.Column="3" Name="CpuCountersListButton" Margin="2,0,0,2" Click="DoCpuCountersListClick" ToolTip.Tip="Displays a list you can shift click and ctrl-click to select columns to display." VerticalAlignment="Center">Ctrs</Button>
+                        <!-- TODO_AVALONIA: Popup needs rework for Avalonia -->
+                        <Popup Name="CpuCountersPopup" IsLightDismissEnabled="True" PlacementTarget="{Binding #CpuCountersListButton}" Placement="Bottom" Margin="2,0,0,0">
+                            <ListBox Name="CpuCountersListBox" SelectionMode="Multiple" KeyDown="DoCpuCountersListBoxKey" DoubleTapped="DoCpuCountersListBoxDoubleClick" MaxHeight="300"/>
+                        </Popup>
+                        <controls:HistoryComboBox Grid.Column="4" Margin="2,0,0,0" Width="180" x:Name="CpuCountersTextBox" AutomationProperties.Name="CPU Counters" VerticalAlignment="Center">
+                            <ToolTip.Tip>
+                                <TextBlock>A comma separated list of column #-# ranges to show in the 'data' field.</TextBlock>
+                            </ToolTip.Tip>
+                        </controls:HistoryComboBox>
+
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                        <TextBlock Grid.Column="5" VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap"
+                           ToolTip.Tip="Collect OS (unmanaged) heap allocation stacks for processes running this EXE fileName.">
+                                <Run Text="OS Heap"/><LineBreak/><Run Text="Exe"/>
+                        </TextBlock>
+                        <TextBox Grid.Column="6" Name="OSHeapExeTextBox" VerticalAlignment="Center" Width="100" Margin="1,0,0,0" AutomationProperties.Name="OS Heap Executable"/>
+
+                        <TextBlock Grid.Column="7" VerticalAlignment="Center" Margin="15,0,0,0" TextWrapping="Wrap"
+                           ToolTip.Tip="Collect OS (unmanaged) heap allocation stacks for processes with this process ID.">
+                            <Run Text="OS Heap"/><LineBreak/><Run Text="Process"/>
+                        </TextBlock>
+                        <TextBox Grid.Column="8" Name="OSHeapProcessTextBox" VerticalAlignment="Center" Width="40" Margin="2,0,0,0" AutomationProperties.Name="OS Heap Process"/>
+                    </Grid>
+
+                    <!-- Net Symbol collection, rundown, ... -->
+                    <Grid Grid.Row="6" Margin="0,5,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0" ToolTip.Tip="If checked will force all .NET processes to send symbolic info to running processes at data collection end." TextWrapping="Wrap">
+                            <Run Text=".NET Symbol"/><LineBreak/><Run Text="Collection"/>
+                        </TextBlock>
+                        <CheckBox Grid.Column="1" Name="RundownCheckBox"  VerticalAlignment="Center" Margin="2,0,0,0" Click="RundownCheckboxClick" AutomationProperties.Name=".NET Symbol Collection"/>
+
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="15,0,0,0" ToolTip.Tip="Version of the runtime before V4.0 requires an expensive rundown.  You can save time by skipping this if you only care about V4.0+ processes." TextWrapping="Wrap">
+                                <Run Text="No V3.X NGEN"/><LineBreak/><Run Text="Symbols"/>
+                        </TextBlock>
+                        <CheckBox Grid.Column="3" Name="NoNGenRundownCheckBox"  VerticalAlignment="Center" Margin="2,0,0,0" AutomationProperties.Name="No V3.X NGEN Symbols" />
+
+                        <TextBlock Grid.Column="4" VerticalAlignment="Center" Margin="15,0,0,0" ToolTip.Tip="Maximum time (in seconds) to wait for .NET symbolic events." TextWrapping="Wrap">
+                                <Run Text="Symbol"/><LineBreak/><Run Text="TimeOut"/>
+                        </TextBlock>
+                        <TextBox Grid.Column="5" Name="RundownTimeoutTextBox" VerticalAlignment="Center" Width="30" IsEnabled="False" Margin="2,0,0,0" AutomationProperties.Name="Symbol Timeout"/>
+                    </Grid>
+
+                    <!-- Max Collect Sec, Stop Trigger ... -->
+                    <Grid Grid.Row="7" Margin="0,5,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="100*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0" ToolTip.Tip="Maximum time (in seconds) to collect data." TextWrapping="Wrap">
+                            <Run Text="Max Collect"/><LineBreak/><Run Text="Sec"/>
+                        </TextBlock>
+                        <TextBox Grid.Column="1" Name="MaxCollectTextBox" VerticalAlignment="Center" Margin="2,0,0,0" Width="30" AutomationProperties.Name="Maximum collection time in seconds" />
+
+                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="15,0,0,0" ToolTip.Tip="Specifies a performance counter that will trigger the end of colletion." TextWrapping="Wrap">
+                            <Run Text="Stop"/><LineBreak/><Run Text="Trigger"/>
+                        </TextBlock>
+                        <TextBox Grid.Column="3" Name="StopTriggerTextBox" VerticalAlignment="Center" Margin="2,0,5,0" AutomationProperties.Name="Stop Trigger"/>
+                    </Grid>
+                </Grid>
+            </Expander>
+        </Grid>
+    </ScrollViewer>
+</src:WindowBase>

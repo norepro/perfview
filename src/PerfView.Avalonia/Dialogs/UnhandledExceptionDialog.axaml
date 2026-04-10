@@ -1,0 +1,22 @@
+<src:WindowBase x:Class="PerfView.Dialogs.UnhandledExceptionDialog"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        Style="{DynamicResource CustomWindowStyle}"
+        Title="Unhandled Exception" Height="408" Width="590">
+    <DockPanel>
+        <Grid DockPanel.Dock="Bottom" Background="{DynamicResource BackgroundColour}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Margin="5,4" Grid.Column="1" Width="120" Content="Continue" Click="ContinueClicked"/>
+            <Button Margin="5,4" Grid.Column="3" Width="120" Content="Exit" Click="ExitClicked"/>
+        </Grid>
+        <TextBox Name="Body" TextWrapping="Wrap" IsReadOnly="True"
+                 HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+    </DockPanel>
+</src:WindowBase>

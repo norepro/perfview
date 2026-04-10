@@ -1,0 +1,48 @@
+<src:WindowBase x:Class="PerfView.ObjectViewer"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        Title="ObjectViewer" Height="370" Width="732">
+    <!-- TODO_AVALONIA: CommandBinding - commands need to be reimplemented for Avalonia -->
+    <DockPanel Name="DockPanel" Background="#7F3E3A3E">
+        <DockPanel.ContextMenu>
+            <ContextMenu>
+                <!-- TODO_AVALONIA: RoutedCommand MenuItem bindings need reimplementation -->
+                <MenuItem Header="Find" />
+                <MenuItem Header="Find Next" />
+                <MenuItem Header="Expand" />
+            </ContextMenu>
+        </DockPanel.ContextMenu>
+        <!-- This is the menu bar -->
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Menu Grid.Column="0" Background="{DynamicResource ControlDefaultBackground}">
+                <MenuItem Header="_File">
+                    <!-- TODO FIX NOW
+                    <MenuItem Header="_Close" Click="DoClose"/>
+                    -->
+                </MenuItem>
+            </Menu>
+            <Rectangle Grid.Column="1" Grid.ColumnSpan="10" Fill="{DynamicResource ControlDefaultBackground}"/>
+            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                       Text="Object Viewer Help (F1)"
+                       Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+            <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                       Text="Tips"
+                       Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+        </Grid>
+
+        <!-- status bar at the bottom -->
+        <src:StatusBar x:Name="StatusBar" DockPanel.Dock="Bottom"/>
+
+        <Grid>
+            <src:TreeViewGrid x:Name="TreeViewGrid" Margin="0,0,20,0"/>
+        </Grid>
+    </DockPanel>
+</src:WindowBase>

@@ -1,0 +1,38 @@
+<src:WindowBase x:Class="PerfView.Dialogs.SymbolPathDialog"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        Style="{DynamicResource CustomWindowStyle}"
+        Background="{DynamicResource ControlDarkerBackground}"
+        Title="Execute User Command" Height="246" Width="597">
+    <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
+    <!--
+    <Window.CommandBindings>
+        <CommandBinding Command="Help" Executed="DoHyperlinkHelp" />
+    </Window.CommandBindings>
+    -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia, replaced with TextBlock -->
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="8,2,5,2">
+            <Run Name="TitleHyperLinkText" Text="Symbol Path"/>
+        </TextBlock>
+        <TextBox Grid.Row="1" Name="SymbolPathTextBox" Margin="10,2,10,2" KeyDown="DoKeyDown"
+                 AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                 TextChanged="DoTextChanged" />
+        <!-- TODO_AVALONIA: AutomationProperties.Name needs verification -->
+        <TextBox Grid.Row="2" Name="EnvVarTextBox" Margin="10,2,10,10" IsReadOnly="True" />
+        <StackPanel Grid.Row="3" Orientation="Horizontal" FlowDirection="RightToLeft">
+
+        <Button Margin="10,2,10,5" Width="80" Content="OK" Click="OKClicked"/>
+        <Button Margin="10,2,10,5" Name="AddMSSymbols" Content="  Add Microsoft Symbol Server  " Click="AddMSSymbolsClicked"
+                ToolTip.Tip="Adds the URL for the Microsoft symbol server to the Symbol path (it not already present)"/>
+        </StackPanel>
+    </Grid>
+</src:WindowBase>

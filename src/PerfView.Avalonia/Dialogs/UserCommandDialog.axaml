@@ -1,0 +1,37 @@
+<src:WindowBase x:Class="PerfView.Dialogs.UserCommandDialog"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        xmlns:controls="using:Controls"
+        Style="{DynamicResource CustomWindowStyle}"
+        Background="{DynamicResource ControlDarkerBackground}"
+        Title="Executing User Defined Command" Height="116" Width="669">
+    <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
+    <!--
+    <Window.CommandBindings>
+        <CommandBinding Command="Help" Executed="DoHyperlinkHelp" />
+    </Window.CommandBindings>
+    -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia, replaced with TextBlock -->
+        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="8,2,5,2">
+            <Run Name="TitleHyperLinkText" Text="Help on Invoking User Defined Commands"/>
+        </TextBlock>
+        <controls:HistoryComboBox x:Name="CommandTextBox" Grid.Row="1" Margin="10,2,10,2"
+                         ToolTip.Tip="Enter user-defined command. Tab will commit completion."
+                         Enter="OKClicked" />
+        <!-- TODO_AVALONIA: AutomationProperties.HelpText binding and AutomationProperties.Name need verification -->
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" FlowDirection="RightToLeft">
+            <Button Margin="10,5,10,5" Width="80" Content="OK" Click="OKClicked" TabIndex="2"/>
+            <Button Margin="10,5,10,5" Width="80" Content="Cancel" Click="CancelClicked" TabIndex="1"/>
+            <Button Margin="10,5,10,5" Width="120" Content="Command Help" Click="HelpClicked" TabIndex="0"/>
+        </StackPanel>
+    </Grid>
+</src:WindowBase>

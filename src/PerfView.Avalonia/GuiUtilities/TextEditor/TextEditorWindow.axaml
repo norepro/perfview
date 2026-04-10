@@ -1,0 +1,11 @@
+<!-- TODO_AVALONIA: WindowBase not yet ported to Avalonia; using Window as base class -->
+<Window x:Class="Controls.TextEditorWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        xmlns:controls="using:Controls"
+        Closing="Window_Closing"
+        Title="TextEditorWindow" Height="900" Width="1300">
+    <!-- TODO_AVALONIA: AutomationProperties.Name binding to ancestor WindowBase.Title may need adjustment -->
+    <controls:TextEditorControl x:Name="m_TextEditor"/>
+</Window>

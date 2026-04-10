@@ -1,0 +1,89 @@
+<src:WindowBase x:Class="PerfView.SelectProcess"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        Title="Select Process Window" Height="369" Width="695">
+    <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
+    <DockPanel>
+        <Border DockPanel.Dock="Top" BorderBrush="#ABADB3" BorderThickness="1">
+            <TextBlock Background="{DynamicResource HelpRibbonBackground}" TextWrapping="Wrap" AutomationProperties.Name="Select process help">
+                The data collected was machine wide, but typically you are interested in only one process.
+                This dialog box allows you to choose a particular process to focus on by either double clicking on a
+                process or by selecting a process and hitting OK.
+                The 'All Procs' button can be used if you wish to look at all data.
+                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                See Selecting A Process Help for more.
+            </TextBlock>
+        </Border>
+        <Grid DockPanel.Dock="Top" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="100*"/>
+            </Grid.ColumnDefinitions>
+            <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Fill="{DynamicResource ControlDefaultBackground}"/>
+            <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0" ToolTip.Tip="Only processes that match this filter pattern are displayed."
+                       Text="Filter:"/>
+            <TextBox Name="ProcessFilterTextBox" TextChanged="FilterTextChanged" Grid.Column="1" Margin="5,2,2,2" />
+        </Grid>
+        <Grid DockPanel.Dock="Bottom" Background="{DynamicResource BackgroundColour}" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Name="IncludeChildProcessesCheckBox" Grid.Column="0" Margin="5,0,0,0" VerticalAlignment="Center" 
+                     ToolTip.Tip="Include all descendant processes of selected processes">Include descendant processes</CheckBox>
+            <Button Name="OKButton" Margin="5,4" Grid.Column="2" MinWidth="80" Content="OK" Click="OKClicked" />
+            <Button Name="AllProcsButton" Margin="5,4" Grid.Column="4" MinWidth="80" Content="All Procs" Click="AllProcsClicked"
+                    ToolTip.Tip="Investigate all processes"/>
+            <Button Margin="5,4" Grid.Column="6" MinWidth="80" Content="Cancel" Click="CancelClicked" />
+        </Grid>
+        <Grid KeyDown="GridKeyDownHander">
+            <DataGrid Name="Grid"
+              Background="{DynamicResource BackgroundColour}"
+              AutoGenerateColumns="False"
+              DoubleTapped="OKClicked"
+              IsReadOnly="True"
+              AutomationProperties.Name="Process Selection Table">
+              <!-- TODO_AVALONIA: AlternatingRowBackground not in Avalonia DataGrid -->
+              <!-- TODO_AVALONIA: ColumnHeaderStyle needs Avalonia style conversion -->
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Header="Name"
+                        Binding="{Binding Name}" />
+                    <DataGridTextColumn
+                        Header="ID"
+                        Binding="{Binding ProcessID}" />
+                        <!-- TODO_AVALONIA: ElementStyle -->
+                    <DataGridTextColumn
+                        Header="Parent"
+                        Binding="{Binding ParentID}" />
+                        <!-- TODO_AVALONIA: ElementStyle -->
+                    <DataGridTextColumn
+                        Header="CPU MSec"
+                        Binding="{Binding CPUTimeMSec, StringFormat={}{0:n0}}" />
+                        <!-- TODO_AVALONIA: ElementStyle -->
+                    <DataGridTextColumn
+                        Header="Start"
+                        Binding="{Binding StartTime, StringFormat={}{0:yy-MM-dd HH:mm:ss}}" />
+                        <!-- TODO_AVALONIA: ElementStyle -->
+                    <DataGridTextColumn
+                        Header="Duration"
+                        Binding="{Binding Duration}" />
+                        <!-- TODO_AVALONIA: ElementStyle -->
+                    <DataGridTextColumn
+                        Header="CommandLine"
+                        Width="*"
+                        Binding="{Binding CommandLine}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </DockPanel>
+</src:WindowBase>

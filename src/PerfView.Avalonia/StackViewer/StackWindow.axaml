@@ -1,0 +1,489 @@
+<!-- TODO_AVALONIA: WindowBase custom base class — using Window as root instead -->
+<!-- TODO_AVALONIA: CustomWindowStyle removed -->
+<Window x:Class="PerfView.StackWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:src="using:PerfView"
+    xmlns:src1="using:PerfView"
+    xmlns:controls="using:Controls"
+    Title="PerfView Stacks"
+    Width="919" Height="605">
+    <Window.Resources>
+        <!-- DataContext for this template is a CallTreeViewNode -->
+        <DataTemplate x:Key="TreeControlCell">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding IndentString}" FontFamily="Courier New"/>
+                <CheckBox IsChecked="{Binding IsExpanded, Mode=TwoWay}" IsEnabled="{Binding HasChildren}" AutomationProperties.Name="Expand"/>
+                <TextBlock Name="Name" Text="{Binding Name}" FontWeight="{Binding FontWeight}"/>
+                <TextBlock Margin="5,0,0,0" IsVisible="{Binding VisibleIfDisplayingSecondary}">
+                    <!-- TODO_AVALONIA: Hyperlink not available. Was: Command="Help" CommandParameter="PrimaryAndSecondaryNodes" -->
+                    ?
+                </TextBlock>
+            </StackPanel>
+        </DataTemplate>
+        <!-- TODO_AVALONIA: Style without TargetType — needs TargetType for Avalonia -->
+        <Style x:Key="HeaderStyle" Selector="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+        </Style>
+        <x:Boolean x:Key="True">True</x:Boolean>
+        <x:Boolean x:Key="False">False</x:Boolean>
+    </Window.Resources>
+
+    <!-- DataContext for this window is the StackWindow itself -->
+    <!-- TODO_AVALONIA: CommandBindings not available in Avalonia. Use ICommand bindings or KeyBindings. -->
+    <!--
+        All CommandBinding entries from the WPF version need to be reimplemented
+        using ICommand properties and KeyBindings in Avalonia.
+        Original commands included: ToggleNoPadOnCopyCommand, UpdateCommand, BrowseBack, BrowseForward,
+        NewWindowCommand, DrillIntoInclusiveCommand, DrillIntoExclusiveCommand, FlattenCommand,
+        FindCommand, FindNextCommand, FindInByNameCommand, ViewInCallerCalleeCommand,
+        ViewInCallersCommand, ViewInCalleesCommand, FindInCallTreeCommand,
+        GroupModuleCommand, EntryGroupModuleCommand, UngroupCommand, UngroupModuleCommand,
+        FoldModuleCommand, FoldItemCommand, RemoveAllFoldingCommand,
+        RaiseItemPriorityCommand, LowerItemPriorityCommand, RaiseModulePriorityCommand, LowerModulePriorityCommand,
+        LookupSymbolsCommand, LookupWarmSymbolsCommand, GotoSourceCommand, OpenEventsCommand,
+        SetTimeRangeCommand, CopyTimeRangeCommand,
+        SetScenarioListCommand, CopyScenarioListCommand, CopyScenarioListNamesCommand,
+        SortScenariosByDefaultCommand, SortScenariosByRootNodeCommand, SortScenariosByThisNodeCommand,
+        IncludeItemCommand, ExcludeItemCommand,
+        ToggleNotesPaneCommand, ViewObjectsInclusiveCommand, ViewObjectsExclusiveCommand, DumpObjectCommand,
+        ExpandCommand, CollapseCommand, ExpandAllCommand, SetBackgroundColorCommand,
+        FoldPercentCommand, IncreaseFoldPercentCommand, DecreaseFoldPercentCommand,
+        CopyFilterParamsCommand, MergeFilterParamsCommand,
+        CancelCommand, SaveCommand, SaveAsCommand, SaveFlameGraphCommand, UsersGuideCommand, Help
+    -->
+    <DockPanel Name="DockPanel" Background="{DynamicResource ControlBrightDefaultBackground}">
+        <DockPanel.ContextMenu>
+            <ContextMenu>
+                <!-- TODO_AVALONIA: All MenuItem Command bindings using x:Static RoutedCommand need ICommand replacement -->
+                <MenuItem Header="Drill Into">
+                    <MenuItem Header="Drill Into Inclusive Samples" />
+                    <MenuItem Header="Drill Into Exclusive Samples" />
+                </MenuItem>
+                <MenuItem Header="Flatten">
+                    <MenuItem Header="Flatten Inclusive Samples" />
+                    <MenuItem Header="Flatten Exclusive Samples" />
+                </MenuItem>
+                <MenuItem Header="New Window" />
+                <MenuItem Header="Goto">
+                    <MenuItem Header="Goto Item in ByName" />
+                    <MenuItem Header="Goto Item in Caller-Callee" />
+                    <MenuItem Header="Goto Item in Callers" />
+                    <MenuItem Header="Goto Item in Callees" />
+                    <MenuItem Header="Goto Item in CallTree" />
+                    <MenuItem Header="Open Events" />
+                    <Separator/>
+                    <MenuItem Header="Find" />
+                    <MenuItem Header="Find Next" />
+                </MenuItem>
+                <MenuItem Header="Grouping">
+                    <MenuItem Header="Group Module" />
+                    <MenuItem Header="Entry Group Module" />
+                    <MenuItem Header="Ungroup" />
+                    <MenuItem Header="Ungroup Module" />
+                </MenuItem>
+                <MenuItem Header="Priority" ToolTip.Tip="Specifies the priority of types when converting a graph to a tree" >
+                    <MenuItem Header="Raise Item Priority" />
+                    <MenuItem Header="Lower Item Priority" />
+                    <MenuItem Header="Raise Module Priority" />
+                    <MenuItem Header="Lower Module Priority" />
+                </MenuItem>
+                <MenuItem Header="Folding">
+                    <MenuItem Header="Fold Module" />
+                    <MenuItem Header="Fold Item" />
+                    <MenuItem Header="Remove All Folding" />
+                    <Separator/>
+                    <MenuItem Header="Fold %" />
+                    <MenuItem Header="Increase Fold %" />
+                    <MenuItem Header="Decrease Fold %" />
+                </MenuItem>
+                <MenuItem Header="Lookup Symbols" />
+                <MenuItem Header="Lookup Warm Symbols" />
+                <MenuItem Header="Goto Source (Def)" />
+                <Separator/>
+                <MenuItem Header="Set Time Range" />
+                <MenuItem Header="Copy Time Range" />
+                <MenuItem Header="Scenarios" Name="ScenarioContextMenu">
+                    <MenuItem Header="Set Scenario List" />
+                    <MenuItem Header="Copy Scenario List" />
+                    <MenuItem Header="Copy Scenario List Names" />
+                    <MenuItem Header="Sort Scenarios">
+                        <MenuItem Header="By Default" />
+                        <MenuItem Header="By Root Node" />
+                        <MenuItem Header="By This Node" />
+                    </MenuItem>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Include Item" />
+                <MenuItem Header="Exclude Item" />
+                <Separator/>
+                <MenuItem Header="Expand All" />
+                <MenuItem Header="Expand" />
+                <MenuItem Header="Collapse" />
+                <MenuItem Header="Set Background Color">
+                    <MenuItem Header="Set Brown Background Color" Background="BurlyWood" />
+                    <MenuItem Header="Set Blue Background Color" Background="LightSkyBlue" />
+                    <MenuItem Header="Set Red Background Color" Background="Coral" />
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="FilterParams">
+                    <MenuItem Header="Copy Filter Params" />
+                    <MenuItem Header="Merge Filter Params" />
+                </MenuItem>
+                <MenuItem Header="Misc">
+                    <MenuItem Header="Update" />
+                    <MenuItem Header="Cancel" />
+                    <MenuItem Header="Toggle No Pad On Copy" />
+                </MenuItem>
+                <MenuItem Header="Memory">
+                    <MenuItem Header="View Objects Inclusive Samples" />
+                    <MenuItem Header="View Objects Exclusive Samples" />
+                    <MenuItem Header="Dump Object Inclusive Samples" />
+                    <MenuItem Header="Dump Object Exclusive Samples" />
+                </MenuItem>
+                <MenuItem Header="Toggle Notes Pane" />
+                <MenuItem Header="Save Flame Graph" />
+            </ContextMenu>
+        </DockPanel.ContextMenu>
+        <!-- This is the menu bar -->
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Menu Grid.Column="0" Background="{DynamicResource ControlDefaultBackground}" AutomationProperties.Name="Navigation">
+                <MenuItem Header="_File">
+                    <MenuItem Header="Parent _Window" Click="DoOpenParent"/>
+                    <MenuItem Header="Set Symbol _Path" Click="DoSetSymbolPath" ToolTip.Tip="Sets the locations to look for symbolic information (PDB files)."/>
+                    <MenuItem Header="Set Source Path" Click="DoSetSourcePath" ToolTip.Tip="Sets the locations to look for source code."/>
+                    <MenuItem Header="Save" />
+                    <MenuItem Header="Save View As" />
+                    <MenuItem Header="_Close" Click="DoClose"/>
+                </MenuItem>
+                <MenuItem x:Name="ViewMenu" Header="_View">
+                </MenuItem>
+                <MenuItem Name="DiffMenu" Header="_Diff"/>
+                <MenuItem Name="RegressionMenu" Header="_Regression"/>
+                <MenuItem Name="PresetMenu" Header="_Preset"/>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_Help on Stack Viewer" />
+                    <MenuItem Header="_Users Guide" />
+                </MenuItem>
+            </Menu>
+            <Rectangle Grid.Column="1" Grid.ColumnSpan="10" Fill="{DynamicResource ControlDefaultBackground}"/>
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="3,0" TextWrapping="Wrap">
+                <!-- TODO_AVALONIA: Hyperlink not available -->
+                Stack View Help (F1)
+            </TextBlock>
+            <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="3,0" TextWrapping="Wrap">
+                <!-- TODO_AVALONIA: Hyperlink not available -->
+                Understanding Perf Data
+            </TextBlock>
+            <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0" TextWrapping="Wrap">
+                <!-- TODO_AVALONIA: Hyperlink not available -->
+                Starting an Analysis
+            </TextBlock>
+            <TextBlock Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0" TextWrapping="Wrap">
+                <!-- TODO_AVALONIA: Hyperlink not available -->
+                Troubleshooting
+            </TextBlock>
+            <TextBlock Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0" TextWrapping="Wrap">
+                <!-- TODO_AVALONIA: Hyperlink not available -->
+                Tips
+            </TextBlock>
+        </Grid>
+        <!-- This is the line with Back Forward, and the info bar -->
+        <Grid DockPanel.Dock="Top" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Margin="3,2,3,2" FontSize="9" Click="DoUpdate"
+                    ToolTip.Tip="Update grid views with the filter parameters from textboxes. (F5)">
+                Update</Button>
+            <!-- TODO_AVALONIA: ApplicationCommands BrowseBack not available -->
+            <Button Grid.Column="1" Margin="7,2,3,2" FontSize="9" Click="DoBack"
+                    ToolTip.Tip="Set to previous filter parameters (Alt-left arrow)">
+                Back</Button>
+            <!-- TODO_AVALONIA: ApplicationCommands BrowseForward not available -->
+            <Button Grid.Column="2" Margin="3,2,3,2" FontSize="9" Click="DoForward"
+                    ToolTip.Tip="Set to forward filter parameters (Alt-right arrow)">
+                Forward</Button>
+            <TextBox Name="TopStats" Grid.Column="3" Background="Transparent" Margin="0,1" AutomationProperties.Name="Top Stats"/>
+        </Grid>
+        <!-- This is the Start, End, Find line-->
+        <Grid DockPanel.Dock="Top" Margin="0,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center" Margin="5,0,1,0">
+                    <!-- TODO_AVALONIA: Hyperlink not available -->
+                    Start:
+                </TextBlock>
+                <controls:HistoryComboBox  x:Name="StartTextBox" Width="90" AutomationProperties.Name="Start Time">
+                    <ToolTip.Tip>
+                        <TextBlock>Exclude any samples that happened before this time (MSec from start).</TextBlock>
+                    </ToolTip.Tip>
+                </controls:HistoryComboBox>
+                <TextBlock VerticalAlignment="Center" Margin="10,0,1,0">
+                    <!-- TODO_AVALONIA: Hyperlink not available -->
+                    End:
+                </TextBlock>
+                <controls:HistoryComboBox x:Name="EndTextBox" Width="90" AutomationProperties.Name="End Time">
+                    <ToolTip.Tip>
+                        <TextBlock>Exclude any samples that happened after this time (MSec from start).</TextBlock>
+                    </ToolTip.Tip>
+                </controls:HistoryComboBox>
+                <StackPanel Name="ScenarioStackPanel" Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Margin="10,0,1,0">
+                        <!-- TODO_AVALONIA: Hyperlink not available -->
+                        Scenarios:
+                    </TextBlock>
+                    <controls:HistoryComboBox x:Name="ScenarioTextBox" Width="170">
+                        <ToolTip.Tip>
+                            <TextBlock>Show these scenarios.</TextBlock>
+                        </ToolTip.Tip>
+                    </controls:HistoryComboBox>
+                </StackPanel>
+                <StackPanel Name="MemoryStackPanel"  Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Margin="15,0,1,0">
+                        <!-- TODO_AVALONIA: Hyperlink not available -->
+                        Priority:
+                    </TextBlock>
+                    <controls:HistoryComboBox  x:Name="PriorityTextBox" Width="170">
+                        <ToolTip.Tip>
+                            <TextBlock>Specifies the priority of types when converting a graph to a tree.</TextBlock>
+                        </ToolTip.Tip>
+                    </controls:HistoryComboBox>
+                    <TextBlock VerticalAlignment="Center" Margin="5,0,1,0">
+                        <!-- TODO_AVALONIA: Hyperlink not available -->
+                        Pri1Only:
+                    </TextBlock>
+                    <CheckBox Margin="3,0,1,0" VerticalAlignment="Center"  Name="Pri1OnlyCheckBox" Click="DoPri1Only" />
+                </StackPanel>
+                <StackPanel Name="SamplingStackPanel"  Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Margin="5,0,1,0">
+                        <!-- TODO_AVALONIA: Hyperlink not available -->
+                        Sampling:
+                    </TextBlock>
+                    <controls:HistoryComboBox  x:Name="SamplingTextBox" Width="45">
+                        <ToolTip.Tip>
+                            <TextBlock>Sample at this rate to cut down data size.</TextBlock>
+                        </ToolTip.Tip>
+                    </controls:HistoryComboBox>
+                </StackPanel>
+            </StackPanel>
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="20,0,1,0">
+                        <!-- TODO_AVALONIA: Hyperlink not available -->
+                        Find:
+            </TextBlock>
+            <controls:HistoryComboBox x:Name="FindTextBox" Grid.Column="2" MinWidth="100" AutomationProperties.Name="Find">
+                <ToolTip.Tip>
+                    <TextBlock>Find a name in the display below (Standard .NET Regular Expressions apply, case insensitive).</TextBlock>
+                </ToolTip.Tip>
+            </controls:HistoryComboBox>
+        </Grid>
+        <!-- This is the Filtering / Grouping line -->
+        <Grid DockPanel.Dock="Top" Margin="0,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="130*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0">
+                    <!-- TODO_AVALONIA: Hyperlink not available -->
+                    GroupPats:
+            </TextBlock>
+            <controls:HistoryComboBox x:Name="GroupRegExTextBox" Grid.Column="1" MinWidth="80" AutomationProperties.Name="Group Patterns">
+                <ToolTip.Tip>
+                        <TextBlock>
+                        A semicolon list of expressions pattern and replacements which define groups
+PAT -> GROUP : Replaces frame name matching PAT with GROUP
+PAT => GROUP : Like -> but groups by entry point into the group
+PAT :  * = any,  % = alphaNumeric, ^ = begin, {PAT} = captures match
+GROUP can have $1, $2 ... strings which get replaced with pattern captures.
+Every Frame will have these patterns applied (in order) before stack trees are formed.
+                        </TextBlock>
+                </ToolTip.Tip>
+            </controls:HistoryComboBox>
+            <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5,0,1,0">
+                <!-- TODO_AVALONIA: Hyperlink not available -->
+                Fold%:
+            </TextBlock>
+            <controls:HistoryComboBox x:Name="FoldPercentTextBox" Grid.Column="3" MinWidth="42" Margin="0,0,5,0" AutomationProperties.Name="Fold Percent">
+                <ToolTip.Tip>
+                        <TextBlock> Nodes that have less than this % Inclusive metric will be removed and their
+                        metric added to their caller.</TextBlock>
+                </ToolTip.Tip>
+            </controls:HistoryComboBox>
+            <TextBlock Grid.Column="4" VerticalAlignment="Center" Margin="5,0,1,0">
+                <!-- TODO_AVALONIA: Hyperlink not available -->
+                FoldPats:
+            </TextBlock>
+            <controls:HistoryComboBox x:Name="FoldRegExTextBox" Grid.Column="5" MinWidth="80" AutomationProperties.Name="Fold Patterns">
+                <ToolTip.Tip>
+                        <TextBlock>
+                        A semicolon list of string patterns (* = any, % = anyAlphaNumeric, ^ = begin)
+All nodes matching any group will be removed and their metric added to their caller.
+                        </TextBlock>
+                </ToolTip.Tip>
+            </controls:HistoryComboBox>
+            <TextBlock Grid.Column="6" VerticalAlignment="Center" Margin="10,0,1,0">
+                <!-- TODO_AVALONIA: Hyperlink not available -->
+                IncPats:
+            </TextBlock>
+            <controls:HistoryComboBox x:Name="IncludeRegExTextBox" Grid.Column="7"  MinWidth="80" Margin="0,0,5,0" AutomationProperties.Name="Include Patterns">
+                <ToolTip.Tip>
+                        <TextBlock>
+                        A semicolon list of string patterns (* = any, % = anyAlphaNumeric, ^ = begin)
+Only stacks that have at least on frame that matches this pattern
+will be included in the trace.
+                        </TextBlock>
+                </ToolTip.Tip>
+            </controls:HistoryComboBox>
+            <TextBlock Grid.Column="8" VerticalAlignment="Center" Margin="10,0,1,0">
+                <!-- TODO_AVALONIA: Hyperlink not available -->
+                ExcPats:
+            </TextBlock>
+            <controls:HistoryComboBox x:Name="ExcludeRegExTextBox" Grid.Column="9" MinWidth="80" AutomationProperties.Name="Exclude Patterns">
+                <ToolTip.Tip>
+                        <TextBlock>
+                        A semicolon list of string patterns (* = any, % = anyAlphaNumeric, ^ = begin)
+Any nodes matching this pattern will be removed (as well as their children)
+will be removed completely from the trace.
+                        </TextBlock>
+                </ToolTip.Tip>
+            </controls:HistoryComboBox>
+        </Grid>
+        <src1:StatusBar x:Name="StatusBar" DockPanel.Dock="Bottom"/>
+        <!-- this is the main window -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition x:Name="NodePaneRowDef" Height="25*"/>
+            </Grid.RowDefinitions>
+            <TabControl Grid.Row="0" Margin="0,3,0,0" IsEnabled="{Binding #StatusBar.IsNotWorking}">
+                <!-- ByNameTab-->
+                <TabItem Name="ByNameTab">
+                    <TabItem.Header>
+                        <TextBlock>
+                        <!-- TODO_AVALONIA: Hyperlink not available -->
+                        By Name ?
+                        </TextBlock>
+                    </TabItem.Header>
+                    <src:PerfDataGrid x:Name="ByNameDataGrid" Margin="0,0,20,0" DoubleTapped="ByName_MouseDoubleClick"/>
+                </TabItem>
+                <!-- CallerCalleeTab -->
+                <TabItem Name="CallerCalleeTab" >
+                    <TabItem.Header>
+                        <TextBlock>
+                        <!-- TODO_AVALONIA: Hyperlink not available -->
+                        Caller-Callee ?
+                        </TextBlock>
+                    </TabItem.Header>
+                    <!-- TODO FIX NOW The margin is a hack.  I don't know why I need it... -->
+                    <src:CallerCalleeView x:Name="CallerCalleeView" Margin="0,0,20,0"/>
+                </TabItem>
+                <!-- CallerTreeTab -->
+                <TabItem Name="CallTreeTab">
+                    <TabItem.Header>
+                        <TextBlock>
+                        <!-- TODO_AVALONIA: Hyperlink not available -->
+                        CallTree ?
+                        </TextBlock>
+                    </TabItem.Header>
+                    <src:PerfDataGrid x:Name="CallTreeDataGrid" Margin="0,0,20,0"/>
+                </TabItem>
+                <!-- CallersTab -->
+                <TabItem Name="CallersTab">
+                    <TabItem.Header>
+                        <TextBlock>
+                        <!-- TODO_AVALONIA: Hyperlink not available -->
+                        Callers ?
+                        </TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="CallersTitle" Grid.Row="0"  Classes="HeaderStyle"/>
+                        <src:PerfDataGrid Grid.Row="1" x:Name="CallersDataGrid" Margin="0,0,20,0" DoubleTapped="DataGrid_MouseDoubleClick"/>
+                    </Grid>
+                </TabItem>
+                <!-- CalleesTab -->
+                <TabItem Name="CalleesTab">
+                    <TabItem.Header>
+                        <TextBlock>
+                        <!-- TODO_AVALONIA: Hyperlink not available -->
+                        Callees ?
+                        </TextBlock>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="CalleesTitle" Grid.Row="0"  Classes="HeaderStyle"/>
+                        <src:PerfDataGrid Grid.Row="1" x:Name="CalleesDataGrid" Margin="0,0,20,0" DoubleTapped="DataGrid_MouseDoubleClick"/>
+                    </Grid>
+                </TabItem>
+                <!-- FlameGraphTab -->
+                <TabItem Name="FlameGraphTab" GotFocus="FlameGraphTab_GotFocus">
+                    <TabItem.Header>
+                        <TextBlock>
+                            <!-- TODO_AVALONIA: Hyperlink not available -->
+                            Flame Graph ?
+                        </TextBlock>
+                    </TabItem.Header>
+                    <src:FlameGraphDrawingCanvas x:Name="FlameGraphCanvas" Background="#EEEEEE" ClipToBounds="True" SizeChanged="FlameGraphCanvas_SizeChanged" CurrentFlameBoxChanged="FlameGraphCanvas_CurrentFlameBoxChanged" AutomationProperties.Name="Flame Graph" />
+                </TabItem>
+                <!-- NotesTab -->
+                <TabItem Name="NotesTab" GotFocus="NotesTab_GotFocus" LostFocus="NotesTab_LostFocus">
+                    <TabItem.Header>
+                        <TextBlock>
+                        <!-- TODO_AVALONIA: Hyperlink not available -->
+                        Notes ?
+                        </TextBlock>
+                    </TabItem.Header>
+                    <TextBox Name="NotesTabBody" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" FontFamily="Courier New" FontSize="11" TextChanged="Notes_TextChanged" AutomationProperties.Name="Notes"/>
+                </TabItem>
+            </TabControl>
+            <GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+            <ContentControl Name="NodePane"/>
+            <TextBox Name="Notes" Grid.Row="2"  GotFocus="Notes_GotFocus"
+                     ContextMenu="{Binding #DockPanel.ContextMenu}"
+                     AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" FontFamily="Courier New" FontSize="11" TextChanged="Notes_TextChanged" VerticalAlignment="Stretch"
+                     AutomationProperties.Name="Notes">
+                Notes typed here will be saved when the view is saved.  F2 will hide/unhide.
+            </TextBox>
+            <TextBlock Name="HelpMessage" Grid.Row="2" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Opacity="0.5">
+                <!-- TODO_AVALONIA: EventTrigger/Storyboard animation not directly available in Avalonia XAML the same way -->
+                <!-- Consider using Avalonia animations or behaviors -->
+                Type F1 for Quick Start Help.
+            </TextBlock>
+        </Grid>
+    </DockPanel>
+</Window>

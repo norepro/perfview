@@ -1,0 +1,75 @@
+<src:WindowBase x:Class="PerfView.Dialogs.SourceNameLookup"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        xmlns:controls="using:Controls"
+        Style="{DynamicResource CustomWindowStyle}"
+        Background="{DynamicResource ControlDarkerBackground}"
+        Title="Source Name Lookup" Height="339" Width="619">
+    <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
+    <!--
+    <Window.CommandBindings>
+        <CommandBinding Command="Help" Executed="DoHyperlinkHelp"/>
+    </Window.CommandBindings>
+    -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Main TextBox -->
+        <controls:TextEditorControl Grid.Row="0" Margin="5,5" MinHeight="80" x:Name="Names"/>
+
+        <!-- Help message at top -->
+        <!-- TODO_AVALONIA: RichTextBox with FlowDocument and Hyperlink not available in Avalonia -->
+        <TextBlock Grid.Row="1" Background="{DynamicResource HelpRibbonBackground}" Margin="5">
+            See TODO.
+        </TextBlock>
+
+        <!--  -->
+        <Grid Grid.Row="3" Name="ProcessDumpRow">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="100*"/>
+            </Grid.ColumnDefinitions>
+            <!-- TODO_AVALONIA: Hyperlink not available in Avalonia, replaced with TextBlock -->
+            <TextBlock Grid.Column="0" Margin="5,0" VerticalAlignment="Center" ToolTip.Tip="TODO">
+                Process:
+            </TextBlock>
+            <controls:HistoryComboBox Margin="0,5,5,0" Grid.Column="1" x:Name="ProcessTextBox" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="2" Margin="5,0" VerticalAlignment="Center" ToolTip.Tip="TODO">
+                Module:
+            </TextBlock>
+            <controls:HistoryComboBox Margin="0,5,5,0" Grid.Column="3" x:Name="ModuleTextBox" VerticalAlignment="Center" />
+
+            <TextBlock Grid.Column="4" Margin="5,0" VerticalAlignment="Center" ToolTip.Tip="TODO">
+                Name:
+            </TextBlock>
+            <controls:HistoryComboBox Margin="0,5,5,0" Grid.Column="5" x:Name="NameTextBox" VerticalAlignment="Center" />
+        </Grid>
+        <!--  -->
+        <DataGrid Name="Grid" Grid.Row="4"
+            AutoGenerateColumns="False"
+            Background="White"
+            SelectionMode="Extended"
+            CanUserSortColumns="False"
+            Height="100">
+            <!-- TODO_AVALONIA: AlternatingRowBackground and SelectionUnit="CellOrRowHeader" not available in Avalonia DataGrid -->
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="File"/>
+                <DataGridTextColumn Header="Line"/>
+                <DataGridTextColumn Header="Value"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</src:WindowBase>

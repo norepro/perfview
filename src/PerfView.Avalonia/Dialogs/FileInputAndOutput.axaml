@@ -1,0 +1,55 @@
+<src:WindowBase x:Class="PerfView.Dialogs.FileInputAndOutput"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        xmlns:controls="using:Controls"
+        Background="{DynamicResource ControlDarkerBackground}"
+        Title="Enter Input and Output Files" Height="300" Width="669">
+    <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+        <TextBlock Name="HelpHyperlink" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Text="Help" />
+
+        <!-- TODO_AVALONIA: RichTextBox/FlowDocument not available in Avalonia -->
+        <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,5,5,0" TextWrapping="Wrap"
+                   Name="InstructionParagraph"
+                   Text="Enter the file to analyze, and the output file to generate."
+                   AutomationProperties.Name="Disk Size Analysis Help"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"
+                   Text="Current Dir:" ToolTip.Tip="The file/directory to open for analysis"/>
+        <TextBox  Grid.Row="1" Grid.Column="1" Margin="0,5,5,5" Name="CurrentDir" VerticalAlignment="Center" IsEnabled="False" />
+
+        <TextBlock Grid.Row="2" Grid.Column="0"  VerticalAlignment="Center"
+                   Text="Input File:" ToolTip.Tip="The file/directory to open for analysis"/>
+        <TextBox  Grid.Row="2" Grid.Column="1" Margin="0,0,5,0" Name="InputFileName" VerticalAlignment="Center" KeyDown="InputFileKeyDown" TextChanged="InputFileTextChanged" AutomationProperties.Name="Input File" />
+
+        <ListBox Grid.Row="3" Grid.Column="2" Margin="0,5,5,15" MinHeight="80" Name="Files"
+                 KeyDown="ListBoxKeyDown" DoubleTapped="FilesDoubleClick" FontFamily="Courier New"
+                 ToolTip.Tip="This shows all the files/directories that match the prefix in the InputFile text box."
+                 AutomationProperties.Name="Files"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="0"  VerticalAlignment="Center"
+            Text="Output File:" ToolTip.Tip="The file name to put the resulting analysis."/>
+        <TextBox  Grid.Row="4"  Grid.Column="1" Margin="0,0,5,0" Name="OutputFileName" VerticalAlignment="Center" AutomationProperties.Name="Output File"  />
+
+        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="10,5,10,5" Width="80" Content="OK" Click="OKClicked"/>
+            <Button Margin="10,5,10,5" Width="80" Content="Cancel" Click="CancelClicked"/>
+        </StackPanel>
+    </Grid>
+</src:WindowBase>

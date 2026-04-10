@@ -1,0 +1,25 @@
+<src:WindowBase x:Class="PerfView.Dialogs.EULADialog"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        Style="{DynamicResource CustomWindowStyle}"
+        Title="EULA Acceptance" Height="400" Width="700" MinHeight="200" MinWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!-- TODO_AVALONIA: RichTextBox with RTF loading not available in Avalonia. Using TextBox as placeholder. -->
+        <TextBox Name="Body" Grid.Row="0" IsReadOnly="True" AcceptsReturn="True" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Button Margin="20,5" Width="80" Grid.Column="1" IsDefault="True" Click="AcceptClick">Accept</Button>
+            <!-- TODO_AVALONIA: IsCancel not available on Button in Avalonia -->
+            <Button Margin="20,5" Width="80" Grid.Column="2">Decline</Button>
+        </Grid>
+    </Grid>
+</src:WindowBase>

@@ -1,0 +1,353 @@
+<!-- TODO_AVALONIA: Style="{DynamicResource CustomWindowStyle}" may need adjustment -->
+<src:WindowBase x:Class="PerfView.EventWindow"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        xmlns:controls="using:Controls"
+        Title="Events Filtered by Type" WindowState="Maximized">
+    <Window.Resources>
+        <!-- Shared Styles -->
+        <!-- TODO_AVALONIA: Style without TargetType needs adjustment -->
+        <Style x:Key="RightAlign">
+            <Setter Property="TextBlock.TextAlignment" Value="Right" />
+        </Style>
+        <Style x:Key="CenterAlign">
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="ColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Focusable" Value="True" />
+            <Setter Property="Background" Value="{DynamicResource ControlDefaultBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource ControlText}" />
+        </Style>
+        <!-- TODO_AVALONIA: BooleanToVisibilityConverter - use native Avalonia converters -->
+    </Window.Resources>
+    <DockPanel Background="{DynamicResource BackgroundColour}">
+        <!-- TODO_AVALONIA: CommandBinding - all command bindings need reimplementation for Avalonia -->
+        <DockPanel.ContextMenu>
+            <ContextMenu>
+                <!-- TODO_AVALONIA: RoutedCommand MenuItem bindings need reimplementation -->
+                <MenuItem Header="New Window" />
+                <MenuItem Header="Update" />
+                <Separator/>
+                <MenuItem Header="Show EventCounter Graph" />
+                <Separator/>
+                <MenuItem Header="Set Process Filter" />
+                <MenuItem Header="Set Range Filter" />
+                <MenuItem Header="Copy Time Range" />
+                <Separator/>
+                <MenuItem Header="Find" />
+                <MenuItem Header="Find Next" />
+                <Separator/>
+                <MenuItem Header="Open Cpu Stacks" />
+                <MenuItem Header="Open Thread Stacks" />
+                <MenuItem Header="Open Any Stacks" />
+                <MenuItem Header="Open Any Start Stop Stacks" />
+                <MenuItem Header="Open Any TaskTree Stacks" />
+                <Separator/>
+                <MenuItem Header="Save View as CSV" />
+                <MenuItem Header="Save View as XML" />
+                <MenuItem Header="Open View In Excel" />
+                <Separator/>
+                <MenuItem Header="Dump Event" />
+                <MenuItem Header="Highlight In Histogram" />
+            </ContextMenu>
+        </DockPanel.ContextMenu>
+        <!-- The Menu bar -->
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Menu DockPanel.Dock="Top" Background="{DynamicResource ControlDefaultBackground}" AutomationProperties.Name="Navigation">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Parent Window" Click="DoOpenParent"/>
+                    <MenuItem Header="_Close" Click="DoClose"/>
+                </MenuItem>
+                <MenuItem Header="_View">
+                    <MenuItem x:Name="ShowTimeStampColumnsMenuItem" Header="Show _TimeStamp Columns" IsChecked="True">
+                        <!-- TODO_AVALONIA: IsCheckable with Checked/Unchecked events need rework -->
+                    </MenuItem>
+                    <MenuItem x:Name="ShowLocalTimeMenuItem" Header="_Show Local Time" IsChecked="False">
+                        <!-- TODO_AVALONIA: IsCheckable with Checked/Unchecked events need rework -->
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Help">
+                    <!-- TODO_AVALONIA: Command="Help" not available -->
+                    <MenuItem Header="_Help on Event Viewer" />
+                    <MenuItem Header="_Users Guide" />
+                </MenuItem>
+            </Menu>
+            <Rectangle Grid.Column="1" Grid.ColumnSpan="10" Fill="{DynamicResource ControlDefaultBackground}"/>
+            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                       Text="Event View Help (F1)"
+                       Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+            <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                       Text="Troubleshooting"
+                       Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+            <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                       Text="Tips"
+                       Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+        </Grid>
+        <Grid DockPanel.Dock="Top" Margin="0,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="3,2,3,2" FontSize="9" Click="DoUpdate" ToolTip.Tip="Update main window using current filter parameters (F5).">Update</Button>
+                <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
+                           Text="Start:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+                <controls:HistoryComboBox x:Name="StartTextBox" Width="90" Enter="DoUpdate" AutomationProperties.Name="Start Time">
+                    <ToolTip.Tip>
+                        <TextBlock>Exclude any samples that happened before this time (MSec from start).
+Can paste ranges into this box.</TextBlock>
+                    </ToolTip.Tip>
+                </controls:HistoryComboBox>
+                <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+                <TextBlock VerticalAlignment="Center" Margin="10,0,1,0"
+                           Text="End:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+                <controls:HistoryComboBox x:Name="EndTextBox" Width="90" Enter="DoUpdate" AutomationProperties.Name="End Time">
+                    <ToolTip.Tip>
+                        <TextBlock>Exclude any samples that happened after this time (MSec from start).</TextBlock>
+                    </ToolTip.Tip>
+                </controls:HistoryComboBox>
+                <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+                <TextBlock VerticalAlignment="Center" Margin="10,0,1,0"
+                           Text="MaxRet:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+                <controls:HistoryComboBox x:Name="MaxRetTextBox" Width="80" Enter="DoUpdate" AutomationProperties.Name="Max Records Returned">
+                    <ToolTip.Tip>
+                        <TextBlock>At most this number of records are returned (speeds things up).</TextBlock>
+                    </ToolTip.Tip>
+                </controls:HistoryComboBox>
+            </StackPanel>
+            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+            <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="20,0,1,0"
+                       Text="Find:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <controls:HistoryComboBox x:Name="FindTextBox" Grid.Column="2" MinWidth="100" Enter="DoFindEnter" AutomationProperties.Name="Find">
+                <ToolTip.Tip>
+                    <TextBlock>Find a name in the display below (Standard .NET Regular Explressions apply, case insensitive).</TextBlock>
+                </ToolTip.Tip>
+            </controls:HistoryComboBox>
+        </Grid>
+        <Grid DockPanel.Dock="Top" Margin="0,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="20,0,1,0"
+                       Text="Process Filter:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <controls:HistoryComboBox Grid.Column="1" Margin="0,3,0,3" x:Name="ProcessFilterTextBox" Enter="DoUpdate" AutomationProperties.Name="Process Filter">
+                <ToolTip.Tip>
+                    <TextBlock>A .NET Regular expression that must match the process name field.</TextBlock>
+                </ToolTip.Tip>
+            </controls:HistoryComboBox>
+            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+            <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="10,0,1,0"
+                       Text="Text Filter:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <controls:HistoryComboBox Grid.Column="3" Margin="0,3,0,3" x:Name="TextFilterTextBox" Enter="DoUpdate" AutomationProperties.Name="Text Filter">
+                <ToolTip.Tip>
+                    <TextBlock>A .NET Regular expression that must match the data field.</TextBlock>
+                </ToolTip.Tip>
+            </controls:HistoryComboBox>
+            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+            <TextBlock Grid.Column="4" VerticalAlignment="Center" Margin="10,0,1,0"
+                       Text="Columns To Display:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <Button Grid.Column="5" Name="ListButton" Margin="3,3,3,3" Content="Cols" Click="DoColumnsToDisplayListClick"
+                    ToolTip.Tip="Displays a list you can shift click and ctrl-click to select columns to display." />
+            <Popup Name="ColumnsToDisplayPopup" IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=ListButton}" Placement="Bottom">
+                <ListBox Name="ColumnsToDisplayListBox" SelectionMode="Multiple" KeyDown="DoColumnsToDisplayListBoxKey" DoubleTapped="DoColumnsToDisplayListBoxDoubleClick" MaxHeight="300"/>
+            </Popup>
+            <controls:HistoryComboBox Grid.Column="6" Margin="0,3,0,3" x:Name="ColumnsToDisplayTextBox" Enter="DoUpdate" AutomationProperties.Name="Columns to Display">
+                <ToolTip.Tip>
+                    <TextBlock>A space separated list of column names to show in the 'data' field.</TextBlock>
+                </ToolTip.Tip>
+            </controls:HistoryComboBox>
+        </Grid>
+        <src:StatusBar x:Name="StatusBar" DockPanel.Dock="Bottom"/>
+        <!-- The Main window (left and right panes -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel>
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+                    <TextBlock Grid.Column="0" TextAlignment="Center" VerticalAlignment="Center" Margin="10,2,20,0"
+                               FontWeight="Bold" Text="Event Types"
+                               Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+                    <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+                    <TextBlock Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" Margin="10,0,2,0"
+                               Text="Filter:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+
+                    <TextBox Name="EventTypeFilterTextBox" Grid.Column="2" TextChanged="DoEventTypeFilterTextBoxChanged"
+                             ToolTip.Tip="Restrict the event types shown to those containing text typed here."
+                             AutomationProperties.Name="Event Type Filter"/>
+                </Grid>
+                <ListBox Name="EventTypes" SelectionMode="Multiple" KeyDown="DoEventTypesKey" DoubleTapped="DoUpdate"
+                         ToolTip.Tip="Double click, ctrl-Click and shift-Click to select the events you wish to see."
+                         AutomationProperties.Name="Event Types"/>
+            </DockPanel>
+            <GridSplitter Grid.Column="0" Width="3" />
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Name="MultiLineViewPaneRowDef" Height="0.25*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+                    <TextBlock Grid.Column="0" TextAlignment="Center" VerticalAlignment="Center" Margin="10,0,2,0"
+                               Text="Histogram:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+                    <TextBox Grid.Column="1" Name="Histogram" Height="20" Margin="3,0,0,0" Background="Transparent"
+                             SelectionChanged="DoHistogramSelectionChanged" Grid.Row="0" IsReadOnly="True"
+                             FontFamily="Courier New" FontSize="10"
+                             ToolTip.Tip="Shows how the frequency of the selected events vary over time."
+                             AutomationProperties.Name="Histogram"/>
+                </Grid>
+                <!-- TODO_AVALONIA: AlternatingRowBackground not directly supported -->
+                <!-- TODO_AVALONIA: SelectionUnit="CellOrRowHeader" not supported -->
+                <!-- TODO_AVALONIA: SelectedCellsChanged event not available -->
+                <!-- TODO_AVALONIA: PreviewMouseWheel replaced with PointerWheelChanged -->
+                <!-- TODO_AVALONIA: ColumnHeaderStyle may need adjustment -->
+                <DataGrid Grid.Row="1" Name="Grid"
+                    AutoGenerateColumns="False"
+                    ToolTip.Tip="Click on Update button to update."
+                    SelectionMode="Extended"
+                    AutomationProperties.Name="Events Table">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn
+                        x:Name="EventNameColumn"
+                        Header="Event Name"
+                        Binding="{Binding EventName}"
+                        MinWidth="60"
+                        IsReadOnly="True" />
+                        <!-- TODO_AVALONIA: Was Hidden -->
+                        <DataGridTextColumn
+                        x:Name="LocalTimeStampColumn"
+                        Header="TimeStamp (Current Machine)"
+                        Binding="{Binding LocalTimeStamp, StringFormat=o}"
+                        MinWidth="60"
+                        IsReadOnly="True"
+                        IsVisible="False" />
+                        <!-- TODO_AVALONIA: ElementStyle not available -->
+                        <DataGridTextColumn
+                        x:Name="OriginTimeStampColumn"
+                        Header="TimeStamp (Trace Local)"
+                        Binding="{Binding OriginTimeStamp, StringFormat=o}"
+                        MinWidth="60"
+                        IsReadOnly="True"
+                        IsVisible="True" />
+                        <!-- TODO_AVALONIA: ElementStyle not available -->
+                        <DataGridTextColumn
+                        x:Name="TimeMSecColumn"
+                        Header="Time MSec"
+                        Binding="{Binding TimeStampRelatveMSec, StringFormat=\{0:n3\}}"
+                        MinWidth="60"
+                        IsReadOnly="True" />
+                        <!-- TODO_AVALONIA: ElementStyle not available -->
+                        <DataGridTextColumn
+                        x:Name="ProcessNameColumn"
+                        Header="Process Name"
+                        Binding="{Binding ProcessName}"
+                        MinWidth="60"
+                        IsReadOnly="True" />
+                        <!-- TODO_AVALONIA: Was Hidden -->
+                        <DataGridTextColumn
+                        IsVisible="False"
+                        Header="Field1"
+                        Binding="{Binding DisplayField1, Mode=TwoWay}"
+                        Width="Auto" />
+                        <DataGridTextColumn
+                        IsVisible="False"
+                        Header="Field2"
+                        Binding="{Binding DisplayField2, Mode=TwoWay}"
+                        Width="Auto" />
+                        <DataGridTextColumn
+                        IsVisible="False"
+                        Header="Field3"
+                        Binding="{Binding DisplayField3, Mode=TwoWay}"
+                        Width="Auto" />
+                        <DataGridTextColumn
+                        IsVisible="False"
+                        Header="Field4"
+                        Binding="{Binding DisplayField4, Mode=TwoWay}"
+                        Width="Auto" />
+                        <DataGridTextColumn
+                        IsVisible="False"
+                        Header="Field5"
+                        Binding="{Binding DisplayField5, Mode=TwoWay}"
+                        Width="Auto" />
+                        <DataGridTextColumn
+                        IsVisible="False"
+                        Header="Field6"
+                        Binding="{Binding DisplayField6, Mode=TwoWay}"
+                        Width="Auto" />
+                        <DataGridTextColumn
+                        IsVisible="False"
+                        Header="Field7"
+                        Binding="{Binding DisplayField7, Mode=TwoWay}"
+                        Width="Auto" />
+                        <DataGridTextColumn
+                        IsVisible="False"
+                        Header="Field8"
+                        Binding="{Binding DisplayField8, Mode=TwoWay}"
+                        Width="Auto" />
+                        <DataGridTextColumn
+                        IsVisible="False"
+                        Header="Field9"
+                        Binding="{Binding DisplayField9, Mode=TwoWay}"
+                        Width="Auto" />
+                        <DataGridTextColumn
+                        IsVisible="False"
+                        Header="Field10"
+                        Binding="{Binding DisplayField10, Mode=TwoWay}"
+                        Width="Auto" />
+                        <DataGridTextColumn
+                        Header="Rest"
+                        Binding="{Binding Rest, Mode=TwoWay}"
+                        Width="Auto" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <GridSplitter Grid.Row="2" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                <!-- TODO_AVALONIA: ScrollViewer.CanContentScroll not available -->
+                <!-- TODO_AVALONIA: AlternatingRowBackground not directly supported -->
+                <DataGrid x:Name="MultiLineView" Grid.Row="3" AutoGenerateColumns="False"
+                          AutomationProperties.Name="Multi-Line View">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Payload Name" Binding="{Binding PayloadName, Mode=OneWay}" Width="*"/>
+                        <DataGridTextColumn Header="Payload" Binding="{Binding PayloadValue, Mode=OneWay}" Width="3*" />
+                        <!-- TODO_AVALONIA: ElementStyle with TextWrapping and FontFamily not available on DataGridTextColumn -->
+                    </DataGrid.Columns>
+                </DataGrid>
+                <!-- TODO_AVALONIA: BooleanToVisibilityConverter binding needs rework -->
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Text="Press F2 to hide/unhide"
+                           IsVisible="{Binding Items.Count, ElementName=MultiLineView, Converter={x:Static ObjectConverters.IsNull}}"/>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</src:WindowBase>

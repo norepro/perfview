@@ -1,0 +1,273 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+// TODO_AVALONIA: System.Media.SystemSounds not available
+using System.Text.RegularExpressions;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+
+namespace PerfView
+{
+    /// <summary>
+    /// Interaction logic for SelectProcess.xaml
+    /// </summary>
+    public partial class SelectProcess : WindowBase
+    {
+        public SelectProcess(Window parentWindow, IEnumerable<IProcess> processes, TimeSpan maxLifetime, Action<List<IProcess>> action, bool hasAllProc = false) : base(parentWindow)
+        {
+            m_action = action;
+            m_processes = processes;
+            InitializeComponent();
+            if (!hasAllProc)
+            {
+                AllProcsButton.IsVisible = false;
+                // TODO_AVALONIA: Was Hidden
+            }
+
+            ProcessFilterTextBox.Text = "";
+
+            UpdateItemSource();
+            var filteredProcesses = Grid.ItemsSource as List<IProcess>;
+
+            // Set selection point to the first process
+            if (filteredProcesses.Count > 0)
+            {
+                Select(filteredProcesses[0]);
+            }
+
+            Grid.Focus();
+        }
+
+        #region private
+        private int GetSelectionIndex(int defaultValue)
+        {
+            var ret = defaultValue;
+            // TODO_AVALONIA: SelectedCells not available in Avalonia DataGrid
+            var item = Grid.SelectedItem;
+            if (item != null)
+            {
+                var filteredProcesses = Grid.ItemsSource as List<IProcess>;
+                if (filteredProcesses != null)
+                {
+                    ret = filteredProcesses.IndexOf((IProcess)item);
+                }
+            }
+            return ret;
+        }
+        private void Select(object item)
+        {
+            // TODO_AVALONIA: SelectedItems.Clear() not available the same way
+            Grid.SelectedItem = item;
+            Grid.ScrollIntoView(item, null);
+        }
+        private static int FindNextWithPrefix(List<IProcess> processes, int start, string prefix)
+        {
+            Debug.Assert(start >= 0);
+            Debug.Assert(prefix != null && prefix.Length > 0);
+            if (start >= processes.Count)
+            {
+                return -1;
+            }
+
+            int cur = start;
+            for (; ; )
+            {
+                if (processes[cur].Name.TrimStart().StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                {
+                    return cur;
+                }
+
+                cur++;
+                if (cur >= processes.Count)
+                {
+                    cur = 0;
+                }
+
+                if (cur == start)
+                {
+                    return -1;
+                }
+            }
+        }
+        private void UpdateItemSource()
+        {
+            // This is also called in layout and we don't care at that point
+            if (Grid == null)
+            {
+                return;
+            }
+
+            var filterText = ProcessFilterTextBox.Text;
+            if (filterText == "")
+            {
+                Grid.ItemsSource = m_processes;
+                return;
+            }
+            var regex = Regex.Escape(filterText);
+            regex = regex.Replace(@"\*", ".*");
+            var filterRegex = new Regex(regex, RegexOptions.IgnoreCase);
+
+            List<IProcess> processes = new List<IProcess>();
+            foreach (var process in m_processes)
+            {
+                if (filterRegex.Match(process.Name).Success ||
+                    filterRegex.Match(process.CommandLine).Success ||
+                    filterRegex.Match(process.ProcessID.ToString()).Success)
+                {
+                    processes.Add(process);
+                }
+            }
+
+            Grid.ItemsSource = processes;
+        }
+
+        internal void OKClicked(object sender, RoutedEventArgs e)
+        {
+            // TODO_AVALONIA: DataGrid.SelectedItems behaves differently in Avalonia
+            var item = Grid.SelectedItem;
+            if (item == null)
+            {
+                OKButton.SetValue(ToolTip.TipProperty, "You must make a selection before hitting OK (or use Cancel)");
+                // TODO_AVALONIA: SystemSounds.Beep not available
+                return;
+            }
+            
+            var ret = new List<IProcess>();
+            var selectedProcesses = new List<IProcess>();
+            
+            // Add explicitly selected process
+            var process = (IProcess)item;
+            selectedProcesses.Add(process);
+            ret.Add(process);
+            
+            // If checkbox is checked, add child processes
+            if (IncludeChildProcessesCheckBox.IsChecked == true)
+            {
+                // Build dictionaries for process lookup
+                Dictionary<int, IProcess> processById = new Dictionary<int, IProcess>();
+                Dictionary<int, List<int>> childrenByParentId = new Dictionary<int, List<int>>();
+                
+                // First pass: build process ID mapping
+                foreach (var proc in m_processes)
+                {
+                    processById[proc.ProcessID] = proc;
+                    
+                    // Initialize empty children list for each parent
+                    if (!childrenByParentId.ContainsKey(proc.ParentID))
+                    {
+                        childrenByParentId[proc.ParentID] = new List<int>();
+                    }
+                    
+                    // Add this process as a child of its parent
+                    childrenByParentId[proc.ParentID].Add(proc.ProcessID);
+                }
+                
+                // Add all transitive children of selected processes
+                HashSet<int> addedProcessIds = new HashSet<int>();
+                foreach (var proc in selectedProcesses)
+                {
+                    addedProcessIds.Add(proc.ProcessID); // Mark selected processes as already added
+                }
+                
+                // For each selected process, add all its descendants
+                foreach (var proc in selectedProcesses)
+                {
+                    AddChildProcesses(proc.ProcessID, processById, childrenByParentId, ret, addedProcessIds);
+                }
+            }
+
+            m_action(ret);
+            Close();
+        }
+        
+        private void AddChildProcesses(
+            int processId, 
+            Dictionary<int, IProcess> processById, 
+            Dictionary<int, List<int>> childrenByParentId,
+            List<IProcess> resultList,
+            HashSet<int> addedProcessIds)
+        {
+            // Check if this parent has any children
+            if (!childrenByParentId.ContainsKey(processId))
+            {
+                return;
+            }
+            
+            // For each child process
+            foreach (var childId in childrenByParentId[processId])
+            {
+                // Skip if already added (prevents potential infinite recursion if process tree has cycles)
+                if (addedProcessIds.Contains(childId))
+                {
+                    continue;
+                }
+                
+                // Skip if the process doesn't exist in our dictionary (shouldn't happen)
+                if (!processById.ContainsKey(childId))
+                {
+                    continue;
+                }
+                
+                // Add the child process to the result list
+                var childProcess = processById[childId];
+                resultList.Add(childProcess);
+                addedProcessIds.Add(childId);
+                
+                // Recursively add its children
+                AddChildProcesses(childId, processById, childrenByParentId, resultList, addedProcessIds);
+            }
+        }
+        private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
+        {
+            // TODO_AVALONIA: was ExecutedRoutedEventArgs
+            // MainWindow.DisplayUsersGuide(e.Parameter as string);
+        }
+        private void GridKeyDownHander(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                OKClicked(null, null);
+                e.Handled = true;
+                return;
+            }
+            var processes = Grid.ItemsSource as List<IProcess>;
+            if (Key.A <= e.Key && e.Key <= Key.Z)
+            {
+                // TODO When people sort the list, you 'jump around' if you do it this way.  
+                var prefix = new string((char)((e.Key - Key.A) + 'a'), 1);
+                var startIdx = GetSelectionIndex(-1);
+                var nextIdx = FindNextWithPrefix(processes, startIdx + 1, prefix);
+                if (nextIdx >= 0)
+                {
+                    Select(processes[nextIdx]);
+                }
+                else
+                {
+                    // TODO_AVALONIA: SystemSounds.Beep not available
+                }
+
+                e.Handled = true;
+            }
+        }
+        private void FilterTextChanged(object sender, TextChangedEventArgs e)
+        {
+            UpdateItemSource();
+        }
+
+        private void AllProcsClicked(object sender, RoutedEventArgs e)
+        {
+            m_action(null);
+            Close();
+        }
+        private void CancelClicked(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        internal IEnumerable<IProcess> m_processes;
+        private Action<List<IProcess>> m_action;
+        #endregion
+    }
+}

@@ -1,0 +1,90 @@
+<UserControl
+        x:Class="PerfView.TreeViewGrid"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        d:DesignHeight="223" d:DesignWidth="600">
+
+    <UserControl.Resources>
+        <!-- Shared Styles -->
+        <!-- TODO_AVALONIA: Style without TargetType needs adjustment -->
+        <Style x:Key="CenterAlign">
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+        </Style>
+        <!-- DataContext for this template is a Tree control behavior -->
+        <DataTemplate x:Key="TreeControlCell">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding IndentString}" FontFamily="Courier New"/>
+                <CheckBox IsChecked="{Binding IsExpanded, Mode=TwoWay}" IsEnabled="{Binding HasChildren}"/>
+                <TextBlock Name="Name" Text="{Binding Name}"/>
+            </StackPanel>
+        </DataTemplate>
+        <Style x:Key="ColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Focusable" Value="True" />
+        </Style>
+    </UserControl.Resources>
+    <!-- TODO_AVALONIA: AlternatingRowBackground not directly supported -->
+    <!-- TODO_AVALONIA: SelectionUnit="CellOrRowHeader" not supported in Avalonia DataGrid -->
+    <!-- TODO_AVALONIA: SelectedCellsChanged event not available -->
+    <!-- TODO_AVALONIA: ClipboardCopyMode not available -->
+    <!-- TODO_AVALONIA: PreparingCellForEdit event not available -->
+    <!-- TODO_AVALONIA: ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" may need adjustment -->
+    <DataGrid Name="Grid"
+        AutoGenerateColumns="False"
+        Background="White"
+        SelectionMode="Extended"
+        CanUserSortColumns="False"
+        Margin="0,0,-23,0">
+        <DataGrid.Columns>
+            <!-- TODO_AVALONIA: HeaderStyle not available -->
+            <!-- TODO_AVALONIA: ClipboardContentBinding not available -->
+            <DataGridTemplateColumn
+                IsReadOnly="True"
+                Width="*">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Name="Name" Text="{Binding IndentedName}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+                <DataGridTemplateColumn.Header>
+                    <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
+                    <TextBlock Name="NameColumn" Text="Name ?" />
+                </DataGridTemplateColumn.Header>
+            </DataGridTemplateColumn>
+            <!-- TODO_AVALONIA: Was Hidden - using IsVisible="False" -->
+            <!-- TODO_AVALONIA: HeaderStyle not available on columns -->
+            <DataGridTextColumn
+                Header="Field1"
+                IsVisible="False"
+                Binding="{Binding DisplayField1, Mode=TwoWay}"
+                Width="Auto" />
+            <DataGridTextColumn
+                Header="Field2"
+                IsVisible="False"
+                Binding="{Binding DisplayField2, Mode=TwoWay}"
+                Width="Auto" />
+            <DataGridTextColumn
+                Header="Field3"
+                IsVisible="False"
+                Binding="{Binding DisplayField3, Mode=TwoWay}"
+                Width="Auto" />
+            <DataGridTextColumn
+                Header="Field4"
+                IsVisible="False"
+                Binding="{Binding DisplayField4, Mode=TwoWay}"
+                Width="Auto" />
+            <DataGridTextColumn
+                Header="Field5"
+                IsVisible="False"
+                Binding="{Binding DisplayField5, Mode=TwoWay}"
+                Width="Auto" />
+            <DataGridTextColumn
+                Header="Field6"
+                IsVisible="False"
+                Binding="{Binding DisplayField6, Mode=TwoWay}"
+                Width="Auto" />
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

@@ -1,0 +1,42 @@
+<src:WindowBase x:Class="PerfView.Dialogs.FeedbackDialog"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        Title="Enter Feedback"
+        Style="{DynamicResource CustomWindowStyle}"
+        Background="{DynamicResource ControlDarkerBackground}"
+        Height="443" Width="722">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!-- TODO_AVALONIA: RichTextBox with FlowDocument not available in Avalonia. Using TextBlock instead. -->
+        <TextBlock Margin="10,5" TextWrapping="Wrap">
+            If you are reporting a bug, please make sure that you have included enough
+            information that the bug can be reproduced.   You may upload data files to \\clrmain\public\writable\perfView\repros
+            to allow your repro instructions to include your exact data.
+
+            If you are requesting a feature or new behavior be sure to describe the feature well.
+
+            If you simply have a question that was not answered in the docs, you may wish to send mail to
+            PerfViewUsers@microsoft.com.
+
+            Thank you for taking the time to give feedback on PerfView!
+        </TextBlock>
+        <TextBox Grid.Row="1" Name="TextBox" Margin="10,2,10,2" AcceptsReturn="True"
+                 HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1" Margin="10,3" Width="80" Content="Cancel" Click="CancelClicked"/>
+            <Button Grid.Column="2" Margin="10,3" Width="120" Content="Submit Feedback" Click="SubmitClicked"/>
+        </Grid>
+    </Grid>
+</src:WindowBase>

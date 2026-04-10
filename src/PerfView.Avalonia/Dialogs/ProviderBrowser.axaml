@@ -1,0 +1,69 @@
+<src:WindowBase x:Class="PerfView.Dialogs.ProviderBrowser"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="using:PerfView"
+        Background="{DynamicResource ControlDarkerBackground}"
+        MinHeight="210" MinWidth="750"
+        Title="ProviderBrowser" Height="481" Width="991">
+    <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+        <TextBlock x:Name="ProviderBrowserLink" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"
+                   Text="Provider Browser"/>
+        <TextBlock Name="ProviderLabel" Text="Provider" Grid.Row="5" Grid.Column="0" Height="20" VerticalAlignment="Top" Margin="10,0,0,0" />
+        <TextBox x:Name="SelectedProviderString"  Grid.Row="6" Grid.Column="0" IsEnabled="False"    Height="29" VerticalAlignment="Top" Grid.ColumnSpan= "4" Margin="10,0,0,0" />
+
+        <TextBlock x:Name="ProcessFilterLabel" Text="Process Filter" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Width="170" Height="20" VerticalAlignment="Top" Margin="10,0,0,0" />
+        <TextBox Name="ProcessNameFilter"  Grid.Row="2" Grid.Column="0" TextChanged="DoProcessFilterTextChange" Height="26" VerticalAlignment="Top" Margin="10,0"/>
+        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+        <TextBlock x:Name="ProcessLink" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Width="170" Height="20" VerticalAlignment="Top" Margin="10,0,0,0"
+                   Text="Processes"/>
+        <ListBox Name="ProcessNameListBox"  Grid.Row="4" Grid.Column="0" SelectionMode="Single" SelectionChanged="DoProcessSelected" Margin="10,0,10,10"/>
+
+        <TextBlock x:Name="ProvderFilterLabel" Text="Provider Filter" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="170" Height="20" VerticalAlignment="Top" Margin="10,0,0,0" />
+        <TextBox Name="ProviderNameFilter"  Grid.Row="2" Grid.Column="1" TextChanged="DoProviderFilterTextChange" Height="26" VerticalAlignment="Top" Margin="10,0"/>
+        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+        <TextBlock x:Name="ProviderLink"  Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="170" Height="20" VerticalAlignment="Top" Margin="10,0,0,0"
+                   Text="Providers"/>
+        <ListBox Name="ProviderNameListBox"  Grid.Row="4" Grid.Column="1" SelectionMode="Single" SelectionChanged="ProviderSelected" Margin="10,0,10,10"/>
+
+        <TextBlock Name="KeyFilterLabel" Text="Key Filter"  Grid.Row="1" Grid.Column="2" Height="20" VerticalAlignment="Top" Margin="14,0,0,0" HorizontalAlignment="Left" Width="251" Grid.ColumnSpan="2" />
+        <TextBox Name="KeyNameFilter" Grid.Row="2" Grid.Column="2" TextChanged="DoKeyFilterTextChange"  Height="26" VerticalAlignment="Top" Margin="10,0,5,0"/>
+        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+        <TextBlock x:Name="KeyLink"  Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" Width="170" Height="20" VerticalAlignment="Top" Margin="10,0,0,0"
+                   Text="Keywords"/>
+        <ListBox Name="KeyNameListBox"  Grid.Row="4" Grid.Column="2" SelectionMode="Multiple" SelectionChanged="KeySelected" Margin="10,0,9,10" />
+
+
+        <Grid Grid.Row="1" Grid.Column="3" Grid.RowSpan="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="120" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Name="LevelLabel" Text="Level"  Grid.Row="0" Grid.Column="0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="190" />
+            <ListBox Name="LevelListBox"  Grid.Row="1" Grid.Column="0" SelectionMode="Single" SelectionChanged="LevelSelected"   Height="131" VerticalAlignment="Top" HorizontalAlignment="Center" Width="170" Margin="10,0" />
+            <Button x:Name="Return" Grid.Row="2" Grid.Column="0" Content="Add Provider" Click="DoReturnClick"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,4,10,-3" Width="170"/>
+            <Button x:Name="ViewManifest" Grid.Row="3" Grid.Column="0" Content="View Manifest" Click="DoViewManifestClick"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,4,10,-3" Width="170"/>
+
+        </Grid>
+    </Grid>
+</src:WindowBase>

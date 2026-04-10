@@ -1,0 +1,338 @@
+<UserControl
+        x:Class="PerfView.PerfDataGrid"
+        xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:converter="using:PerfView.StackViewer"
+        mc:Ignorable="d"
+        d:DesignHeight="223" d:DesignWidth="600">
+    <UserControl.Resources>
+        <converter:ColorValidatorConverter x:Key="converter" />
+        <!-- Shared Styles -->
+        <!-- TODO_AVALONIA: ElementStyle not available in Avalonia DataGridTextColumn; RightAlign style needs alternative approach -->
+        <Style x:Key="RightAlign" Selector="TextBlock">
+            <Setter Property="TextAlignment" Value="Right" />
+        </Style>
+        <Style x:Key="HistogramCell" Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Courier New"/>
+            <Setter Property="FontSize" Value="10"/>
+        </Style>
+        <Style x:Key="HistogramEditCell" Selector="TextBox">
+            <Setter Property="FontFamily" Value="Courier New"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
+        <!-- TODO_AVALONIA: ColumnHeaderStyle with TargetType DataGridColumnHeader -->
+        <Style x:Key="ColumnHeaderStyle" Selector="DataGridColumnHeader">
+            <Setter Property="Focusable" Value="True" />
+            <Setter Property="Background" Value="{DynamicResource ControlDefaultBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource ControlText}" />
+        </Style>
+    </UserControl.Resources>
+    <!-- TODO_AVALONIA: SelectionUnit="CellOrRowHeader" not available -->
+    <!-- TODO_AVALONIA: SelectedCellsChanged not available -->
+    <!-- TODO_AVALONIA: AlternatingRowBackground not available -->
+    <!-- TODO_AVALONIA: ClipboardCopyMode not available -->
+    <!-- TODO_AVALONIA: PreparingCellForEdit not available -->
+    <!-- TODO_AVALONIA: ColumnHeaderStyle not available on DataGrid -->
+    <DataGrid Name="Grid"
+        SelectionMode="Extended"
+        AutoGenerateColumns="False"
+        CanUserSortColumns="False"
+        Margin="0,0,-23,0"
+        AutomationProperties.Name="Data Grid">
+        <DataGrid.Columns>
+            <!-- TODO_AVALONIA: ClipboardContentBinding not available -->
+            <DataGridTemplateColumn
+                x:Name="DisplayNameColumn"
+                IsReadOnly="True"
+                Width="*">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Name="Name" Text="{Binding DisplayName}" ToolTip.Tip="{Binding Name}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+                <DataGridTemplateColumn.Header>
+                    <TextBlock Name="NameColumn">
+                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
+                        Name ?
+                        <ToolTip.Tip>
+                                <TextBlock>
+                                      The name of the method or group (see GroupPat dialog box).
+                                </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTemplateColumn.Header>
+            </DataGridTemplateColumn>
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <DataGridTextColumn
+                IsReadOnly="True"
+                Binding="{Binding InclusiveMetricPercent, StringFormat={}{0:n1}}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="IncPercentColumn">
+                       <!-- TODO_AVALONIA: Hyperlink -->
+                       Inc % ?
+                        <ToolTip.Tip>
+                                <TextBlock>
+                                     The % of the total sample metric that occurred in this item or any of its callees.
+                                </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <DataGridTextColumn
+                IsReadOnly="True"
+                Binding="{Binding InclusiveMetric, StringFormat={}{0:n1}}">
+                <DataGridTextColumn.Header >
+                    <TextBlock Margin="0,0,5,0" Name="IncColumn">
+                        <!-- TODO_AVALONIA: Hyperlink -->
+                        Inc ?
+                        <ToolTip.Tip>
+                                <TextBlock>
+                                     The sum of the sample metric that occurred in this item or any of its callees.
+                                </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <DataGridTextColumn
+                CanUserSort="False"
+                IsReadOnly="True"
+                Binding="{Binding AverageInclusiveMetric, StringFormat={}{0:n1}}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="IncAvgColumn">
+                        <!-- TODO_AVALONIA: Hyperlink -->
+                        Inc Avg ?
+                        <ToolTip.Tip>
+                            <TextBlock>
+                                     The average of the sample metric that occurred in this item or any of its callees.
+                            </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <DataGridTextColumn
+                IsReadOnly="True"
+                Binding="{Binding InclusiveCount, StringFormat={}{0:n0}}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="IncCountColumn">
+                        <!-- TODO_AVALONIA: Hyperlink -->
+                        Inc Ct ?
+                        <ToolTip.Tip>
+                            <TextBlock>
+                                    The count of the instances in item or its children.
+                            </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <DataGridTextColumn
+                IsReadOnly="True"
+                Binding="{Binding ExclusiveMetricPercent, StringFormat={}{0:n1}}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="ExcPercentColumn">
+                        <!-- TODO_AVALONIA: Hyperlink -->
+                        Exc % ?
+                        <ToolTip.Tip>
+                                <TextBlock>
+                                    The % of the total sample metric that occurred in this item exclusively (not its children, does include folding).
+                                </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <DataGridTextColumn
+                IsReadOnly="True"
+                Binding="{Binding ExclusiveMetric, StringFormat={}{0:n0}}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="ExcColumn">
+                        <!-- TODO_AVALONIA: Hyperlink -->
+                        Exc ?
+                        <ToolTip.Tip>
+                                <TextBlock>
+                                    The sum of the sample metric that occurred in this item exclusively (not its children, does include folding).
+                                </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <DataGridTextColumn
+                IsReadOnly="True"
+                Binding="{Binding ExclusiveCount, StringFormat={}{0:n0}}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="ExcCountColumn">
+                        <!-- TODO_AVALONIA: Hyperlink -->
+                        Exc Ct ?
+                        <ToolTip.Tip>
+                                <TextBlock>
+                                    The count of the instances in item (excluding its children, does include folding)
+                                </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <DataGridTextColumn
+                IsReadOnly="True"
+                Binding="{Binding ExclusiveFoldedMetric, StringFormat={}{0:n0}}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="FoldColumn">
+                        <!-- TODO_AVALONIA: Hyperlink -->
+                        Fold ?
+                        <ToolTip.Tip>
+                                <TextBlock>
+                                    The exclusive metric that have been folded into this node (by FoldPat or Fold %).
+                                </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <DataGridTextColumn
+                IsReadOnly="True"
+                Binding="{Binding ExclusiveFoldedCount, StringFormat={}{0:n0}}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="FoldCountColumn">
+                        <!-- TODO_AVALONIA: Hyperlink -->
+                        Fold Ct ?
+                        <ToolTip.Tip>
+                                <TextBlock>
+                                    The count that have been folded into this node (by FoldPat or Fold %).
+                                </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+            <!-- TODO promote ReadOnly to the table as a whole -->
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <!-- TODO_AVALONIA: EditingElementStyle not available -->
+            <DataGridTextColumn
+                x:Name="TimeHistogramColumn"
+                IsReadOnly="False"
+                Binding="{Binding InclusiveMetricByTimeString}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="WhenColumn">
+                    <!-- TODO_AVALONIA: Hyperlink -->
+                    When ?
+                    <ToolTip.Tip>
+                                <TextBlock TextAlignment="Left">
+                                    The time interval (from Start to End) is divided up into 32 buckets.
+The buckets are normalized to a 100% value.
+For CPU (and other metrics that naturally represent time like disk time)
+100% represents the use of 1 CPU (or disk, or thread ...)
+For all other 100% represents half the maximum.
+_ = No samples
+. =  0% &lt; X &lt; .1%
+o =  .1% &lt; X &lt; 1%
+0 =  1% &lt; X &lt; 10%
+1 = 10% &lt; X &lt; 20%
+2 = 20% &lt; X &lt; 30%
+...
+9 = 90% &lt; X &lt; 100%
+A = 100% &lt; X &lt; 110%
+...
+Z = 350% &lt; X &lt; 360%
+* = 360% &lt; X of 1 CPU
+a =  -10% &lt; X &lt; 0%
+b =  -20% &lt; X &lt; -10%
+...
+z = -260% &lt; X &lt; -250%
+@ = X &lt; -260%
+
+Selecting this text in the status window and use SetRange (Alt-R) to set range.
+                                </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <!-- TODO_AVALONIA: EditingElementStyle not available -->
+            <DataGridTextColumn
+                x:Name="ScenarioHistogramColumn"
+                IsReadOnly="False"
+                Binding="{Binding InclusiveMetricByScenarioString}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="WhichColumn">
+                    <!-- TODO_AVALONIA: Hyperlink -->
+                    Which ?
+                        <ToolTip.Tip>
+                            <!-- TODO: update this tooltip help -->
+                            <TextBlock TextAlignment="Left">
+                                    The scenarios are divided into up to 32 buckets.
+The buckets are normalized to a 100% value.
+100% represents half of the maximum across all buckets.
+_ = No samples
+. =  0% &lt; X &lt; .1%
+o =  .1% &lt; X &lt; 1%
+0 =  1% &lt; X &lt; 10%
+1 = 10% &lt; X &lt; 20%
+2 = 20% &lt; X &lt; 30%
+...
+9 = 90% &lt; X &lt; 100%
+A = 100% &lt; X &lt; 110%
+...
+Z = 350% &lt; X &lt; 360%
+* = 360% &lt; X
+a =  -10% &lt; X &lt; 0%
+b =  -20% &lt; X &lt; -10%
+...
+z = -260% &lt; X &lt; -250%
+@ = X &lt; -260%
+
+Double-click to enter select mode. Select text and use "Set Scenario List" to limit the view to a set of scenarios.
+                            </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <DataGridTextColumn
+                x:Name="FirstTimeColumn"
+                IsReadOnly="True"
+                Binding="{Binding FirstTimeRelativeMSec, StringFormat={}{0:n3}}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="FirstColumn">
+                        <!-- TODO_AVALONIA: Hyperlink -->
+                        First ?
+                        <ToolTip.Tip>
+                                <TextBlock>
+                                    The time in of the first sample (msec from start of trace).
+                                </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+            <!-- TODO_AVALONIA: ElementStyle not available -->
+            <DataGridTextColumn
+                x:Name="LastTimeColumn"
+                IsReadOnly="True"
+                Binding="{Binding LastTimeRelativeMSec, StringFormat={}{0:n3}}">
+                <DataGridTextColumn.Header>
+                    <TextBlock Margin="0,0,5,0" Name="LastColumn">
+                        <!-- TODO_AVALONIA: Hyperlink -->
+                        Last ?
+                        <ToolTip.Tip>
+                                <TextBlock>
+                                    The time in of the last sample (msec from start of trace).
+                                </TextBlock>
+                        </ToolTip.Tip>
+                    </TextBlock>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>
