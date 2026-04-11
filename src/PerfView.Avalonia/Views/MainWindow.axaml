@@ -1,20 +1,264 @@
-<Window xmlns="https://github.com/avaloniaui"
+<Window x:Class="PerfView.Avalonia.Views.MainWindow"
+        xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:PerfView.Avalonia.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="PerfView.Avalonia.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="PerfView.Avalonia">
-
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+        xmlns:src="clr-namespace:PerfView"
+        xmlns:controls="clr-namespace:Controls"
+        Closed="Window_Closed"
+        Title="PerfView" Height="535" Width="1000">
+    <Window.Resources>
+        <Bitmap x:Key="FileBitmapImage">avares://PerfView.Avalonia/images/VSProject_genericfile.png</Bitmap>
+        <Bitmap x:Key="HeapFileBitmapImage">avares://PerfView.Avalonia/images/VSProject_schema.png</Bitmap>
+        <Bitmap x:Key="StackSourceBitmapImage">avares://PerfView.Avalonia/images/VSProject_form.png</Bitmap>
+        <Bitmap x:Key="EventSourceBitmapImage">avares://PerfView.Avalonia/images/VSProject_cab.png</Bitmap>
+        <Bitmap x:Key="FolderOpenBitmapImage">avares://PerfView.Avalonia/images/VSFolder_open.png</Bitmap>
+        <Bitmap x:Key="HtmlReportBitmapImage">avares://PerfView.Avalonia/images/VSProject_html.png</Bitmap>
+        <Bitmap x:Key="ChartBitmapImage">avares://PerfView.Avalonia/images/Chart.png</Bitmap>
+        <Style Selector="MenuItem">
+            <Setter Property="IsVisible" Value="{Binding $self.IsEnabled}" />
+        </Style>
+    </Window.Resources>
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Ctrl+L" Command="{x:Static src:MainWindow.FocusDirectoryCommand}" />
+    </Window.KeyBindings>
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Menu Grid.Column="0" Background="{DynamicResource ControlDefaultBackground}" AutomationProperties.Name="Navigation">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Clear Temp Files" Click="DoClearTempFiles" ToolTip.Tip="Some operations create temporary files.  This command clears all of these."/>
+                    <MenuItem Header="Clear User Config" Click="DoClearUserConfig" ToolTip.Tip="Reset all user preferences back to their defaults when PerfView was first installed."/>
+                    <MenuItem Header="Set Symbol _Path" Click="DoSetSymbolPath" ToolTip.Tip="Sets the locations to look for symbolic information (PDB files)."/>
+                    <MenuItem Header="_User Command" Command="{x:Static src:MainWindow.UserCommand}" ToolTip.Tip="Run a User Defined Command."/>
+                    <MenuItem Header="Go to Directory" Command="{x:Static src:MainWindow.FocusDirectoryCommand}" ToolTip.Tip="Focus and select the directory textbox."/>
+                    <MenuItem Header="_Exit" Click="DoExit"/>
+                </MenuItem>
+                <MenuItem Header="_Collect">
+                    <MenuItem Header="_Run" Command="{x:Static src:MainWindow.RunCommand}" ToolTip.Tip="Launch a program and collect data during its run. "/>
+                    <MenuItem Header="_Collect" Command="{x:Static src:MainWindow.CollectCommand}" ToolTip.Tip="Collect data machine wide with explicit start and stop."/>
+                    <MenuItem Header="_Abort" Command="{x:Static src:MainWindow.AbortCommand}" ToolTip.Tip="Abort any collection in progress."/>
+                    <MenuItem Header="_Merge" Command="{x:Static src:MainWindow.MergeCommand}" ToolTip.Tip="Prepare files for analysis on another computer."/>
+                    <MenuItem Header="Merge and Zip All" Click="DoMergeAndZipAll" ToolTip.Tip="Merge and zip all unmerged traces in the current folder."/>
+                </MenuItem>
+                <MenuItem Header="_Memory">
+                    <MenuItem Header="_Take Heap Snapshot" Command="{x:Static src:MainWindow.HeapSnapshotCommand}" ToolTip.Tip="Take a snapshot of the CLR GC Heap."/>
+                    <MenuItem Header="Take Heap Snapshot From Dump" Command="{x:Static src:MainWindow.HeapSnapshotFromDumpCommand}" ToolTip.Tip="Take a snapshot of the CLR GC Heap from a process Dump."/>
+                </MenuItem>
+                <MenuItem Header="Si_ze">
+                    <MenuItem Header="_DirectorySize" Command="{x:Static src:MainWindow.DirectorySizeCommand}" ToolTip.Tip="Computes the disk usage (recursively) for a directory.">
+                        <MenuItem.Icon>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">?</TextBlock>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="ImageSizeMenuItem" IsVisible="False" Header="_ImageSize" Command="{x:Static src:MainWindow.ImageSizeCommand}" ToolTip.Tip="Displays the breakdown of what is in a DLL or EXE by symbol. (needs PDB for DLL or EXE).">
+                        <MenuItem.Icon>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">?</TextBlock>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Name="ILSizeMenuItem" IsVisible="False" Header="ILSize" Command="{x:Static src:MainWindow.ILSizeCommand}" ToolTip.Tip="Displays the breakdown of what is in a DLL or EXE by symbol. (needs PDB for DLL or EXE).">
+                        <MenuItem.Icon>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">?</TextBlock>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Options">
+                    <MenuItem Header="_Authentication">
+                        <MenuItem Header="Use _Git Credential Manager" x:Name="Authentication_UseGitCredentialManager" IsChecked="{Binding Path=AuthenticationViewModel.IsGitCredentialManagerEnabled}" Command="{x:Static src:AuthenticationCommands.UseGitCredentialManager}" ToolTip.Tip="Use the Git Credential Manager to authenticate to GitHub and Azure DevOps."/>
+                        <MenuItem Header="Use _Developer Identity for Azure DevOps" x:Name="Authentication_UseManagedIdentityForAzureDevOps" IsChecked="{Binding Path=AuthenticationViewModel.IsDeveloperIdentityEnabled}" Command="{x:Static src:AuthenticationCommands.UseDeveloperIdentity}" ToolTip.Tip="Use Visual Studio or VS Code sign-in information to authenticate to Azure DevOps instances."/>
+                        <MenuItem Header="Use Device _Code for GitHub" x:Name="Authentication_UseGitHubDeviceFlow" IsChecked="{Binding Path=AuthenticationViewModel.IsGitHubDeviceFlowEnabled}" Command="{x:Static src:AuthenticationCommands.UseGitHubDeviceFlow}" ToolTip.Tip="Use a device code to authenticate with GitHub."/>
+                        <MenuItem Header="Use Basic Http Auth" x:Name="Authentication_UseBasicHttpAuth" IsChecked="{Binding Path=AuthenticationViewModel.IsBasicHttpAuthEnabled}" Command="{x:Static src:AuthenticationCommands.UseBasicHttpAuth}" ToolTip.Tip="Use basic HTTP authentication to access a symbol server"/>
+                    </MenuItem>
+                    <MenuItem Header="Do not shorten frames copied from stack windows" x:Name="Option_DoNotCompressStackFramesOnCopy" IsCheckable="True" Click="ToggleDoNotCompressStackFramesOnCopy" ToolTip.Tip="When pasting stack frame lines copied from the Stack Viewer window, paste the full contents of each line instead of a minimized version." />
+                    <MenuItem Header="_Experimental">
+                        <MenuItem Header="Show experimental GC features." x:Name="Option_ExperimentalGCFeatures" IsCheckable="True" Click="ToggleExperimentalGCFeatures" ToolTip.Tip="Enable or disable experimental GC features."/>
+                    </MenuItem>
+                    <MenuItem Header="Navigate to last used directory on launch." x:Name="Option_OpenToLastUsedDirectory" IsCheckable="True" Click="ToggleOpenToLastUsedDirectory" ToolTip.Tip="When launching PerfView, navigate to the last opened directory instead of the current working directory."/>
+                    <MenuItem Header="Truncate raw data when dumping an event" x:Name="Option_TruncateRawEventData" IsCheckable="True" Click="ToggleTruncateRawEventData" ToolTip.Tip="Controls whether or not a raw event dumped from the events view is truncated." />
+                    <MenuItem Header="Theme">
+                        <MenuItem Header="Light" x:Name="Theme_Light" IsChecked="{Binding Path=ThemeViewModel.IsLightTheme}" Command="{x:Static src:ThemeViewModel.SetLightThemeCommand}"/>
+                        <MenuItem Header="Dark" x:Name="Theme_Dark" IsChecked="{Binding Path=ThemeViewModel.IsDarkTheme}" Command="{x:Static src:ThemeViewModel.SetDarkThemeCommand}"/>
+                        <MenuItem Header="System" x:Name="Theme_System" IsChecked="{Binding Path=ThemeViewModel.IsSystemTheme}" Command="{x:Static src:ThemeViewModel.SetSystemThemeCommand}"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_Help on Main View" Click="DoHyperlinkHelp" Tag="MainViewerQuickStart" />
+                    <MenuItem Header="_Users Guide" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="UsersGuide"/>
+                    <MenuItem Name="VideoMenuEntry" Header="Getting started _Videos" Click="DoVideoClick"/>
+                    <MenuItem Header="Get the _Latest Version" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="LatestVersion"/>
+                    <MenuItem Header="_Reference Guide" Click="DoReferenceGuide"/>
+                    <MenuItem Header="_Command Line Help" Click="DoCommandLineHelp"/>
+                    <MenuItem Header="User Command Help" Click="DoUserCommandHelp"/>
+                    <MenuItem Header="Multi-Scenarios Analysis" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="MultiScenarioAnalysis"/>
+                    <MenuItem Header="_Extending Perfview" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="PerfViewExtensions"/>
+                    <MenuItem Header="Viewing Linux Data" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="ViewingLinuxData"/>
+                    <MenuItem Header="Viewing External Data" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="ViewingExternalData"/>
+                    <MenuItem Header="Using EventSources" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="UsingEventSources"/>
+                    <MenuItem Header="_Release Notes" Click="DoReleaseNotes"/>
+                    <MenuItem Header="Privacy Policy" Click="DoPrivacyPolicy" />
+                    <MenuItem Header="_About" Click="DoAbout"/>
+                </MenuItem>
+            </Menu>
+            <Rectangle Grid.Column="1" Grid.ColumnSpan="11" Fill="{DynamicResource ControlDefaultBackground}"/>
+            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Classes="link" Click="DoHyperlinkHelp" Tag="MainViewerQuickStart">Main View Help (F1)</Button>
+            <Button Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0,0,0"
+                    Classes="link" Click="DoHyperlinkHelp" Tag="Tutorial">Tutorial</Button>
+            <Button Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Classes="link" Click="DoHyperlinkHelp" Tag="MainViewerTroubleshooting">Troubleshooting</Button>
+            <Button Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Classes="link" Click="DoHyperlinkHelp" Tag="FAQ">FAQ</Button>
+            <Button Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Classes="link" Click="DoHyperlinkHelp" Tag="MainViewerTips">Tips</Button>
+            <Button Name="VideoLink" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0"
+                    Classes="link" Click="DoVideoClick">Videos</Button>
+            <Button Name="WikiButton" Grid.Column="7" Margin="5,1,10,1" Content="Wiki" FontSize="9"
+                    ToolTip.Tip="Goto the PerfView Wiki." Click="DoWikiClick"/>
+        </Grid>
+        <src:StatusBar x:Name="StatusBar" DockPanel.Dock="Bottom"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="619*"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel Background="{DynamicResource ContainerBackground}" Grid.Column="0">
+                <controls:HistoryComboBox x:Name="Directory" DockPanel.Dock="Top" AutomationProperties.Name="Directory Search Bar"
+                         ToolTip.Tip="This is the directory to search for performance data files." TextEntered="DoTextEnteredInDirectoryTextBox" />
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="100*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Fill="{DynamicResource ControlDefaultBackground}"/>
+                    <Button Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0" Classes="link"
+                            ToolTip.Tip="Only files that match this RegEx filter pattern are displayed."
+                            Click="DoHyperlinkHelp" Tag="FileFilterTextBox">Filter:</Button>
+                    <TextBox Name="FileFilterTextBox" TextChanged="FilterTextChanged" KeyDown="FilterKeyDown" Grid.Column="1" Margin="5,2,0,2" AutomationProperties.Name="File Filter"/>
+                </Grid>
+                <TreeView x:Name="TreeView" AutomationProperties.Name="File Explorer" Grid.Column="0"
+                          DoubleTapped="DoMouseDoubleClickInTreeView"
+                          KeyDown="KeyDownInTreeView"
+                          SelectionChanged="SelectedItemChangedInTreeView"
+                          PointerPressed="TreeView_PreviewMouseRightButtonDown"
+                          ToolTip.Tip="Double Click to open.  Right click contains additional help and additional options."
+                          IsEnabled="{Binding #StatusBar.IsNotWorking}"
+                          AllowDrop="True"
+                          DragDrop.Drop="DoDrop">
+                    <TreeView.Styles>
+                        <Style Selector="TreeViewItem">
+                            <Setter Property="AutomationProperties.Name" Value="{Binding Name}" />
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+                        </Style>
+                    </TreeView.Styles>
+                    <TreeView.ItemTemplate>
+                        <TreeDataTemplate ItemsSource="{Binding Children}">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Command="{x:Static src:MainWindow.ItemHelpCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.OpenInBrowserCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.RefreshDirCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.OpenCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.CloseCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.DeleteCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.RenameCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.OpenFolderCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.OpenContainingFolderCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.MergeCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.MakeLocalSymbolDirCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.ZipCommand}"/>
+                                        <MenuItem Command="{x:Static src:MainWindow.UnZipCommand}"/>
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
+                                <Image Margin="0,0,5,0" Source="{Binding Icon}"/>
+                                <TextBlock Text="{Binding Name}" />
+                            </StackPanel>
+                        </TreeDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </DockPanel>
+            <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+            <ScrollViewer Name="Body" Grid.Column="2"
+                          VerticalScrollBarVisibility="Auto"
+                          IsEnabled="{Binding #StatusBar.IsNotWorking}"
+                          AutomationProperties.Name="Usage Information">
+                <StackPanel Margin="8">
+                    <TextBlock FontSize="14" FontWeight="Bold" TextWrapping="Wrap">Welcome to PerfView!</TextBlock>
+                    <TextBlock Margin="0,2,0,0" TextWrapping="Wrap">PerfView is an application designed to simplify the collection and analysis of performance data.</TextBlock>
+                    <TextBlock Margin="0,4,0,0" TextWrapping="Wrap">
+                        <Run>Pressing the </Run><Run FontWeight="Bold">F1</Run><Run> key will give you help for current view.
+                        Any blue hyperlinks in the UI also take you to help.
+                        For an overview of PerfView see the </Run><Run Foreground="Blue" TextDecorations="Underline">User's Guide</Run><Run>.
+                        If you wish to ask a question that the documentation did not answer or if you have feedback or a bug report,
+                        see the </Run><Run Foreground="Blue" TextDecorations="Underline">feedback instructions</Run><Run> in the documentation.</Run>
+                    </TextBlock>
+                    <TextBlock Margin="0,4,0,0" TextWrapping="Wrap">
+                        <Run FontWeight="Bold">If you are new to PerfView</Run><Run>, we strongly recommend reading the </Run><Run Foreground="Blue" TextDecorations="Underline">tutorial</Run><Run>
+                        or watch the tutorial </Run><Run Foreground="Blue" TextDecorations="Underline">videos</Run><Run>.
+                        It should only take 10-20 minutes to walk through.  Also recommend is reading </Run><Run Foreground="Blue" TextDecorations="Underline">what perfView can do for you</Run><Run>.</Run>
+                    </TextBlock>
+                    <TextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Optimizing Time, or Unmanaged Memory: Collecting ETW Profile Data</TextBlock>
+                    <TextBlock TextWrapping="Wrap">
+                        <Run>PerfView can collect a time based ETW trace for investigating </Run><Run FontWeight="Bold" Foreground="Blue" TextDecorations="Underline">CPU</Run><Run> and </Run><Run FontWeight="Bold" Foreground="Blue" TextDecorations="Underline">Server Response Time</Run><Run>, as well as </Run><Run Foreground="Blue" TextDecorations="Underline">Wall Clock / Blocked Time</Run><Run>,
+                        </Run><Run Foreground="Blue" TextDecorations="Underline">Unmanaged memory</Run><Run> or </Run><Run Foreground="Blue" TextDecorations="Underline">Managed memory</Run><Run>.
+                        For these cases PerfView has two ways of </Run><Run Foreground="Blue" TextDecorations="Underline">collecting ETW trace data</Run><Run>:</Run>
+                    </TextBlock>
+                    <StackPanel Margin="20,2,0,0">
+                        <TextBlock TextWrapping="Wrap">
+                            <Run>&#x2022; </Run><Run FontWeight="Bold" Foreground="Blue" TextDecorations="Underline">Run a command</Run><Run> and collect data while the command is running.  Collect->Run   (Alt-R)</Run>
+                        </TextBlock>
+                        <TextBlock TextWrapping="Wrap">
+                            <Run>&#x2022; </Run><Run FontWeight="Bold" Foreground="Blue" TextDecorations="Underline">Collect data machine wide</Run><Run> by starting and stopping collection manually.  Collect->Collect   (Alt-C)</Run>
+                        </TextBlock>
+                    </StackPanel>
+                    <TextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Optimizing Managed Memory: Collecting .NET Runtime Heap Data</TextBlock>
+                    <TextBlock TextWrapping="Wrap">
+                        <Run>PerfView can also collect data about the GC heap of a .NET Runtime process. See </Run><Run Foreground="Blue" TextDecorations="Underline">GC Heap Quick Start</Run><Run> for more details.</Run>
+                    </TextBlock>
+                    <StackPanel Margin="20,2,0,0">
+                        <TextBlock TextWrapping="Wrap">
+                            <Run>&#x2022; </Run><Run FontWeight="Bold" Foreground="Blue" TextDecorations="Underline">Take a heap snapshot</Run><Run> of an existing process  Memory->Take Heap Snapshot   (Alt-S)</Run>
+                        </TextBlock>
+                        <TextBlock TextWrapping="Wrap">
+                            <Run>&#x2022; </Run><Run FontWeight="Bold" Foreground="Blue" TextDecorations="Underline">To Take a heap snapshot from a Process Dump</Run><Run> simply double click on the .DMP file in the file view to the left.</Run>
+                        </TextBlock>
+                    </StackPanel>
+                    <TextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Viewing Existing Profile Data</TextBlock>
+                    <TextBlock Margin="0,4,0,0" TextWrapping="Wrap">The result of data collection is data stored in data files of varying extensions.
+                        The left pane is a list of file names in the current directory that PerfView knows how to open.
+                        Simply double click on the file of interest to view the data.   You can change the current directory
+                        by either double clicking on a subdirectory or typing the name in the textbox in the upper left.
+                    </TextBlock>
+                    <TextBlock Margin="0,4,0,0" TextWrapping="Wrap">
+                        <Run>If the file contains more than one view of the data then double clicking on the object
+                        populates children nodes in the treeview.  Double clicking on one of the children will open the viewer for that
+                        view. </Run><Run FontWeight="Bold">Right clicking and selecting 'Help on Item'</Run><Run> will take you to the help for that particular entry in the viewer.
+                        There are two main viewers of profile data:</Run>
+                    </TextBlock>
+                    <StackPanel Margin="20,2,0,0">
+                        <TextBlock TextWrapping="Wrap">&#x2022; A stack viewer which allows aggregation and filtering of events with associated stack traces.</TextBlock>
+                        <TextBlock TextWrapping="Wrap">&#x2022; An event viewer which allows filtering of time based events.</TextBlock>
+                    </StackPanel>
+                    <TextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Diffing Profile Data</TextBlock>
+                    <TextBlock Margin="0,4,0,0" TextWrapping="Wrap">
+                        <Run>PerfView has the ability to determine the difference between two traces,
+                        which is very useful in doing regression analysis.    To use the Diff functionality first
+                        view both traces in separate stack view windows and (if necessary) filter out all but the region
+                        that represents an equivalent amount of work in each view.
+                        Then use the Diff menu on the stack view window of the 'regressed' trace and to select the other
+                        window as its baseline.   See </Run><Run Foreground="Blue" TextDecorations="Underline">Diff Help</Run><Run> for more.</Run>
+                    </TextBlock>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
 </Window>

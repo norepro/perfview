@@ -6,6 +6,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using PerfView.Avalonia.Views;
 
 namespace PerfView.Dialogs
 {

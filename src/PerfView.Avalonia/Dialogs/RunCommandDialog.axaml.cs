@@ -13,6 +13,7 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Triggers;
 using Utilities;
+using PerfView.Avalonia.Views;
 
 // TODO use or delete
 namespace PerfView

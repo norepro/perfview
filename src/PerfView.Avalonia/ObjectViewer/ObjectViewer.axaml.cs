@@ -5,6 +5,7 @@ using Avalonia;
 // TODO_AVALONIA: using System.Windows.Documents removed (no Avalonia equivalent)
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Controls;
 
 namespace PerfView
 {

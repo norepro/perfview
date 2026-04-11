@@ -15,25 +15,35 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="../HeapDump/GCHeapDump.cs" />
+    <Compile Include="../HeapDumpCommon/DotNetHeapInfo.cs" />
+    <Compile Include="../MemoryGraph/graph.cs" />
+    <Compile Include="../MemoryGraph/MemoryGraph.cs" />
     <!-- <Compile Include="../PerfView/App.cs">
       <Link>Program.cs</Link>
     </Compile> -->
     <Compile Include="../PerfView/CommandLineArgs.cs" />
-    <!-- <Compile Include="../PerfView/CommandProcessor.cs" /> -->
+    <Compile Include="../PerfView/CommandProcessor.cs" />
     <Compile Include="../PerfView/ConfigData.cs" />
     <Compile Include="../PerfView/DotNetVersionLogger.cs" />
-    <!-- <Compile Include="../PerfView/Extensibility.cs" /> -->
+    <Compile Include="../PerfView/EtwEventSource.cs" />
+    <Compile Include="../PerfView/Extensibility.cs" />
+    <Compile Include="../PerfView/GuiUtilities/HistoryComboBox/HistoryComboBox.cs" />
+    <Compile Include="../PerfView/IProcess.cs" />
     <Compile Include="../PerfView/memory/ETWClrProfilerTraceEventParser.cs" />
     <Compile Include="../PerfView/memory/HeapSnapshot.cs" />
     <Compile Include="../PerfView/OtherSources/XMLStackSource.cs" />
-    <!-- <Compile Include="../PerfView/PerfViewData.cs" /> -->
+    <Compile Include="../PerfView/PerfViewData.cs" />
     <Compile Include="../PerfView/PerfViewLogger.cs" />
     <Compile Include="../PerfView/Properties/BuildDateAttribute.cs" />
+    <Compile Include="../PerfView/StackViewer/CallTreeView.cs" />
+    <Compile Include="../PerfView/StackViewer/Preset.cs" />
     <Compile Include="../PerfView/Triggers.cs" />
-    <!-- <Compile Include="../PerfView/UserCommands.cs" /> -->
+    <Compile Include="../PerfView/UserCommands.cs" />
     <Compile Include="../PerfView/Utilities/CacheFiles.cs" />
     <Compile Include="../PerfView/Utilities/commandLine.cs" />
     <Compile Include="../PerfView/Utilities/ExceptionMessage.cs" />
+    <Compile Include="../PerfView/Utilities/ProcessTree.cs" />
     <Compile Include="../PerfView/Utilities/ResourceUtilities.cs" />
     <Compile Include="../PerfView/Utilities/StreamUtilities.cs" />
     <Compile Include="../PerfView/Utilities/SupportFiles.cs" />
@@ -59,16 +69,20 @@
     <PackageReference Include="Azure.Identity" GeneratePathProperty="true" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="MessageBox.Avalonia" />
+    <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent.SupportFiles" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" GeneratePathProperty="true" />
+    <PackageReference Include="PerfView.SupportFiles" PrivateAssets="all" />
     <PackageReference Include="System.Diagnostics.EventLog" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" />
   </ItemGroup>
 
   <ItemGroup>
-    <!-- <ProjectReference Include="..\CSVReader\CSVReader.csproj" />
+    <!--
     <ProjectReference Include="..\EtwClrProfilerSigning\EtwClrProfilerSigning.csproj" />
     <ProjectReference Include="..\FastSerialization\FastSerialization.csproj" />
     <ProjectReference Include="..\PerfView.Tutorial\PerfView.Tutorial.csproj" />
-    <ProjectReference Include="..\SymbolsAuth\SymbolsAuth.csproj" /> -->
+    <ProjectReference Include="..\SymbolsAuth\SymbolsAuth.csproj" />
+    -->
     <ProjectReference Include="../CSVReader/CSVReader.csproj" />
     <ProjectReference Include="../TraceEvent/TraceEvent.csproj" />
   </ItemGroup>

@@ -1,9 +1,21 @@
 ﻿using System;
 using System.Collections;
+
+#if !AVALONIA
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+#else
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Data;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Media;
+using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
+#endif
 
 namespace Controls
 {
@@ -15,7 +27,13 @@ namespace Controls
     {
         static HistoryComboBox()
         {
-            IsEditableProperty.OverrideMetadata(typeof(HistoryComboBox), new FrameworkPropertyMetadata(true));
+            IsEditableProperty.OverrideMetadata(
+                typeof(HistoryComboBox),
+#if AVALONIA
+                new StyledPropertyMetadata<bool>(true));
+#else
+                new FrameworkPropertyMetadata(true));
+#endif
         }
 
         public HistoryComboBox()
@@ -175,24 +193,41 @@ namespace Controls
         /// </summary>
         private void ValueUpdate()
         {
+#if AVALONIA
+            var binding = BindingOperations.GetBindingExpressionBase(this, ComboBox.TextProperty);
+#else
             var binding = GetBindingExpression(ComboBox.TextProperty);
+#endif
             if (binding != null)
             {
                 binding.UpdateSource();
             }
         }
 
+#if AVALONIA
+        internal TextBox GetTextBox() => m_textBox;
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
+            m_textBox = e.NameScope.Find<TextBox>("PART_EditableTextBox");
+        }
+#else
         internal TextBox GetTextBox()
         {
             if (m_textBox == null)
             {
                 m_textBox = (TextBox)GetTemplateChild("PART_EditableTextBox");
             }
-
             return m_textBox;
         }
+#endif
 
+#if AVALONIA
+        private IBrush m_origBackground;
+#else
         private Brush m_origBackground;
+#endif
         private bool m_hasFocus;
         private string m_selectedItem;
         private TextBox m_textBox;

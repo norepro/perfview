@@ -6,9 +6,18 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Avalonia.Controls.Primitives;
+
+#if !AVALONIA
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+#else
+using Avalonia.Data;
+using Avalonia.Markup.Xaml.Templates;
+using Avalonia.Media;
+using FontWeights = Avalonia.Media.FontWeight;
+#endif
 
 namespace PerfView
 {
@@ -212,7 +221,7 @@ namespace PerfView
                         var calleeViewNode = m_flattenedTree[curViewNodeIndex];
                         Debug.Assert(calleeViewNode.m_depth == node.m_depth + 1);
                         Debug.Assert(calleeViewNode.Data == callees[i]);
-                        curViewNodeIndex = ValidateChildren(curViewNodeIndex, maxDepth-1);
+                        curViewNodeIndex = ValidateChildren(curViewNodeIndex, maxDepth - 1);
                     }
                 }
             }
@@ -360,7 +369,7 @@ namespace PerfView
             get => _backgroundColor;
             set
             {
-                if(_backgroundColor != value)
+                if (_backgroundColor != value)
                 {
                     _backgroundColor = value;
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BackgroundColor)));
@@ -506,20 +515,7 @@ namespace PerfView
                 return FontWeights.Normal;
             }
         }
-        public Visibility VisibleIfDisplayingSecondary
-        {
-            get
-            {
-                if (m_treeView.DisplayPrimaryOnly)
-                {
-                    return Visibility.Collapsed;
-                }
-                else
-                {
-                    return Visibility.Visible;
-                }
-            }
-        }
+        public bool VisibleIfDisplayingSecondary => !m_treeView.DisplayPrimaryOnly;
 
         /// <summary>
         /// Returns the list of code:CallTreeViewNode (rather than just code:CallTreeNode) associated

@@ -48,6 +48,12 @@ namespace PerfView
                 };
         }
 
+        public bool CanUserSortColumns
+        {
+            get => Grid.CanUserSortColumns;
+            set => Grid.CanUserSortColumns = value;
+        }
+
         public bool Find(string pat)
         {
             if (pat == null)

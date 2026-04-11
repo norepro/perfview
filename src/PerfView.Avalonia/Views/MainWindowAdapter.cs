@@ -14,4 +14,6 @@ public sealed class MainWindowAdapter
     }
 
     public DispatcherAdapter Dispatcher { get; } = new();
+
+    public object StatusBar => this.mainWindow.Get<StatusBar>();
 }

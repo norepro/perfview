@@ -1,10 +1,10 @@
-using Microsoft.Diagnostics.Tracing.Stacks;
 using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree; // TODO_AVALONIA: for FindAncestorOfType<T>()
+using Microsoft.Diagnostics.Tracing.Stacks;
 using Utilities;
 
 namespace PerfView
@@ -18,8 +18,8 @@ namespace PerfView
         {
             InitializeComponent();
             // Customize the view
-            CallersGrid.Grid.CanUserSortColumns = true;
-            CalleesGrid.Grid.CanUserSortColumns = true;
+            CallersGrid.CanUserSortColumns = true;
+            CalleesGrid.CanUserSortColumns = true;
         }
         public void RemoveCountColumn(string columnName)
         {

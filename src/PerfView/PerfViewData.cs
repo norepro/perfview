@@ -35,8 +35,12 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+#if AVALONIA
+using Avalonia.Controls;
+#else
 using System.Windows;
 using System.Windows.Media;
+#endif
 using System.Xml;
 using Microsoft.Diagnostics.Tracing.Computers;
 using Microsoft.Diagnostics.Tracing.Parsers.Tpl;
@@ -344,7 +348,8 @@ namespace PerfView
                     {
                         format = potentalFormat;
                         break;
-                    };
+                    }
+                    ;
                 }
                 if (format == null)
                 {
@@ -651,7 +656,7 @@ namespace PerfView
         public virtual List<IProcess> GetProcesses(TextWriter log)
         {
             // This can take a while, should not be on GUI thread.  
-            Debug.Assert(GuiApp.MainWindow.Dispatcher.Thread != System.Threading.Thread.CurrentThread);
+            Debug.Assert(GuiApp.MainWindow.Dispatcher.CheckAccess() == false);
 
             var dataSource = GetStackSource(DefaultStackSourceName);
             if (dataSource == null)
@@ -2230,7 +2235,7 @@ namespace PerfView
 
                 string csBytes = (request.BytesReceived == 0) ? "-" : request.BytesReceived.ToString();
                 string scBytes = (request.BytesSent == 0) ? "-" : request.BytesSent.ToString();
-                string statusCode = (request.StatusCode == 0) ? "-" : $"{ request.StatusCode}.{ request.SubStatusCode}";
+                string statusCode = (request.StatusCode == 0) ? "-" : $"{request.StatusCode}.{request.SubStatusCode}";
 
                 writer.WriteLine($"<TD>{request.Method}</TD><TD><A HREF=\"command:{detailedRequestCommandString}\">{requestPath}</A></TD><TD>{csBytes}</TD><TD>{scBytes}</TD><TD>{statusCode}</TD><TD>{totalTimeSpent:0.00}</TD><TD>{slowestPipelineEventDisplay}</TD><TD>{slowestTime:0.00}</TD><TD>{((slowestTime / totalTimeSpent * 100)):0.00}%</TD><TD>{activityStacks} {threadTimeStacks}</TD>");
                 writer.Write("</TR>");
@@ -3506,7 +3511,7 @@ namespace PerfView
                     case _eventRequestStart:
                         inboundRequestCount++;
 
-                        if(traceEvent.ActivityID.Equals(Guid.Empty))
+                        if (traceEvent.ActivityID.Equals(Guid.Empty))
                         {
                             eventsWithNoActivityIdCount++;
                             break;
@@ -3696,7 +3701,7 @@ namespace PerfView
                 outputWriter.WriteLine("</tbody>");
                 outputWriter.WriteLine("</table>");
             }
-                        
+
             // incomplete requests table
             // generally there should be fewer of these compared to finished/complete requests
             if (incompleteRequests.Count > 0)
@@ -3742,7 +3747,7 @@ namespace PerfView
             }
 
             // slow requests table, only for complete requests
-            if (completeRequests.Count > 0) 
+            if (completeRequests.Count > 0)
             {
                 IEnumerable<ANCHostingRequest> slowestRequests =
                     (from request in completeRequests
@@ -3882,7 +3887,7 @@ namespace PerfView
             public bool HasUnhandledException;
             public string IndexingKey;
             public bool HasStart;
-            public bool HasStop; 
+            public bool HasStop;
 
             public bool IsComplete => HasStart && HasStop;
             public double DurationMsec => EndTimeRelativeMSec - StartTimeRelativeMSec;
@@ -4150,7 +4155,7 @@ namespace PerfView
                     if (commandUri.Query.Contains("AssemblyLoad"))
                         filters.Add("AssemblyLoad");
                 }
-                string identifier = $"{(tree?"Tree":"Flat")}_";
+                string identifier = $"{(tree ? "Tree" : "Flat")}_";
                 if (filters != null)
                 {
                     foreach (var filter in filters)
@@ -4184,7 +4189,7 @@ namespace PerfView
                 CLRRuntimeActivityComputer runtimeLoaderComputer = new CLRRuntimeActivityComputer(source);
                 source.Process();
                 m_runtimeData = runtimeLoaderComputer.RuntimeLoaderData;
-                Stats.ClrStats.ToHtml(writer, Microsoft.Diagnostics.Tracing.Analysis.TraceProcessesExtensions.Processes(source).ToList(), fileName, "Runtime Loader", Stats.ClrStats.ReportType.RuntimeLoader, true, runtimeOpsStats : m_runtimeData);
+                Stats.ClrStats.ToHtml(writer, Microsoft.Diagnostics.Tracing.Analysis.TraceProcessesExtensions.Processes(source).ToList(), fileName, "Runtime Loader", Stats.ClrStats.ReportType.RuntimeLoader, true, runtimeOpsStats: m_runtimeData);
             }
         }
 
@@ -4767,14 +4772,14 @@ namespace PerfView
             if (!m_WarnedAboutBrokenStacks)
             {
                 m_WarnedAboutBrokenStacks = true;
-                
+
                 // Only run broken stack analysis for ETW traces, as the logic is specific to ETW.
                 // Universal traces, EventPipe traces, Linux traces, etc. should not use this analysis.
                 if (!(DataFile is ETLPerfViewData))
                 {
                     return false;
                 }
-                
+
                 float brokenPercent = Viewer.CallTree.Root.GetBrokenStackCount() * 100 / Viewer.CallTree.Root.InclusiveCount;
                 if (brokenPercent > 0)
                 {
@@ -6005,7 +6010,7 @@ namespace PerfView
                     {
                         var frameIdx = stackSource.Interner.FrameIntern("EventData Behavior " + asTaskWaitSend.Behavior);
                         stackIndex = stackSource.Interner.CallStackIntern(frameIdx, stackIndex);
-                        
+
                         goto ADD_EVENT_FRAME;
                     }
 
@@ -7656,7 +7661,7 @@ namespace PerfView
                 stackWindow.FoldRegExTextBox.Text = prev;
                 stackWindow.FoldRegExTextBox.Items.Insert(0, prev);
             }
-            
+
             if (stackSourceName == "Contention" || stackSourceName == "WaitHandleWait")
             {
                 ConfigureStackWindowForStartStopThreadTime(stackWindow);
@@ -7841,7 +7846,7 @@ namespace PerfView
                     hasAspNet = true;
                 }
 
-                if(!hasAspNetCoreHosting && counts.ProviderName.Equals("Microsoft.AspNetCore.Hosting", StringComparison.OrdinalIgnoreCase))
+                if (!hasAspNetCoreHosting && counts.ProviderName.Equals("Microsoft.AspNetCore.Hosting", StringComparison.OrdinalIgnoreCase))
                 {
                     hasAspNetCoreHosting = true;
                 }
@@ -7912,12 +7917,12 @@ namespace PerfView
                 {
                     hasContention = true;
                 }
-                
+
                 if (name.StartsWith("WaitHandleWait/Start"))
                 {
                     hasWaitHandle = true;
                 }
-                
+
                 if (counts.StackCount > 0)
                 {
                     hasAnyStacks = true;
@@ -8185,7 +8190,7 @@ namespace PerfView
             {
                 advanced.Children.Add(new PerfViewStackSource(this, "WaitHandleWait"));
             }
-            
+
             if (hasAnyStacks)
             {
                 advanced.Children.Add(new PerfViewStackSource(this, "Any"));
@@ -8225,7 +8230,7 @@ namespace PerfView
                 advanced.Children.Add(new PerfViewIisStats(this));
             }
 
-            if(hasAspNetCoreHosting)
+            if (hasAspNetCoreHosting)
             {
                 advanced.Children.Add(new PerfViewAspNetCoreStats(this));
             }
@@ -8235,7 +8240,7 @@ namespace PerfView
                 advanced.Children.Add(new PerfViewStackSource(this, "Execution Tracing"));
             }
 
-            if(hasDefenderEvents)
+            if (hasDefenderEvents)
             {
                 advanced.Children.Add(new PerfViewStackSource(this, "Anti-Malware Real-Time Scan"));
             }
@@ -8394,7 +8399,7 @@ namespace PerfView
                         """,
                         "Log File Truncated",
                         MessageBoxButton.OK);
-                        
+
                 });
             }
             return m_traceLog;
@@ -9431,7 +9436,7 @@ namespace PerfView
                 m_Children.Add(advanced);
             }
 
-            if(experimental.Children.Count > 0)
+            if (experimental.Children.Count > 0)
             {
                 m_Children.Add(experimental);
             }
@@ -9546,7 +9551,7 @@ namespace PerfView
                         """,
                         "Log File Truncated",
                         MessageBoxButton.OK);
-                        
+
                 });
             }
             return m_traceLog;
@@ -9872,13 +9877,13 @@ namespace PerfView
                                     stackIndex = stackSource.Interner.CallStackIntern(frameIdx, stackIndex);
                                     goto ADD_EVENT_FRAME;
                                 }
-                                
+
                                 var asTaskWaitSend = data as TaskWaitSendArgs;
                                 if (asTaskWaitSend != null)
                                 {
                                     var frameIdx = stackSource.Interner.FrameIntern("EventData Behavior " + asTaskWaitSend.Behavior);
                                     stackIndex = stackSource.Interner.CallStackIntern(frameIdx, stackIndex);
-                        
+
                                     goto ADD_EVENT_FRAME;
                                 }
 
@@ -9910,7 +9915,7 @@ namespace PerfView
                                 }
 
                                 // Tack on event nam
-                                ADD_EVENT_FRAME:
+                            ADD_EVENT_FRAME:
                                 var eventNodeName = "Event " + data.ProviderName + "/" + data.EventName;
                                 stackIndex = stackSource.Interner.CallStackIntern(stackSource.Interner.FrameIntern(eventNodeName), stackIndex);
                                 // Add sample
@@ -10007,7 +10012,7 @@ namespace PerfView
                             sample.Metric = data.Value;
                             sample.StackIndex = stackSource.GetCallStack(data.CallStackIndex(), data);
                             stackSource.AddSample(sample);
-                            
+
                         };
                         eventSource.Process();
 
@@ -10228,7 +10233,7 @@ namespace PerfView
             {
                 ConfigureStackWindowForStartStopThreadTime(stackWindow);
             }
-            
+
             if (m_extraTopStats != null)
             {
                 stackWindow.ExtraTopStats += " " + m_extraTopStats;
@@ -10349,7 +10354,7 @@ namespace PerfView
                         """,
                         "Log File Truncated",
                         MessageBoxButton.OK);
-                        
+
                 });
             }
             return m_traceLog;

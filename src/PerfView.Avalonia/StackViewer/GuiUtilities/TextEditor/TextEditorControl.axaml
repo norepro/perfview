@@ -1,0 +1,49 @@
+<UserControl x:Class="Controls.TextEditorControl"
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:src="using:Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="144" d:DesignWidth="528">
+    <DockPanel>
+        <!-- TODO_AVALONIA: CommandBinding not available in Avalonia. Commands are wired in code-behind or via KeyBindings. -->
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- TODO_AVALONIA: Menu/MenuItem with WPF ApplicationCommands (Open, Save, SaveAs, Close, Find) not available; wire via code-behind -->
+            <Menu Grid.Column="0" VerticalAlignment="Center">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open" Click="DoOpen"/>
+                    <MenuItem Header="_Save" Click="DoSave"/>
+                    <MenuItem Header="Save As" Click="DoSaveAs"/>
+                    <MenuItem Header="_Close" InputGesture="Alt+F4" Click="DoClose"/>
+                </MenuItem>
+            </Menu>
+            <Button Grid.Column="1" Margin="0,2,5,2" FontSize="12" FontWeight="Bold" Content="A" Click="IncreaseFont_Click" ToolTip.Tip="Increase the default font size."/>
+            <Button Grid.Column="2" Margin="0,2,5,2" FontSize="8" FontWeight="Bold" Content="A" Click="DecreaseFont_Click" ToolTip.Tip="Decrease the default Font size."/>
+            <TextBlock Grid.Column="3" Text="Find:" VerticalAlignment="Center"/>
+            <!-- TODO_AVALONIA: HistoryComboBox is a custom WPF control; using ComboBox as placeholder -->
+            <ComboBox Grid.Column="4" x:Name="FindTextBox" Width="200" KeyDown="FindTextBoxKeyDown" Margin="5,2,0,2"
+                     ToolTip.Tip="A .NET regular expression to find. (Ctrl-F)" IsEditable="True" AutomationProperties.Name="Find"/>
+            <Button Grid.Column="5" Content="Next" Margin="3,2,5,2"
+                    Click="DoFindNext"
+                    ToolTip.Tip="Find the next instance of text in the Find: box. (F3)"
+                    />
+        </Grid>
+        <!-- TODO_AVALONIA: RichTextBox not available in Avalonia; using TextBox as simplified replacement.
+             For rich text editing, consider AvaloniaEdit or a similar library. -->
+        <TextBox Name="Body" AcceptsReturn="True" FontFamily="Courier New"
+                 AutomationProperties.Name="{Binding $parent[UserControl].(AutomationProperties.Name)}">
+            <!-- TODO_AVALONIA: RichTextBox.ContextMenu with WPF commands (Find, FindNext, Cut, Copy, Paste, SelectAll, Clear, DeleteLine, EditingCommands) not ported.
+                 Avalonia TextBox has built-in Cut/Copy/Paste/SelectAll context menu. -->
+        </TextBox>
+    </DockPanel>
+</UserControl>

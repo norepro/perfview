@@ -871,7 +871,7 @@ namespace PerfView
                     }
                 }
             }
-            else if(m_fileName.EndsWith(".speedscope.json", StringComparison.OrdinalIgnoreCase))
+            else if (m_fileName.EndsWith(".speedscope.json", StringComparison.OrdinalIgnoreCase))
             {
                 SpeedScopeStackSourceWriter.WriteStackViewAsJson(CallTree.StackSource, m_fileName);
             }
@@ -1642,7 +1642,7 @@ namespace PerfView
             DataContext = this;
 
             // Customize the control
-            ByNameDataGrid.Grid.CanUserSortColumns = true;
+            ByNameDataGrid.CanUserSortColumns = true;
             var columns = ByNameDataGrid.Grid.Columns;
 
             // Put the exclusive columns first if they are not already there.  

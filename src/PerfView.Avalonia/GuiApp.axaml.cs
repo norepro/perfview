@@ -8,7 +8,7 @@ using Avalonia.Threading;
 using PerfView.Avalonia.ViewModels;
 using PerfView.Avalonia.Views;
 
-namespace PerfView.Avalonia;
+namespace PerfView;
 
 public partial class GuiApp : Application
 {
