@@ -1,9 +1,7 @@
 using System;
-using System.Threading;
-using Avalonia.Controls;
 using Avalonia.Threading;
 
-namespace PerfView.Avalonia.Views;
+namespace PerfView;
 
 public sealed class DispatcherAdapter
 {
