@@ -7,6 +7,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <DefineConstants>$(DefineConstants);AVALONIA</DefineConstants>
+    <PerfViewFolder>../PerfView</PerfViewFolder>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,43 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="../HeapDump/GCHeapDump.cs" />
-    <Compile Include="../HeapDumpCommon/DotNetHeapInfo.cs" />
-    <Compile Include="../MemoryGraph/graph.cs" />
-    <Compile Include="../MemoryGraph/MemoryGraph.cs" />
-    <!-- <Compile Include="../PerfView/App.cs">
-      <Link>Program.cs</Link>
-    </Compile> -->
-    <Compile Include="../PerfView/CommandLineArgs.cs" />
-    <Compile Include="../PerfView/CommandProcessor.cs" />
-    <Compile Include="../PerfView/ConfigData.cs" />
-    <Compile Include="../PerfView/DotNetVersionLogger.cs" />
-    <Compile Include="../PerfView/EtwEventSource.cs" />
-    <Compile Include="../PerfView/Extensibility.cs" />
-    <Compile Include="../PerfView/GuiUtilities/HistoryComboBox/HistoryComboBox.cs" />
-    <Compile Include="../PerfView/IProcess.cs" />
-    <Compile Include="../PerfView/memory/ETWClrProfilerTraceEventParser.cs" />
-    <Compile Include="../PerfView/memory/HeapSnapshot.cs" />
-    <Compile Include="../PerfView/OtherSources/XMLStackSource.cs" />
-    <Compile Include="../PerfView/PerfViewData.cs" />
-    <Compile Include="../PerfView/PerfViewLogger.cs" />
-    <Compile Include="../PerfView/Properties/BuildDateAttribute.cs" />
-    <Compile Include="../PerfView/StackViewer/CallTreeView.cs" />
-    <Compile Include="../PerfView/StackViewer/Preset.cs" />
-    <Compile Include="../PerfView/Triggers.cs" />
-    <Compile Include="../PerfView/UserCommands.cs" />
-    <Compile Include="../PerfView/Utilities/CacheFiles.cs" />
-    <Compile Include="../PerfView/Utilities/commandLine.cs" />
-    <Compile Include="../PerfView/Utilities/ExceptionMessage.cs" />
-    <Compile Include="../PerfView/Utilities/ProcessTree.cs" />
-    <Compile Include="../PerfView/Utilities/ResourceUtilities.cs" />
-    <Compile Include="../PerfView/Utilities/StreamUtilities.cs" />
-    <Compile Include="../PerfView/Utilities/SupportFiles.cs" />
-    <Compile Include="../Utilities/DirectoryUtilities.cs" />
-    <Compile Include="../Utilities/EnvironmentUtilities.cs" />
-    <Compile Include="../Utilities/FileUtilities.cs" />
-    <Compile Include="../Utilities/SymbolsAuthenticationUtilities.cs" />
-    <Compile Include="../Utilities/XmlUtilities.cs" />
+<Compile Include="$(PerfViewFolder)/**/*.xaml.cs">
+    <Link>%(RecursiveDir)%(Filename).axaml.cs</Link>
+  </Compile>
+
+  <Compile Include="$(PerfViewFolder)/**/*.cs" 
+           Exclude="$(PerfViewFolder)/**/*.xaml.cs;$(PerfViewFolder)/App.cs" />
   </ItemGroup>
 
 
