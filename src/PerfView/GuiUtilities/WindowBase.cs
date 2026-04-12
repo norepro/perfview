@@ -1,5 +1,9 @@
 ﻿using System.Windows;
 
+#if AVALONIA
+using Avalonia.Controls;
+#endif
+
 namespace PerfView
 {
     /// <summary>
@@ -26,5 +30,9 @@ namespace PerfView
                 catch (System.Exception) { }
             }
         }
+
+#if AVALONIA
+        public DispatcherAdapter Dispatcher { get; } = new();
+#endif
     }
 }
