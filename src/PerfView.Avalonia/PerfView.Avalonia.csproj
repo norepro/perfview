@@ -23,8 +23,20 @@
     <Compile Include="$(PerfViewFolder)/**/*.cs" 
             Exclude="$(PerfViewFolder)/**/*.xaml.cs;$(PerfViewFolder)/App.cs" />
     
+    <Compile Include="../EtwHeapDump/DotNetHeapDumper.cs" />
+    <Compile Include="../EtwHeapDump/DotNetHeapDumpGraphReader.cs" />
+    <Compile Include="../HeapDump/GCHeapDump.cs" />
+    <Compile Include="../HeapDumpCommon/DotNetHeapInfo.cs" />
+    <Compile Include="../HeapDumpCommon/GCHeapDumpNames.cs" />
     <Compile Include="../MemoryGraph/graph.cs" />
     <Compile Include="../MemoryGraph/MemoryGraph.cs" />
+    <Compile Include="../Utilities/DirectoryUtilities.cs" />
+    <Compile Include="../Utilities/EnvironmentUtilities.cs" />
+    <Compile Include="../Utilities/FileUtilities.cs" />
+    <Compile Include="../Utilities/StringUtilities.cs" />
+    <Compile Include="../Utilities/SymbolsAuthenticationUtilities.cs" />
+    <Compile Include="../Utilities/TeeTextWriter.cs" />
+    <Compile Include="../Utilities/XmlUtilities.cs" />
   </ItemGroup>
 
 
