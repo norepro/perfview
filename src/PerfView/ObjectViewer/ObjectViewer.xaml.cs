@@ -1,9 +1,15 @@
 ﻿using Graphs;
+using Microsoft.Identity.Client;
 using System.Collections.Generic;
 using System.Diagnostics;
+#if !AVALONIA
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
+#else
+using System.Reactive;
+using ReactiveUI;
+#endif
 
 namespace PerfView
 {
@@ -14,15 +20,29 @@ namespace PerfView
     /// </summary>
     public partial class ObjectViewer : WindowBase
     {
-        public ObjectViewer(Window parentWindow, MemoryGraph graph, RefGraph refGraph, List<NodeIndex> focusNodes = null) : base(parentWindow)
+        public ObjectViewer(
+#if !AVALONIA
+            Window parentWindow,
+#endif
+            MemoryGraph graph,
+            RefGraph refGraph,
+            List<NodeIndex> focusNodes = null)
+#if !AVALONIA
+            : base(parentWindow)
+#endif
         {
             InitializeComponent();
 
             // Wire up our behavior into the generic TreeViewGrid.  This defines the columns and how to get a child nodes.  
             TreeViewGrid.SetController(new ObjectViewerTreeViewController(graph, refGraph, focusNodes));
+
+#if AVALONIA
+            HelpCommand = ReactiveCommand.Create<object, Unit>(ExecuteHelp);
+#endif
         }
 
         #region private
+#if !AVALONIA
         public static RoutedUICommand FindCommand = new RoutedUICommand("Find", "Find", typeof(StackWindow),
             new InputGestureCollection() { new KeyGesture(Key.F, ModifierKeys.Control) });
         public static RoutedUICommand FindNextCommand = new RoutedUICommand("Find Next", "FindNext", typeof(StackWindow),
@@ -53,6 +73,7 @@ namespace PerfView
 
             // TODO FIX NOW define ObjectViewerQuickStart ObjectViewerTips in the help, ValueColumn NameColumn.   
         }
+
         private void DoFind(object sender, ExecutedRoutedEventArgs e)
         {
         }
@@ -63,6 +84,25 @@ namespace PerfView
         private void DoExpand(object sender, ExecutedRoutedEventArgs e)
         {
         }
+#else
+        public ReactiveCommand<object, Unit> HelpCommand { get; }
+
+        private Unit ExecuteHelp(object parameter)
+        {
+            string topic = parameter as string;
+
+            if (string.IsNullOrEmpty(topic))
+            {
+                // Default F1 help
+                topic = "ObjectViewerQuickStart";
+            }
+
+            // Call your static display method
+            MainWindow.DisplayUsersGuide(topic);
+
+            return Unit.Default;
+        }
+#endif
 
         /// <summary>
         /// ObjectViewerTreeViewController is the thing that describes the tree the viewer will display

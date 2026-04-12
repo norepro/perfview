@@ -32,6 +32,7 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Win32.Registry" Version="5.0.0" />
     <PackageVersion Include="Microsoft.Web.WebView2" Version="1.0.3351.48" />
+    <PackageVersion Include="ReactiveUI.Avalonia" Version="11.3.8" />
     <PackageVersion Include="System.Buffers" Version="4.6.1" />
     <PackageVersion Include="System.Collections.Immutable" Version="9.0.8" />
     <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="9.0.8" />

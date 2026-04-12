@@ -16,12 +16,15 @@
   </ItemGroup>
 
   <ItemGroup>
-<Compile Include="$(PerfViewFolder)/**/*.xaml.cs">
-    <Link>%(RecursiveDir)%(Filename).axaml.cs</Link>
-  </Compile>
+    <Compile Include="$(PerfViewFolder)/**/*.xaml.cs">
+      <Link>%(RecursiveDir)%(Filename).axaml.cs</Link>
+    </Compile>
 
-  <Compile Include="$(PerfViewFolder)/**/*.cs" 
-           Exclude="$(PerfViewFolder)/**/*.xaml.cs;$(PerfViewFolder)/App.cs" />
+    <Compile Include="$(PerfViewFolder)/**/*.cs" 
+            Exclude="$(PerfViewFolder)/**/*.xaml.cs;$(PerfViewFolder)/App.cs" />
+    
+    <Compile Include="../MemoryGraph/graph.cs" />
+    <Compile Include="../MemoryGraph/MemoryGraph.cs" />
   </ItemGroup>
 
 
@@ -42,6 +45,7 @@
     <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent.SupportFiles" PrivateAssets="all" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" GeneratePathProperty="true" />
     <PackageReference Include="PerfView.SupportFiles" PrivateAssets="all" />
+    <PackageReference Include="ReactiveUI.Avalonia" />
     <PackageReference Include="System.Diagnostics.EventLog" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" />
   </ItemGroup>
