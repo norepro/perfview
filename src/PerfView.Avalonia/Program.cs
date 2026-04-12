@@ -6,7 +6,6 @@ using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Session;
 using Microsoft.Diagnostics.Utilities;
-using PerfView.Avalonia;
 
 
 #if !PERFVIEW_COLLECT
@@ -910,20 +909,12 @@ namespace PerfView
             {
                 ret.SecurityCheck = pdbFile =>
                 {
-#if AVALONIA
-                    var box = MsBox.Avalonia.MessageBoxManager.GetMessageBoxStandard(
-                        "Security Check",
-                        $"Found {pdbFile} on your local machine.  Do you want to use it?",
-                        MsBox.Avalonia.Enums.ButtonEnum.YesNo);
-                    return box.ShowAsync().GetAwaiter().GetResult() == MsBox.Avalonia.Enums.ButtonResult.Yes;
-#else
                     var result = XamlMessageBox.Show(
                         $"Found {pdbFile} on your local machine.  Do you want to use it?",
                         "Security Check",
                         System.Windows.MessageBoxButton.YesNo);
 
                     return result == System.Windows.MessageBoxResult.Yes;
-#endif
                 };
             }
             else
