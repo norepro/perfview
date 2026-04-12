@@ -1,6 +1,11 @@
 ﻿using PerfView;
 using System.ComponentModel;
+#if !AVALONIA
 using System.Windows;
+#else
+using Avalonia.Controls;
+using WindowBase = Avalonia.Controls.Window;
+#endif
 
 namespace Controls
 {
@@ -9,9 +14,13 @@ namespace Controls
     /// </summary>
     public partial class TextEditorWindow : WindowBase
     {
-        public TextEditorWindow(string[] args = null) : this (null, args) { }
+#if AVALONIA
+        public TextEditorWindow(string[] args = null)
+#else
+        public TextEditorWindow(string[] args = null) : this(null, args) { }
 
         public TextEditorWindow(Window parentWindow, string[] args = null) : base(parentWindow)
+#endif
         {
             InitializeComponent();
 
