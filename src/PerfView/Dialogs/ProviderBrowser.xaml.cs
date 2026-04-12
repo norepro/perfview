@@ -4,8 +4,14 @@ using Microsoft.Diagnostics.Tracing.Session;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+
+#if !AVALONIA
 using System.Windows.Controls;
 using System.Windows.Input;
+#else
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+#endif
 
 namespace PerfView.Dialogs
 {
@@ -209,7 +215,7 @@ namespace PerfView.Dialogs
                 LevelListBox.SelectedItem = levelToSelect;
                 return;
             }
-            
+
             m_level = LevelListBox.SelectedItem.ToString();
             updateDisplays();
         }

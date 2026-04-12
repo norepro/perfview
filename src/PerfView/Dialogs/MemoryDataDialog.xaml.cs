@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows;
+
+#if !AVALONIA
 using System.Windows.Controls;
-using System.Windows.Input;
+#else
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+#endif
 
 namespace PerfView.Dialogs
 {

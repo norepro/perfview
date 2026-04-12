@@ -7,10 +7,15 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Threading;
 using Triggers;
 using Utilities;
+
+#if !AVALONIA
+using System.Windows.Input;
+using System.Windows.Threading;
+#else
+using Avalonia.Interactivity;
+#endif
 
 // TODO use or delete
 namespace PerfView

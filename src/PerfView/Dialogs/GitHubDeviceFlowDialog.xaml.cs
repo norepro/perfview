@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+
+#if !AVALONIA
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+#else
+using Avalonia.Controls;
+#endif
 
 namespace PerfView.Dialogs
 {

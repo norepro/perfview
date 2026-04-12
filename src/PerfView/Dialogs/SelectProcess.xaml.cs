@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Media;
 using System.Text.RegularExpressions;
-using System.Windows;
+
+#if !AVALONIA
 using System.Windows.Controls;
 using System.Windows.Input;
+#else
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+#endif
 
 namespace PerfView
 {
@@ -132,10 +137,10 @@ namespace PerfView
                 SystemSounds.Beep.Play();
                 return;
             }
-            
+
             var ret = new List<IProcess>();
             var selectedProcesses = new List<IProcess>();
-            
+
             // Add explicitly selected processes
             foreach (var item in items)
             {
@@ -143,36 +148,36 @@ namespace PerfView
                 selectedProcesses.Add(process);
                 ret.Add(process);
             }
-            
+
             // If checkbox is checked, add child processes
             if (IncludeChildProcessesCheckBox.IsChecked == true)
             {
                 // Build dictionaries for process lookup
                 Dictionary<int, IProcess> processById = new Dictionary<int, IProcess>();
                 Dictionary<int, List<int>> childrenByParentId = new Dictionary<int, List<int>>();
-                
+
                 // First pass: build process ID mapping
                 foreach (var process in m_processes)
                 {
                     processById[process.ProcessID] = process;
-                    
+
                     // Initialize empty children list for each parent
                     if (!childrenByParentId.ContainsKey(process.ParentID))
                     {
                         childrenByParentId[process.ParentID] = new List<int>();
                     }
-                    
+
                     // Add this process as a child of its parent
                     childrenByParentId[process.ParentID].Add(process.ProcessID);
                 }
-                
+
                 // Add all transitive children of selected processes
                 HashSet<int> addedProcessIds = new HashSet<int>();
                 foreach (var process in selectedProcesses)
                 {
                     addedProcessIds.Add(process.ProcessID); // Mark selected processes as already added
                 }
-                
+
                 // For each selected process, add all its descendants
                 foreach (var process in selectedProcesses)
                 {
@@ -183,10 +188,10 @@ namespace PerfView
             m_action(ret);
             Close();
         }
-        
+
         private void AddChildProcesses(
-            int processId, 
-            Dictionary<int, IProcess> processById, 
+            int processId,
+            Dictionary<int, IProcess> processById,
             Dictionary<int, List<int>> childrenByParentId,
             List<IProcess> resultList,
             HashSet<int> addedProcessIds)
@@ -196,7 +201,7 @@ namespace PerfView
             {
                 return;
             }
-            
+
             // For each child process
             foreach (var childId in childrenByParentId[processId])
             {
@@ -205,18 +210,18 @@ namespace PerfView
                 {
                     continue;
                 }
-                
+
                 // Skip if the process doesn't exist in our dictionary (shouldn't happen)
                 if (!processById.ContainsKey(childId))
                 {
                     continue;
                 }
-                
+
                 // Add the child process to the result list
                 var childProcess = processById[childId];
                 resultList.Add(childProcess);
                 addedProcessIds.Add(childId);
-                
+
                 // Recursively add its children
                 AddChildProcesses(childId, processById, childrenByParentId, resultList, addedProcessIds);
             }

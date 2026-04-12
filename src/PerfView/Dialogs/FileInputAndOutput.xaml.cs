@@ -4,9 +4,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Media;
+using Path = System.IO.Path;
+
+#if !AVALONIA
 using System.Windows;
 using System.Windows.Input;
-using Path = System.IO.Path;
+#else
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+#endif
 
 namespace PerfView.Dialogs
 {

@@ -1,5 +1,12 @@
 ﻿using System.Windows;
+
+#if !AVALONIA
 using System.Windows.Controls;
+#else
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using MessageBoxImage = MsBox.Avalonia.Enums.Icon;
+#endif
 
 namespace PerfView.Dialogs;
 
@@ -38,7 +45,7 @@ internal partial class MessageBoxWindow : Window
         ButtonsPanel.Children.Clear();
         foreach ((string Text, MessageBoxResult Result) in Get(buttons))
         {
-            Button button = new() 
+            Button button = new()
             {
                 Content = Text,
                 Tag = Result,

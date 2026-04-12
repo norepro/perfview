@@ -2,7 +2,11 @@
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
-using System.Windows.Input;
+
+#if AVALONIA
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+#endif
 
 namespace PerfView.Dialogs
 {

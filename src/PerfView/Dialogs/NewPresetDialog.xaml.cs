@@ -1,6 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+
+#if !AVALONIA
 using System.Windows.Input;
+#else
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+#endif
 
 namespace PerfView.Dialogs
 {

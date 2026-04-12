@@ -1,6 +1,12 @@
 ﻿using System;
+
+#if !AVALONIA
 using System.Windows;
 using System.Windows.Controls;
+#else
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+#endif
 
 namespace PerfView.Dialogs
 {
