@@ -9,11 +9,21 @@ using System.Media;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+
+#if !AVALONIA
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+#else
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Media;
+using Avalonia.Threading;
+#endif
 using Utilities;
 
 namespace PerfView
@@ -33,12 +43,21 @@ namespace PerfView
 
             InitializeComponent();
 
+#if AVALONIA
+            // TODO_AVALONIA: verify PointerPressed double-tap replacement for PreviewMouseDoubleClick
+            m_StatusMessage.DoubleTapped += delegate (object sender, TappedEventArgs e)
+#else
             m_StatusMessage.PreviewMouseDoubleClick += delegate (object sender, MouseButtonEventArgs e)
+#endif
             {
                 e.Handled = StatusBar.ExpandSelectionByANumber(m_StatusMessage);
                 return;
             };
         }
+
+#if AVALONIA
+        public DispatcherAdapter Dispatcher { get; } = new();
+#endif
 
         /// <summary>
         /// Report messages are short messages that are not persisted in the history, these are meant for
@@ -65,7 +84,11 @@ namespace PerfView
         public void LogError(string errorMessage)
         {
             Log(errorMessage);
+#if AVALONIA
+            // TODO_AVALONIA: SystemSounds.Beep is Windows specific. Play a media file instead?
+#else
             SystemSounds.Beep.Play();
+#endif
             if (errorMessage.IndexOf('\n') < 0)     // Is it a one line error message?
             {
                 if (Dispatcher.CheckAccess())
@@ -179,7 +202,7 @@ namespace PerfView
         public void StartWork(string message, Action work, Action finally_ = null)
         {
             // We only call this from the GUI thread
-            if (Dispatcher.Thread != Thread.CurrentThread)
+            if (!Dispatcher.CheckAccess())
             {
                 throw new InvalidOperationException("Work can only be started from the UI thread.");
             }
@@ -206,7 +229,11 @@ namespace PerfView
             if (m_parentWindow != null)
             {
                 m_origCursor = m_parentWindow.Cursor;
+#if AVALONIA
+                m_parentWindow.Cursor = new Cursor(StandardCursorType.Wait);
+#else
                 m_parentWindow.Cursor = System.Windows.Input.Cursors.Wait;
+#endif
             }
 
             // Update GUI state
@@ -381,7 +408,7 @@ namespace PerfView
             }
 
             // We only call this from the GUI thread, We can probably relax this, but reasoning about races is easier.  
-            Debug.Assert(Dispatcher.Thread == Thread.CurrentThread);
+            Debug.Assert(Dispatcher.CheckAccess());
 
             if (!m_abortStarted)
             {
@@ -516,7 +543,11 @@ namespace PerfView
             if (end > start)
             {
                 textBox.SelectionStart = start;
+#if AVALONIA
+                textBox.SelectionEnd = end;
+#else
                 textBox.SelectionLength = end - start;
+#endif
                 return true;
             }
             return false;
@@ -558,7 +589,11 @@ namespace PerfView
         internal string m_workMessage;
         private Brush m_blinkColor;
         private Window m_parentWindow;
+#if AVALONIA
+        private Cursor m_origCursor;
+#else
         private System.Windows.Input.Cursor m_origCursor;
+#endif
         private Task m_work;
         private Action m_finally;                   // work that is done wehther the command succeeds or not 
         private bool m_loggedStatus;                // Did we send anything to the status bar?
@@ -609,10 +644,17 @@ namespace PerfView
             {
                 m_statusBar.Dispatcher.BeginInvoke((Action)delegate ()
                 {
+#if AVALONIA
+                    if (!m_statusBar.IsVisible)
+                    {
+                        m_statusBar.IsVisible = true;
+                    }
+#else
                     if (m_statusBar.Visibility != Visibility.Visible)
                     {
                         m_statusBar.Visibility = Visibility.Visible;
                     }
+#endif
 
                     m_statusBar.Status = m.Groups[1].Value;
                 });
