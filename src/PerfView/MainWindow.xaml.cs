@@ -18,12 +18,14 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using Utilities;
 
+
 #if !AVALONIA
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 #else
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 #endif
 
@@ -744,7 +746,11 @@ namespace PerfView
         }
 
         // Gui actions in the TreeView pane
+#if AVALONIA
+        private void DoMouseDoubleClickInTreeView(object sender, TappedEventArgs e)
+#else
         private void DoMouseDoubleClickInTreeView(object sender, MouseButtonEventArgs e)
+#endif
         {
             DoOpen(sender, null);
         }
@@ -1390,7 +1396,11 @@ namespace PerfView
         /// When you right click an item in the TreeView it doesn't automatically change to the TreeViewItem you clicked on.
         /// This helper method changes focus so that the right-click menu items commands are bound to the right TreeViewItem
         /// </summary>
+#if AVALONIA
+        private void TreeView_PreviewMouseRightButtonDown(object sender, PointerPressedEventArgs e)
+#else
         private void TreeView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+#endif
         {
             TreeViewItem treeViewItem = FindTreeViewItemInVisualHeirarchy(e.OriginalSource as DependencyObject);
 

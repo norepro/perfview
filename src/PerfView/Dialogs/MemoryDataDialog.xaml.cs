@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 #else
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 #endif
 
@@ -76,7 +77,11 @@ namespace PerfView.Dialogs
             }
         }
 
+#if AVALONIA
+        private void ProcessesMouseDoubleClick(object sender, TappedEventArgs e)
+#else
         private void ProcessesMouseDoubleClick(object sender, MouseButtonEventArgs e)
+#endif
         {
             DumpHeap(true);
         }

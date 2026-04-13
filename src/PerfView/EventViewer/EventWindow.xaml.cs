@@ -18,6 +18,7 @@ using System.Threading;
 using System.Windows;
 using Utilities;
 
+
 #if !AVALONIA
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,6 +26,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 #else
 using Avalonia.Controls;
+using Avalonia.Input;
 #endif
 
 namespace PerfView
@@ -892,7 +894,11 @@ namespace PerfView
                 ColumnsToDisplayPopup.IsOpen = false;
             }
         }
+#if AVALONIA
+        private void DoColumnsToDisplayListBoxDoubleClick(object sender, TappedEventArgs e)
+#else
         private void DoColumnsToDisplayListBoxDoubleClick(object sender, MouseButtonEventArgs e)
+#endif
         {
             UpdateColumnsToDisplay();
             DoUpdate(sender, e);

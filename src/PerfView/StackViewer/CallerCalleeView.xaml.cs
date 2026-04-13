@@ -1,9 +1,15 @@
 ﻿using Microsoft.Diagnostics.Tracing.Stacks;
 using System.Diagnostics;
+using Utilities;
+
+#if !AVALONIA
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Utilities;
+#else
+using Avalonia.Controls;
+using Avalonia.Input;
+#endif
 
 namespace PerfView
 {
@@ -127,7 +133,11 @@ namespace PerfView
         }
 
         #region private
+#if AVALONIA
+        private void CallerCallee_MouseDoubleClick(object sender, TappedEventArgs e)
+#else
         private void CallerCallee_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+#endif
         {
             var depObj = sender as DependencyObject;
             var stackWindow = depObj.AncestorOfType<StackWindow>();

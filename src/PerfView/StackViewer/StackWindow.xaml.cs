@@ -31,6 +31,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 #else
 using Avalonia.Controls;
+using Avalonia.Input;
 #endif
 
 namespace PerfView
@@ -2644,7 +2645,11 @@ namespace PerfView
             MainWindow.DisplayUsersGuide(param);
         }
 
+#if AVALONIA
+        private void ByName_MouseDoubleClick(object sender, TappedEventArgs e)
+#else
         private void ByName_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+#endif
         {
             e.Handled = true;
 
@@ -2656,7 +2661,11 @@ namespace PerfView
             }
         }
 
+#if AVALONIA
+        internal void DataGrid_MouseDoubleClick(object sender, TappedEventArgs e)
+#else
         internal void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+#endif
         {
             var uiElement = sender as UIElement;
             Point point = e.GetPosition(uiElement);
@@ -3239,7 +3248,11 @@ namespace PerfView
                     m_calleesView.Dispose();
                 }
             };
+#if AVALONIA
+            TopStats.DoubleTapped += delegate (object sender, TappedEventArgs e)
+#else
             TopStats.PreviewMouseDoubleClick += delegate (object sender, MouseButtonEventArgs e)
+#endif
             {
                 e.Handled = StatusBar.ExpandSelectionByANumber(TopStats);
                 return;

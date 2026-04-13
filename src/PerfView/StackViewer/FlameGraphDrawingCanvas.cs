@@ -2,14 +2,20 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Microsoft.Diagnostics.Tracing.Stacks;
+using PerfView.Utilities;
+using static PerfView.FlameGraph;
+
+#if !AVALONIA
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Microsoft.Diagnostics.Tracing.Stacks;
-using PerfView.Utilities;
-using static PerfView.FlameGraph;
+#else
+using Avalonia.Controls;
+using Avalonia.Input;
+#endif
 
 namespace PerfView
 {
@@ -99,7 +105,7 @@ namespace PerfView
                     var brush = brushSet[index++ % brushSet.Length];
 
                     var boxRectangle = new Rect(box.X, box.Y, box.Width, box.Height);
-                    drawingContext.DrawRectangle(brush,null, boxRectangle);
+                    drawingContext.DrawRectangle(brush, null, boxRectangle);
 
                     if (box.Width > 50 && box.Height >= 6) // we draw the text only if humans can see something
                     {
@@ -163,7 +169,11 @@ namespace PerfView
             ResetCursor(); // leaving the control while still zooming and OnMouseLeftButtonUp won't fire
         }
 
+#if AVALONIA
+        private void OnPreviewMouseWheel(object sender, PointerWheelEventArgs e)
+#else
         private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+#endif
         {
             float modifier = e.Delta > 0 ? 1.1f : 0.9f;
 
@@ -178,7 +188,11 @@ namespace PerfView
             Keyboard.Focus(this); // make it possible to handle Arrow keys and move CenterX & Y scaling points
         }
 
+#if AVALONIA
+        private void OnMouseLeftButtonDown(object sender, PointerPressedEventArgs e)
+#else
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+#endif
         {
             if (IsZoomed)
             {
@@ -187,7 +201,11 @@ namespace PerfView
             }
         }
 
+#if AVALONIA
+        private void OnMouseLeftButtonUp(object sender, PointerReleasedEventArgs e)
+#else
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+#endif
         {
             if (IsZoomed)
             {

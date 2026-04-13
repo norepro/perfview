@@ -10,11 +10,13 @@ using System.Windows;
 using Triggers;
 using Utilities;
 
+
 #if !AVALONIA
 using System.Windows.Input;
 using System.Windows.Threading;
 #else
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 #endif
 
@@ -1017,7 +1019,11 @@ namespace PerfView
                 Keyboard.Focus(CpuCountersTextBox);
             }
         }
+#if AVALONIA
+        private void DoCpuCountersListBoxDoubleClick(object sender, TappedEventArgs e)
+#else
         private void DoCpuCountersListBoxDoubleClick(object sender, MouseButtonEventArgs e)
+#endif
         {
             UpdateCpuCounters();
         }

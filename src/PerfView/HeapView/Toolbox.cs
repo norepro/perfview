@@ -11,6 +11,8 @@ using System.IO;
 using System.IO.Packaging;
 using System.Text;
 using System.Threading;
+
+#if !AVALONIA
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -21,6 +23,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Xps;
 using System.Windows.Xps.Packaging;
+#else
+using Avalonia.Input;
+#endif
 
 namespace PerfView
 {
@@ -1161,7 +1166,11 @@ namespace PerfView
         /// <summary>
         /// Left butto down: start rubber banding
         /// </summary>
+#if AVALONIA
+        private void OnMouseLeftButtonDown(object sender, TappedEventArgs e)
+#else
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+#endif
         {
             if (!m_canvas.IsMouseCaptured)
             {
@@ -1201,7 +1210,11 @@ namespace PerfView
         /// <summary>
         /// Left button up: end rubber banding
         /// </summary>
+#if AVALONIA
+        private void OnMouseLeftButtonUp(object sender, TappedEventArgs e)
+#else
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+#endif
         {
             if (m_canvas.IsMouseCaptured)
             {
