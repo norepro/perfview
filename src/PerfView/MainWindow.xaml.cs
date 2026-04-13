@@ -24,6 +24,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 #else
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 #endif
 
 namespace PerfView
