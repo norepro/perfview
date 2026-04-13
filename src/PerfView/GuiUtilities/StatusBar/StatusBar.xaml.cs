@@ -84,11 +84,7 @@ namespace PerfView
         public void LogError(string errorMessage)
         {
             Log(errorMessage);
-#if AVALONIA
-            // TODO_AVALONIA: SystemSounds.Beep is Windows specific. Play a media file instead?
-#else
             SystemSounds.Beep.Play();
-#endif
             if (errorMessage.IndexOf('\n') < 0)     // Is it a one line error message?
             {
                 if (Dispatcher.CheckAccess())
