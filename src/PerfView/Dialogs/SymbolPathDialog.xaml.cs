@@ -27,7 +27,11 @@ namespace PerfView.Dialogs
             m_kind = kind;
             if (kind != "Symbol")
             {
+#if AVALONIA
+                AddMSSymbols.Opacity = 0.0f;
+#else
                 AddMSSymbols.Visibility = System.Windows.Visibility.Hidden;
+#endif
             }
 
             m_action = action;

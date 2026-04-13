@@ -705,7 +705,11 @@ namespace PerfView
 
                 if (elm != null)
                 {
+#if AVALONIA
+                    elm.IsVisible = false;
+#else
                     elm.Visibility = Visibility.Collapsed;
+#endif
                 }
             }
         }
@@ -723,7 +727,11 @@ namespace PerfView
 
                 if (elm != null)
                 {
+#if AVALONIA
+                    elm.IsVisible = true;
+#else
                     elm.Visibility = Visibility.Visible;
+#endif
                 }
             }
         }
@@ -1421,7 +1429,11 @@ namespace PerfView
         /// </summary>
         internal void MakeCollapsed(object sender, RoutedEventArgs e)
         {
+#if AVALONIA
+            m_panel.IsVisible = false;
+#else
             m_panel.Visibility = Visibility.Collapsed;
+#endif
 
             if (m_grid.RowDefinitions.Contains(m_rowDef))
             {
@@ -1430,7 +1442,11 @@ namespace PerfView
 
             if (m_splitter != null)
             {
+#if AVALONIA
+                m_splitter.IsVisible = false;
+#else
                 m_splitter.Visibility = Visibility.Collapsed;
+#endif
             }
         }
 
@@ -1439,7 +1455,11 @@ namespace PerfView
         /// </summary>
         internal void MakeVisible(object sender, RoutedEventArgs e)
         {
+#if AVALONIA
+            m_panel.IsVisible = true;
+#else
             m_panel.Visibility = Visibility.Visible;
+#endif
 
             RowDefinitionCollection col = m_grid.RowDefinitions;
 
@@ -1462,7 +1482,11 @@ namespace PerfView
 
             if (m_splitter != null)
             {
+#if AVALONIA
+                m_splitter.IsVisible = true;
+#else
                 m_splitter.Visibility = Visibility.Visible;
+#endif
             }
         }
     }

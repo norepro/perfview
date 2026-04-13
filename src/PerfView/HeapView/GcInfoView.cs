@@ -517,7 +517,11 @@ namespace PerfView
             {
                 if (GetHeaderText(column.Header).Contains(GetHeaderText(item.Header)))
                 {
+#if AVALONIA
+                    column.Opacity = 0.0f;
+#else
                     column.Visibility = System.Windows.Visibility.Hidden;
+#endif
                     break;
                 }
             }
@@ -543,7 +547,11 @@ namespace PerfView
                 {
                     if (GetHeaderText(column.Header) == menuItem)
                     {
+#if AVALONIA
+                        column.Opacity = 1.0f;
+#else
                         column.Visibility = System.Windows.Visibility.Visible;
+#endif
                         break;
                     }
                 }

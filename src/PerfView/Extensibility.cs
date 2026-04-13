@@ -310,8 +310,12 @@ namespace PerfViewExtensibility
                         if (uri.Scheme == "command")
                         {
                             e.Cancel = true;
+#if AVALONIA
+                            viewer.StatusBar.IsVisible = true;
+#else
                             if (viewer.StatusBar.Visibility != System.Windows.Visibility.Visible)
                                 viewer.StatusBar.Visibility = System.Windows.Visibility.Visible;
+#endif
                             viewer.StatusBar.StartWork("Following Hyperlink", delegate ()
                             {
                                 if (DoCommand != null)
@@ -861,7 +865,7 @@ namespace PerfViewExtensibility
             m_EtlFile = etlFile;
         }
 
-    #region private
+        #region private
         /// <summary>
         /// Returns a string that is will be exactly one field of a CSV file.  Thus it escapes , and ""
         /// </summary>
@@ -880,7 +884,7 @@ namespace PerfViewExtensibility
         }
 
         internal ETLDataFile m_EtlFile;
-    #endregion
+        #endregion
     }
 #endif
 
@@ -1032,15 +1036,15 @@ namespace PerfViewExtensibility
             // TODO remember the status log even when we don't have a gui. 
 #if !PERFVIEW_COLLECT
             if (GuiApp.MainWindow != null)
-            try
-            {
-                GuiState.Log = File.ReadAllText(App.LogFileName);
-            }
-            catch
-            {
-                // Ignore failures.
-                GuiState.Log = string.Empty;
-            }
+                try
+                {
+                    GuiState.Log = File.ReadAllText(App.LogFileName);
+                }
+                catch
+                {
+                    // Ignore failures.
+                    GuiState.Log = string.Empty;
+                }
 #endif
 
             Action<XmlWriter> additionalData = null;
@@ -1287,7 +1291,7 @@ namespace PerfViewExtensibility
                     int lineNum = 0;
                     using (var startupFile = File.OpenText(startupFilePath))
                     {
-                        for (;;)
+                        for (; ; )
                         {
                             lineNum++;
                             line = startupFile.ReadLine();
@@ -1337,7 +1341,7 @@ namespace PerfViewExtensibility
                                 goto Failed;
                             }
                         }
-                        Failed:
+                    Failed:
                         throw new ApplicationException("Error: " + errorMessage + "  '" + line + @"' line " + lineNum + @" in PerfViewExtensions\PerfViewStartup file");
                     }
                 }

@@ -136,7 +136,11 @@ namespace PerfView
                 {
                     var column = Grid.Columns[columnIdx];
                     column.Header = columnName;
+#if AVALONIA
+                    column.IsVisible = true;
+#else
                     column.Visibility = System.Windows.Visibility.Visible;
+#endif
                 }
             }
 

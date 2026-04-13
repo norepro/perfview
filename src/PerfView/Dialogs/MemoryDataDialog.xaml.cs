@@ -43,21 +43,33 @@ namespace PerfView.Dialogs
                 ProcessDumpTextBox.Text = args.ProcessDumpFile;
                 DataFileNameTextBox.Text = args.ProcessDumpFile + ".gcDump";
                 SizeToContent = SizeToContent.Height;
+#if AVALONIA
+                ProcessRow.IsVisible = false;
+#else
                 ProcessRow.Visibility = Visibility.Collapsed;
+#endif
                 StatusBar.Status = "Confirm parameters and hit enter to extract the GC heap from the dump.";
                 ProcessDumpTextBox.Focus();
                 GCButton.IsEnabled = false;
             }
             else
             {
+#if AVALONIA
+                ProcessDumpRow.IsVisible = false;
+#else
                 ProcessDumpRow.Visibility = Visibility.Collapsed;
+#endif
                 StatusBar.Status = "Select a process from which the GC heap will be dumped.";
 
                 // Show the warning if we are not elevated.  
                 bool isElevated = App.IsElevated;
                 if (isElevated)
                 {
+#if AVALONIA
+                    ElevateWarning.IsVisible = false;
+#else
                     ElevateWarning.Visibility = Visibility.Collapsed;
+#endif
                 }
 
                 MakeProcessList();

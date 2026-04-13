@@ -32,7 +32,11 @@ internal partial class MessageBoxWindow : Window
         switch (icon)
         {
             case MessageBoxImage.None:
+#if AVALONIA
+                IconImage.IsVisible = false;
+#else
                 IconImage.Visibility = Visibility.Collapsed;
+#endif
                 break;
             default:
                 IconImage.Source = ImageHelpers.ToImageSource(icon);

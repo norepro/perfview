@@ -599,7 +599,11 @@ namespace PerfView
             System.Threading.Thread.Sleep(100);     // Wait for startup to end, this is lower priority work.
 
             // FeedbackButton.Visibility = System.Windows.Visibility.Collapsed;
+#if AVALONIA
+            WikiButton.IsVisible = false;
+#else
             WikiButton.Visibility = System.Windows.Visibility.Collapsed;
+#endif
 
             System.Threading.ThreadPool.QueueUserWorkItem(delegate
             {
@@ -614,7 +618,11 @@ namespace PerfView
                 {
                     if (pdbScopeExists)
                     {
+#if AVALONIA
+                        ImageSizeMenuItem.IsVisible = true;
+#else
                         ImageSizeMenuItem.Visibility = System.Windows.Visibility.Visible;
+#endif
                     }
                     else
                     {
@@ -623,7 +631,11 @@ namespace PerfView
                     }
                     if (ilSizeExists)
                     {
+#if AVALONIA
+                        ILSizeMenuItem.IsVisible = true;
+#else
                         ILSizeMenuItem.Visibility = System.Windows.Visibility.Visible;
+#endif
                     }
                     else
                     {

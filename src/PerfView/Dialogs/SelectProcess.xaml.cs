@@ -26,7 +26,11 @@ namespace PerfView
             InitializeComponent();
             if (!hasAllProc)
             {
+#if AVALONIA
+                AllProcsButton.Opacity = 0.0f;
+#else
                 AllProcsButton.Visibility = System.Windows.Visibility.Hidden;
+#endif
             }
 
             ProcessFilterTextBox.Text = "";

@@ -57,12 +57,12 @@ namespace PerfView
             {
                 selection.Add(item);
             }
-            
+
             // Copy timestamp column visibility settings from template
             ShowTimeStampColumnsMenuItem.IsChecked = template.ShowTimeStampColumnsMenuItem.IsChecked;
             ShowLocalTimeMenuItem.IsChecked = template.ShowLocalTimeMenuItem.IsChecked;
             ShowLocalTimeMenuItem.IsEnabled = template.ShowLocalTimeMenuItem.IsEnabled;
-            
+
             Update();
         }
         public EventWindow(Window parent, PerfViewEventSource data)
@@ -173,7 +173,7 @@ namespace PerfView
             };
 
             MultiLineViewPaneHidden = (App.UserConfigData["MultiLineViewPaneHidden"] == "true");
-            
+
             // Initialize timestamp column visibility based on user preference
             bool showTimeStampColumns = App.UserConfigData["EventWindowShowTimeStampColumns"] != "false"; // Default to true
             ShowTimeStampColumnsMenuItem.IsChecked = showTimeStampColumns;
@@ -184,7 +184,11 @@ namespace PerfView
                 {
                     if (column == OriginTimeStampColumn || column == LocalTimeStampColumn)
                     {
+#if AVALONIA
+                        column.Opacity = 0.0f;
+#else
                         column.Visibility = Visibility.Hidden;
+#endif
                     }
                 }
                 ShowLocalTimeMenuItem.IsEnabled = false;
@@ -383,7 +387,11 @@ namespace PerfView
                 {
                     if (ParentWindow != null)
                     {
+#if AVALONIA
+                        ParentWindow.Opacity = 1.0f;
+#else
                         ParentWindow.Visibility = System.Windows.Visibility.Visible;
+#endif
                         ParentWindow.Focus();
                     }
                     return;
@@ -1384,7 +1392,11 @@ namespace PerfView
             {
                 if (m_source.ColumnsToDisplay != null && i < m_source.ColumnsToDisplay.Count)
                 {
+#if AVALONIA
+                    m_userDefinedColumns[i].Opacity = 1.0f;
+#else
                     m_userDefinedColumns[i].Visibility = System.Windows.Visibility.Visible;
+#endif
                     // For some reason underscores in the name of the column header get removed
                     // (it probably means something special to the Grid), we fix this by replacing
                     // them with __.
@@ -1392,7 +1404,11 @@ namespace PerfView
                 }
                 else
                 {
+#if AVALONIA
+                    m_userDefinedColumns[i].Opacity = 0.0f;
+#else
                     m_userDefinedColumns[i].Visibility = System.Windows.Visibility.Hidden;
+#endif
                 }
             }
 
@@ -1927,11 +1943,19 @@ namespace PerfView
                 {
                     if (i == OriginTimeStampColumn)
                     {
+#if AVALONIA
+                        i.Opacity = 0.0f;
+#else
                         i.Visibility = Visibility.Hidden;
+#endif
                     }
                     else if (i == LocalTimeStampColumn)
                     {
+#if AVALONIA
+                        i.Opacity = 1.0f;
+#else
                         i.Visibility = Visibility.Visible;
+#endif
                     }
                 }
             }
@@ -1946,11 +1970,19 @@ namespace PerfView
                 {
                     if (i == OriginTimeStampColumn)
                     {
+#if AVALONIA
+                        i.Opacity = 1.0f;
+#else
                         i.Visibility = Visibility.Visible;
+#endif
                     }
                     else if (i == LocalTimeStampColumn)
                     {
+#if AVALONIA
+                        i.Opacity = 0.0f;
+#else
                         i.Visibility = Visibility.Hidden;
+#endif
                     }
                 }
             }
@@ -1961,23 +1993,31 @@ namespace PerfView
             // Check if UI elements are initialized to avoid null reference during XAML construction
             if (ShowLocalTimeMenuItem == null || Grid?.Columns == null)
                 return;
-                
+
             // Show the appropriate timestamp column based on current preference
             bool useLocalTime = ShowLocalTimeMenuItem.IsChecked;
             foreach (var i in Grid.Columns)
             {
                 if (i == OriginTimeStampColumn)
                 {
+#if AVALONIA
+                    i.Opacity = useLocalTime ? 0.0f : 1.0f;
+#else
                     i.Visibility = useLocalTime ? Visibility.Hidden : Visibility.Visible;
+#endif
                 }
                 else if (i == LocalTimeStampColumn)
                 {
+#if AVALONIA
+                    i.Opacity = useLocalTime ? 1.0f : 0.0f;
+#else
                     i.Visibility = useLocalTime ? Visibility.Visible : Visibility.Hidden;
+#endif
                 }
             }
             // Enable the Show Local Time menu item
             ShowLocalTimeMenuItem.IsEnabled = true;
-            
+
             // Save preference
             App.UserConfigData["EventWindowShowTimeStampColumns"] = "true";
         }
@@ -1987,18 +2027,22 @@ namespace PerfView
             // Check if UI elements are initialized to avoid null reference during XAML construction
             if (ShowLocalTimeMenuItem == null || Grid?.Columns == null)
                 return;
-                
+
             // Hide both timestamp columns
             foreach (var i in Grid.Columns)
             {
                 if (i == OriginTimeStampColumn || i == LocalTimeStampColumn)
                 {
+#if AVALONIA
+                    i.Opacity = 0.0f;
+#else
                     i.Visibility = Visibility.Hidden;
+#endif
                 }
             }
             // Gray out (disable) the Show Local Time menu item
             ShowLocalTimeMenuItem.IsEnabled = false;
-            
+
             // Save preference
             App.UserConfigData["EventWindowShowTimeStampColumns"] = "false";
         }

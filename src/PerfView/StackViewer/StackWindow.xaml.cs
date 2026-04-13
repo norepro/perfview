@@ -42,7 +42,11 @@ namespace PerfView
             m_history = new List<FilterParams>();
 
             InitializeComponent();
+#if AVALONIA
+            MemoryStackPanel.IsVisible = false; // We do it here instead of the designer so we can see it!
+#else
             MemoryStackPanel.Visibility = Visibility.Collapsed; // We do it here instead of the designer so we can see it!
+#endif
 
             Title = DataSource.Title;
             FinishInit();
@@ -53,7 +57,11 @@ namespace PerfView
             DataSource = template.DataSource;
             m_history = new List<FilterParams>();
             InitializeComponent();
+#if AVALONIA
+            MemoryStackPanel.IsVisible = false; // We do it here instead of the designer so we can see it!
+#else
             MemoryStackPanel.Visibility = Visibility.Collapsed; // We do it here instead of the designer so we can see it!
+#endif
 
             FoldPercentTextBox.Text = GetDefaultFoldPercentage();
             GuiState = template.GuiState;
@@ -172,7 +180,11 @@ namespace PerfView
                         ChangeHeaderText(CalleesTab, "Refs-To");
                         ChangeHeaderText(CallerCalleeTab, "RefFrom-RefTo");
                         ChangeHeaderText(CallTreeTab, "RefTree");
+#if AVALONIA
+                        MemoryStackPanel.IsVisible = true;
+#else
                         MemoryStackPanel.Visibility = Visibility.Visible;
+#endif
                         m_callersView.DisplayPrimaryOnly = false;
                         m_calleesView.DisplayPrimaryOnly = false;
                         m_callTreeView.DisplayPrimaryOnly = false;
@@ -183,7 +195,11 @@ namespace PerfView
                         ChangeHeaderText(CalleesTab, "Callees");
                         ChangeHeaderText(CallerCalleeTab, "Caller-Callee");
                         ChangeHeaderText(CallTreeTab, "CallTree");
+#if AVALONIA
+                        MemoryStackPanel.IsVisible = false;
+#else
                         MemoryStackPanel.Visibility = Visibility.Collapsed;
+#endif
                     }
                     m_IsMemoryWindow = value;
                 }
@@ -199,13 +215,23 @@ namespace PerfView
                 {
                     if (value)
                     {
+#if AVALONIA
+                        ScenarioStackPanel.IsVisible = false;
+                        ScenarioContextMenu.IsVisible = true;
+#else
                         ScenarioStackPanel.Visibility = Visibility.Collapsed;
                         ScenarioContextMenu.Visibility = Visibility.Visible;
+#endif
                     }
                     else
                     {
+#if AVALONIA
+                        ScenarioStackPanel.IsVisible = false;
+                        ScenarioContextMenu.IsVisible = false;
+#else
                         ScenarioStackPanel.Visibility = Visibility.Collapsed;
                         ScenarioContextMenu.Visibility = Visibility.Collapsed;
+#endif
                     }
                 }
                 m_IsScenarioWindow = value;
@@ -248,7 +274,11 @@ namespace PerfView
             // TODO - Currently nothing uses sampling.  USE OR REMOVE 
             if (newSource.SamplingRate == null)
             {
+#if AVALONIA
+                SamplingStackPanel.IsVisible = false;
+#else
                 SamplingStackPanel.Visibility = System.Windows.Visibility.Collapsed;
+#endif
             }
             else
             {
@@ -795,7 +825,11 @@ namespace PerfView
                 {
                     if (ParentWindow != null)
                     {
+#if AVALONIA
+                        ParentWindow.IsVisible = true;
+#else
                         ParentWindow.Visibility = System.Windows.Visibility.Visible;
+#endif
                         ParentWindow.Focus();
                     }
                     return;
@@ -911,7 +945,7 @@ namespace PerfView
                     }
                 }
             }
-            else if(m_fileName.EndsWith(".speedscope.json", StringComparison.OrdinalIgnoreCase))
+            else if (m_fileName.EndsWith(".speedscope.json", StringComparison.OrdinalIgnoreCase))
             {
                 SpeedScopeStackSourceWriter.WriteStackViewAsJson(CallTree.StackSource, m_fileName);
             }
@@ -1501,7 +1535,7 @@ namespace PerfView
                         {
                             badStrs += " ";
                         }
-                        
+
                         badStrs += node.DisplayName;
 
                     }
@@ -1646,7 +1680,7 @@ namespace PerfView
         {
             Clipboard.SetText(RangeUtilities.ToString(StartTextBox.Text, EndTextBox.Text));
         }
-        private void CanDoOpenEvents(object sender, CanExecuteRoutedEventArgs e) 
+        private void CanDoOpenEvents(object sender, CanExecuteRoutedEventArgs e)
             => e.CanExecute = DataSource.DataFile is ETLPerfViewData && DataSource.DataFile.Children.OfType<PerfViewEventSource>().Any() && GetSelectedNodes().Any();
 
         private void DoOpenEvents(object sender, ExecutedRoutedEventArgs e)
@@ -1692,9 +1726,9 @@ namespace PerfView
 
                 // If you accidentally select the space before the selection, skip it
                 if (0 <= selectionStartIndex && selectionStartIndex < text.Length && text[selectionStartIndex] == ' ')
-                    {
+                {
                     selectionStartIndex++;
-                    }
+                }
 
                 // grab the last 32 bytes of the string.  
                 var histStart = text.Length - CallTree.TimeHistogramController.BucketCount;
@@ -2133,8 +2167,8 @@ namespace PerfView
                 StatusBar.LogError("Source lookup only works on cells of the form dll!method.");
                 return;
             }
-                {
-                }
+            {
+            }
 
             StatusBar.StartWork("Fetching Source code for " + cellText, delegate ()
             {
@@ -2143,7 +2177,7 @@ namespace PerfView
                 {
                     System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
                 }
-                catch(NotSupportedException ex)
+                catch (NotSupportedException ex)
                 {
                     StatusBar.Log($"Failed to set security protocol to TLS1.2: {ex}");
                     throw;
@@ -2175,7 +2209,7 @@ namespace PerfView
                         {
                             sourcePathToOpen = CacheFiles.FindFile(sourcePathToOpen, Path.GetExtension(sourcePathToOpen));
                             StatusBar.Log("Annotating source with metric to the file " + sourcePathToOpen);
-                            AnnotateLines(logicalSourcePath, sourcePathToOpen, ("Inc", metricOnLine) ,("Exc", exclusiveMetricOnLine));
+                            AnnotateLines(logicalSourcePath, sourcePathToOpen, ("Inc", metricOnLine), ("Exc", exclusiveMetricOnLine));
                         }
                     }
                 }
@@ -2618,7 +2652,11 @@ namespace PerfView
 
         private void Notes_GotFocus(object sender, RoutedEventArgs e)
         {
+#if AVALONIA
+            HelpMessage.Opacity = 0.0f;
+#else
             HelpMessage.Visibility = Visibility.Hidden;
+#endif
         }
         public bool NotesPaneHidden
         {
@@ -3242,12 +3280,20 @@ namespace PerfView
                         if (configValue == null || configValue == "1")
                         {
                             menuItem.IsChecked = true;
+#if AVALONIA
+                            col.IsVisible = true;
+#else
                             col.Visibility = Visibility.Visible;
+#endif
                         }
                         else
                         {
                             menuItem.IsChecked = false;
+#if AVALONIA
+                            col.IsVisible = false;
+#else
                             col.Visibility = Visibility.Collapsed;
+#endif
                         }
 
                         perfDataGridMenuItems.Add(new Tuple<string, MenuItem>(header, menuItem));
@@ -3263,6 +3309,9 @@ namespace PerfView
                     menuItem.Click += delegate (object sender, RoutedEventArgs e)
                     {
                         MenuItem source = sender as MenuItem;
+#if AVALONIA
+                        col.IsVisible = source.IsChecked;
+#else
                         if (source.IsChecked)
                         {
                             col.Visibility = Visibility.Visible;
@@ -3271,6 +3320,7 @@ namespace PerfView
                         {
                             col.Visibility = Visibility.Collapsed;
                         }
+#endif
                     };
                 }
             }

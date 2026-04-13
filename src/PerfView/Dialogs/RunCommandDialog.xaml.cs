@@ -314,12 +314,21 @@ namespace PerfView
             {
                 Title = "Collecting data over a user specified interval";
                 CommandToRunTextBox.IsEnabled = false;
-                CommandToRunTextBox.Visibility = Visibility.Hidden;
                 CommandToRunLabel.IsEnabled = false;
+#if AVALONIA
+
+                CommandToRunTextBox.Opacity = 0.0f;
+                CommandToRunLabel.Opacity = 0.0f;
+                FocusProcessCheckBox.Opacity = 1.0f;
+                FocusProcessTextBox.Opacity = 1.0f;
+                FocusProcessLabel.Opacity = 1.0f;
+#else
+                CommandToRunTextBox.Visibility = Visibility.Hidden;
                 CommandToRunLabel.Visibility = Visibility.Hidden;
                 FocusProcessCheckBox.Visibility = Visibility.Visible;
                 FocusProcessTextBox.Visibility = Visibility.Visible;
                 FocusProcessLabel.Visibility = Visibility.Visible;
+#endif
                 if (!string.IsNullOrEmpty(FocusProcessTextBox.Text))
                 {
                     FocusProcessCheckBox.IsChecked = true;
@@ -346,11 +355,19 @@ namespace PerfView
             }
             else
             {
+#if AVALONIA
+                CommandToRunTextBox.Opacity = 1.0f;
+                CommandToRunLabel.Opacity = 1.0f;
+                FocusProcessCheckBox.Opacity = 0.0f;
+                FocusProcessTextBox.Opacity = 0.0f;
+                FocusProcessLabel.Opacity = 0.0f;
+#else
                 CommandToRunTextBox.Visibility = Visibility.Visible;
                 CommandToRunLabel.Visibility = Visibility.Visible;
                 FocusProcessCheckBox.Visibility = Visibility.Hidden;
                 FocusProcessTextBox.Visibility = Visibility.Hidden;
                 FocusProcessLabel.Visibility = Visibility.Hidden;
+#endif
                 FocusProcessLabel.IsEnabled = false;
 
                 CommandToRunTextBox.Focus();

@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Input;
 #else
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 #endif
 
@@ -62,7 +63,11 @@ namespace PerfView.Dialogs
 
             if (HelpAnchor == null)
             {
+#if AVALONIA
+                HelpHyperlink.Opacity = 0.0f;
+#else
                 HelpHyperlink.Visibility = System.Windows.Visibility.Hidden;
+#endif
             }
 
             OutputFileName.Text = Path.GetFullPath(CurrentDirectory) + @"\";
@@ -249,7 +254,11 @@ namespace PerfView.Dialogs
             }
         }
 
+#if AVALONIA
+        private void FilesDoubleClick(object sender, TappedEventArgs e)
+#else
         private void FilesDoubleClick(object sender, MouseButtonEventArgs e)
+#endif
         {
             string selection = Files.SelectedItem as string;
             if (selection != null)

@@ -641,10 +641,7 @@ namespace PerfView
                 m_statusBar.Dispatcher.BeginInvoke((Action)delegate ()
                 {
 #if AVALONIA
-                    if (!m_statusBar.IsVisible)
-                    {
-                        m_statusBar.IsVisible = true;
-                    }
+                    m_statusBar.IsVisible = true;
 #else
                     if (m_statusBar.Visibility != Visibility.Visible)
                     {
