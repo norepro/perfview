@@ -25,16 +25,25 @@ namespace PerfView.Dialogs
 
         private void ReadFromFile(string eulaFile)
         {
+#if AVALONIA
+            // TODO_AVALONIA: Convert eulaFile to Markdown so we don't lose formatting?
+            Body.Text = File.ReadAllText(eulaFile);
+#else
             var bodyRange = new TextRange(Body.Document.ContentStart, Body.Document.ContentEnd);
             using (var stream = File.OpenRead(eulaFile))
             {
                 bodyRange.Load(stream, DataFormats.Rtf);
             }
+#endif
         }
 
         private void AcceptClick(object sender, RoutedEventArgs e)
         {
+#if AVALONIA
+            Close(true);
+#else
             DialogResult = true;
+#endif
         }
     }
 }
