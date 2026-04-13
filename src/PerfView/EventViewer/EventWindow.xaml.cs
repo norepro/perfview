@@ -16,11 +16,16 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
+using Utilities;
+
+#if !AVALONIA
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using Utilities;
+#else
+using Avalonia.Controls;
+#endif
 
 namespace PerfView
 {
@@ -128,7 +133,11 @@ namespace PerfView
                     e.ClipboardRowContent[i] = new DataGridClipboardCellContent(clipboardContent.Item, clipboardContent.Column, morphedContent);
                 }
             };
+#if AVALONIA
+            Closing += delegate (object sender, WindowClosingEventArgs e)
+#else
             Closing += delegate (object sender, CancelEventArgs e)
+#endif
             {
                 if (StatusBar.IsWorking)
                 {

@@ -14,6 +14,7 @@ using Utilities;
 using System.Windows.Input;
 using System.Windows.Threading;
 #else
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 #endif
 
@@ -34,7 +35,11 @@ namespace PerfView
             }
 
             m_continuation = continuation;
+#if AVALONIA
+            Closing += delegate (object sender, WindowClosingEventArgs e)
+#else
             Closing += delegate (object sender, CancelEventArgs e)
+#endif
             {
                 mainWindow.CollectWindow = null;
             };

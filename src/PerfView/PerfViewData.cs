@@ -1120,7 +1120,11 @@ namespace PerfView
                     {
                         Viewer = new WebBrowserWindow(parentWindow);
                         Viewer.WindowState = System.Windows.WindowState.Maximized;
+#if AVALONIA
+                        Viewer.Closing += delegate (object sender, WindowClosingEventArgs e)
+#else
                         Viewer.Closing += delegate (object sender, CancelEventArgs e)
+#endif
                         {
                             Viewer = null;
                         };

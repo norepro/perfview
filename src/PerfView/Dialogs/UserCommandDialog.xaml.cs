@@ -32,7 +32,11 @@ namespace PerfView.Dialogs
             {
                 CommandTextBox.Focus();
             };
+#if AVALONIA
+            Closing += delegate (object sender, WindowClosingEventArgs e)
+#else
             Closing += delegate (object sender, CancelEventArgs e)
+#endif
             {
                 CommandTextBox.Text = "";
                 CommandTextBox.Focus();
