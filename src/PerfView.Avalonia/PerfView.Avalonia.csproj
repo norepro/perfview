@@ -21,7 +21,7 @@
     </Compile>
 
     <Compile Include="$(PerfViewFolder)/**/*.cs" 
-            Exclude="$(PerfViewFolder)/**/*.xaml.cs;$(PerfViewFolder)/App.cs" />
+            Exclude="$(PerfViewFolder)/**/*.g.cs;$(PerfViewFolder)/**/*.xaml.cs;$(PerfViewFolder)/App.cs" />
     
     <Compile Include="../EtwHeapDump/DotNetHeapDumper.cs" />
     <Compile Include="../EtwHeapDump/DotNetHeapDumpGraphReader.cs" />
