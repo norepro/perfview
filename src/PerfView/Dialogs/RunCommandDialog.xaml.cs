@@ -561,7 +561,11 @@ namespace PerfView
 
                 var commandLine = "PerfView.exe " + CommandProcessor.ParsedArgsAsString(m_isCollect ? "collect" : "run", m_args);
 
+#if AVALONIA
+                Clipboard.SetTextAsync(commandLine).Wait();
+#else
                 Clipboard.SetText(commandLine);
+#endif
             }
             finally
             {

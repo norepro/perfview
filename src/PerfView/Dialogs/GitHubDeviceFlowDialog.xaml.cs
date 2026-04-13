@@ -45,7 +45,11 @@ namespace PerfView.Dialogs
         private void Copy_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             string userCode = e.Parameter.ToString();
+#if AVALONIA
+            Clipboard.SetTextAsync(userCode).Wait();
+#else
             Clipboard.SetText(userCode);
+#endif
             ((Button)e.Source).Content = "Copied";
             e.Handled = true;
         }

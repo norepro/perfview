@@ -975,7 +975,11 @@ namespace PerfView
         }
         private void DoCopyTimeRange(object sender, ExecutedRoutedEventArgs e)
         {
+#if AVALONIA
+            Clipboard.SetTextAsync(RangeUtilities.ToString(StartTextBox.Text, EndTextBox.Text)).Wait();
+#else
             Clipboard.SetText(RangeUtilities.ToString(StartTextBox.Text, EndTextBox.Text));
+#endif
         }
         private void DoHistogramSelectionChanged(object sender, RoutedEventArgs e)
         {

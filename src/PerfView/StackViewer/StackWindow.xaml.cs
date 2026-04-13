@@ -1678,7 +1678,11 @@ namespace PerfView
         }
         private void DoCopyTimeRange(object sender, ExecutedRoutedEventArgs e)
         {
+#if AVALONIA
+            Clipboard.SetTextAsync(RangeUtilities.ToString(StartTextBox.Text, EndTextBox.Text)).Wait();
+#else
             Clipboard.SetText(RangeUtilities.ToString(StartTextBox.Text, EndTextBox.Text));
+#endif
         }
         private void CanDoOpenEvents(object sender, CanExecuteRoutedEventArgs e)
             => e.CanExecute = DataSource.DataFile is ETLPerfViewData && DataSource.DataFile.Children.OfType<PerfViewEventSource>().Any() && GetSelectedNodes().Any();
@@ -1836,7 +1840,11 @@ namespace PerfView
 
                 result = String.Join(",", Array.ConvertAll(scenarioList, x => x.ToString()));
             }
+#if AVALONIA
+            Clipboard.SetTextAsync(result).Wait();
+#else
             Clipboard.SetText(result);
+#endif
         }
 
         private void DoCopyScenarioListNames(object sender, ExecutedRoutedEventArgs e)
@@ -1860,7 +1868,11 @@ namespace PerfView
                     sb.AppendLine(m_callTree.ScenarioHistogram.GetNameForScenario(i));
                 }
             }
+#if AVALONIA
+            Clipboard.SetTextAsync(sb.ToString()).Wait();
+#else
             Clipboard.SetText(sb.ToString());
+#endif
         }
 
         private void DoSortScenariosByDefault(object sender, ExecutedRoutedEventArgs e)
@@ -1966,7 +1978,11 @@ namespace PerfView
                 FilterGuiState.WriteToXml("FilterGuiState", writer);
             }
 
+#if AVALONIA
+            Clipboard.SetTextAsync(sb.ToString()).Wait();
+#else
             Clipboard.SetText(sb.ToString());
+#endif
         }
         private void DoMergeFilterParams(object sender, ExecutedRoutedEventArgs e)
         {
