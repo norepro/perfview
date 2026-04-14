@@ -26,6 +26,7 @@ using System.Windows.Xps.Packaging;
 #else
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
 #endif
 
 namespace PerfView
