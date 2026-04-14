@@ -28,6 +28,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
 #endif
 

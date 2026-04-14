@@ -16,6 +16,7 @@ using System.Windows.Media;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Media;
 #endif
 
 namespace PerfView
