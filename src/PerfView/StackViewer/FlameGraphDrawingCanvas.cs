@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 #else
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 #endif

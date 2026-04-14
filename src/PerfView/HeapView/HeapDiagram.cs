@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading;
 
 #if AVALONIA
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 #else

@@ -12,6 +12,10 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media;
 
+#if AVALONIA
+using Avalonia;
+#endif
+
 namespace PerfView
 {
     /// <summary>

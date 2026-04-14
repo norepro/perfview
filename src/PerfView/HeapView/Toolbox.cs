@@ -24,6 +24,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Xps;
 using System.Windows.Xps.Packaging;
 #else
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
