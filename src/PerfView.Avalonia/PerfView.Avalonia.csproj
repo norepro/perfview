@@ -20,9 +20,12 @@
       <Link>%(RecursiveDir)%(Filename).axaml.cs</Link>
     </Compile>
 
-    <Compile Include="$(PerfViewFolder)/**/*.cs" 
-            Exclude="$(PerfViewFolder)/**/*.g.cs;$(PerfViewFolder)/**/*.xaml.cs;$(PerfViewFolder)/App.cs" />
-    
+    <PerfViewExcludes Include="$(PerfViewFolder)/**/*.g.cs" />
+    <PerfViewExcludes Include="$(PerfViewFolder)/**/*.xaml.cs" />
+    <PerfViewExcludes Include="$(PerfViewFolder)/App.cs" />
+    <PerfViewExcludes Include="$(PerfViewFolder)/Dialogs/ImageHelpers.cs" />
+
+    <Compile Include="$(PerfViewFolder)/**/*.cs" Exclude="@(PerfViewExcludes)" />    
     <Compile Include="../EtwHeapDump/DotNetHeapDumper.cs" />
     <Compile Include="../EtwHeapDump/DotNetHeapDumpGraphReader.cs" />
     <Compile Include="../HeapDump/GCHeapDump.cs" />
