@@ -10896,6 +10896,7 @@ namespace PerfView
         #endregion
     }
 
+#if NETFRAMEWORK
     /// <summary>
     /// Class to represent the Visual Studio .diagsesion file format that is defined
     /// as part of Microsoft.DiagnosticsHub.Packaging
@@ -11155,6 +11156,7 @@ namespace PerfView
             return newResources;
         }
     }
+#endif
 
     public partial class StracePerfViewData : PerfViewFile
     {
