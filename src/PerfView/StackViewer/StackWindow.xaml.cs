@@ -35,6 +35,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using DependencyObject = Avalonia.AvaloniaObject;
 using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
+using UIElement = Avalonia.Controls.Control;
 #endif
 
 namespace PerfView

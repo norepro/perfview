@@ -29,6 +29,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using DependencyObject = Avalonia.AvaloniaObject;
+using FrameworkElement = Avalonia.Controls.Control;
 #endif
 
 namespace PerfView

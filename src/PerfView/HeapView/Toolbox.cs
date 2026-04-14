@@ -30,7 +30,9 @@ using Avalonia.Data.Converters;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using FrameworkElement = Avalonia.Controls.Control;
 using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
+using UIElement = Avalonia.Controls.Control;
 #endif
 
 namespace PerfView

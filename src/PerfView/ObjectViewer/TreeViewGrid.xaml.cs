@@ -8,6 +8,7 @@ using Utilities;
 #if AVALONIA
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using FrameworkElement = Avalonia.Controls.Control;
 #else
 using System.Windows;
 using System.Windows.Controls;
