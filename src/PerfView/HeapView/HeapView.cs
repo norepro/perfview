@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 #if AVALONIA
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 #else
 using System.Windows;

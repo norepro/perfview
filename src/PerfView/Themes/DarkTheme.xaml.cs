@@ -23,6 +23,7 @@
 using System.Windows;
 
 #if AVALONIA
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 #endif
 

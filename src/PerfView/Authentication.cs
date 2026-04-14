@@ -5,12 +5,17 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Interop;
 using Azure.Core;
 using Azure.Identity;
 using Microsoft.Diagnostics.Symbols.Authentication;
 using Microsoft.Diagnostics.Utilities;
 using Utilities;
+
+#if AVALONIA
+using Avalonia.Controls;
+#else
+using System.Windows.Interop;
+#endif
 
 namespace PerfView
 {
@@ -306,17 +311,17 @@ namespace PerfView
             {
                 credentials.Add(new EnvironmentCredential());
             }
-            
+
             if (authTypes.HasFlag(SymbolsAuthenticationType.AzureCli))
             {
                 credentials.Add(new AzureCliCredential());
             }
-            
+
             if (authTypes.HasFlag(SymbolsAuthenticationType.VisualStudio))
             {
                 credentials.Add(new VisualStudioCredential());
             }
-            
+
             if (authTypes.HasFlag(SymbolsAuthenticationType.Interactive))
             {
                 credentials.Add(new InteractiveBrowserCredential());

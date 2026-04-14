@@ -8,6 +8,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 #else
 using System.Reactive;
+using Avalonia.Controls;
 using ReactiveUI;
 #endif
 
@@ -21,15 +22,11 @@ namespace PerfView
     public partial class ObjectViewer : WindowBase
     {
         public ObjectViewer(
-#if !AVALONIA
             Window parentWindow,
-#endif
             MemoryGraph graph,
             RefGraph refGraph,
             List<NodeIndex> focusNodes = null)
-#if !AVALONIA
             : base(parentWindow)
-#endif
         {
             InitializeComponent();
 

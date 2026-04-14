@@ -16,6 +16,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
+#if AVALONIA
+using Avalonia.Controls;
+#endif
+
 namespace PerfView
 {
     /// <summary>
@@ -509,7 +513,7 @@ namespace PerfView
             /// The host name.
             /// </summary>
             public string Host { get; }
-            
+
             /// <summary>
             /// The path. May be null or empty.
             /// </summary>
