@@ -3,9 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+
+#if AVALONIA
+using Avalonia.Data.Converters;
+#else
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+#endif
 
 
 namespace PerfView

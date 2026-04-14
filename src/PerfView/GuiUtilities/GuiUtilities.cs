@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Globalization;
 
 #if AVALONIA
+using Avalonia.Data.Converters;
 using DependencyObject = Avalonia.AvaloniaObject;
 #else
 using System.Windows.Media;

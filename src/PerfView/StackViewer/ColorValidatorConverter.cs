@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Globalization;
+
+#if AVALONIA
+using Avalonia.Data.Converters;
+#else
 using System.Windows.Data;
+#endif
 
 namespace PerfView.StackViewer
 {

@@ -6,6 +6,7 @@ using System.Drawing.Drawing2D;
 using System.Globalization;
 
 #if AVALONIA
+using Avalonia.Data.Converters;
 using Avalonia.Interactivity;
 using DependencyObject = Avalonia.AvaloniaObject;
 using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
