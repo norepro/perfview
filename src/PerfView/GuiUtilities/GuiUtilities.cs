@@ -2,11 +2,16 @@
 using System.Text;
 using System.Windows;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
+using System.Globalization;
+
+#if AVALONIA
+using DependencyObject = Avalonia.AvaloniaObject;
+#else
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Diagnostics;
-using System.Globalization;
+#endif
 
 namespace Utilities
 {
@@ -323,24 +328,24 @@ namespace Utilities
     }
 
 #if DEBUG
-/// <summary>
-/// This converter does nothing except breaking the debugger into the convert method
-/// </summary>
-public class DatabindingDebugConverter : IValueConverter
-{
-    public object Convert(object value, Type targetType,
-        object parameter, CultureInfo culture)
+    /// <summary>
+    /// This converter does nothing except breaking the debugger into the convert method
+    /// </summary>
+    public class DatabindingDebugConverter : IValueConverter
     {
-        Debugger.Break();
-        return value;
+        public object Convert(object value, Type targetType,
+            object parameter, CultureInfo culture)
+        {
+            Debugger.Break();
+            return value;
+        }
+        public object ConvertBack(object value, Type targetType,
+            object parameter, CultureInfo culture)
+        {
+            Debugger.Break();
+            return value;
+        }
     }
-    public object ConvertBack(object value, Type targetType,
-        object parameter, CultureInfo culture)
-    {
-        Debugger.Break();
-        return value;
-    }
-}
 #endif
 
 }

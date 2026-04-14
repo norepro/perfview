@@ -27,6 +27,7 @@ using System.Windows.Media;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using DependencyObject = Avalonia.AvaloniaObject;
 #endif
 
 namespace PerfView

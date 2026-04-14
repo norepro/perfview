@@ -7,6 +7,7 @@ using Utilities;
 #if AVALONIA
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using DependencyObject = Avalonia.AvaloniaObject;
 #else
 using System.Windows.Controls;
 using Microsoft.Web.WebView2.Core;

@@ -33,6 +33,7 @@ using System.Windows.Media;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using DependencyObject = Avalonia.AvaloniaObject;
 using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
 #endif
 

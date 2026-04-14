@@ -9,6 +9,7 @@ using System.Windows.Input;
 #else
 using Avalonia.Controls;
 using Avalonia.Input;
+using DependencyObject = Avalonia.AvaloniaObject;
 #endif
 
 namespace PerfView

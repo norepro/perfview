@@ -7,6 +7,7 @@ using System.Globalization;
 
 #if AVALONIA
 using Avalonia.Interactivity;
+using DependencyObject = Avalonia.AvaloniaObject;
 using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
 #else
 using System.Windows;
