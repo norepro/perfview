@@ -4,10 +4,10 @@ using Microsoft.Diagnostics.Tracing.Session;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Input;
 
 #if !AVALONIA
 using System.Windows.Controls;
-using System.Windows.Input;
 #else
 using Avalonia.Controls;
 using Avalonia.Interactivity;

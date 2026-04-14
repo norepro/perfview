@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Windows.Input;
 
 #if !AVALONIA
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 #else
 using Avalonia.Controls;
 #endif

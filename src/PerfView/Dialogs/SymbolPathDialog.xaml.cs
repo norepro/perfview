@@ -2,10 +2,10 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Input;
 
 #if !AVALONIA
 using System.Windows.Controls;
-using System.Windows.Input;
 #else
 using Avalonia.Controls;
 using Avalonia.Interactivity;

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
-
-#if !AVALONIA
 using System.Windows.Input;
-#else
+
+#if AVALONIA
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 #endif

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using System.Xml;
 
 #if !AVALONIA
 using System.Windows.Controls;
-using System.Windows.Input;
 #else
 using Avalonia.Controls;
 using Avalonia.Interactivity;

@@ -19,6 +19,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using System.Xml;
 using Utilities;
 using Address = System.UInt64;
@@ -27,7 +28,6 @@ using Path = System.IO.Path;
 #if !AVALONIA
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 #else
 using Avalonia.Controls;

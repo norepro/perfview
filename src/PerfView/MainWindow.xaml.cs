@@ -16,12 +16,12 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Input;
 using Utilities;
 
 
 #if !AVALONIA
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 #else
 using Avalonia.Controls;
@@ -50,6 +50,10 @@ namespace PerfView
         /// The view model for the application theme.
         /// </summary>
         public ThemeViewModel ThemeViewModel { get; }
+
+#if AVALONIA
+        public DispatcherAdapter Dispatcher { get; } = new();
+#endif
 
         public MainWindow(bool testing = false)
         {

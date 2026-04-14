@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Media;
 using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 #if !AVALONIA
 using System.Windows.Controls;
-using System.Windows.Input;
 #else
 using Avalonia.Controls;
 using Avalonia.Interactivity;

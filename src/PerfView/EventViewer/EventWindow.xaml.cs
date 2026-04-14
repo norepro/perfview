@@ -16,13 +16,13 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 using Utilities;
 
 
 #if !AVALONIA
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
 #else
 using Avalonia.Controls;

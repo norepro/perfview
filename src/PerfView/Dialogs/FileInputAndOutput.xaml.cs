@@ -4,12 +4,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Media;
-using Path = System.IO.Path;
-
-#if !AVALONIA
 using System.Windows;
 using System.Windows.Input;
-#else
+using Path = System.IO.Path;
+
+#if AVALONIA
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
