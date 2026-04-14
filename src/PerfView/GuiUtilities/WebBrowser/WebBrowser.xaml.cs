@@ -2,10 +2,16 @@
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using Utilities;
+
+#if AVALONIA
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+#else
 using System.Windows.Controls;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
-using Utilities;
+#endif
 
 
 namespace PerfView.GuiUtilities

@@ -5,10 +5,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Utilities;
+
+#if AVALONIA
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+#else
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using Utilities;
+#endif
 
 namespace PerfView
 {
@@ -75,7 +81,7 @@ namespace PerfView
                         {
                             morphedContent = "| " + morphedContent;
                         }
-                        
+
                         // Add a trailing | character to the last column to complete the markdown table row
                         if (columnIndex == e.ClipboardRowContent.Count - 1)
                         {
@@ -529,7 +535,7 @@ namespace PerfView
                 // We don't want the header for single values, or for 2 (for cutting and pasting ranges).  
                 int numSelectedCells = window.SelectedCellsChanged(sender, e);
                 m_numSelectedCells = numSelectedCells;
-                
+
                 // Calculate the number of unique columns and rows selected
                 DataGrid dataGrid = sender as DataGrid;
                 if (dataGrid != null && dataGrid.SelectedCells.Count > 0)
@@ -556,7 +562,7 @@ namespace PerfView
                     // When a user does this, we don't want to add headers or '|' symbols and display as a markdown table.  We detect
                     // this scenario here because markdown support is added in the CopyingRowClipboardContent event handler where we don't
                     // have access to the column names.
-                    m_isFirstLastSelection = (m_numSelectedRows == 1 && m_numSelectedColumns == 2 && 
+                    m_isFirstLastSelection = (m_numSelectedRows == 1 && m_numSelectedColumns == 2 &&
                                               columnNames.Contains("FirstColumn") && columnNames.Contains("LastColumn"));
                 }
                 else
@@ -565,7 +571,7 @@ namespace PerfView
                     m_numSelectedRows = 0;
                     m_isFirstLastSelection = false;
                 }
-                
+
                 // Determine whether to include headers based on selection:
                 // - Single cell: no header
                 // - First/Last special case: no header
@@ -588,7 +594,7 @@ namespace PerfView
                     // Multiple columns: include header
                     shouldIncludeHeader = true;
                 }
-                
+
                 if (shouldIncludeHeader)
                 {
                     Grid.ClipboardCopyMode = DataGridClipboardCopyMode.IncludeHeader;
@@ -597,7 +603,7 @@ namespace PerfView
                 {
                     Grid.ClipboardCopyMode = DataGridClipboardCopyMode.ExcludeHeader;
                 }
-                
+
                 // Only set range values for the First/Last special case
                 // This enables the special morphing logic that combines them on one line
                 if (m_isFirstLastSelection && numSelectedCells == 2)

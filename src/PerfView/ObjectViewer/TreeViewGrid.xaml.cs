@@ -3,11 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Utilities;
+
+#if AVALONIA
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+#else
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using Utilities;
+#endif
 
 namespace PerfView
 {
@@ -421,7 +427,7 @@ namespace PerfView
             }
             m_maxColumnInSelection = null;
         }
-        private void DoHyperlinkHelp(object sender, System.Windows.RoutedEventArgs e)
+        private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
         {
             var asHyperLink = sender as Hyperlink;
             if (asHyperLink != null)

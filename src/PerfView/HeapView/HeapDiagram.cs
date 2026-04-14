@@ -5,11 +5,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+
+#if AVALONIA
+using Avalonia.Interactivity;
+#else
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+#endif
 
 namespace PerfView
 {

@@ -25,6 +25,7 @@ using System.Windows.Xps;
 using System.Windows.Xps.Packaging;
 #else
 using Avalonia.Input;
+using Avalonia.Interactivity;
 #endif
 
 namespace PerfView

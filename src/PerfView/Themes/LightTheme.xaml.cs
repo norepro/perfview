@@ -22,6 +22,10 @@
 
 using System.Windows;
 
+#if AVALONIA
+using Avalonia.Interactivity;
+#endif
+
 namespace REghZyFramework.Themes
 {
     public partial class LightTheme

@@ -4,6 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+
+#if AVALONIA
+using Avalonia.Interactivity;
+#else
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
@@ -11,6 +15,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
+#endif
 
 namespace PerfView
 {

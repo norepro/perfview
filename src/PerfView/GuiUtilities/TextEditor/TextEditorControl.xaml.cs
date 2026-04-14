@@ -14,6 +14,7 @@ using System.Windows.Documents;
 using System.Windows.Threading;
 #else
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 #endif
 
 namespace Controls

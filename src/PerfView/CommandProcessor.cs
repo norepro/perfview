@@ -24,6 +24,10 @@ using Triggers;
 using Utilities;
 using Trigger = Triggers.Trigger;
 
+#if AVALONIA
+using Avalonia.Interactivity;
+#endif
+
 namespace PerfView
 {
     /// <summary>
@@ -385,7 +389,7 @@ namespace PerfView
             {
                 parsedArgs.DataFile = parsedArgs.DataFile.Substring(0, parsedArgs.DataFile.Length - 4);
             }
-            else if(!parsedArgs.DataFile.EndsWith(".etl"))
+            else if (!parsedArgs.DataFile.EndsWith(".etl"))
             {
                 parsedArgs.DataFile = parsedArgs.DataFile + ".etl";
             }
@@ -1138,7 +1142,8 @@ namespace PerfView
 
         public void Stop(CommandLineArgs parsedArgs)
         {
-            try{
+            try
+            {
                 StopInProgress = true;
                 if (parsedArgs.DataFile == null)
                 {
@@ -1506,7 +1511,7 @@ namespace PerfView
                 etlWriter.CompressETL = true;
             }
 
-            if(parsedArgs.ImageIDsOnly)
+            if (parsedArgs.ImageIDsOnly)
             {
                 etlWriter.MergeImageIDsOnly = true;
 
@@ -1531,7 +1536,7 @@ namespace PerfView
 
             // ImageID only merge operations are done in a separate temp directory, so the resulting file
             // must be copied back to the original location so the user can find it.
-            if(parsedArgs.ImageIDsOnly)
+            if (parsedArgs.ImageIDsOnly)
             {
                 // Generate the full path to the destination file.
                 string destDir = Path.GetDirectoryName(originalArchivePath);
@@ -1642,7 +1647,7 @@ namespace PerfView
                 {
                     etlReader.SymbolDirectory = Path.ChangeExtension(inputFileName, ".ngenpdb");
                 }
-                else if(unpackInSeparateDirectory)
+                else if (unpackInSeparateDirectory)
                 {
                     // Get the target directory name for the ETL file.
                     string destDirectory = Path.GetDirectoryName(unzipedEtlFile);
@@ -2326,7 +2331,7 @@ namespace PerfView
                 }
 
                 // This callback gets called when we END collection (same button is used for start and end of collection.  
-                collectWindow.OKButton.Click += delegate (object sender, System.Windows.RoutedEventArgs e)
+                collectWindow.OKButton.Click += delegate (object sender, RoutedEventArgs e)
                 {
                     // Because ZIP Merge, and NoRundown affect post collection we allow the user to update them 
                     // even after collection has started by only updating the values when the collection has stopped.   
@@ -2917,12 +2922,12 @@ namespace PerfView
                 cmdLineArgs += " /StopCommand:" + Command.Quote(parsedArgs.StopCommand);
             }
 
-            if(parsedArgs.EnableEventsInContainers)
+            if (parsedArgs.EnableEventsInContainers)
             {
                 cmdLineArgs += " /EnableEventsInContainers";
             }
 
-            if(parsedArgs.EnableSourceContainerTracking)
+            if (parsedArgs.EnableSourceContainerTracking)
             {
                 cmdLineArgs += " /EnableSourceContainerTracking";
             }
@@ -2937,7 +2942,7 @@ namespace PerfView
                 cmdLineArgs += " /ClrEvents:" + parsedArgs.ClrEvents.ToString().Replace(" ", "");
             }
 
-            if(parsedArgs.TplEvents != TplEtwProviderTraceEventParser.Keywords.None)
+            if (parsedArgs.TplEvents != TplEtwProviderTraceEventParser.Keywords.None)
             {
                 cmdLineArgs += " /TplEvents:" + parsedArgs.TplEvents.ToString().Replace(" ", "");
             }
@@ -3172,7 +3177,7 @@ namespace PerfView
                 cmdLineArgs += " /UserCritContention";
             }
 
-            if(parsedArgs.ImageIDsOnly)
+            if (parsedArgs.ImageIDsOnly)
             {
                 cmdLineArgs += " /ImageIDsOnly";
             }
@@ -3479,18 +3484,18 @@ namespace PerfView
                         }
                     }
 
-                    if(parsedArgs.EnableEventsInContainers || parsedArgs.EnableSourceContainerTracking)
+                    if (parsedArgs.EnableEventsInContainers || parsedArgs.EnableSourceContainerTracking)
                     {
-                        if(options == null)
+                        if (options == null)
                         {
                             options = new TraceEventProviderOptions();
                         }
 
-                        if(parsedArgs.EnableEventsInContainers)
+                        if (parsedArgs.EnableEventsInContainers)
                         {
                             options.EnableInContainers = true;
                         }
-                        if(parsedArgs.EnableSourceContainerTracking)
+                        if (parsedArgs.EnableSourceContainerTracking)
                         {
                             options.EnableSourceContainerTracking = true;
                         }
@@ -3722,7 +3727,7 @@ namespace PerfView
                     providerStr = "@" + wildCardFileName;
                 }
 
-                RETRY:
+            RETRY:
                 // Handle : style keyword, level and stacks description. 
                 m = Regex.Match(rest, @"^([^:=]*)(:(.*))?$");
                 if (m.Success)

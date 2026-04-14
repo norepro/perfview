@@ -4,8 +4,13 @@ using PerfView.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Windows;
+
+#if AVALONIA
+using Avalonia.Interactivity;
+#else
 using System.Windows.Controls;
 using System.Windows.Media;
+#endif
 
 namespace PerfView
 {

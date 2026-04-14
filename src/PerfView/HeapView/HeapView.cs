@@ -1,9 +1,14 @@
 using Microsoft.Diagnostics.Tracing.Etlx;
 using System;
 using System.Collections.Generic;
+
+#if AVALONIA
+using Avalonia.Interactivity;
+#else
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+#endif
 
 namespace PerfView
 {
