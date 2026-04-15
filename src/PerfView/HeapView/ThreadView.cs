@@ -1,7 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+
+#if AVALONIA
+using Avalonia.Controls;
+using Avalonia.Media;
+#else
 using System.Windows.Controls;
 using System.Windows.Media;
+#endif
 
 namespace PerfView
 {

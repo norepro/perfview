@@ -14,7 +14,10 @@ using System.Windows.Documents;
 using System.Windows.Threading;
 #else
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media.TextFormatting;
+using Avalonia.Platform.Storage;
 #endif
 
 namespace Controls
@@ -256,6 +259,36 @@ namespace Controls
         }
         private void DoSaveAs(object sender, ExecutedRoutedEventArgs e)
         {
+#if AVALONIA
+            var topLevel = TopLevel.GetTopLevel(this);
+            var saveOptions = new FilePickerSaveOptions
+            {
+                Title = "File Save",
+                DefaultExtension = "txt",
+                FileTypeChoices = new[] {
+                    new FilePickerFileType("Text File") { Patterns = new[] { "*.txt", "*.log" } },
+                    new FilePickerFileType("All Files") { Patterns = new[] { "*.*" } },
+                },
+                ShowOverwritePrompt = true,
+            };
+
+            if (m_fileName != null)
+            {
+                saveOptions.SuggestedFileName = Path.GetFileName(m_fileName);
+            }
+
+            // Show open file dialog box
+            SaveFilePickerResult result = topLevel.StorageProvider
+                .SaveFilePickerWithResultAsync(saveOptions)
+                .GetAwaiter()
+                .GetResult();
+
+            // Process open file dialog box results
+            if (result.File != null)
+            {
+                // TODO_AVALONIA: Is this always right?
+                m_fileName = result.File.Path.ToString();
+#else
             var saveDialog = new Microsoft.Win32.SaveFileDialog();
             saveDialog.Title = "File Save";
             saveDialog.DefaultExt = ".txt";                  // Default file extension
@@ -274,6 +307,7 @@ namespace Controls
             if (result == true && !string.IsNullOrEmpty(saveDialog.FileName))
             {
                 m_fileName = saveDialog.FileName;
+#endif
                 Window window = Parent as Window;
                 if (window != null)
                 {

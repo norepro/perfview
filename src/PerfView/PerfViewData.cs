@@ -1,5 +1,7 @@
 ﻿using Diagnostics.Tracing.StackSources;
+#if NETFRAMEWORK
 using global::DiagnosticsHub.Packaging.Interop;
+#endif
 using Graphs;
 using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing;
@@ -21,7 +23,9 @@ using Microsoft.Diagnostics.Tracing.Parsers.MicrosoftAntimalwareEngine;
 using Microsoft.Diagnostics.Tracing.Stacks;
 using Microsoft.Diagnostics.Tracing.StackSources;
 using Microsoft.Diagnostics.Utilities;
+#if NETFRAMEWORK
 using Microsoft.DiagnosticsHub.Packaging.InteropEx;
+#endif
 using PerfView.GuiUtilities;
 using PerfViewExtensibility;
 using PerfViewModel;

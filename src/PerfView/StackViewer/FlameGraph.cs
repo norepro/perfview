@@ -2,10 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
+#if AVALONIA
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Media.Imaging;
+#else
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+#endif
 
 namespace PerfView
 {
@@ -82,7 +89,11 @@ namespace PerfView
 
         public static void Export(Canvas flameGraphCanvas, string filePath)
         {
+#if AVALONIA
+            var rectangle = flameGraphCanvas.Bounds;
+#else
             var rectangle = new Rect(flameGraphCanvas.RenderSize);
+#endif
             int width = (int)rectangle.Right;
             int height = (int)rectangle.Bottom;
 
@@ -94,6 +105,11 @@ namespace PerfView
                     $"Canvas has an invalid size (width={width}, height={height}). Please ensure the flame graph is visible and has been rendered before attempting to export.");
             }
 
+#if AVALONIA
+            using var renderTargetBitmap = new RenderTargetBitmap(new PixelSize(width, height), new Vector(96, 96));
+            renderTargetBitmap.Render(flameGraphCanvas);
+            renderTargetBitmap.Save(filePath);
+#else
             var renderTargetBitmap = new RenderTargetBitmap(width, height, 96d, 96d, PixelFormats.Default);
             renderTargetBitmap.Render(flameGraphCanvas);
 
@@ -104,6 +120,7 @@ namespace PerfView
             {
                 pngEncoder.Save(file);
             }
+#endif
         }
 
         private static double GetMaxDepth(CallTreeNode callTree)

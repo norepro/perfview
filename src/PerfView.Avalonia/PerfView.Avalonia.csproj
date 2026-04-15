@@ -63,6 +63,7 @@
     <PackageReference Include="ReactiveUI.Avalonia" />
     <PackageReference Include="System.Diagnostics.EventLog" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" />
+    <PackageReference Include="System.Management" />
   </ItemGroup>
 
   <ItemGroup>

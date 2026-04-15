@@ -10,10 +10,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Windows.Media;
 
 #if AVALONIA
 using Avalonia;
+#else
+using System.Windows.Media;
 #endif
 
 namespace PerfView
