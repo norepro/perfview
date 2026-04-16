@@ -5,6 +5,10 @@ using System.Windows;
 using System.Windows.Markup;
 using Utilities;
 
+#if AVALONIA
+using Application = Avalonia.Application;
+#endif
+
 namespace PerfView
 {
     /// <summary>
@@ -27,7 +31,9 @@ namespace PerfView
             {
                 // Setup unhanded exception handlers
                 AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+#if !AVALONIA
                 DispatcherUnhandledException += OnGuiUnhandledException;
+#endif
             }
         }
 
@@ -128,6 +134,7 @@ namespace PerfView
             MainWindow.Show();
         }
 
+#if !AVALONIA
         /// <summary>
         /// Called when exception happens in a GUI routine
         /// </summary>
@@ -150,6 +157,7 @@ namespace PerfView
                 e.Handled = true;
             }
         }
+#endif
 
         /// <summary>
         /// Fallback if we happen to take an exception in a non-gui routine (shouldn't happen!)
