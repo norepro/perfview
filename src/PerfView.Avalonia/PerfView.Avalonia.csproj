@@ -24,6 +24,7 @@
     <PerfViewExcludes Include="$(PerfViewFolder)/**/*.xaml.cs" />
     <PerfViewExcludes Include="$(PerfViewFolder)/App.cs" />
     <PerfViewExcludes Include="$(PerfViewFolder)/Dialogs/ImageHelpers.cs" />
+    <PerfViewExcludes Include="$(PerfViewFolder)/obj/**" />
 
     <Compile Include="$(PerfViewFolder)/**/*.cs" Exclude="@(PerfViewExcludes)" />    
     <Compile Include="../EtwHeapDump/DotNetHeapDumper.cs" />
