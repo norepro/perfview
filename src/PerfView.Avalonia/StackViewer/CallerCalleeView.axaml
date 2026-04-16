@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:src="using:PerfView"
              mc:Ignorable="d" 
+             x:CompileBindings="False"
              d:DesignHeight="250" d:DesignWidth="250">
     <!--The data comes from the CallTree property on CallerCalleeView.   This, coupled with setting 'FocusName', sets 
         the DataContext of this view to a CallerCalleeNode which is what bindings here get set to.  -->

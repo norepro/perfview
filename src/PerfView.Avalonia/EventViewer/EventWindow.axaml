@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
         xmlns:controls="using:Controls"
+        x:CompileBindings="False"
         Title="Events Filtered by Type" WindowState="Maximized">
     <Window.Resources>
         <!-- Shared Styles -->
@@ -14,7 +15,7 @@
         <Style x:Key="CenterAlign">
             <Setter Property="TextBlock.TextAlignment" Value="Center" />
         </Style>
-        <Style x:Key="ColumnHeaderStyle" TargetType="DataGridColumnHeader">
+        <Style x:Key="ColumnHeaderStyle" Selector="DataGridColumnHeader">
             <Setter Property="Focusable" Value="True" />
             <Setter Property="Background" Value="{DynamicResource ControlDefaultBackground}" />
             <Setter Property="Foreground" Value="{DynamicResource ControlText}" />
@@ -213,7 +214,7 @@ Can paste ranges into this box.</TextBlock>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Name="MultiLineViewPaneRowDef" Height="0.25*"/>
+                    <RowDefinition Height="0.25*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
@@ -224,7 +225,7 @@ Can paste ranges into this box.</TextBlock>
                     <TextBlock Grid.Column="0" TextAlignment="Center" VerticalAlignment="Center" Margin="10,0,2,0"
                                Text="Histogram:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
                     <TextBox Grid.Column="1" Name="Histogram" Height="20" Margin="3,0,0,0" Background="Transparent"
-                             SelectionChanged="DoHistogramSelectionChanged" Grid.Row="0" IsReadOnly="True"
+                             Grid.Row="0" IsReadOnly="True"
                              FontFamily="Courier New" FontSize="10"
                              ToolTip.Tip="Shows how the frequency of the selected events vary over time."
                              AutomationProperties.Name="Histogram"/>
@@ -241,14 +242,12 @@ Can paste ranges into this box.</TextBlock>
                     AutomationProperties.Name="Events Table">
                     <DataGrid.Columns>
                         <DataGridTextColumn
-                        x:Name="EventNameColumn"
                         Header="Event Name"
                         Binding="{Binding EventName}"
                         MinWidth="60"
                         IsReadOnly="True" />
                         <!-- TODO_AVALONIA: Was Hidden -->
                         <DataGridTextColumn
-                        x:Name="LocalTimeStampColumn"
                         Header="TimeStamp (Current Machine)"
                         Binding="{Binding LocalTimeStamp, StringFormat=o}"
                         MinWidth="60"
@@ -256,7 +255,6 @@ Can paste ranges into this box.</TextBlock>
                         IsVisible="False" />
                         <!-- TODO_AVALONIA: ElementStyle not available -->
                         <DataGridTextColumn
-                        x:Name="OriginTimeStampColumn"
                         Header="TimeStamp (Trace Local)"
                         Binding="{Binding OriginTimeStamp, StringFormat=o}"
                         MinWidth="60"
@@ -264,14 +262,12 @@ Can paste ranges into this box.</TextBlock>
                         IsVisible="True" />
                         <!-- TODO_AVALONIA: ElementStyle not available -->
                         <DataGridTextColumn
-                        x:Name="TimeMSecColumn"
                         Header="Time MSec"
                         Binding="{Binding TimeStampRelatveMSec, StringFormat=\{0:n3\}}"
                         MinWidth="60"
                         IsReadOnly="True" />
                         <!-- TODO_AVALONIA: ElementStyle not available -->
                         <DataGridTextColumn
-                        x:Name="ProcessNameColumn"
                         Header="Process Name"
                         Binding="{Binding ProcessName}"
                         MinWidth="60"

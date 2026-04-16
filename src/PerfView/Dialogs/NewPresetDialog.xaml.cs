@@ -18,6 +18,9 @@ namespace PerfView.Dialogs
     {
         public string PresetName { get; private set; }
 
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public NewPresetDialog() { InitializeComponent(); }
+
         public NewPresetDialog(Window parentWindow, string defaultValue, List<string> existingPresets) : base(parentWindow)
         {
             m_existingPresets = existingPresets;

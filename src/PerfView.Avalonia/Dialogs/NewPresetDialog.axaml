@@ -2,7 +2,7 @@
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
-        Style="{DynamicResource CustomWindowStyle}"
+        x:CompileBindings="False"
         Background="{DynamicResource ControlDarkerBackground}"
         Title="New Preset" Height="93.611" Width="400">
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
@@ -20,7 +20,7 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <!-- TODO_AVALONIA: Hyperlink not available in Avalonia, replaced with TextBlock -->
             <TextBlock HorizontalAlignment="Left" Margin="8,2,5,2" Name="TitleHyperLinkText" Text="Preset Name"/>
-            <TextBox Name="PresetNameTextBox" Width="290" Margin="10,2,10,2" KeyDown="DoKeyDown" HorizontalScrollBarVisibility="Auto" />
+            <TextBox Name="PresetNameTextBox" Width="290" Margin="10,2,10,2" KeyDown="DoKeyDown" ScrollViewer.HorizontalScrollBarVisibility="Auto" />
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,0,0,-30">
             <Button Margin="10,2,10,5" Width="80" Content="OK" Click="OKClicked"/>

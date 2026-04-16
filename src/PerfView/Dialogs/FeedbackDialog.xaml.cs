@@ -15,6 +15,9 @@ namespace PerfView.Dialogs
     /// </summary>
     public partial class FeedbackDialog : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public FeedbackDialog() { InitializeComponent(); }
+
         public FeedbackDialog(Window parentWindow, Action<string> action) : base(parentWindow)
         {
             m_action = action;

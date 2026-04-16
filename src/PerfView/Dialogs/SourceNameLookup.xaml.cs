@@ -12,6 +12,9 @@ namespace PerfView.Dialogs
     /// </summary>
     public partial class SourceNameLookup : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public SourceNameLookup() { InitializeComponent(); }
+
         public SourceNameLookup(Window parentWindow) : base(parentWindow)
         {
             InitializeComponent();

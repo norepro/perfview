@@ -20,6 +20,9 @@ namespace PerfView.Dialogs
     /// </summary>
     public partial class MemoryDataDialog : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public MemoryDataDialog() { InitializeComponent(); }
+
         public MemoryDataDialog(CommandLineArgs args, MainWindow mainWindow, Action continuation) : base(mainWindow)
         {
             m_continuation = continuation;

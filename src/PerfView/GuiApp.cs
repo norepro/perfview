@@ -23,12 +23,17 @@ namespace PerfView
         /// </summary>
         public static new MainWindow MainWindow;
 
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public GuiApp() : this(true) { }
+
         public GuiApp(bool installUnhandledExceptionHandlers = true)
         {
 #if !AVALONIA
             Startup += delegate (object sender, StartupEventArgs e) { ApplicationStarted(); };
 
             InitializeComponent();
+#else
+            global::Avalonia.Markup.Xaml.AvaloniaXamlLoader.Load(this);
 #endif
 
             if (installUnhandledExceptionHandlers)

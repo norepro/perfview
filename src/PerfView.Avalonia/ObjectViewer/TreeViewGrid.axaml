@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         mc:Ignorable="d"
+        x:CompileBindings="False"
         d:DesignHeight="223" d:DesignWidth="600">
 
     <UserControl.Resources>
@@ -21,7 +22,7 @@
                 <TextBlock Name="Name" Text="{Binding Name}"/>
             </StackPanel>
         </DataTemplate>
-        <Style x:Key="ColumnHeaderStyle" TargetType="DataGridColumnHeader">
+        <Style x:Key="ColumnHeaderStyle" Selector="DataGridColumnHeader">
             <Setter Property="Focusable" Value="True" />
         </Style>
     </UserControl.Resources>

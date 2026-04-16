@@ -6,8 +6,9 @@
         x:Class="PerfView.Avalonia.SplashScreen"
         Title="PerfView Splash Screen"
         WindowStartupLocation="CenterScreen"
-        SystemDecorations="None"
+        WindowDecorations="None"
         Topmost="True"
+        x:CompileBindings="False"
         Background="Transparent">
 
     <Image Source="SplashScreen.png" 

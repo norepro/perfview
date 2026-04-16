@@ -16,6 +16,9 @@ namespace PerfView.Dialogs
     /// </summary>
     public partial class UserCommandDialog : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public UserCommandDialog() { InitializeComponent(); }
+
         public UserCommandDialog(Window parentWindow, Action<string> doDommand) : base(parentWindow)
         {
             m_DoCommand = doDommand;

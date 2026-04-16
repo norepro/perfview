@@ -9,6 +9,7 @@ using System.Windows.Controls;
 #else
 using Avalonia.Controls;
 using Avalonia.Input.Platform;
+using Avalonia.Interactivity;
 #endif
 
 namespace PerfView.Dialogs
@@ -18,6 +19,9 @@ namespace PerfView.Dialogs
     /// </summary>
     public partial class GitHubDeviceFlowDialog : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public GitHubDeviceFlowDialog() { InitializeComponent(); }
+
         /// <summary>
         /// Construct a new instance.
         /// </summary>
@@ -64,5 +68,37 @@ namespace PerfView.Dialogs
             Close();
             e.Handled = true;
         }
+
+#if AVALONIA
+        private void NavigateTo_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null)
+            {
+                var uri = DataContext.GetType().GetProperty("VerificationUri")?.GetValue(DataContext) as Uri;
+                if (uri != null)
+                {
+                    Process.Start(new ProcessStartInfo(uri.AbsoluteUri) { UseShellExecute = true });
+                }
+            }
+        }
+
+        private void Copy_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null)
+            {
+                var userCode = DataContext.GetType().GetProperty("UserCode")?.GetValue(DataContext)?.ToString();
+                if (userCode != null)
+                {
+                    Clipboard.SetTextAsync(userCode).Wait();
+                    ((Button)sender).Content = "Copied";
+                }
+            }
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+#endif
     }
 }

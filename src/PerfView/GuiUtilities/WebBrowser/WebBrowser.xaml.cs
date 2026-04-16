@@ -23,6 +23,9 @@ namespace PerfView.GuiUtilities
     /// </summary>
     public partial class WebBrowserWindow : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public WebBrowserWindow() { InitializeComponent(); }
+
         public WebBrowserWindow(Window parentWindow) : base(parentWindow)
         {
             InitializeComponent();

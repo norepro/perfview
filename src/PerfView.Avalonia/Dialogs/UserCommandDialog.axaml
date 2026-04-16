@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
         xmlns:controls="using:Controls"
-        Style="{DynamicResource CustomWindowStyle}"
+        x:CompileBindings="False"
         Background="{DynamicResource ControlDarkerBackground}"
         Title="Executing User Defined Command" Height="116" Width="669">
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->

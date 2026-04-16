@@ -42,6 +42,9 @@ namespace PerfView
     {
         public static bool TruncateRawEventData = true;
 
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public EventWindow() { InitializeComponent(); }
+
         public EventWindow(Window parent, EventSource source) : base(parent)
         {
             throw new NotImplementedException();

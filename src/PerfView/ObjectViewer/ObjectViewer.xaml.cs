@@ -21,6 +21,9 @@ namespace PerfView
     /// </summary>
     public partial class ObjectViewer : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public ObjectViewer() { InitializeComponent(); }
+
         public ObjectViewer(
             Window parentWindow,
             MemoryGraph graph,

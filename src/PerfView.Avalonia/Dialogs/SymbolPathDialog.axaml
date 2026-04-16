@@ -2,7 +2,7 @@
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
-        Style="{DynamicResource CustomWindowStyle}"
+        x:CompileBindings="False"
         Background="{DynamicResource ControlDarkerBackground}"
         Title="Execute User Command" Height="246" Width="597">
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
@@ -24,7 +24,7 @@
             <Run Name="TitleHyperLinkText" Text="Symbol Path"/>
         </TextBlock>
         <TextBox Grid.Row="1" Name="SymbolPathTextBox" Margin="10,2,10,2" KeyDown="DoKeyDown"
-                 AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto"
+                 AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
                  TextChanged="DoTextChanged" />
         <!-- TODO_AVALONIA: AutomationProperties.Name needs verification -->
         <TextBox Grid.Row="2" Name="EnvVarTextBox" Margin="10,2,10,10" IsReadOnly="True" />

@@ -14,6 +14,9 @@ namespace PerfView.Dialogs
     /// </summary>
     public partial class EmptySymbolPathDialog : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public EmptySymbolPathDialog() { InitializeComponent(); }
+
         /// <summary>
         /// The action is given a 'true' value if MSSymbols should be used.  
         /// </summary>

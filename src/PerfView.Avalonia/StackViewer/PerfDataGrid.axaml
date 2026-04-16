@@ -6,6 +6,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:converter="using:PerfView.StackViewer"
         mc:Ignorable="d"
+        x:CompileBindings="False"
         d:DesignHeight="223" d:DesignWidth="600">
     <UserControl.Resources>
         <converter:ColorValidatorConverter x:Key="converter" />
@@ -45,7 +46,6 @@
         <DataGrid.Columns>
             <!-- TODO_AVALONIA: ClipboardContentBinding not available -->
             <DataGridTemplateColumn
-                x:Name="DisplayNameColumn"
                 IsReadOnly="True"
                 Width="*">
                 <DataGridTemplateColumn.CellTemplate>
@@ -221,7 +221,6 @@
             <!-- TODO_AVALONIA: ElementStyle not available -->
             <!-- TODO_AVALONIA: EditingElementStyle not available -->
             <DataGridTextColumn
-                x:Name="TimeHistogramColumn"
                 IsReadOnly="False"
                 Binding="{Binding InclusiveMetricByTimeString}">
                 <DataGridTextColumn.Header>
@@ -262,7 +261,6 @@ Selecting this text in the status window and use SetRange (Alt-R) to set range.
             <!-- TODO_AVALONIA: ElementStyle not available -->
             <!-- TODO_AVALONIA: EditingElementStyle not available -->
             <DataGridTextColumn
-                x:Name="ScenarioHistogramColumn"
                 IsReadOnly="False"
                 Binding="{Binding InclusiveMetricByScenarioString}">
                 <DataGridTextColumn.Header>
@@ -301,7 +299,6 @@ Double-click to enter select mode. Select text and use "Set Scenario List" to li
             </DataGridTextColumn>
             <!-- TODO_AVALONIA: ElementStyle not available -->
             <DataGridTextColumn
-                x:Name="FirstTimeColumn"
                 IsReadOnly="True"
                 Binding="{Binding FirstTimeRelativeMSec, StringFormat={}{0:n3}}">
                 <DataGridTextColumn.Header>
@@ -318,7 +315,6 @@ Double-click to enter select mode. Select text and use "Set Scenario List" to li
             </DataGridTextColumn>
             <!-- TODO_AVALONIA: ElementStyle not available -->
             <DataGridTextColumn
-                x:Name="LastTimeColumn"
                 IsReadOnly="True"
                 Binding="{Binding LastTimeRelativeMSec, StringFormat={}{0:n3}}">
                 <DataGridTextColumn.Header>

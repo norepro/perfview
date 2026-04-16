@@ -2,7 +2,7 @@
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
-        Style="{DynamicResource CustomWindowStyle}"
+        x:CompileBindings="False"
         Title="Unhandled Exception" Height="408" Width="590">
     <DockPanel>
         <Grid DockPanel.Dock="Bottom" Background="{DynamicResource BackgroundColour}">
@@ -17,6 +17,6 @@
             <Button Margin="5,4" Grid.Column="3" Width="120" Content="Exit" Click="ExitClicked"/>
         </Grid>
         <TextBox Name="Body" TextWrapping="Wrap" IsReadOnly="True"
-                 HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" />
     </DockPanel>
 </src:WindowBase>

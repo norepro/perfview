@@ -47,6 +47,9 @@ namespace PerfView
     /// </summary>
     public partial class StackWindow : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public StackWindow() { InitializeComponent(); }
+
         public StackWindow(Window parentWindow, PerfViewStackSource dataSource) : base(parentWindow)
         {
             DataSource = dataSource;

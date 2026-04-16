@@ -31,6 +31,9 @@ namespace PerfView
     /// </summary>
     public partial class RunCommandDialog : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public RunCommandDialog() { InitializeComponent(); }
+
         public RunCommandDialog(CommandLineArgs args, MainWindow mainWindow, bool isCollect = false, Action continuation = null) : base(mainWindow)
         {
             //Owner = mainWindow;

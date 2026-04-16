@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
         Title="Enter Feedback"
-        Style="{DynamicResource CustomWindowStyle}"
+        x:CompileBindings="False"
         Background="{DynamicResource ControlDarkerBackground}"
         Height="443" Width="722">
     <Grid>
@@ -27,7 +27,7 @@
             Thank you for taking the time to give feedback on PerfView!
         </TextBlock>
         <TextBox Grid.Row="1" Name="TextBox" Margin="10,2,10,2" AcceptsReturn="True"
-                 HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" />
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

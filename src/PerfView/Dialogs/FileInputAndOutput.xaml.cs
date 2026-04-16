@@ -24,6 +24,9 @@ namespace PerfView.Dialogs
     public partial class FileInputAndOutput : WindowBase
     {
 
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public FileInputAndOutput() { InitializeComponent(); }
+
         /// <summary>
         /// Creates a class that will select a file (or directory if SelectingDirectories=true)
         /// and then call onOK, with the first argument being the input file selected and the second being the output file.

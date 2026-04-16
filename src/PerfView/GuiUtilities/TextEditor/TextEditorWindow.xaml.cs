@@ -14,6 +14,9 @@ namespace Controls
     /// </summary>
     public partial class TextEditorWindow : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public TextEditorWindow() { InitializeComponent(); }
+
 #if AVALONIA
         public TextEditorWindow(string[] args = null)
 #else
@@ -47,6 +50,16 @@ namespace Controls
                 e.Cancel = true;
             }
         }
+#if AVALONIA
+        private void Window_Closing(object sender, Avalonia.Controls.WindowClosingEventArgs e)
+        {
+            if (HideOnClose)
+            {
+                IsVisible = false;
+                e.Cancel = true;
+            }
+        }
+#endif
         #endregion
     }
 }

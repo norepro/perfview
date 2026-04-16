@@ -20,6 +20,9 @@ namespace PerfView.Dialogs
     /// </summary>
     public partial class ProviderBrowser : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public ProviderBrowser() { InitializeComponent(); }
+
         //Level 4 is default -- after keywords
         public ProviderBrowser(Window parentWindow, Action<string, string, string> update) : base(parentWindow)
         {

@@ -22,6 +22,9 @@ namespace PerfView.Dialogs
     {
         public List<Preset> Presets { get; private set; }
 
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public ManagePresetsDialog() { InitializeComponent(); }
+
         public ManagePresetsDialog(Window parentWindow, List<Preset> presets, string basePath, StatusBar log) : base(parentWindow)
         {
             InitializeComponent();

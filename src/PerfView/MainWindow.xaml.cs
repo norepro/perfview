@@ -57,6 +57,9 @@ namespace PerfView
         public DispatcherAdapter Dispatcher { get; } = new();
 #endif
 
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public MainWindow() { InitializeComponent(); }
+
         public MainWindow(bool testing = false)
         {
             _testing = testing;
@@ -1062,6 +1065,14 @@ namespace PerfView
             StatusBar.Log("Looking up topic " + param + " in Users Guide.");
             DisplayUsersGuide(param);
         }
+#if AVALONIA
+        private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
+        {
+            var param = (sender as Control)?.Tag as string ?? "MainViewerQuickStart";
+            StatusBar.Log("Looking up topic " + param + " in Users Guide.");
+            DisplayUsersGuide(param);
+        }
+#endif
         private void DoReleaseNotes(object sender, RoutedEventArgs e)
         {
             StatusBar.Log("Displaying the release notes.");

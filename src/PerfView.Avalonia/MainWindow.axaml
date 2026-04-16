@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="clr-namespace:PerfView"
         xmlns:controls="clr-namespace:Controls"
+        x:CompileBindings="False"
         Closed="Window_Closed"
         Title="PerfView" Height="535" Width="1000">
     <Window.Resources>
@@ -13,10 +14,12 @@
         <Bitmap x:Key="FolderOpenBitmapImage">avares://PerfView.Avalonia/images/VSFolder_open.png</Bitmap>
         <Bitmap x:Key="HtmlReportBitmapImage">avares://PerfView.Avalonia/images/VSProject_html.png</Bitmap>
         <Bitmap x:Key="ChartBitmapImage">avares://PerfView.Avalonia/images/Chart.png</Bitmap>
+    </Window.Resources>
+    <Window.Styles>
         <Style Selector="MenuItem">
             <Setter Property="IsVisible" Value="{Binding $self.IsEnabled}" />
         </Style>
-    </Window.Resources>
+    </Window.Styles>
     <Window.KeyBindings>
         <KeyBinding Gesture="Ctrl+L" Command="{x:Static src:MainWindow.FocusDirectoryCommand}" />
     </Window.KeyBindings>
@@ -77,16 +80,17 @@
                         <MenuItem Header="Use Device _Code for GitHub" x:Name="Authentication_UseGitHubDeviceFlow" IsChecked="{Binding Path=AuthenticationViewModel.IsGitHubDeviceFlowEnabled}" Command="{x:Static src:AuthenticationCommands.UseGitHubDeviceFlow}" ToolTip.Tip="Use a device code to authenticate with GitHub."/>
                         <MenuItem Header="Use Basic Http Auth" x:Name="Authentication_UseBasicHttpAuth" IsChecked="{Binding Path=AuthenticationViewModel.IsBasicHttpAuthEnabled}" Command="{x:Static src:AuthenticationCommands.UseBasicHttpAuth}" ToolTip.Tip="Use basic HTTP authentication to access a symbol server"/>
                     </MenuItem>
-                    <MenuItem Header="Do not shorten frames copied from stack windows" x:Name="Option_DoNotCompressStackFramesOnCopy" IsCheckable="True" Click="ToggleDoNotCompressStackFramesOnCopy" ToolTip.Tip="When pasting stack frame lines copied from the Stack Viewer window, paste the full contents of each line instead of a minimized version." />
+                    <MenuItem Header="Do not shorten frames copied from stack windows" x:Name="Option_DoNotCompressStackFramesOnCopy" ToggleType="CheckBox" Click="ToggleDoNotCompressStackFramesOnCopy" ToolTip.Tip="When pasting stack frame lines copied from the Stack Viewer window, paste the full contents of each line instead of a minimized version." />
                     <MenuItem Header="_Experimental">
-                        <MenuItem Header="Show experimental GC features." x:Name="Option_ExperimentalGCFeatures" IsCheckable="True" Click="ToggleExperimentalGCFeatures" ToolTip.Tip="Enable or disable experimental GC features."/>
+                        <MenuItem Header="Show experimental GC features." x:Name="Option_ExperimentalGCFeatures" ToggleType="CheckBox" Click="ToggleExperimentalGCFeatures" ToolTip.Tip="Enable or disable experimental GC features."/>
                     </MenuItem>
-                    <MenuItem Header="Navigate to last used directory on launch." x:Name="Option_OpenToLastUsedDirectory" IsCheckable="True" Click="ToggleOpenToLastUsedDirectory" ToolTip.Tip="When launching PerfView, navigate to the last opened directory instead of the current working directory."/>
-                    <MenuItem Header="Truncate raw data when dumping an event" x:Name="Option_TruncateRawEventData" IsCheckable="True" Click="ToggleTruncateRawEventData" ToolTip.Tip="Controls whether or not a raw event dumped from the events view is truncated." />
+                    <MenuItem Header="Navigate to last used directory on launch." x:Name="Option_OpenToLastUsedDirectory" ToggleType="CheckBox" Click="ToggleOpenToLastUsedDirectory" ToolTip.Tip="When launching PerfView, navigate to the last opened directory instead of the current working directory."/>
+                    <MenuItem Header="Truncate raw data when dumping an event" x:Name="Option_TruncateRawEventData" ToggleType="CheckBox" Click="ToggleTruncateRawEventData" ToolTip.Tip="Controls whether or not a raw event dumped from the events view is truncated." />
                     <MenuItem Header="Theme">
-                        <MenuItem Header="Light" x:Name="Theme_Light" IsChecked="{Binding Path=ThemeViewModel.IsLightTheme}" Command="{x:Static src:ThemeViewModel.SetLightThemeCommand}"/>
-                        <MenuItem Header="Dark" x:Name="Theme_Dark" IsChecked="{Binding Path=ThemeViewModel.IsDarkTheme}" Command="{x:Static src:ThemeViewModel.SetDarkThemeCommand}"/>
-                        <MenuItem Header="System" x:Name="Theme_System" IsChecked="{Binding Path=ThemeViewModel.IsSystemTheme}" Command="{x:Static src:ThemeViewModel.SetSystemThemeCommand}"/>
+                        <!-- TODO_AVALONIA: ThemeViewModel commands need Avalonia-compatible implementation -->
+                        <MenuItem Header="Light" x:Name="Theme_Light" IsChecked="{Binding Path=ThemeViewModel.IsLightTheme}"/>
+                        <MenuItem Header="Dark" x:Name="Theme_Dark" IsChecked="{Binding Path=ThemeViewModel.IsDarkTheme}"/>
+                        <MenuItem Header="System" x:Name="Theme_System" IsChecked="{Binding Path=ThemeViewModel.IsSystemTheme}"/>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Help">
@@ -151,7 +155,7 @@
                           PointerPressed="TreeView_PreviewMouseRightButtonDown"
                           ToolTip.Tip="Double Click to open.  Right click contains additional help and additional options."
                           IsEnabled="{Binding #StatusBar.IsNotWorking}"
-                          AllowDrop="True"
+                          DragDrop.AllowDrop="True"
                           DragDrop.Drop="DoDrop">
                     <TreeView.Styles>
                         <Style Selector="TreeViewItem">

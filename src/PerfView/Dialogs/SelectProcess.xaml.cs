@@ -20,6 +20,9 @@ namespace PerfView
     /// </summary>
     public partial class SelectProcess : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public SelectProcess() { InitializeComponent(); }
+
         public SelectProcess(Window parentWindow, IEnumerable<IProcess> processes, TimeSpan maxLifetime, Action<List<IProcess>> action, bool hasAllProc = false) : base(parentWindow)
         {
             m_action = action;

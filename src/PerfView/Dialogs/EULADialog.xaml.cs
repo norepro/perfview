@@ -16,6 +16,9 @@ namespace PerfView.Dialogs
     /// </summary>
     public partial class EULADialog : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public EULADialog() { InitializeComponent(); }
+
         public EULADialog(Window parentWindow) : base(parentWindow)
         {
             InitializeComponent();

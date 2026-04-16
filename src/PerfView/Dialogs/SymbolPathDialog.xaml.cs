@@ -19,6 +19,9 @@ namespace PerfView.Dialogs
     /// </summary>
     public partial class SymbolPathDialog : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public SymbolPathDialog() { InitializeComponent(); }
+
         /// <summary>
         /// Kind should be either 'symbol' or 'source' depending on which path variable to set.  
         /// </summary>

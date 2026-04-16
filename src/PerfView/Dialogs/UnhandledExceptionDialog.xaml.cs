@@ -13,6 +13,9 @@ namespace PerfView.Dialogs
     /// </summary>
     public partial class UnhandledExceptionDialog : WindowBase
     {
+        /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
+        public UnhandledExceptionDialog() { InitializeComponent(); }
+
         public UnhandledExceptionDialog(Window parentWindow, object exception) : base(parentWindow)
         {
             InitializeComponent();

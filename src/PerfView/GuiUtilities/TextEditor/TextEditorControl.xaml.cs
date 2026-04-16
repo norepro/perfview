@@ -461,6 +461,14 @@ namespace Controls
 #endif
         }
 
+#if AVALONIA
+        private void DoFindNext(object sender, RoutedEventArgs e) => DoFindNext(sender, new ExecutedRoutedEventArgs());
+        private void DoClose(object sender, RoutedEventArgs e) => DoClose(sender, new ExecutedRoutedEventArgs());
+        private void DoSaveAs(object sender, RoutedEventArgs e) => DoSaveAs(sender, new ExecutedRoutedEventArgs());
+        private void DoSave(object sender, RoutedEventArgs e) => DoSave(sender, new ExecutedRoutedEventArgs());
+        private void DoOpen(object sender, RoutedEventArgs e) => DoOpen(sender, new ExecutedRoutedEventArgs());
+#endif
+
         // GUI callbacks
         private void FindTextBoxKeyDown(object sender, KeyEventArgs e)
         {
