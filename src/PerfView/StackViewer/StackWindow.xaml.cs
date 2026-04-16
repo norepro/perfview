@@ -1733,7 +1733,11 @@ namespace PerfView
                 focusTextBox = PerfDataGrid.EditingBox;
             }
 
+#if AVALONIA
+            return focusTextBox != null && (focusTextBox.SelectionEnd - focusTextBox.SelectionStart) != 0;
+#else
             return focusTextBox != null && focusTextBox.SelectionLength != 0;
+#endif
         }
 
         private void DoSetTimeRange(object sender, ExecutedRoutedEventArgs e)
@@ -1741,7 +1745,11 @@ namespace PerfView
             if (TextBoxHasFocusAndNonEmptySelection(out var focusTextBox))
             {
                 var selectionStartIndex = focusTextBox.SelectionStart;
+#if AVALONIA
+                var selectionLen = focusTextBox.SelectionEnd - focusTextBox.SelectionStart;
+#else
                 var selectionLen = focusTextBox.SelectionLength;
+#endif
                 var text = focusTextBox.Text;
 
                 // If you accidentally select the space before the selection, skip it
@@ -1836,7 +1844,11 @@ namespace PerfView
 
             var scenarioList = m_callTree.ScenarioHistogram.GetScenariosForCharacterRange(
                 (HistogramCharacterIndex)(box.SelectionStart),
+#if AVALONIA
+                (HistogramCharacterIndex)(box.SelectionEnd));
+#else
                 (HistogramCharacterIndex)(box.SelectionStart + box.SelectionLength));
+#endif
 
             var f = Filter;
             f.ScenarioList = scenarioList;
@@ -1852,7 +1864,11 @@ namespace PerfView
             {
                 var scenarioList = m_callTree.ScenarioHistogram.GetScenariosForCharacterRange(
                     (HistogramCharacterIndex)(box.SelectionStart),
+#if AVALONIA
+                    (HistogramCharacterIndex)(box.SelectionEnd));
+#else
                     (HistogramCharacterIndex)(box.SelectionStart + box.SelectionLength));
+#endif
 
                 result = String.Join(",", Array.ConvertAll(scenarioList, x => x.ToString()));
             }
@@ -1871,7 +1887,11 @@ namespace PerfView
             {
                 var scenarioList = m_callTree.ScenarioHistogram.GetScenariosForCharacterRange(
                     (HistogramCharacterIndex)(box.SelectionStart),
+#if AVALONIA
+                    (HistogramCharacterIndex)(box.SelectionEnd));
+#else
                     (HistogramCharacterIndex)(box.SelectionStart + box.SelectionLength));
+#endif
                 foreach (var scenario in scenarioList)
                 {
                     sb.AppendLine(m_callTree.ScenarioHistogram.GetNameForScenario(scenario));
@@ -3192,10 +3212,12 @@ namespace PerfView
             StackWindows.Add(this);
 
             // TODO really should simply update Diff Menu lazily
+#if !AVALONIA
             IsVisibleChanged += delegate (object sender, DependencyPropertyChangedEventArgs e)
             {
                 UpdateDiffMenus(StackWindows);
             };
+#endif
 #if AVALONIA
             Closing += delegate (object sender, WindowClosingEventArgs e)
 #else

@@ -179,7 +179,11 @@ namespace PerfView
         {
             LogWriter.Flush();
             LogWindow.Show();
+#if AVALONIA
+            LogWindow.TextEditor.Body.CaretIndex = LogWindow.TextEditor.Body.Text?.Length ?? 0;
+#else
             LogWindow.TextEditor.Body.ScrollToEnd();
+#endif
             LogWindow.Focus();
         }
 

@@ -42,7 +42,11 @@ namespace PerfView.Dialogs
             SymbolPathTextBox.Text = defaultValue.Replace(";", ";\r\n") + "\r\n";
             GetValue();
             SymbolPathTextBox.SelectionStart = 0;
+#if AVALONIA
+            SymbolPathTextBox.SelectionEnd = 0;
+#else
             SymbolPathTextBox.SelectionLength = 0;
+#endif
             SymbolPathTextBox.Focus();
         }
         private void DoHyperlinkHelp(object sender, ExecutedRoutedEventArgs e)

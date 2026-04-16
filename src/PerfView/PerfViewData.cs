@@ -1390,7 +1390,11 @@ namespace PerfView
                     logTextWindow.Title = "Collection time log";
                     logTextWindow.HideOnClose = true;
                     logTextWindow.Show();
+#if AVALONIA
+                    logTextWindow.TextEditor.Body.CaretIndex = logTextWindow.TextEditor.Body.Text?.Length ?? 0;
+#else
                     logTextWindow.TextEditor.Body.ScrollToEnd();
+#endif
                 });
 
                 return "Displaying Log";

@@ -63,7 +63,11 @@ namespace Controls
         /// </summary>
         public void AppendText(string textData)
         {
+#if AVALONIA
+            Body.Text = (Body.Text ?? "") + textData;
+#else
             Body.AppendText(textData);
+#endif
         }
         /// <summary>
         /// 
@@ -73,10 +77,14 @@ namespace Controls
         {
             try
             {
+#if AVALONIA
+                Body.Text = File.ReadAllText(fileName);
+#else
                 using (var stream = File.OpenRead(fileName))
                 {
                     new TextRange(Body.Document.ContentStart, Body.Document.ContentEnd).Load(stream, DataFormats.Text);
                 }
+#endif
 
                 m_fileName = fileName;
             }
@@ -89,10 +97,14 @@ namespace Controls
         {
             try
             {
+#if AVALONIA
+                File.WriteAllText(fileName, Body.Text ?? "");
+#else
                 using (var stream = File.Create(fileName))
                 {
                     new TextRange(Body.Document.ContentStart, Body.Document.ContentEnd).Save(stream, DataFormats.Text);
                 }
+#endif
 
                 m_fileName = fileName;
             }
@@ -109,6 +121,29 @@ namespace Controls
         /// </summary>
         public void GotoLine(int lineNum)
         {
+#if AVALONIA
+            var text = Body.Text ?? "";
+            int pos = 0;
+            for (int i = 1; i < lineNum && pos < text.Length; i++)
+            {
+                int nl = text.IndexOf('\n', pos);
+                if (nl < 0)
+                {
+                    break;
+                }
+
+                pos = nl + 1;
+            }
+            int endPos = text.IndexOf('\n', pos);
+            if (endPos < 0)
+            {
+                endPos = text.Length;
+            }
+
+            Body.SelectionStart = pos;
+            Body.SelectionEnd = endPos;
+            Body.CaretIndex = pos;
+#else
             // Line numbers start at 1;
             if (lineNum > 0)
             {
@@ -140,6 +175,7 @@ namespace Controls
                 Body.Selection.Select(blockForLine.ContentStart, blockForLine.ContentEnd);
                 blockForLine.BringIntoView();
             }
+#endif
         }
 
         /// <summary>
@@ -272,10 +308,19 @@ namespace Controls
         }
         private void DoFind(object sender, ExecutedRoutedEventArgs e)
         {
+#if AVALONIA
+            var selStart = Body.SelectionStart;
+            var selEnd = Body.SelectionEnd;
+            if (selEnd > selStart)
+            {
+                FindTextBox.Text = Body.Text?.Substring(selStart, selEnd - selStart) ?? "";
+            }
+#else
             if (!Body.Selection.IsEmpty)
             {
                 FindTextBox.Text = Body.Selection.Text;
             }
+#endif
 
             if (FindTextBox.Text.Length == 0)
             {
@@ -292,8 +337,12 @@ namespace Controls
         }
         private void DoClear(object sender, ExecutedRoutedEventArgs e)
         {
+#if AVALONIA
+            Body.Text = "";
+#else
             Body.SelectAll();
             Body.Selection.Text = "";
+#endif
         }
         private void DoClose(object sender, ExecutedRoutedEventArgs e)
         {
@@ -461,7 +510,17 @@ namespace Controls
             m_timer = new DispatcherTimer();
             m_timer.Tick += delegate { Flush(); };
             m_timer.Interval = new TimeSpan(100000 * 300);     // 300 msec 
+#if AVALONIA
+            m_textEditorControl.PropertyChanged += (sender, e) =>
+            {
+                if (e.Property.Name == "IsVisible")
+                {
+                    Flush();
+                }
+            };
+#else
             m_textEditorControl.IsVisibleChanged += delegate (object sender, DependencyPropertyChangedEventArgs e) { Flush(); };
+#endif
         }
         public override void Write(char value)
         {
@@ -509,7 +568,11 @@ namespace Controls
                                 newLogData += logData.Substring(logData.Length - dataLen, dataLen);
                                 m_textEditorControl.Text = newLogData;
                             }
+#if AVALONIA
+                            m_textEditorControl.Body.CaretIndex = m_textEditorControl.Body.Text?.Length ?? 0;
+#else
                             m_textEditorControl.Body.ScrollToEnd();
+#endif
                             m_charsWritten = newTotalLen;
                             m_LastTimeFlushed = DateTime.UtcNow;
                         }

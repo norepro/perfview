@@ -812,7 +812,11 @@ namespace PerfView
             if (Histogram.IsFocused)
             {
                 var start = Histogram.SelectionStart;
+#if AVALONIA
+                var end = Histogram.SelectionEnd;
+#else
                 var end = Histogram.SelectionLength + start;
+#endif
                 if (start < 0 || end == start)
                 {
                     StatusBar.LogError("No selection in the Histogram was made.");
@@ -1006,7 +1010,11 @@ namespace PerfView
         private void DoHistogramSelectionChanged(object sender, RoutedEventArgs e)
         {
             var start = Histogram.SelectionStart;
+#if AVALONIA
+            var end = Histogram.SelectionEnd;
+#else
             var end = Histogram.SelectionLength + start;
+#endif
             if (start < 0 || end == start)
             {
                 StatusBar.Status = "";
@@ -1122,7 +1130,11 @@ namespace PerfView
                         if (lastPos <= totalLength)
                         {
                             Histogram.SelectionStart = firstPos;
+#if AVALONIA
+                            Histogram.SelectionEnd = lastPos;
+#else
                             Histogram.SelectionLength = lastPos - firstPos;
+#endif
                             Histogram.Focus();
                         }
                     }

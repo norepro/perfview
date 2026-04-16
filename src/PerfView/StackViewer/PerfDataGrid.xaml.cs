@@ -401,11 +401,19 @@ namespace PerfView
             var asTextBox = sender as TextBox;
             var window = Helpers.AncestorOfType<StackWindow>(this);
 
+#if AVALONIA
+            if (asTextBox != null && window != null && 0 < (asTextBox.SelectionEnd - asTextBox.SelectionStart))
+            {
+                window.StatusBar.Status = controller.GetInfoForCharacterRange(
+                    (HistogramCharacterIndex)(asTextBox.SelectionStart),
+                    (HistogramCharacterIndex)(asTextBox.SelectionEnd), histogram);
+#else
             if (asTextBox != null && window != null && 0 < asTextBox.SelectionLength)
             {
                 window.StatusBar.Status = controller.GetInfoForCharacterRange(
                     (HistogramCharacterIndex)(asTextBox.SelectionStart),
                     (HistogramCharacterIndex)(asTextBox.SelectionStart + asTextBox.SelectionLength), histogram);
+#endif
             }
         }
 
@@ -438,6 +446,7 @@ namespace PerfView
                 EditingBox = asTextBox;
                 asTextBox.ContextMenu = null;
 
+#if !AVALONIA
                 if (e.Column == TimeHistogramColumn)
                 {
                     asTextBox.SelectionChanged += (s, ea) => HistogramCell_CellSelectionChanged(s, ea, window.CallTree.TimeHistogramController, histogram);
@@ -450,6 +459,7 @@ namespace PerfView
                 {
                     Debug.Assert(false, "Edit from unknown column!");
                 }
+#endif
             }
         }
 
