@@ -99,10 +99,21 @@ namespace PerfView
                 var eula = new PerfView.Dialogs.EULADialog(MainWindow);
 #if AVALONIA
                 MainWindow.Show();
-                bool? accepted = eula.ShowDialog<bool?>(MainWindow).GetAwaiter().GetResult();
+                // ShowDialog is async in Avalonia — use ContinueWith to avoid blocking the UI thread
+                eula.ShowDialog<bool?>(MainWindow).ContinueWith(t =>
+                {
+                    global::Avalonia.Threading.Dispatcher.UIThread.Post(() =>
+                    {
+                        if (!(t.Result ?? false))
+                        {
+                            Environment.Exit(-10);
+                        }
+                        App.AcceptEula();
+                    });
+                });
+            }
 #else
                 bool? accepted = eula.ShowDialog();
-#endif
                 if (!(accepted ?? false))
                 {
                     Environment.Exit(-10);
@@ -110,6 +121,7 @@ namespace PerfView
 
                 App.AcceptEula();       // Remember that we have accepted the EULA for next time.
             }
+#endif
 
 #if !AVALONIA
             MainWindow.Loaded += delegate (object sender, RoutedEventArgs ev)
