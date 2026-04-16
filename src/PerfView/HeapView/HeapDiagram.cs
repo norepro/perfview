@@ -1093,21 +1093,32 @@ namespace PerfView
 
                         m_tip.Content = message;
 
+#if !AVALONIA
                         m_tip.PlacementTarget = m_scrollViewer;
                         m_tip.Placement = PlacementMode.Relative;
+#endif
                     }
 
                     p = e.GetPosition(m_scrollViewer);
 
+#if AVALONIA
+                    ToolTip.SetTip(m_scrollViewer, m_tip.Content);
+                    ToolTip.SetIsOpen(m_scrollViewer, true);
+#else
                     m_tip.IsOpen = true;
                     m_tip.HorizontalOffset = p.X + 11;
                     m_tip.VerticalOffset = p.Y + 18;
+#endif
 
                     m_lastEvent = g1 + g2;
                 }
                 else
                 {
+#if AVALONIA
+                    ToolTip.SetIsOpen(m_scrollViewer, false);
+#else
                     m_tip.IsOpen = false;
+#endif
                 }
 
                 string tip = String.Format("{0:N3} ms", t);
@@ -1154,10 +1165,18 @@ namespace PerfView
                 m_topPanel.Background = Brushes.LightGray;
 
                 m_topPanel.DockLeft(m_timeline = Toolbox.CreateCheckBox(false, "Timeline", 10, 5, ToggleTimeline));
+#if AVALONIA
+                ToolTip.SetTip(m_timeline, "Overlay thread time line.");
+#else
                 m_timeline.ToolTip = "Overlay thread time line.";
+#endif
 
                 m_topPanel.DockLeft(m_drawMarker = Toolbox.CreateCheckBox(false, "Marker", 10, 5, ToggleDrawMarker));
+#if AVALONIA
+                ToolTip.SetTip(m_drawMarker, "Overlay GC marking events on thread time line.");
+#else
                 m_drawMarker.ToolTip = "Overlay GC marking events on thread time line.";
+#endif
                 m_drawMarker.IsEnabled = false;
 
                 m_zoomSlider = new Slider();
@@ -1169,7 +1188,11 @@ namespace PerfView
                 m_zoomSlider.Ticks = new DoubleCollection(new double[] { 1, 2, 4, 8, 10, 16, 32, 50, 64, MaxZoom });
                 m_zoomSlider.TickPlacement = TickPlacement.BottomRight;
                 m_zoomSlider.ValueChanged += ZoomValueChanged;
+#if AVALONIA
+                ToolTip.SetTip(m_zoomSlider, "Change time axis zoom ratio.");
+#else
                 m_zoomSlider.ToolTip = "Change time axis zoom ratio.";
+#endif
                 m_topPanel.DockLeft(m_zoomSlider);
 
                 m_zoomLabel = new Label();
@@ -1184,10 +1207,18 @@ namespace PerfView
                 // m_topPanel.DockLeft(m_testButton);
 
                 m_cropButton = Toolbox.CreateButton("Crop", 38, OnCropDiagram, 5, 5);
+#if AVALONIA
+                ToolTip.SetTip(m_cropButton, "Crop diagram to current displayed time range.");
+#else
                 m_cropButton.ToolTip = "Crop diagram to current displayed time range.";
+#endif
 
                 m_undoButton = Toolbox.CreateButton("Undo", 38, OnUndoCrop, 5, 5);
+#if AVALONIA
+                ToolTip.SetTip(m_undoButton, "Restore last time range.");
+#else
                 m_undoButton.ToolTip = "Restore last time range.";
+#endif
                 m_undoButton.IsEnabled = false;
 
                 m_topPanel.DockRight(m_undoButton);
@@ -1225,10 +1256,15 @@ namespace PerfView
                 m_scrollViewer.SizeChanged += OnSizeChange;
 
                 m_tip = new ToolTip();
+#if AVALONIA
+                ToolTip.SetTip(m_scrollViewer, m_tip);
+                ToolTip.SetShowDelay(m_scrollViewer, 500);
+#else
                 m_scrollViewer.ToolTip = m_tip;
 
                 ToolTipService.SetInitialShowDelay(m_scrollViewer, 500);
                 ToolTipService.SetShowDuration(m_scrollViewer, 1000);
+#endif
             }
 
             DockPanel heapDiagram = Toolbox.DockTopLeft(m_topPanel, m_leftPanel, m_scrollViewer);

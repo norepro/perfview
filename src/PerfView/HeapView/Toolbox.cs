@@ -960,7 +960,11 @@ namespace PerfView
             StackPanel left = new StackPanel();
             left.Width = 8;
             left.Background = new LinearGradientBrush(Color.FromRgb(3, 8, 111), Colors.LightGray, 90);
+#if AVALONIA
+            ToolTip.SetTip(left, help);
+#else
             left.ToolTip = help;
+#endif
 
             TextBlock text = new TextBlock();
             text.Text = help;

@@ -138,7 +138,11 @@ namespace PerfView
             var items = Grid.SelectedItems;
             if (items == null || items.Count == 0)
             {
+#if AVALONIA
+                ToolTip.SetTip(OKButton, "You must make a selection before hitting OK (or use Cancel)");
+#else
                 OKButton.ToolTip = "You must make a selection before hitting OK (or use Cancel)";
+#endif
                 SystemSounds.Beep.Play();
                 return;
             }

@@ -3700,8 +3700,13 @@ namespace PerfView
             var setDefaultPresetMenuItem = new MenuItem();
             setDefaultPresetMenuItem.Header = "S_et As Startup Preset";
             setDefaultPresetMenuItem.Click += DoSetStartupPreset;
+#if AVALONIA
+            ToolTip.SetTip(setDefaultPresetMenuItem,
+                "Sets the default values of Group Patterns and Fold Patterns and % to the current values.");
+#else
             setDefaultPresetMenuItem.ToolTip =
                 "Sets the default values of Group Patterns and Fold Patterns and % to the current values.";
+#endif
             PresetMenu.Items.Add(setDefaultPresetMenuItem);
 
             var newPresetMenuItem = new MenuItem();

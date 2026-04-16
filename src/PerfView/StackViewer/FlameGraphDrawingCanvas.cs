@@ -264,6 +264,10 @@ namespace PerfView
 
         private void ShowTooltip(string text)
         {
+#if AVALONIA
+            ToolTip.SetTip(this, text);
+            ToolTip.SetIsOpen(this, true);
+#else
             if (object.ReferenceEquals(tooltip.Content, text) && tooltip.IsOpen)
             {
                 return;
@@ -274,9 +278,14 @@ namespace PerfView
             tooltip.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
             tooltip.IsOpen = true;
             tooltip.PlacementTarget = this;
+#endif
         }
 
+#if AVALONIA
+        private void HideTooltip() => ToolTip.SetIsOpen(this, false);
+#else
         private void HideTooltip() => tooltip.IsOpen = false;
+#endif
 
         private void Clear()
         {
