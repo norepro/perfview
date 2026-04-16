@@ -293,6 +293,7 @@ namespace PerfView
                 return content.PadLeft(maxString);
             }
         }
+#if !AVALONIA
         private static string GetCellStringValue(DataGridCellInfo cell)
         {
             var frameworkElement = cell.Column.GetCellContent(cell.Item);
@@ -303,6 +304,7 @@ namespace PerfView
 
             return GetCellStringValue(frameworkElement);
         }
+#endif
         private static string GetCellStringValue(FrameworkElement contents)
         {
             string ret = Helpers.GetText(contents);
@@ -401,6 +403,7 @@ namespace PerfView
             return (dval1 == dval2);
         }
 
+#if !AVALONIA
         private void SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             m_clipboardRangeStart = "";
@@ -430,6 +433,7 @@ namespace PerfView
             }
             m_maxColumnInSelection = null;
         }
+#endif
         private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
         {
             var asHyperLink = sender as Hyperlink;

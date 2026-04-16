@@ -345,6 +345,8 @@ namespace PerfView
                 return content.PadLeft(maxString);
             }
         }
+#if !AVALONIA
+        // TODO_AVALONIA: Where to put this logic?
         public static string GetCellStringValue(DataGridCellInfo cell)
         {
             CallTreeNodeBase model = cell.Item as CallTreeNodeBase;
@@ -391,6 +393,7 @@ namespace PerfView
             ret = ret.Replace("Count", " Ct");
             return ret;
         }
+#endif
 
         #region private
         private void HistogramCell_CellSelectionChanged(object sender, RoutedEventArgs e, HistogramController controller, Histogram histogram)
@@ -524,6 +527,7 @@ namespace PerfView
 
             return "";
         }
+#if !AVALONIA
         private void SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             m_clipboardRangeStart = "";
@@ -622,6 +626,7 @@ namespace PerfView
             }
             m_maxColumnInSelection = null;
         }
+#endif
         private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
         {
             var asHyperLink = sender as Hyperlink;

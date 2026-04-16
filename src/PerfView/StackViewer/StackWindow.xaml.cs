@@ -3831,6 +3831,8 @@ namespace PerfView
             }
             return comment + target + ";" + addend;
         }
+#if !AVALONIA
+        // TODO_AVALONIA: Where to put this logic?
         internal int SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             var dataGrid = sender as DataGrid;
@@ -3953,6 +3955,7 @@ namespace PerfView
 
             return cells.Count;
         }
+#endif
         internal void RestoreWindow(StackWindowGuiState guiState, string fileName)
         {
             if (fileName != null)

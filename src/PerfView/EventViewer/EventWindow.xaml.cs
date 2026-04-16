@@ -1619,6 +1619,7 @@ namespace PerfView
                 return content.PadRight(maxString);
             }
         }
+#if !AVALONIA
         public string GetCellStringValue(DataGridCellInfo cell)
         {
             var record = cell.Item as EventRecord;
@@ -1668,6 +1669,7 @@ namespace PerfView
         {
             return column.Header as string;
         }
+#endif
 
         #region commandDefintions
         public static RoutedUICommand ToggleMultiLineViewPaneCommand = new RoutedUICommand("Toggle Multi-line view Pane", "ToggleMultiLineViewPane", typeof(StackWindow),
@@ -1736,6 +1738,7 @@ namespace PerfView
             return "\"" + str + "\"";       // then quote the whole thing
         }
 
+#if !AVALONIA
         private void SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
             m_clipboardRangeStart = "";
@@ -1916,6 +1919,7 @@ namespace PerfView
             }
 
         }
+#endif
 
         /// <summary>
         /// This needs to be separate routine so that the event_ local variable is a copy of the one that was passed
