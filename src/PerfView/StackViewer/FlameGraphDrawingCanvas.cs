@@ -143,7 +143,11 @@ namespace PerfView
         /// <summary>
         /// DrawingVisual provides no tooltip support, so I had to implement it myself.. I feel bad for it.
         /// </summary>
+#if AVALONIA
+        private void OnMouseMove(object sender, PointerEventArgs e)
+#else
         private void OnMouseMove(object sender, MouseEventArgs e)
+#endif
         {
             if (!IsEmpty && e.LeftButton == MouseButtonState.Released)
             {
@@ -165,7 +169,11 @@ namespace PerfView
             HideTooltip();
         }
 
+#if AVALONIA
+        private void OnMouseLeave(object sender, PointerEventArgs e)
+#else
         private void OnMouseLeave(object sender, MouseEventArgs e)
+#endif
         {
             HideTooltip();
             ResetCursor(); // leaving the control while still zooming and OnMouseLeftButtonUp won't fire

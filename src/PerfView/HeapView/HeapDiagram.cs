@@ -10,6 +10,7 @@ using System.Threading;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 #else
@@ -1042,7 +1043,11 @@ namespace PerfView
 
         private int m_lastEvent;
 
+#if AVALONIA
+        private void OnMouseMove(object sender, PointerEventArgs e)
+#else
         private void OnMouseMove(object sender, MouseEventArgs e)
+#endif
         {
             if (!m_scrollViewer.IsMouseCaptured)
             {

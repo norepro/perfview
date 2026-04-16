@@ -1234,7 +1234,11 @@ namespace PerfView
         /// <summary>
         /// Mouse move, update rubber banding if started
         /// </summary>
+#if AVALONIA
+        private void OnCanvasMouseMove(object sender, PointerEventArgs e)
+#else
         private void OnCanvasMouseMove(object sender, MouseEventArgs e)
+#endif
         {
             if (m_canvas.IsMouseCaptured)
             {

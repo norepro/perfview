@@ -2072,7 +2072,11 @@ namespace PerfView
         /// <summary>
         /// When Shift is held, redirect mouse wheel events to horizontal scrolling.
         /// </summary>
+#if AVALONIA
+        private void Grid_PreviewMouseWheel(object sender, PointerWheelEventArgs e)
+#else
         private void Grid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+#endif
         {
             if (Keyboard.Modifiers == ModifierKeys.Shift)
             {
