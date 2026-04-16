@@ -380,6 +380,7 @@ namespace Controls
         }
         private void DoOpen(object sender, ExecutedRoutedEventArgs e)
         {
+#if !AVALONIA
             var openDialog = new Microsoft.Win32.OpenFileDialog();
             openDialog.Title = "File Save";
             openDialog.DefaultExt = ".txt";                  // Default file extension
@@ -406,6 +407,7 @@ namespace Controls
             {
                 SystemSounds.Beep.Play();
             }
+#endif
         }
 
         // GUI callbacks

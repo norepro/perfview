@@ -1256,6 +1256,11 @@ namespace PerfView
         }
         internal string GetDataFileName(string title, bool shouldExist, string fileName, string filter)
         {
+#if AVALONIA
+            // TODO_AVALONIA: Implement using Avalonia StorageProvider API
+            StatusBar.LogError("File dialogs not yet implemented for Avalonia.");
+            return null;
+#else
             // TODO should use SaveFileDialog sometimes.
             StatusBar.Status = "";
             var openDialog = new Microsoft.Win32.OpenFileDialog();
@@ -1280,6 +1285,7 @@ namespace PerfView
             }
 
             return null;
+#endif
         }
         internal static bool DisplayUsersGuide(string anchor = null)
         {

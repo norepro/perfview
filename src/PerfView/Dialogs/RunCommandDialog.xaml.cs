@@ -418,6 +418,7 @@ namespace PerfView
         }
         private void DataFileButtonClick(object sender, RoutedEventArgs e)
         {
+#if !AVALONIA
             var saveDialog = new Microsoft.Win32.SaveFileDialog();
             saveDialog.FileName = DataFileNameTextBox.Text;
             saveDialog.InitialDirectory = Environment.CurrentDirectory;
@@ -439,6 +440,7 @@ namespace PerfView
 
                 DataFileNameTextBox.Text = selectedFile;
             }
+#endif
         }
         private void ProviderBrowserButtonClick(object sender, RoutedEventArgs e)
         {

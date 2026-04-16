@@ -908,6 +908,7 @@ namespace PerfView
         }
         private void DoSaveAsCsv(object sender, ExecutedRoutedEventArgs e)
         {
+#if !AVALONIA
             var saveDialog = new Microsoft.Win32.SaveFileDialog();
             var baseName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(DataSource.FilePath));
 
@@ -934,9 +935,11 @@ namespace PerfView
                     StatusBar.Log("Saved data to file " + saveDialog.FileName + ".");
                 });
             });
+#endif
         }
         private void DoSaveAsXml(object sender, ExecutedRoutedEventArgs e)
         {
+#if !AVALONIA
             var saveDialog = new Microsoft.Win32.SaveFileDialog();
             var baseName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(DataSource.FilePath));
 
@@ -962,6 +965,7 @@ namespace PerfView
                     StatusBar.Log("Saved data to file " + saveDialog.FileName + ".");
                 });
             });
+#endif
         }
         private void DoOpenInExcel(object sender, ExecutedRoutedEventArgs e)
         {

@@ -985,6 +985,7 @@ namespace PerfView
         /// </summary>
         internal static string GetSaveFileName(string fileName, string ext, string description)
         {
+#if !AVALONIA
             SaveFileDialog dlg = new SaveFileDialog();
 
             dlg.FileName = fileName;
@@ -1001,6 +1002,7 @@ namespace PerfView
             {
                 return dlg.FileName;
             }
+#endif
 
             return null;
         }

@@ -895,6 +895,7 @@ namespace PerfView
         {
             if (m_fileName == null)
             {
+#if !AVALONIA
                 var saveDialog = new Microsoft.Win32.SaveFileDialog();
                 var baseName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(DataSource.FilePath));
 
@@ -920,6 +921,11 @@ namespace PerfView
                     return;
                 }
                 m_fileName = saveDialog.FileName;
+#else
+                // TODO_AVALONIA: Implement using Avalonia StorageProvider API
+                StatusBar.Log("Save not yet implemented for Avalonia.");
+                return;
+#endif
             }
 
             if (m_fileName.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
@@ -2819,6 +2825,7 @@ namespace PerfView
 
         private void DoSaveFlameGraph(object sender, RoutedEventArgs e)
         {
+#if !AVALONIA
             var saveDialog = new Microsoft.Win32.SaveFileDialog();
             var baseName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(DataSource.FilePath));
 
@@ -2853,6 +2860,7 @@ namespace PerfView
                     StatusBar.LogError($"Failed to save flame graph: {ex.Message}");
                 }
             }
+#endif
         }
 
         private TabItem SelectedTab

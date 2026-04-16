@@ -104,6 +104,7 @@ namespace PerfView.Dialogs
         }
         private void ExportPresets(object sender, RoutedEventArgs e)
         {
+#if !AVALONIA
             var saveDialog = new Microsoft.Win32.SaveFileDialog();
             saveDialog.FileName = "PerfViewPresets.xml";
             saveDialog.InitialDirectory = m_basePath;
@@ -132,9 +133,11 @@ namespace PerfView.Dialogs
                 writer.WriteEndElement();
             }
             m_log.LogWriter.WriteLine($"[Presets exported to {fileName}.]");
+#endif
         }
         private void ImportPresets(object sender, RoutedEventArgs e)
         {
+#if !AVALONIA
             var openDialog = new Microsoft.Win32.OpenFileDialog();
             openDialog.InitialDirectory = m_basePath;
             openDialog.Title = "File to read presets from";
@@ -207,6 +210,7 @@ namespace PerfView.Dialogs
                 ignored++;
             }
             m_log.LogWriter.WriteLine($"[Import of presets completed: {imported} imported, {ignored} ignored.]");
+#endif
         }
         private void DoPresetSelected(object sender, SelectionChangedEventArgs e)
         {
