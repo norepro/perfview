@@ -9,6 +9,7 @@ using System.Threading;
 #if AVALONIA
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 #else
@@ -996,7 +997,11 @@ namespace PerfView
             RedrawDiagram();
         }
 
+#if AVALONIA
+        private void ZoomValueChanged(object sender, RangeBaseValueChangedEventArgs value)
+#else
         private void ZoomValueChanged(object sender, RoutedPropertyChangedEventArgs<double> value)
+#endif
         {
             SetZoom(value.NewValue);
         }

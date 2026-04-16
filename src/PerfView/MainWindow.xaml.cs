@@ -766,7 +766,11 @@ namespace PerfView
                 DoOpen(sender, null);
             }
         }
+#if AVALONIA
+        private void SelectedItemChangedInTreeView(object sender, SelectionChangedEventArgs e)
+#else
         private void SelectedItemChangedInTreeView(object sender, RoutedPropertyChangedEventArgs<object> e)
+#endif
         {
             var asFile = TreeView.SelectedItem as PerfViewFile;
             if (asFile != null)
