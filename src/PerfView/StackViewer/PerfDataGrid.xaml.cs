@@ -622,7 +622,7 @@ namespace PerfView
             }
             m_maxColumnInSelection = null;
         }
-        private void DoHyperlinkHelp(object sender, System.Windows.RoutedEventArgs e)
+        private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
         {
             var asHyperLink = sender as Hyperlink;
             if (asHyperLink != null)
