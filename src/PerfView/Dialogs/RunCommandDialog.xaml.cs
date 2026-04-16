@@ -18,6 +18,7 @@ using System.Windows.Threading;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Threading;
 #endif
 
 // TODO use or delete
