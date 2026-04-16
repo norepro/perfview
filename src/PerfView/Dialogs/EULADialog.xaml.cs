@@ -48,5 +48,15 @@ namespace PerfView.Dialogs
             DialogResult = true;
 #endif
         }
+
+        private void DeclineClick(object sender, RoutedEventArgs e)
+        {
+#if AVALONIA
+            Close(false);
+#else
+            DialogResult = false;
+            Close();
+#endif
+        }
     }
 }

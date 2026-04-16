@@ -18,8 +18,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Button Margin="20,5" Width="80" Grid.Column="1" IsDefault="True" Click="AcceptClick">Accept</Button>
-            <!-- TODO_AVALONIA: IsCancel not available on Button in Avalonia -->
-            <Button Margin="20,5" Width="80" Grid.Column="2">Decline</Button>
+            <Button Margin="20,5" Width="80" Grid.Column="2" Click="DeclineClick">Decline</Button>
         </Grid>
     </Grid>
 </src:WindowBase>
