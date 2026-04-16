@@ -52,9 +52,11 @@ namespace PerfView
 
         public CallTreeNodeBase SelectedNode => selectedNode;
 
+#if !AVALONIA
         protected override int VisualChildrenCount => visuals.Count;
 
         protected override Visual GetVisualChild(int index) => visuals[index];
+#endif
 
         private bool IsZoomed => scaleTransform.ScaleX != 1.0;
 

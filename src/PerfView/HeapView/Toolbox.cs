@@ -188,6 +188,7 @@ namespace PerfView
             RenderTransform = new ScaleTransform(m_displayZoom, 1, 0, 0);
         }
 
+#if !AVALONIA
         protected override int VisualChildrenCount
         {
             get
@@ -200,6 +201,7 @@ namespace PerfView
         {
             return m_visual;
         }
+#endif
     }
 
 
