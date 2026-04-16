@@ -95,6 +95,10 @@ namespace PerfView
 #if !AVALONIA
                 App.Unpack();                   // Install the program if it is not done already
                 App.RelaunchIfNeeded(args);     // If we are running from a a network share, relaunch locally.
+#else
+                // Avalonia runs from bin/ with DLLs alongside the exe, so point
+                // SupportFileDir to the application directory instead of unpacking.
+                SupportFiles.SetSupportFilesDir(Path.GetDirectoryName(SupportFiles.MainAssemblyPath));
 #endif
     
                 // This does the real work
