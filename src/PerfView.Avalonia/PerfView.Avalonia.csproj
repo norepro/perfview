@@ -16,6 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Copy support files needed at runtime -->
+    <Content Include="$(PerfViewFolder)/SupportFiles/Eula.rtf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>EULA.rtf</Link>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="$(PerfViewFolder)/**/*.xaml.cs">
       <Link>%(RecursiveDir)%(Filename).axaml.cs</Link>
     </Compile>
