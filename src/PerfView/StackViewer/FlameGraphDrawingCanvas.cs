@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Input;
 using Microsoft.Diagnostics.Tracing.Stacks;
 using PerfView.Utilities;
 using static PerfView.FlameGraph;
@@ -10,7 +11,6 @@ using static PerfView.FlameGraph;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 #else
 using Avalonia;
@@ -38,9 +38,14 @@ namespace PerfView
 
         public FlameGraphDrawingCanvas()
         {
+#if AVALONIA
+            PointerMoved += OnMouseMove;
+            PointerExited += OnMouseLeave;
+#else
             MouseMove += OnMouseMove;
             MouseLeave += OnMouseLeave;
             MouseRightButtonDown += (s, e) => selectedNode = flameBoxesMap.Find(e.MouseDevice.GetPosition(this)).Node;
+#endif
             PreviewMouseWheel += OnPreviewMouseWheel;
             MouseLeftButtonDown += OnMouseLeftButtonDown;
             MouseLeftButtonUp += OnMouseLeftButtonUp;
@@ -275,15 +280,20 @@ namespace PerfView
 
         private void Clear()
         {
+#if !AVALONIA
             for (int i = visuals.Count - 1; i >= 0; i--)
             {
                 DeleteVisual(visuals[i]);
                 visuals.RemoveAt(i);
             }
+#else
+            visuals.Clear();
+#endif
 
             flameBoxesMap.Clear();
         }
 
+#if !AVALONIA
         private void AddVisual(Visual visual)
         {
             visuals.Add(visual);
@@ -297,6 +307,7 @@ namespace PerfView
             base.RemoveVisualChild(visual);
             base.RemoveLogicalChild(visual);
         }
+#endif
 
         private void MoveZoomingCenterPoint(double x, double y)
         {

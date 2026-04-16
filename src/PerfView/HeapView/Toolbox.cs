@@ -173,7 +173,9 @@ namespace PerfView
             m_x0 = x0;
             m_x1 = x1;
 
+#if !AVALONIA
             AddVisualChild(visual);
+#endif
             SetZoom(zoom);
 
             UpdateLayout();

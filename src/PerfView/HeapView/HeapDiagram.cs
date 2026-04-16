@@ -987,7 +987,11 @@ namespace PerfView
             m_diagramHolder.SetVisual(zoomWidth, m_graphHeight, data.visual, m_widthZoom, m_zoomSlider.Value, data.x0, data.x1);
 
             m_scrollViewer.Content = m_diagramHolder;
+#if AVALONIA
+            m_scrollViewer.PointerMoved += OnMouseMove;
+#else
             m_scrollViewer.MouseMove += OnMouseMove;
+#endif
 
             {
                 DiagramData legend = m_heapInfo.RenderLegend(LegendWidth, m_graphHeight, threadCount);
