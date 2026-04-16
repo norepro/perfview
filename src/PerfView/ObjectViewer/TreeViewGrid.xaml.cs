@@ -116,12 +116,14 @@ namespace PerfView
         {
             get
             {
+#if !AVALONIA
                 var selectedCells = Grid.SelectedCells;
                 if (selectedCells.Count != 0)
                 {
                     var selectedCell = selectedCells[0];
                     return selectedCell.Item;
                 }
+#endif
                 return null;
             }
         }
@@ -179,7 +181,9 @@ namespace PerfView
         #region private
         private void Select(TreeViewGridNode item)
         {
+#if !AVALONIA
             Grid.SelectedCells.Clear();
+#endif
             Grid.SelectedItem = item;
             if (item == null)
             {
@@ -199,6 +203,7 @@ namespace PerfView
         private int SelectionStartIndex()
         {
             var ret = 0;
+#if !AVALONIA
             var cells = Grid.SelectedCells;
             if (cells.Count > 0)
             {
@@ -214,6 +219,7 @@ namespace PerfView
                     }
                 }
             }
+#endif
             return ret;
         }
 
@@ -272,6 +278,7 @@ namespace PerfView
                     m_maxColumnInSelection[i] = GetColumnHeaderText(Grid.Columns[i]).Length;
                 }
 
+#if !AVALONIA
                 foreach (var cellInfo in Grid.SelectedCells)
                 {
                     var idx = cellInfo.Column.DisplayIndex;
@@ -281,6 +288,7 @@ namespace PerfView
                     // near the checkbox making this estimate 1 too short.   
                     m_maxColumnInSelection[idx] = Math.Max(m_maxColumnInSelection[idx], contents.Length + 1);
                 }
+#endif
                 maxString = m_maxColumnInSelection[columnIndex];
             }
 

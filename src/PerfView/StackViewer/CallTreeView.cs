@@ -145,12 +145,14 @@ namespace PerfView
         {
             get
             {
+#if !AVALONIA
                 var selectedCells = m_perfGrid.Grid.SelectedCells;
                 if (selectedCells.Count != 0)
                 {
                     var selectedCell = selectedCells[0];
                     return (CallTreeViewNode)selectedCell.Item;
                 }
+#endif
                 return null;
             }
         }

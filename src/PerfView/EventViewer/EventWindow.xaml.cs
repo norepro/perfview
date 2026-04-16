@@ -480,6 +480,7 @@ namespace PerfView
                 // If we have selected exactly two items, use that as the time limits, otherwise use what is the my dialog.
                 var startTimeRelativeMSec = m_source.StartTimeRelativeMSec;
                 var endTimeRelativeMSec = m_source.EndTimeRelativeMSec;
+#if !AVALONIA
                 var selectedCells = Grid.SelectedCells;
                 if (selectedCells.Count == 1 || selectedCells.Count == 2)
                 {
@@ -517,6 +518,7 @@ namespace PerfView
                         }
                     }
                 }
+#endif
 
                 // TODO FIX NOW: this should call a routine that does the opening of the stack view
                 // (m_lookedUpCachedSymbolsForETLData should not be needed ...)
@@ -581,6 +583,7 @@ namespace PerfView
         }
         private void DoProcessFilter(object sender, ExecutedRoutedEventArgs e)
         {
+#if !AVALONIA
             var selectedCells = Grid.SelectedCells;
             if (selectedCells.Count != 1)
             {
@@ -589,6 +592,7 @@ namespace PerfView
 
             ProcessFilterTextBox.Text = GetCellStringValue(selectedCells[0]);
             Update();
+#endif
         }
         private void DoShowEventCounterGraph(object sender, ExecutedRoutedEventArgs e)
         {
@@ -828,6 +832,7 @@ namespace PerfView
                 return;
             }
 
+#if !AVALONIA
             var selectedCells = Grid.SelectedCells;
             if (selectedCells.Count != 2)
             {
@@ -837,6 +842,7 @@ namespace PerfView
             StartTextBox.Text = GetCellStringValue(selectedCells[0]);
             EndTextBox.Text = GetCellStringValue(selectedCells[1]);
             Update();
+#endif
         }
         private void DoEventTypesKey(object sender, KeyEventArgs e)
         {
@@ -1101,6 +1107,7 @@ namespace PerfView
 
         private void DoHighlightInHistogram(object sender, ExecutedRoutedEventArgs e)
         {
+#if !AVALONIA
             var cells = Grid.SelectedCells;
             if (cells.Count > 0)
             {
@@ -1130,11 +1137,7 @@ namespace PerfView
                         if (lastPos <= totalLength)
                         {
                             Histogram.SelectionStart = firstPos;
-#if AVALONIA
-                            Histogram.SelectionEnd = lastPos;
-#else
                             Histogram.SelectionLength = lastPos - firstPos;
-#endif
                             Histogram.Focus();
                         }
                     }
@@ -1148,6 +1151,7 @@ namespace PerfView
             {
                 StatusBar.LogError("No Cells Selected.");
             }
+#endif
         }
 
         private void UpdateColumnsToDisplay()
@@ -1565,7 +1569,9 @@ namespace PerfView
 
         public void Select(object item)
         {
+#if !AVALONIA
             Grid.SelectedCells.Clear();
+#endif
             Grid.SelectedItem = item;
             if (item == null)
             {
@@ -1577,6 +1583,7 @@ namespace PerfView
         public int SelectionStartIndex()
         {
             var ret = 0;
+#if !AVALONIA
             var cells = Grid.SelectedCells;
             if (cells.Count > 0)
             {
@@ -1595,6 +1602,7 @@ namespace PerfView
                 // ret = Grid.ItemContainerGenerator.IndexFromContainer(row);
 
             }
+#endif
             return ret;
         }
 
@@ -1617,11 +1625,13 @@ namespace PerfView
                     m_maxColumnInSelection[i] = GetColumnHeaderText(Grid.Columns[i]).Length;
                 }
 
+#if !AVALONIA
                 foreach (var cellInfo in Grid.SelectedCells)
                 {
                     var idx = cellInfo.Column.DisplayIndex;
                     m_maxColumnInSelection[idx] = Math.Max(m_maxColumnInSelection[idx], GetCellStringValue(cellInfo).Length);
                 }
+#endif
                 maxString = m_maxColumnInSelection[columnIndex];
             }
 

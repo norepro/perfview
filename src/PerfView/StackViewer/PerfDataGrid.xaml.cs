@@ -187,7 +187,9 @@ namespace PerfView
 
         public void Select(object item)
         {
+#if !AVALONIA
             Grid.SelectedCells.Clear();
+#endif
             Grid.SelectedItem = item;
             if (item == null)
             {
@@ -207,6 +209,7 @@ namespace PerfView
         public int SelectionStartIndex()
         {
             var ret = 0;
+#if !AVALONIA
             var cells = Grid.SelectedCells;
             if (cells.Count > 0)
             {
@@ -225,6 +228,7 @@ namespace PerfView
                 // ret = Grid.ItemContainerGenerator.IndexFromContainer(row);
 
             }
+#endif
             return ret;
         }
         public void RemoveColumn(string columnName)
@@ -324,6 +328,7 @@ namespace PerfView
                     m_maxColumnInSelection[i] = GetColumnHeaderText(Grid.Columns[i]).Length;
                 }
 
+#if !AVALONIA
                 foreach (var cellInfo in Grid.SelectedCells)
                 {
                     var idx = cellInfo.Column.DisplayIndex;
@@ -333,6 +338,7 @@ namespace PerfView
                     // near the checkbox making this estimate 1 too short.   
                     m_maxColumnInSelection[idx] = Math.Max(m_maxColumnInSelection[idx], contents.Length + 1);
                 }
+#endif
                 maxString = m_maxColumnInSelection[columnIndex];
             }
 

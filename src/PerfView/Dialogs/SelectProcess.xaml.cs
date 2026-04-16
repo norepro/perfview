@@ -52,6 +52,7 @@ namespace PerfView
         private int GetSelectionIndex(int defaultValue)
         {
             var ret = defaultValue;
+#if !AVALONIA
             var cells = Grid.SelectedCells;
 
             var item = Grid.SelectedItem;
@@ -64,6 +65,7 @@ namespace PerfView
                     ret = Grid.ItemContainerGenerator.IndexFromContainer(row);
                 }
             }
+#endif
             return ret;
         }
         private void Select(object item)

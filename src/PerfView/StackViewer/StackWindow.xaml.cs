@@ -3623,6 +3623,7 @@ namespace PerfView
             var dataGrid = GetDataGrid();
             if (dataGrid != null)
             {
+#if !AVALONIA
                 var nodes = new List<CallTreeNodeBase>(dataGrid.SelectedCells.Count);
                 foreach (var cell in dataGrid.SelectedCells)
                     if (cell.Item is CallTreeNodeBase nodeBase) // ByName, Caller-Callee
@@ -3631,6 +3632,7 @@ namespace PerfView
                         nodes.Add(callTreeNode.Data);
 
                 return nodes.Distinct().ToArray();
+#endif
             }
 
             return _emptyNodes;
