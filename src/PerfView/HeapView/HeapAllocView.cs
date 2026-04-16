@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 
 #if AVALONIA
+using Avalonia.Controls;
 using Avalonia.Data.Converters;
 #else
 using System.Windows.Controls;

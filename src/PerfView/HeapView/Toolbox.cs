@@ -26,12 +26,16 @@ using System.Windows.Xps.Packaging;
 #else
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Data.Converters;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Layout;
 using Avalonia.Media;
+using Avalonia.Styling;
 using FrameworkElement = Avalonia.Controls.Control;
 using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
+using Style = Avalonia.Styling.Style;
 using UIElement = Avalonia.Controls.Control;
 #endif
 

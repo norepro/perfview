@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Windows;
 
 #if AVALONIA
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using FrameworkElement = Avalonia.Controls.Control;
 using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
@@ -37,6 +38,12 @@ namespace PerfView
 
         public string Action { get; set; }
 
+#if AVALONIA
+        public bool Visible
+        {
+            get { return OnClick != null; }
+        }
+#else
         public Visibility Visible
         {
             get
@@ -51,6 +58,7 @@ namespace PerfView
                 }
             }
         }
+#endif
 
         internal RoutedEventHandler OnClick;
     }
