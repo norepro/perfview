@@ -6,7 +6,6 @@ using Utilities;
 #if AVALONIA
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.WebView;
 using Avalonia.Interactivity;
 using DependencyObject = Avalonia.AvaloniaObject;
 #else
