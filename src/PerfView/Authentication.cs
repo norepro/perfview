@@ -342,7 +342,12 @@ namespace PerfView
         /// </summary>
         /// <param name="window">The WPF window.</param>
         /// <returns>The handle (HWND) of the given window.</returns>
+#if !AVALONIA
         private static IntPtr GetWindowHandle(Window window)
             => window.Dispatcher.Invoke(() => new WindowInteropHelper(window).Handle);
+#else
+        private static IntPtr GetWindowHandle(Window window)
+            => IntPtr.Zero;
+#endif
     }
 }

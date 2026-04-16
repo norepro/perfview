@@ -147,8 +147,13 @@ namespace PerfView
 
                 if (WindowState != System.Windows.WindowState.Maximized)
                 {
+#if AVALONIA
+                    App.UserConfigData["MainWindowWidth"] = Bounds.Width.ToString("f0", CultureInfo.InvariantCulture);
+                    App.UserConfigData["MainWindowHeight"] = Bounds.Height.ToString("f0", CultureInfo.InvariantCulture);
+#else
                     App.UserConfigData["MainWindowWidth"] = RenderSize.Width.ToString("f0", CultureInfo.InvariantCulture);
                     App.UserConfigData["MainWindowHeight"] = RenderSize.Height.ToString("f0", CultureInfo.InvariantCulture);
+#endif
                     App.UserConfigData["MainWindowTop"] = Top.ToString("f0", CultureInfo.InvariantCulture);
                     App.UserConfigData["MainWindowLeft"] = Left.ToString("f0", CultureInfo.InvariantCulture);
                 }

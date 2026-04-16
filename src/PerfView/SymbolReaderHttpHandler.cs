@@ -1020,7 +1020,11 @@ namespace PerfView
 
                     // Show the dialog and wait until it is closed.
                     WriteStatusLog("Showing device flow dialog so you can log into GitHub.");
+#if AVALONIA
+                    await DispatcherAdapter.Instance.InvokeAsync(() =>
+#else
                     await _mainWindow.Dispatcher.InvokeAsync(() =>
+#endif
                     {
                         var deviceCodeDialog = new GitHubDeviceFlowDialog(_mainWindow, deviceFlowResponse.VerificationUri, deviceFlowResponse.UserCode, sharedCancellationToken);
                         _ = deviceCodeDialog.ShowDialog();

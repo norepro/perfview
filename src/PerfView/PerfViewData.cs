@@ -1378,7 +1378,11 @@ namespace PerfView
             if (command.StartsWith("displayLog:"))
             {
                 string logFile = command.Substring(command.IndexOf(':') + 1);
+#if AVALONIA
+                DispatcherAdapter.Instance.BeginInvoke((Action)delegate ()
+#else
                 worker.Parent.Dispatcher.BeginInvoke((Action)delegate ()
+#endif
                 {
                     var logTextWindow = new Controls.TextEditorWindow(GuiApp.MainWindow);
                     logTextWindow.TextEditor.OpenText(logFile);
@@ -7788,7 +7792,11 @@ namespace PerfView
                             read the trace on an Windows 8 OS.
                             """;
                         worker.LogWriter.WriteLine(versionMismatchWarning);
+#if AVALONIA
+                        DispatcherAdapter.Instance.BeginInvoke(() =>
+#else
                         parentWindow.Dispatcher.BeginInvoke(() =>
+#endif
                         {
                             XamlMessageBox.Show(parentWindow, versionMismatchWarning, "Log File Version Mismatch", MessageBoxButton.OK);
                         });
@@ -8433,7 +8441,11 @@ namespace PerfView
             }
 
             MessageBoxResult result = MessageBoxResult.None;
+#if AVALONIA
+            DispatcherAdapter.Instance.BeginInvoke(() =>
+#else
             parentWindow.Dispatcher.BeginInvoke(() =>
+#endif
             {
                 result = XamlMessageBox.Show(parentWindow, warning, "Lost Events", MessageBoxButton.OKCancel);
                 worker.LogWriter.WriteLine(warning);
@@ -10474,7 +10486,11 @@ namespace PerfView
                 """;
 
             MessageBoxResult result = MessageBoxResult.None;
+#if AVALONIA
+            DispatcherAdapter.Instance.BeginInvoke((Action)delegate ()
+#else
             parentWindow.Dispatcher.BeginInvoke((Action)delegate ()
+#endif
             {
                 result = XamlMessageBox.Show(parentWindow, warning, "Lost Events", MessageBoxButton.OKCancel);
                 worker.LogWriter.WriteLine(warning);

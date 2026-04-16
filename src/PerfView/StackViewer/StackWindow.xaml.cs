@@ -2797,7 +2797,11 @@ namespace PerfView
         {
             FlameGraphCanvas.Draw(
                   CallTree.Root.HasChildren
+#if AVALONIA
+                      ? FlameGraph.Calculate(CallTree, FlameGraphCanvas.Bounds.Width, FlameGraphCanvas.Bounds.Height)
+#else
                       ? FlameGraph.Calculate(CallTree, FlameGraphCanvas.ActualWidth, FlameGraphCanvas.ActualHeight)
+#endif
                       : Enumerable.Empty<FlameGraph.FlameBox>());
 
             m_RedrawFlameGraphWhenItBecomesVisible = false;
@@ -3228,8 +3232,13 @@ namespace PerfView
                 {
                     App.UserConfigData["StackWindowTop"] = Top.ToString("f0", CultureInfo.InvariantCulture);
                     App.UserConfigData["StackWindowLeft"] = Left.ToString("f0", CultureInfo.InvariantCulture);
+#if AVALONIA
+                    App.UserConfigData["StackWindowWidth"] = Bounds.Width.ToString("f0", CultureInfo.InvariantCulture);
+                    App.UserConfigData["StackWindowHeight"] = Bounds.Height.ToString("f0", CultureInfo.InvariantCulture);
+#else
                     App.UserConfigData["StackWindowWidth"] = RenderSize.Width.ToString("f0", CultureInfo.InvariantCulture);
                     App.UserConfigData["StackWindowHeight"] = RenderSize.Height.ToString("f0", CultureInfo.InvariantCulture);
+#endif
                 }
 
                 StackWindows.Remove(this);

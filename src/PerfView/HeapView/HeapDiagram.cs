@@ -1066,7 +1066,11 @@ namespace PerfView
         private void OnMouseMove(object sender, MouseEventArgs e)
 #endif
         {
+#if AVALONIA
+            if (true) // TODO_AVALONIA: No direct IsMouseCaptured equivalent on ScrollViewer
+#else
             if (!m_scrollViewer.IsMouseCaptured)
+#endif
             {
                 Point p = e.GetPosition(m_diagramHolder);
 

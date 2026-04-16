@@ -313,8 +313,13 @@ namespace PerfView
         {
             if (IsZoomed)
             {
+#if AVALONIA
+                scaleTransform.CenterX = Math.Min(x, Bounds.Width);
+                scaleTransform.CenterY = Math.Min(y, Bounds.Height);
+#else
                 scaleTransform.CenterX = Math.Min(x, ActualWidth);
                 scaleTransform.CenterY = Math.Min(y, ActualHeight);
+#endif
             }
         }
 

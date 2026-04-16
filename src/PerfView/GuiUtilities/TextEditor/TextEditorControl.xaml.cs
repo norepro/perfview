@@ -475,7 +475,11 @@ namespace Controls
 
             if (m_textEditorControl.IsVisible && m_sb.Length > 0)
             {
+#if AVALONIA
+                DispatcherAdapter.Instance.BeginInvoke((Action)delegate ()
+#else
                 m_textEditorControl.Dispatcher.BeginInvoke((Action)delegate ()
+#endif
                 {
                     lock (this)
                     {

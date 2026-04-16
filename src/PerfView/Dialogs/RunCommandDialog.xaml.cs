@@ -976,7 +976,11 @@ namespace PerfView
         private void DoExpand(object sender, RoutedEventArgs e)
         {
             m_originalHeight = (int)Height;
+#if AVALONIA
+            AdvancedOptionsGrid.Measure(new Size(AdvancedOptionsExpander.Bounds.Width, double.PositiveInfinity));
+#else
             AdvancedOptionsGrid.Measure(new Size(AdvancedOptionsExpander.ActualWidth, double.PositiveInfinity));
+#endif
             Height += AdvancedOptionsGrid.DesiredSize.Height;
         }
 
