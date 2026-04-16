@@ -216,7 +216,7 @@ namespace PerfView
                 throw new ApplicationException("Error " + CommandLineArgs.DataFile + " not a perfView command.");
             }
 
-#if !PERFVIEW_COLLECT
+#if !PERFVIEW_COLLECT && !AVALONIA
             // Check for error where you have a TraceEvent dll in the wrong place.
             var traceEventDllPath = typeof(TraceEvent).Assembly.ManifestModule.FullyQualifiedName;
             if (!traceEventDllPath.StartsWith(SupportFiles.SupportFileDir, StringComparison.OrdinalIgnoreCase))
