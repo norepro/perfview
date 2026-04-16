@@ -97,10 +97,11 @@ namespace PerfView
             if (App.NeedsEulaConfirmation(App.CommandLineArgs))
             {
                 var eula = new PerfView.Dialogs.EULADialog(MainWindow);
-#if !AVALONIA
-                bool? accepted = eula.ShowDialog();
-#else
+#if AVALONIA
+                MainWindow.Show();
                 bool? accepted = eula.ShowDialog<bool?>(MainWindow).GetAwaiter().GetResult();
+#else
+                bool? accepted = eula.ShowDialog();
 #endif
                 if (!(accepted ?? false))
                 {
