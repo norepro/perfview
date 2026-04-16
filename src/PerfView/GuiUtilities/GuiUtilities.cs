@@ -20,6 +20,7 @@ namespace Utilities
 
     public static class Helpers
     {
+#if !AVALONIA
         // Concatinates all TextBlocks in obj
         public static string GetText(DependencyObject obj)
         {
@@ -149,6 +150,7 @@ namespace Utilities
             }
             return -1;
         }
+#endif
 #if !AVALONIA
         public static string DataGridLocation(this object obj)
         {
@@ -179,6 +181,7 @@ namespace Utilities
 #endif
 
         #region private
+#if !AVALONIA
         private static void VisualTree(object obj, StringBuilder sb, int depth)
         {
             var str = obj.ToString();
@@ -293,7 +296,6 @@ namespace Utilities
             }
         }
 
-#if !AVALONIA
         private static void AppendPath(DependencyObject obj, StringBuilder sb)
         {
             if (obj == null)

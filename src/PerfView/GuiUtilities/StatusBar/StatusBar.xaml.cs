@@ -107,7 +107,11 @@ namespace PerfView
 
         }
 
+#if !AVALONIA
         public static readonly RoutedEvent HighlightMessageEvent = EventManager.RegisterRoutedEvent("HighlightMessage", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(StatusBar));
+#else
+        public static readonly RoutedEvent HighlightMessageEvent = RoutedEvent.Register<StatusBar, RoutedEventArgs>("HighlightMessage", RoutingStrategies.Bubble);
+#endif
 
         public event RoutedEventHandler HighlightMessage
         {
@@ -224,7 +228,9 @@ namespace PerfView
             m_finally = finally_;
             if (m_parentWindow == null)
             {
+#if !AVALONIA
                 m_parentWindow = Helpers.AncestorOfType<Window>(this);
+#endif
             }
 
             if (m_parentWindow != null)

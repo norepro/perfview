@@ -319,7 +319,11 @@ namespace PerfView
 #endif
         private static string GetCellStringValue(FrameworkElement contents)
         {
+#if !AVALONIA
             string ret = Helpers.GetText(contents);
+#else
+            string ret = (contents as TextBlock)?.Text ?? contents?.ToString();
+#endif
             return ret;
         }
         private static string GetColumnHeaderText(DataGridColumn column)
@@ -348,7 +352,11 @@ namespace PerfView
         private void Grid_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
             var asTextBox = e.EditingElement as TextBox;
+#if !AVALONIA
             var window = this.AncestorOfType<StackWindow>();
+#else
+            StackWindow window = null;
+#endif
 
             if (asTextBox != null)
             {

@@ -27,6 +27,7 @@ using System.Windows.Media;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 using DependencyObject = Avalonia.AvaloniaObject;
 #endif
 
@@ -80,11 +81,17 @@ namespace PerfView
             }
 
             // Make sure the location is sane so it can be displayed.
+#if !AVALONIA
             var top = App.UserConfigData.GetDouble("MainWindowTop", Top);
             Top = Math.Min(Math.Max(top, 0), System.Windows.SystemParameters.PrimaryScreenHeight - 200);
 
             var left = App.UserConfigData.GetDouble("MainWindowLeft", Left);
             Left = Math.Min(Math.Max(left, 0), System.Windows.SystemParameters.PrimaryScreenWidth - 200);
+#else
+            var top = App.UserConfigData.GetDouble("MainWindowTop", Position.Y);
+            var left = App.UserConfigData.GetDouble("MainWindowLeft", Position.X);
+            Position = new global::Avalonia.PixelPoint((int)Math.Min(Math.Max(left, 0), 3000), (int)Math.Min(Math.Max(top, 0), 2000));
+#endif
 
             Height = App.UserConfigData.GetDouble("MainWindowHeight", Height);
             Width = App.UserConfigData.GetDouble("MainWindowWidth", Width);
@@ -145,7 +152,11 @@ namespace PerfView
                     StatusBar.AbortWork();
                 }
 
+#if !AVALONIA
                 if (WindowState != System.Windows.WindowState.Maximized)
+#else
+                if (WindowState != global::Avalonia.Controls.WindowState.Maximized)
+#endif
                 {
 #if AVALONIA
                     App.UserConfigData["MainWindowWidth"] = Bounds.Width.ToString("f0", CultureInfo.InvariantCulture);
@@ -154,8 +165,13 @@ namespace PerfView
                     App.UserConfigData["MainWindowWidth"] = RenderSize.Width.ToString("f0", CultureInfo.InvariantCulture);
                     App.UserConfigData["MainWindowHeight"] = RenderSize.Height.ToString("f0", CultureInfo.InvariantCulture);
 #endif
+#if !AVALONIA
                     App.UserConfigData["MainWindowTop"] = Top.ToString("f0", CultureInfo.InvariantCulture);
                     App.UserConfigData["MainWindowLeft"] = Left.ToString("f0", CultureInfo.InvariantCulture);
+#else
+                    App.UserConfigData["MainWindowTop"] = Position.Y.ToString("f0", CultureInfo.InvariantCulture);
+                    App.UserConfigData["MainWindowLeft"] = Position.X.ToString("f0", CultureInfo.InvariantCulture);
+#endif
                 }
             };
 
@@ -722,7 +738,11 @@ namespace PerfView
         // The Help menu callbacks
         internal void DoCommandLineHelp(object sender, RoutedEventArgs e)
         {
+#if !AVALONIA
             var editor = new TextEditorWindow(this);
+#else
+            var editor = new TextEditorWindow();
+#endif
             editor.Width = 1000;
             editor.Height = 600;
             editor.Title = "PerfView Command Line Help";
@@ -736,7 +756,11 @@ namespace PerfView
             sw.WriteLine("All User Commands");
             Extensions.GenerateHelp(sw);
 
+#if !AVALONIA
             var editor = new TextEditorWindow(this);
+#else
+            var editor = new TextEditorWindow();
+#endif
             editor.Width = 850;
             editor.Height = 600;
             editor.Title = "PerfView Command Line Help";
@@ -789,7 +813,12 @@ namespace PerfView
         }
         private void DoDrop(object sender, DragEventArgs e)
         {
+#if !AVALONIA
             var fileNames = e.Data.GetData(System.Windows.DataFormats.FileDrop) as string[];
+#else
+            var files = e.Data.GetFiles();
+            var fileNames = files?.Select(f => f.Path?.LocalPath).Where(p => p != null).ToArray();
+#endif
             // Don't allow multiple drops as it is expensive.
             if (fileNames != null && fileNames.Length > 0)
             {
@@ -1112,6 +1141,7 @@ namespace PerfView
             // DO NOT call Environment.Exit(0) under tests, it will kill the test runner, and tests won't complete.
             if (!_testing)
             {
+#if !AVALONIA
                 // Dispose all WebView2 browser controls before exiting. Environment.Exit triggers
                 // finalizers, and the WebView2 finalizer crashes if the underlying COM objects have
                 // already been torn down during process shutdown.
@@ -1122,6 +1152,7 @@ namespace PerfView
                         browserWindow.Browser?.Dispose();
                     }
                 }
+#endif
 
                 Environment.Exit(0);
             }
@@ -1311,6 +1342,7 @@ namespace PerfView
                     s_Browser = null;
                 };
 
+#if !AVALONIA
                 s_Browser.Browser.NavigationStarting += delegate (object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
                 {
                     if (e.Uri != null && Uri.TryCreate(e.Uri, UriKind.Absolute, out Uri uri) && !string.IsNullOrEmpty(uri.Host))
@@ -1327,6 +1359,7 @@ namespace PerfView
                         }
                     }
                 };
+#endif
             }
 
             string usersGuideFilePath = Path.Combine(SupportFiles.SupportFileDir, "UsersGuide.htm");
@@ -1422,7 +1455,11 @@ namespace PerfView
         private void TreeView_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
 #endif
         {
+#if !AVALONIA
             TreeViewItem treeViewItem = FindTreeViewItemInVisualHeirarchy(e.OriginalSource as DependencyObject);
+#else
+            TreeViewItem treeViewItem = FindTreeViewItemInVisualHeirarchy(e.Source as DependencyObject);
+#endif
 
             if (treeViewItem != null)
             {
@@ -1434,6 +1471,7 @@ namespace PerfView
         /// <summary>
         /// Given an item in visual a tree, navigate the parents upwards until we find the TreeViewItem it represents.
         /// </summary>
+#if !AVALONIA
         private static TreeViewItem FindTreeViewItemInVisualHeirarchy(DependencyObject source)
         {
             while (source != null && !(source is TreeViewItem))
@@ -1443,6 +1481,18 @@ namespace PerfView
 
             return source as TreeViewItem;
         }
+#else
+        private static TreeViewItem FindTreeViewItemInVisualHeirarchy(DependencyObject source)
+        {
+            var visual = source as global::Avalonia.Visual;
+            while (visual != null && !(visual is TreeViewItem))
+            {
+                visual = visual.GetVisualParent();
+            }
+
+            return visual as TreeViewItem;
+        }
+#endif
 
         /// <summary>
         /// Handler for when <see cref="AuthenticationCommands.UseGitCredentialManager"/> command is executed.

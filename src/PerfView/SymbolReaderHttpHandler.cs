@@ -1027,7 +1027,11 @@ namespace PerfView
 #endif
                     {
                         var deviceCodeDialog = new GitHubDeviceFlowDialog(_mainWindow, deviceFlowResponse.VerificationUri, deviceFlowResponse.UserCode, sharedCancellationToken);
+#if !AVALONIA
                         _ = deviceCodeDialog.ShowDialog();
+#else
+                        _ = deviceCodeDialog.ShowDialog(_mainWindow);
+#endif
                     });
 
                     sharedCancellationTokenSource.Cancel();

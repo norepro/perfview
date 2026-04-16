@@ -83,7 +83,9 @@ namespace PerfView
         private Menu CreateMainMenu()
         {
             Menu menu = new Menu();
+#if !AVALONIA
             menu.IsMainMenu = true;
+#endif
             menu.Height = 20;
 
             MenuItem file = menu.AddItem("File");

@@ -36,18 +36,29 @@ namespace PerfView
                 m_context = m_geometry.Open();
             }
 
+#if !AVALONIA
             m_context.BeginFigure(new Point(x, y), true, true);
             m_context.LineTo(new Point(x + w, y), false, true);
             m_context.LineTo(new Point(x + w, y + h), false, true);
             m_context.LineTo(new Point(x, y + h), false, true);
+#else
+            m_context.BeginFigure(new Point(x, y), true);
+            m_context.LineTo(new Point(x + w, y));
+            m_context.LineTo(new Point(x + w, y + h));
+            m_context.LineTo(new Point(x, y + h));
+#endif
         }
 
         internal StreamGeometry Close()
         {
             if (m_context != null)
             {
+#if !AVALONIA
                 m_context.Close();
                 m_geometry.Freeze();
+#else
+                m_context.Dispose();
+#endif
             }
 
             return m_geometry;
@@ -62,9 +73,15 @@ namespace PerfView
         private double m_start;
         private double m_end;
         private Renderer m_render;
+#if AVALONIA
+        private IBrush m_brush;
+
+        internal BarInterval(Renderer render, IBrush brush)
+#else
         private Brush m_brush;
 
         internal BarInterval(Renderer render, Brush brush)
+#endif
         {
             m_start = -1;
             m_end = -1;
@@ -176,13 +193,17 @@ namespace PerfView
                 {
                     if ((t % 100) == 0) // 10 seconds
                     {
+#if !AVALONIA
                         m_context.DrawRectangle(Brushes.Black, null, new Rect(x - 1, m_yAxis, 2, 8));
+#endif
 
                         DrawText(x - 5, m_yAxis + 10, (t / 10).ToString(), size10);
                     }
                     else if ((t % 10) == 0) // 1 second
                     {
+#if !AVALONIA
                         m_context.DrawRectangle(Brushes.Black, null, new Rect(x - 0.5, m_yAxis, 1, 6));
+#endif
 
                         if (size1 != 0)
                         {
@@ -191,17 +212,26 @@ namespace PerfView
                     }
                     else if (size01 != 0) // 100 ms
                     {
+#if !AVALONIA
                         m_context.DrawRectangle(Brushes.Black, null, new Rect(x - 0.5, m_yAxis, 1, 4));
+#endif
                     }
                 }
             }
         }
 
         private Pen m_blackPen;
+#if AVALONIA
+        private IBrush m_black;
+        private IBrush m_red;
+        private IBrush m_yellow;
+        private IBrush m_blue25;
+#else
         private Brush m_black;
         private Brush m_red;
         private Brush m_yellow;
         private Brush m_blue25;
+#endif
         private ColorScheme m_g0Palette;
         private ColorScheme m_g1Palette;
         private ColorScheme m_g2Palette;
@@ -242,7 +272,9 @@ namespace PerfView
 
             m_gcHeight = m_yAxis - margin;
 
+#if !AVALONIA
             m_context = m_visual.RenderOpen();
+#endif
 
             DrawRect(Brushes.WhiteSmoke, 0, 0, width, height);
         }
@@ -257,12 +289,18 @@ namespace PerfView
             return t * m_x1;
         }
 
+#if AVALONIA
+        private void DrawRect(IBrush b, double x, double y, double width, double height)
+#else
         private void DrawRect(Brush b, double x, double y, double width, double height)
+#endif
         {
+#if !AVALONIA
             if ((width > 0) && (height > 0))
             {
                 m_context.DrawRectangle(b, null, new Rect(x, y, width, height));
             }
+#endif
         }
 
         // G0/G3 budget
@@ -318,7 +356,9 @@ namespace PerfView
 
         internal void DrawGeometry(StreamGeometry geo, int gen)
         {
+#if !AVALONIA
             m_context.DrawGeometry(gen >= 3 ? m_Palettes[gen - 3].inducedGcBrush : m_Palettes[gen].gcBrush, null, geo);
+#endif
         }
 
         private double m_maxHeap;
@@ -362,11 +402,13 @@ namespace PerfView
 
             for (int y = unit; y < m_maxHeap; y += unit)
             {
+#if !AVALONIA
                 m_context.DrawRectangle(Brushes.Black, null, new Rect(m_xAxis - 8, MapY(y) - 0.5, 8, 1));
 
                 m_context.DrawLine(
                     (y % (unit * 5)) == 0 ? m_blackPen : m_thinBlack,
                     new Point(m_xAxis, MapY(y)), new Point(m_width - margin, MapY(y)));
+#endif
 
                 string lable = y.ToString();
 
@@ -376,7 +418,9 @@ namespace PerfView
 
         private void DrawText(double x, double y, string text, double size = 9)
         {
+#if !AVALONIA
             m_context.DrawText(new FormattedText(text, Thread.CurrentThread.CurrentCulture, FlowDirection.LeftToRight, m_arial, size, Brushes.Black), new Point(x, y));
+#endif
         }
 
         private double MapY(double y)
@@ -413,26 +457,40 @@ namespace PerfView
 
                     if (i == 0)
                     {
+#if !AVALONIA
                         ctx.BeginFigure(p, false, false);
+#else
+                        ctx.BeginFigure(p, false);
+#endif
                         p0 = p;
                     }
                     else
                     {
                         if (Diff(p, p0) >= 0.1) // 1 pixel in 960 dpi
                         {
+#if !AVALONIA
                             ctx.LineTo(p, true, true);
+#else
+                            ctx.LineTo(p);
+#endif
                             p0 = p;
                         }
                     }
                 }
 
+#if !AVALONIA
                 ctx.Close();
+#else
+                ctx.Dispose();
+#endif
 
                 ColorScheme pal = m_Palettes[j];
 
+#if !AVALONIA
                 geometry.Freeze();
 
                 m_context.DrawGeometry(null, curveLabels == null ? pal.memoryPen2 : pal.memoryPen1, geometry);
+#endif
 
                 labels.Add(new Tuple<Point, string, Pen>(
                     p,
@@ -449,7 +507,9 @@ namespace PerfView
                     y = v.Item1.Y;
                 }
 
+#if !AVALONIA
                 m_context.DrawLine(v.Item3, new Point(v.Item1.X + 3, v.Item1.Y), new Point(v.Item1.X + 8, y));
+#endif
 
                 DrawText(v.Item1.X + 10, y - 5, v.Item2, 10);
 
@@ -471,8 +531,13 @@ namespace PerfView
         {
             int count = events.Count;
 
+#if AVALONIA
+            IBrush brush1 = Brushes.Blue;
+            IBrush brush2 = Brushes.Brown;
+#else
             Brush brush1 = Brushes.Blue;
             Brush brush2 = Brushes.Brown;
+#endif
 
             for (int i = 0; i < count; i++)
             {
@@ -520,7 +585,11 @@ namespace PerfView
             m_barT1 = t1;
         }
 
+#if AVALONIA
+        public void DrawBar(double start, double end, IBrush brush)
+#else
         public void DrawBar(double start, double end, Brush brush)
+#endif
         {
             if ((start < m_barT1) && (end > m_barT0))
             {
@@ -625,6 +694,7 @@ namespace PerfView
 
         public Visual CloseDiagram(bool drawAxis)
         {
+#if !AVALONIA
             if (m_context != null)
             {
                 if (drawAxis)
@@ -639,6 +709,9 @@ namespace PerfView
             }
 
             return m_visual;
+#else
+            return null;
+#endif
         }
     }
 
@@ -1185,7 +1258,11 @@ namespace PerfView
                 m_zoomSlider.Maximum = MaxZoom;
                 m_zoomSlider.Value = 1;
                 m_zoomSlider.Width = 200;
+#if !AVALONIA
                 m_zoomSlider.Ticks = new DoubleCollection(new double[] { 1, 2, 4, 8, 10, 16, 32, 50, 64, MaxZoom });
+#else
+                m_zoomSlider.Ticks = new global::Avalonia.Collections.AvaloniaList<double> { 1, 2, 4, 8, 10, 16, 32, 50, 64, MaxZoom };
+#endif
                 m_zoomSlider.TickPlacement = TickPlacement.BottomRight;
                 m_zoomSlider.ValueChanged += ZoomValueChanged;
 #if AVALONIA
@@ -1323,7 +1400,11 @@ namespace PerfView
 
                 m_statusBar.Status = String.Format("ZoomTo({0:N3} .. {1:N3})", m_rangeT0, m_rangeT1);
 
+#if !AVALONIA
                 m_scrollViewer.ScrollToHorizontalOffset(offset);
+#else
+                m_scrollViewer.Offset = new Vector(offset, m_scrollViewer.Offset.Y);
+#endif
             }
         }
 
@@ -1388,7 +1469,11 @@ namespace PerfView
         {
             DiagramPara para = new DiagramPara();
 
+#if !AVALONIA
             para.scrollOffset = m_scrollViewer.HorizontalOffset;
+#else
+            para.scrollOffset = m_scrollViewer.Offset.X;
+#endif
             para.zoom = m_zoomSlider.Value;
             para.t0 = m_diagramT0;
             para.t1 = m_diagramT1;
@@ -1405,7 +1490,11 @@ namespace PerfView
 
             m_zoomSlider.Value = 1;                                          // Update zoom to 1
 
+#if !AVALONIA
             m_scrollViewer.ScrollToHorizontalOffset(0);
+#else
+            m_scrollViewer.Offset = new Vector(0, m_scrollViewer.Offset.Y);
+#endif
 
             m_statusBar.Status = String.Format("CropTo({0:N3} .. {1:N3})", m_diagramT0, m_diagramT1);
         }
@@ -1422,7 +1511,11 @@ namespace PerfView
                 m_diagramT0 = para.t0;
                 m_diagramT1 = para.t1;
                 m_zoomSlider.Value = para.zoom;
+#if !AVALONIA
                 m_scrollViewer.ScrollToHorizontalOffset(para.scrollOffset);
+#else
+                m_scrollViewer.Offset = new Vector(para.scrollOffset, m_scrollViewer.Offset.Y);
+#endif
             }
 
             if (m_cropList.Count == 0)

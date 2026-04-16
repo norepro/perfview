@@ -80,6 +80,10 @@ namespace PerfView
             DataSource = data;
             ParentWindow = parent;
             InitializeComponent();
+#if AVALONIA
+            OriginTimeStampColumn = Grid.Columns.OfType<DataGridTextColumn>().FirstOrDefault(c => c.Header?.ToString() == "TimeStamp (Trace Local)");
+            LocalTimeStampColumn = Grid.Columns.OfType<DataGridTextColumn>().FirstOrDefault(c => c.Header?.ToString() == "TimeStamp (Current Machine)");
+#endif
             Title = DataSource.Title;
 #if !AVALONIA
             Grid.CopyingRowClipboardContent += delegate (object sender, DataGridRowClipboardEventArgs e)
@@ -302,17 +306,26 @@ namespace PerfView
                 {
                     App.UserConfigData["MultiLineViewPaneHidden"] = "true";
                     m_MultiLineViewPaneHidden = true;
+#if !AVALONIA
                     MultiLineViewPaneRowDef.MaxHeight = 0;
+#endif
                 }
                 else
                 {
                     App.UserConfigData["MultiLineViewPaneHidden"] = "false";
                     m_MultiLineViewPaneHidden = false;
+#if !AVALONIA
                     MultiLineViewPaneRowDef.MaxHeight = Double.PositiveInfinity;
+#endif
 
                 }
             }
         }
+
+#if AVALONIA
+        private DataGridTextColumn OriginTimeStampColumn;
+        private DataGridTextColumn LocalTimeStampColumn;
+#endif
 
         private bool m_MultiLineViewPaneHidden;
         public void SaveDataToXmlFile(string xmlFileName)
@@ -2116,6 +2129,7 @@ namespace PerfView
         private void Grid_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
 #endif
         {
+#if !AVALONIA
             if (Keyboard.Modifiers == ModifierKeys.Shift)
             {
                 // Cache the ScrollViewer on first use
@@ -2131,8 +2145,10 @@ namespace PerfView
                 m_gridScrollViewer.ScrollToHorizontalOffset(m_gridScrollViewer.HorizontalOffset - e.Delta);
                 e.Handled = true;
             }
+#endif
         }
 
+#if !AVALONIA
         private static T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
@@ -2151,5 +2167,6 @@ namespace PerfView
             }
             return null;
         }
+#endif
     }
 }

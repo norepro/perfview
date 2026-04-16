@@ -303,6 +303,7 @@ namespace PerfViewExtensibility
             GuiApp.MainWindow.Dispatcher.BeginInvoke((Action)delegate ()
             {
                 var viewer = new WebBrowserWindow(GuiApp.MainWindow);
+#if !AVALONIA
                 viewer.Browser.NavigationStarting += delegate (object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
                 {
                     if (e.Uri != null && Uri.TryCreate(e.Uri, UriKind.Absolute, out Uri uri))
@@ -310,12 +311,8 @@ namespace PerfViewExtensibility
                         if (uri.Scheme == "command")
                         {
                             e.Cancel = true;
-#if AVALONIA
-                            viewer.StatusBar.IsVisible = true;
-#else
                             if (viewer.StatusBar.Visibility != System.Windows.Visibility.Visible)
                                 viewer.StatusBar.Visibility = System.Windows.Visibility.Visible;
-#endif
                             viewer.StatusBar.StartWork("Following Hyperlink", delegate ()
                             {
                                 if (DoCommand != null)
@@ -327,6 +324,7 @@ namespace PerfViewExtensibility
                         }
                     }
                 };
+#endif
                 viewer.Width = 1000;
                 viewer.Height = 600;
                 viewer.Title = title;

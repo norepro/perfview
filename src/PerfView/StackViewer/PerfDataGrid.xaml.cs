@@ -409,7 +409,11 @@ namespace PerfView
         private void HistogramCell_CellSelectionChanged(object sender, RoutedEventArgs e, HistogramController controller, Histogram histogram)
         {
             var asTextBox = sender as TextBox;
+#if !AVALONIA
             var window = Helpers.AncestorOfType<StackWindow>(this);
+#else
+            StackWindow window = null;
+#endif
 
 #if AVALONIA
             if (asTextBox != null && window != null && 0 < (asTextBox.SelectionEnd - asTextBox.SelectionStart))
@@ -432,7 +436,11 @@ namespace PerfView
         private void Grid_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
             var asTextBox = e.EditingElement as TextBox;
+#if !AVALONIA
             var window = this.AncestorOfType<StackWindow>();
+#else
+            StackWindow window = null;
+#endif
 
             // Get the histogram for this cell
             Histogram histogram = null;

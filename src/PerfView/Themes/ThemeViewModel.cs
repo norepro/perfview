@@ -91,6 +91,7 @@ namespace PerfView
                 }
             }
 
+#if !AVALONIA
             if (theme == Theme.Light)
                 ApplyResources("Themes/LightTheme.xaml");
             else// if (newTheme == Theme.Dark)
@@ -101,6 +102,7 @@ namespace PerfView
                 var dict = new ResourceDictionary() { Source = new Uri(src, UriKind.Relative) };
                 Application.Current.Resources.MergedDictionaries[0] = dict;
             }
+#endif
         }
 
         public void SetTheme(Theme newTheme)

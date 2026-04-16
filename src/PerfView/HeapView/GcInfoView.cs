@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.Linq;
 
 #if AVALONIA
 using Avalonia.Controls;
@@ -362,7 +363,9 @@ namespace PerfView
             {
                 reason.AddTextBlock("GC Reason ", "GCReason", OnHelp, 3, 2);
                 var selectAllReasonButton = reason.AddButton("Select All", 60, ReasonSelectAll, 3, 2);
+#if !AVALONIA
                 AutomationProperties.SetName(selectAllReasonButton, "Select all GC reasons");
+#endif
 
                 m_inducedBlocking = reason.AddCheckBox(true, "Induced Blocking", 3, 2, UpdateEvents);
                 m_inducedNonblocking = reason.AddCheckBox(true, "Induced Nonblocking", 3, 0, UpdateEvents);
@@ -375,7 +378,9 @@ namespace PerfView
             {
                 gen.AddTextBlock("Generation ", "Generation", OnHelp, 3, 2);
                 var selectAllGenerationsButton = gen.AddButton("Select All", 60, GenerationSelectAll, 3, 2);
+#if !AVALONIA
                 AutomationProperties.SetName(selectAllGenerationsButton, "Select all generations");
+#endif
 
                 m_g0 = gen.AddCheckBox(true, "0", 3, 0, UpdateEvents);
                 m_g1 = gen.AddCheckBox(true, "1", 3, 0, UpdateEvents);
@@ -386,7 +391,11 @@ namespace PerfView
             StackPanel controls = new StackPanel();
             controls.Background = Brushes.LightGray;
             controls.Width = 240;
+#if AVALONIA
+            controls.Children.Add(Toolbox.Stack(global::Avalonia.Layout.Orientation.Horizontal, reason, gen));
+#else
             controls.Children.Add(Toolbox.Stack(Orientation.Horizontal, reason, gen));
+#endif
 
             m_grid = new DataGrid();
             m_grid.Background = Brushes.LightGray;
@@ -480,7 +489,11 @@ namespace PerfView
 
             if (block != null)
             {
+#if AVALONIA
+                var run = block.Inlines.OfType<global::Avalonia.Controls.Documents.Run>().FirstOrDefault();
+#else
                 Run run = block.Inlines.FirstInline as Run;
+#endif
 
                 if (run != null)
                 {
@@ -582,9 +595,11 @@ namespace PerfView
         private void AddNewColumn()
         {
             DataGridTextColumn newColumn = new DataGridTextColumn();
+#if !AVALONIA
             Binding b = new Binding("");
             b.Converter = new NewColumnData();
             newColumn.Binding = b;
+#endif
             newColumn.Header = "new";
 
             m_grid.Columns.Add(newColumn);

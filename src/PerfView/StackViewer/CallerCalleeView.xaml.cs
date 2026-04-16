@@ -141,7 +141,11 @@ namespace PerfView
 #endif
         {
             var depObj = sender as DependencyObject;
+#if !AVALONIA
             var stackWindow = depObj.AncestorOfType<StackWindow>();
+#else
+            StackWindow stackWindow = null;
+#endif
             if (stackWindow == null)
             {
                 return;

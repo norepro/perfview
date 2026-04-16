@@ -2,7 +2,9 @@
 using System.Globalization;
 using System.IO;
 using System.Windows;
+#if !AVALONIA
 using System.Windows.Markup;
+#endif
 using Utilities;
 
 #if AVALONIA
@@ -23,9 +25,11 @@ namespace PerfView
 
         public GuiApp(bool installUnhandledExceptionHandlers = true)
         {
+#if !AVALONIA
             Startup += delegate (object sender, StartupEventArgs e) { ApplicationStarted(); };
 
             InitializeComponent();
+#endif
 
             if (installUnhandledExceptionHandlers)
             {
@@ -56,6 +60,7 @@ namespace PerfView
             StatusBar.AttachWriterToLogStream(logFile);
             App.CommandProcessor.LogFile = MainWindow.StatusBar.LogWriter;
 
+#if !AVALONIA
             // Work around for Non-English/US locale (e.g. French) where among other things the decimal point is a comma.
             // WPF never uses the CurrentCulture when it formats numbers (it always uses US)
             // This sets the default to the current culture.
@@ -63,6 +68,7 @@ namespace PerfView
             FrameworkElement.LanguageProperty.OverrideMetadata(
               typeof(FrameworkElement),
               new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+#endif
 
             if (App.CommandLineArgs.HelpRequested)
             {
@@ -78,7 +84,11 @@ namespace PerfView
             if (App.NeedsEulaConfirmation(App.CommandLineArgs))
             {
                 var eula = new PerfView.Dialogs.EULADialog(MainWindow);
+#if !AVALONIA
                 bool? accepted = eula.ShowDialog();
+#else
+                bool? accepted = eula.ShowDialog<bool?>(MainWindow).GetAwaiter().GetResult();
+#endif
                 if (!(accepted ?? false))
                 {
                     Environment.Exit(-10);
@@ -87,7 +97,11 @@ namespace PerfView
                 App.AcceptEula();       // Remember that we have accepted the EULA for next time.
             }
 
+#if !AVALONIA
             MainWindow.Loaded += delegate (object sender, RoutedEventArgs ev)
+#else
+            MainWindow.Loaded += delegate (object sender, global::Avalonia.Interactivity.RoutedEventArgs ev)
+#endif
             {
                 string[] providers = App.CommandLineArgs.Providers;
 
@@ -168,7 +182,11 @@ namespace PerfView
             MainWindow.Dispatcher.BeginInvoke((Action)delegate ()
             {
                 var dialog = new PerfView.Dialogs.UnhandledExceptionDialog(MainWindow, e.ExceptionObject);
+#if !AVALONIA
                 var ret = dialog.ShowDialog();
+#else
+                dialog.ShowDialog(MainWindow).GetAwaiter().GetResult();
+#endif
             });
         }
     }

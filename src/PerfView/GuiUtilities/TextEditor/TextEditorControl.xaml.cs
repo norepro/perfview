@@ -331,9 +331,11 @@ namespace Controls
         }
         private void DoDeleteLine(object sender, ExecutedRoutedEventArgs e)
         {
+#if !AVALONIA
             EditingCommands.MoveToLineStart.Execute(null, Body);
             EditingCommands.SelectDownByLine.Execute(null, Body);
             ApplicationCommands.Cut.Execute(null, Body);
+#endif
         }
         private void DoClear(object sender, ExecutedRoutedEventArgs e)
         {
@@ -537,7 +539,7 @@ namespace Controls
             if (m_textEditorControl.IsVisible && m_sb.Length > 0)
             {
 #if AVALONIA
-                DispatcherAdapter.Instance.BeginInvoke((Action)delegate ()
+                Dispatcher.UIThread.InvokeAsync((Action)delegate ()
 #else
                 m_textEditorControl.Dispatcher.BeginInvoke((Action)delegate ()
 #endif

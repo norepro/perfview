@@ -50,7 +50,11 @@ namespace PerfView.Dialogs
 #else
             Clipboard.SetText(userCode);
 #endif
+#if !AVALONIA
             ((Button)e.Source).Content = "Copied";
+#else
+            ((Button)sender).Content = "Copied";
+#endif
             e.Handled = true;
         }
 

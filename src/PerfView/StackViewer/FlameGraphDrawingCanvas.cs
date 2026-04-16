@@ -33,7 +33,12 @@ namespace PerfView
         private FlameBoxesMap flameBoxesMap = new FlameBoxesMap();
         private ToolTip tooltip = new ToolTip() { FontSize = 20.0 };
         private CallTreeNode selectedNode;
+#if !AVALONIA
         private ScaleTransform scaleTransform = new ScaleTransform(1.0f, 1.0f, 0.0f, 0.0f);
+#else
+        private ScaleTransform scaleTransform = new ScaleTransform(1.0f, 1.0f);
+        private double _scaleCenterX, _scaleCenterY;
+#endif
         private Cursor cursor;
 
         public FlameGraphDrawingCanvas()
@@ -46,10 +51,17 @@ namespace PerfView
             MouseLeave += OnMouseLeave;
             MouseRightButtonDown += (s, e) => selectedNode = flameBoxesMap.Find(e.MouseDevice.GetPosition(this)).Node;
 #endif
+#if !AVALONIA
             PreviewMouseWheel += OnPreviewMouseWheel;
             MouseLeftButtonDown += OnMouseLeftButtonDown;
             MouseLeftButtonUp += OnMouseLeftButtonUp;
             PreviewKeyDown += OnPreviewKeyDown;
+#else
+            PointerWheelChanged += OnPreviewMouseWheel;
+            PointerPressed += OnMouseLeftButtonDown;
+            PointerReleased += OnMouseLeftButtonUp;
+            KeyDown += OnPreviewKeyDown;
+#endif
             Focusable = true;
         }
 
@@ -158,6 +170,24 @@ namespace PerfView
         private void OnMouseMove(object sender, MouseEventArgs e)
 #endif
         {
+#if AVALONIA
+            if (!IsEmpty && !e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            {
+                var position = InverseTransformPoint(e.GetPosition(this));
+                var tooltipText = flameBoxesMap.Find(position).TooltipText;
+                if (tooltipText != null)
+                {
+                    ShowTooltip(tooltipText);
+                    CurrentFlameBoxChanged(this, tooltipText);
+                    return;
+                }
+            }
+            else if (!IsEmpty && e.GetCurrentPoint(this).Properties.IsLeftButtonPressed && IsZoomed)
+            {
+                var relativeMousePosition = InverseTransformPoint(e.GetPosition(this));
+                MoveZoomingCenterPoint(relativeMousePosition.X, relativeMousePosition.Y);
+            }
+#else
             if (!IsEmpty && e.LeftButton == MouseButtonState.Released)
             {
                 var position = scaleTransform.Inverse.Transform(Mouse.GetPosition(this));
@@ -174,6 +204,7 @@ namespace PerfView
                 var relativeMousePosition = scaleTransform.Inverse.Transform(Mouse.GetPosition(this));
                 MoveZoomingCenterPoint(relativeMousePosition.X, relativeMousePosition.Y);
             }
+#endif
 
             HideTooltip();
         }
@@ -194,6 +225,19 @@ namespace PerfView
         private void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
 #endif
         {
+#if AVALONIA
+            float modifier = e.Delta.Y > 0 ? 1.1f : 0.9f;
+
+            var relativeMousePosition = InverseTransformPoint(e.GetPosition(this));
+
+            scaleTransform.ScaleX = Math.Max(1.0, scaleTransform.ScaleX * modifier);
+            scaleTransform.ScaleY = Math.Max(1.0, scaleTransform.ScaleY * modifier);
+            _scaleCenterX = relativeMousePosition.X;
+            _scaleCenterY = relativeMousePosition.Y;
+
+            InvalidateVisual();
+            Focus();
+#else
             float modifier = e.Delta > 0 ? 1.1f : 0.9f;
 
             var relativeMousePosition = scaleTransform.Inverse.Transform(Mouse.GetPosition(this));
@@ -205,6 +249,7 @@ namespace PerfView
 
             this.Draw(flameBoxesMap.EnumerateBoxes().ToList()); // redraw canvas with new scale
             Keyboard.Focus(this); // make it possible to handle Arrow keys and move CenterX & Y scaling points
+#endif
         }
 
 #if AVALONIA
@@ -216,7 +261,11 @@ namespace PerfView
             if (IsZoomed)
             {
                 cursor = Mouse.OverrideCursor;
+#if !AVALONIA
                 Mouse.OverrideCursor = Cursors.Hand; // emulate drag&drop cursor style
+#else
+                Mouse.OverrideCursor = new Cursor(StandardCursorType.Hand);
+#endif
             }
         }
 
@@ -239,6 +288,29 @@ namespace PerfView
                 return;
             }
 
+#if AVALONIA
+            switch (e.Key)
+            {
+                case Key.Left:
+                    MoveZoomingCenterPoint(_scaleCenterX * 0.9, _scaleCenterY);
+                    e.Handled = true;
+                    break;
+                case Key.Right:
+                    MoveZoomingCenterPoint(_scaleCenterX * 1.1, _scaleCenterY);
+                    e.Handled = true;
+                    break;
+                case Key.Up:
+                    MoveZoomingCenterPoint(_scaleCenterX, _scaleCenterY * 0.9);
+                    e.Handled = true;
+                    break;
+                case Key.Down:
+                    MoveZoomingCenterPoint(_scaleCenterX, _scaleCenterY * 1.1);
+                    e.Handled = true;
+                    break;
+                default:
+                    break;
+            }
+#else
             switch (e.Key)
             {
                 case Key.Left:
@@ -260,6 +332,7 @@ namespace PerfView
                 default:
                     break;
             }
+#endif
         }
 
         private void ShowTooltip(string text)
@@ -323,8 +396,8 @@ namespace PerfView
             if (IsZoomed)
             {
 #if AVALONIA
-                scaleTransform.CenterX = Math.Min(x, Bounds.Width);
-                scaleTransform.CenterY = Math.Min(y, Bounds.Height);
+                _scaleCenterX = Math.Min(x, Bounds.Width);
+                _scaleCenterY = Math.Min(y, Bounds.Height);
 #else
                 scaleTransform.CenterX = Math.Min(x, ActualWidth);
                 scaleTransform.CenterY = Math.Min(y, ActualHeight);
@@ -333,6 +406,15 @@ namespace PerfView
         }
 
         private void ResetCursor() => Mouse.OverrideCursor = cursor;
+
+#if AVALONIA
+        private Point InverseTransformPoint(Point point)
+        {
+            return new Point(
+                _scaleCenterX + (point.X - _scaleCenterX) / scaleTransform.ScaleX,
+                _scaleCenterY + (point.Y - _scaleCenterY) / scaleTransform.ScaleY);
+        }
+#endif
 
         private static Brush[][] GenerateBrushes()
         {

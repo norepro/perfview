@@ -187,7 +187,11 @@ namespace PerfView
             Width = m_width * m_displayZoom;
             Height = m_height;
 
+#if !AVALONIA
             RenderTransform = new ScaleTransform(m_displayZoom, 1, 0, 0);
+#else
+            RenderTransform = new ScaleTransform(m_displayZoom, 1);
+#endif
         }
 
 #if !AVALONIA
@@ -413,6 +417,7 @@ namespace PerfView
                 return visual;
             }
 
+#if !AVALONIA
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(visual); i++)
             {
                 Object obj = FindChild(VisualTreeHelper.GetChild(visual, i) as Visual, typ);
@@ -422,6 +427,7 @@ namespace PerfView
                     return obj;
                 }
             }
+#endif
 
             return null;
         }
@@ -447,6 +453,7 @@ namespace PerfView
 
             sb.Append(v);
 
+#if !AVALONIA
             int child = VisualTreeHelper.GetChildrenCount(visual);
 
             if (child != 0)
@@ -465,11 +472,13 @@ namespace PerfView
 
                 sb.Append(']');
             }
+#endif
         }
 
         /// <summary>
         /// Create right justify style
         /// </summary>
+#if !AVALONIA
         internal static Style RightJustifyStyle(Style baseStyle)
         {
             Style s = new Style();
@@ -489,6 +498,7 @@ namespace PerfView
             columnHeaderStyle.Setters.Add(new Setter(DataGridColumnHeader.FocusableProperty, true));
             return columnHeaderStyle;
         }
+#endif
 
         /// <summary>
         /// Add Button column to DataGrid
@@ -499,6 +509,7 @@ namespace PerfView
 
             col.Header = header;
 
+#if !AVALONIA
             DataTemplate template = new DataTemplate();
 
             FrameworkElementFactory but = new FrameworkElementFactory(typeof(Button));
@@ -515,6 +526,7 @@ namespace PerfView
             template.DataType = dataType;
 
             col.CellTemplate = template;
+#endif
 
             grid.Columns.Add(col);
 
@@ -530,6 +542,7 @@ namespace PerfView
 
             col.Header = header;
 
+#if !AVALONIA
             Binding b = new Binding(binding);
 
             if (format != null)
@@ -539,12 +552,11 @@ namespace PerfView
 
             if (right)
             {
-#if !AVALONIA
                 col.CellStyle = RightJustifyStyle(col.CellStyle);
-#endif
             }
 
             col.Binding = b;
+#endif
 
             grid.Columns.Add(col);
 
@@ -560,6 +572,7 @@ namespace PerfView
 
             col.Header = header;
 
+#if !AVALONIA
             Binding b = new Binding(binding);
 
             b.ConverterParameter = para;
@@ -567,12 +580,11 @@ namespace PerfView
 
             if (right)
             {
-#if !AVALONIA
                 col.CellStyle = RightJustifyStyle(col.CellStyle);
-#endif
             }
 
             col.Binding = b;
+#endif
             col.MaxWidth = 500;
             grid.Columns.Add(col);
 
@@ -906,6 +918,7 @@ namespace PerfView
         /// <summary>
         /// Save Visual as PNG file
         /// </summary>
+#if !AVALONIA
         internal static string SaveAsPng(Visual visual, int width, int height, string fileName)
         {
             RenderTargetBitmap image = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
@@ -924,10 +937,12 @@ namespace PerfView
 
             return pngFile;
         }
+#endif
 
         /// <summary>
         /// Save Visual as XPS file, may be slow
         /// </summary>
+#if !AVALONIA
         internal static string SaveAsXps(Visual visual, int width, int height, string fileName)
         {
             string xpsFile = fileName;
@@ -969,6 +984,7 @@ namespace PerfView
 
             return xpsFile;
         }
+#endif
 
         /// <summary>
         /// Wrap around Panel with top-left border, with a label as Tooltip
@@ -977,7 +993,14 @@ namespace PerfView
         {
             StackPanel left = new StackPanel();
             left.Width = 8;
+#if !AVALONIA
             left.Background = new LinearGradientBrush(Color.FromRgb(3, 8, 111), Colors.LightGray, 90);
+#else
+            var leftBrush = new LinearGradientBrush();
+            leftBrush.GradientStops.Add(new GradientStop(Color.FromRgb(3, 8, 111), 0));
+            leftBrush.GradientStops.Add(new GradientStop(Colors.LightGray, 1));
+            left.Background = leftBrush;
+#endif
 #if AVALONIA
             ToolTip.SetTip(left, help);
 #else
@@ -988,12 +1011,21 @@ namespace PerfView
             text.Text = help;
             text.Foreground = Brushes.Yellow;
             text.FontSize = 8;
+#if !AVALONIA
             text.LayoutTransform = new RotateTransform(90);
+#endif
             left.Children.Add(text);
 
             StackPanel top = new StackPanel();
             top.Height = 3;
+#if !AVALONIA
             top.Background = new LinearGradientBrush(Color.FromRgb(3, 8, 111), Colors.LightGray, 0);
+#else
+            var topBrush = new LinearGradientBrush();
+            topBrush.GradientStops.Add(new GradientStop(Color.FromRgb(3, 8, 111), 0));
+            topBrush.GradientStops.Add(new GradientStop(Colors.LightGray, 1));
+            top.Background = topBrush;
+#endif
 
             return DockTopLeft(top, left, panel);
         }
@@ -1441,7 +1473,9 @@ namespace PerfView
             m_panel = panel;
             m_row = row;
             m_rowDef = new RowDefinition();
+#if !AVALONIA
             m_rowDef.Tag = row;
+#endif
 
             if (split)
             {
@@ -1527,6 +1561,7 @@ namespace PerfView
             m_panel.Visibility = Visibility.Visible;
 #endif
 
+#if !AVALONIA
             RowDefinitionCollection col = m_grid.RowDefinitions;
 
             if (!col.Contains(m_rowDef)) // Insert in order
@@ -1545,6 +1580,14 @@ namespace PerfView
 
                 col.Insert(i, m_rowDef);
             }
+#else
+            var col = m_grid.RowDefinitions;
+
+            if (!col.Contains(m_rowDef))
+            {
+                col.Add(m_rowDef);
+            }
+#endif
 
             if (m_splitter != null)
             {
@@ -1731,7 +1774,14 @@ namespace PerfView
             budgetColor = Color.FromArgb(63, fill.R, fill.G, fill.B);  // opacity = 0.25
 
             gcBrush = new SolidColorBrush(gcColor);
+#if !AVALONIA
             inducedGcBrush = new LinearGradientBrush(darkFill, gcColor, 90);
+#else
+            var inducedBrush = new LinearGradientBrush();
+            inducedBrush.GradientStops.Add(new GradientStop(darkFill, 0));
+            inducedBrush.GradientStops.Add(new GradientStop(gcColor, 1));
+            inducedGcBrush = inducedBrush;
+#endif
             budgetBrush = new SolidColorBrush(budgetColor);
 
             strokeBrush = new SolidColorBrush(stroke);

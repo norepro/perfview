@@ -636,7 +636,11 @@ public class ProjectNMetaDataLogReader
                     }
                     else
                     {
+#if !AVALONIA
                         throw new FileFormatException();
+#else
+                        throw new FormatException();
+#endif
                     }
                 }
                 if (lineNum > 1)
@@ -647,7 +651,11 @@ public class ProjectNMetaDataLogReader
             }
             catch (Exception e)
             {
+#if !AVALONIA
                 throw new FileFormatException("Error on line number " + lineNum + "  " + e.Message);
+#else
+                throw new FormatException("Error on line number " + lineNum + "  " + e.Message);
+#endif
             }
         }
         m_graph.AllowReading();

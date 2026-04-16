@@ -362,7 +362,7 @@ namespace PerfView
         {
 #if !PERFVIEW_COLLECT
 #if AVALONIA
-            AppBuilder.Configure<Avalonia.GuiApp>()
+            AppBuilder.Configure(() => new PerfView.GuiApp())
                 .UsePlatformDetect()
                 .WithInterFont()
                 .LogToTrace()
@@ -1076,8 +1076,7 @@ namespace PerfView
             if (GuiApp.MainWindow.Dispatcher.CheckAccess())
             {
                 var emptyPathDialog = new PerfView.Dialogs.EmptySymbolPathDialog(GuiApp.MainWindow);
-                emptyPathDialog.Owner = GuiApp.MainWindow;
-                emptyPathDialog.ShowDialog();
+                emptyPathDialog.ShowDialog(GuiApp.MainWindow);
                 ret = emptyPathDialog.UseMSSymbols;
             }
             else
@@ -1090,8 +1089,7 @@ namespace PerfView
                     try
                     {
                         var emptyPathDialog = new PerfView.Dialogs.EmptySymbolPathDialog(GuiApp.MainWindow);
-                        emptyPathDialog.Owner = GuiApp.MainWindow;
-                        emptyPathDialog.ShowDialog();
+                        emptyPathDialog.ShowDialog(GuiApp.MainWindow);
                         ret = emptyPathDialog.UseMSSymbols;
                     }
                     finally

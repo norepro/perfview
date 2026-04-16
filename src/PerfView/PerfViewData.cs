@@ -894,7 +894,9 @@ namespace PerfView
             new ProcessDumpPerfViewFile(),
             new ScenarioSetPerfViewFile(),
             new OffProfPerfViewFile(),
+#if !AVALONIA
             new DiagSessionPerfViewFile(),
+#endif
             new LinuxPerfViewData(),
             new XmlTreeFile(),
             new EventPipePerfViewData(),
@@ -1123,7 +1125,11 @@ namespace PerfView
                     worker.EndWork(delegate ()
                     {
                         Viewer = new WebBrowserWindow(parentWindow);
+#if AVALONIA
+                        Viewer.WindowState = global::Avalonia.Controls.WindowState.Maximized;
+#else
                         Viewer.WindowState = System.Windows.WindowState.Maximized;
+#endif
 #if AVALONIA
                         Viewer.Closing += delegate (object sender, WindowClosingEventArgs e)
 #else
@@ -1132,6 +1138,7 @@ namespace PerfView
                         {
                             Viewer = null;
                         };
+#if !AVALONIA
                         Viewer.Browser.NavigationStarting += delegate (object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs e)
                         {
                             if (Uri.TryCreate(e.Uri, UriKind.Absolute, out Uri uri) && uri.Scheme == "command")
@@ -1153,6 +1160,7 @@ namespace PerfView
                                 });
                             }
                         };
+#endif
 
                         Viewer.Width = 1000;
                         Viewer.Height = 600;
@@ -1384,7 +1392,11 @@ namespace PerfView
                 worker.Parent.Dispatcher.BeginInvoke((Action)delegate ()
 #endif
                 {
+#if AVALONIA
+                    var logTextWindow = new Controls.TextEditorWindow();
+#else
                     var logTextWindow = new Controls.TextEditorWindow(GuiApp.MainWindow);
+#endif
                     logTextWindow.TextEditor.OpenText(logFile);
                     logTextWindow.TextEditor.IsReadOnly = true;
                     logTextWindow.Title = "Collection time log";

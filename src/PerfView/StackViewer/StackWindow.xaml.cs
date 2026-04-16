@@ -33,6 +33,7 @@ using System.Windows.Media;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml.Templates;
 using DependencyObject = Avalonia.AvaloniaObject;
 using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
 using UIElement = Avalonia.Controls.Control;
@@ -253,9 +254,20 @@ namespace PerfView
         /// </summary>
         private void ChangeHeaderText(TabItem tab, string newHeaderText)
         {
+#if !AVALONIA
             var textBlock = (TextBlock)tab.Header;
             var firstRun = (Run)textBlock.Inlines.FirstInline;
             firstRun.Text = newHeaderText + " ";
+#else
+            if (tab.Header is TextBlock textBlock)
+            {
+                var firstRun = textBlock.Inlines.FirstOrDefault() as global::Avalonia.Controls.Documents.Run;
+                if (firstRun != null)
+                {
+                    firstRun.Text = newHeaderText + " ";
+                }
+            }
+#endif
         }
 
         private bool m_IsMemoryWindow;
@@ -1836,12 +1848,20 @@ namespace PerfView
 
         private void CanSortScenariosByNode(object sender, CanExecuteRoutedEventArgs e)
         {
+#if !AVALONIA
             e.CanExecute = IsScenarioWindow && IsScenarioElement(e.OriginalSource);
+#else
+            e.CanExecute = IsScenarioWindow;
+#endif
         }
 
         private void CanSetScenarioList(object sender, CanExecuteRoutedEventArgs e)
         {
+#if !AVALONIA
             e.CanExecute = IsScenarioWindow && e.OriginalSource is TextBox && IsScenarioElement(e.OriginalSource);
+#else
+            e.CanExecute = IsScenarioWindow;
+#endif
         }
 
         private void DoSetScenarioList(object sender, ExecutedRoutedEventArgs e)
@@ -1962,7 +1982,11 @@ namespace PerfView
                 return;
             }
 
+#if !AVALONIA
             var cell = asDO.AncestorOfType<DataGridCell>();
+#else
+            DataGridCell cell = null;
+#endif
             if (cell == null)
             {
                 return;
@@ -2032,7 +2056,11 @@ namespace PerfView
         }
         private void DoMergeFilterParams(object sender, ExecutedRoutedEventArgs e)
         {
+#if AVALONIA
+            string text = Clipboard.GetTextAsync().GetAwaiter().GetResult();
+#else
             string text = Clipboard.GetText();
+#endif
 
             // Read XML into filterGuiState.  
             XmlReaderSettings settings = new XmlReaderSettings() { IgnoreWhitespace = true, IgnoreComments = true };
@@ -2292,7 +2320,11 @@ namespace PerfView
                         else
                         {
                             StatusBar.Log("Opening editor on " + sourcePathToOpen);
+#if AVALONIA
+                            var textEditorWindow = new TextEditorWindow();
+#else
                             var textEditorWindow = new TextEditorWindow(this);
+#endif
                             dialogParentWindow = textEditorWindow;
                             textEditorWindow.TextEditor.IsReadOnly = true;
                             textEditorWindow.TextEditor.OpenText(sourcePathToOpen);
@@ -2707,6 +2739,7 @@ namespace PerfView
         internal void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 #endif
         {
+#if !AVALONIA
             var uiElement = sender as UIElement;
             Point point = e.GetPosition(uiElement);
             HitTestResult visualHitResult = VisualTreeHelper.HitTest(uiElement, point);
@@ -2718,6 +2751,7 @@ namespace PerfView
             {
                 SetFocus(asTextBlock.Text);
             }
+#endif
         }
 
         private void Notes_GotFocus(object sender, RoutedEventArgs e)
@@ -2742,13 +2776,17 @@ namespace PerfView
                 {
                     App.UserConfigData["NotesPaneHidden"] = "true";
                     m_NotesPaneHidden = true;
+#if !AVALONIA
                     NodePaneRowDef.MaxHeight = 0;
+#endif
                 }
                 else
                 {
                     App.UserConfigData["NotesPaneHidden"] = "false";
                     m_NotesPaneHidden = false;
+#if !AVALONIA
                     NodePaneRowDef.MaxHeight = Double.PositiveInfinity;
+#endif
                 }
             }
         }
@@ -2788,7 +2826,9 @@ namespace PerfView
             m_IgnoreNotesChange = false;
 
             m_NotesTabActive = true;
+#if !AVALONIA
             NodePaneRowDef.MaxHeight = 0;
+#endif
         }
 
         private void NotesTab_LostFocus(object sender, RoutedEventArgs e)
@@ -2799,7 +2839,9 @@ namespace PerfView
 
             if (!m_NotesPaneHidden)
             {
+#if !AVALONIA
                 NodePaneRowDef.MaxHeight = Double.PositiveInfinity;
+#endif
             }
 
             m_NotesTabActive = false;
@@ -2831,14 +2873,14 @@ namespace PerfView
 
         private void RedrawFlameGraph()
         {
+#if !AVALONIA
             FlameGraphCanvas.Draw(
                   CallTree.Root.HasChildren
-#if AVALONIA
-                      ? FlameGraph.Calculate(CallTree, FlameGraphCanvas.Bounds.Width, FlameGraphCanvas.Bounds.Height)
-#else
                       ? FlameGraph.Calculate(CallTree, FlameGraphCanvas.ActualWidth, FlameGraphCanvas.ActualHeight)
-#endif
                       : Enumerable.Empty<FlameGraph.FlameBox>());
+#else
+            FlameGraphCanvas.InvalidateVisual();
+#endif
 
             m_RedrawFlameGraphWhenItBecomesVisible = false;
         }
@@ -3268,16 +3310,22 @@ namespace PerfView
                     }
                 }
 
+#if !AVALONIA
                 if (StackWindows[0] == this && WindowState != System.Windows.WindowState.Maximized)
+#else
+                if (StackWindows[0] == this && WindowState != global::Avalonia.Controls.WindowState.Maximized)
+#endif
                 {
+#if !AVALONIA
                     App.UserConfigData["StackWindowTop"] = Top.ToString("f0", CultureInfo.InvariantCulture);
                     App.UserConfigData["StackWindowLeft"] = Left.ToString("f0", CultureInfo.InvariantCulture);
-#if AVALONIA
-                    App.UserConfigData["StackWindowWidth"] = Bounds.Width.ToString("f0", CultureInfo.InvariantCulture);
-                    App.UserConfigData["StackWindowHeight"] = Bounds.Height.ToString("f0", CultureInfo.InvariantCulture);
-#else
                     App.UserConfigData["StackWindowWidth"] = RenderSize.Width.ToString("f0", CultureInfo.InvariantCulture);
                     App.UserConfigData["StackWindowHeight"] = RenderSize.Height.ToString("f0", CultureInfo.InvariantCulture);
+#else
+                    App.UserConfigData["StackWindowTop"] = Position.Y.ToString("f0", CultureInfo.InvariantCulture);
+                    App.UserConfigData["StackWindowLeft"] = Position.X.ToString("f0", CultureInfo.InvariantCulture);
+                    App.UserConfigData["StackWindowWidth"] = Bounds.Width.ToString("f0", CultureInfo.InvariantCulture);
+                    App.UserConfigData["StackWindowHeight"] = Bounds.Height.ToString("f0", CultureInfo.InvariantCulture);
 #endif
                 }
 
@@ -3322,12 +3370,18 @@ namespace PerfView
 
             if (StackWindows.Count == 1)
             {
+#if !AVALONIA
                 // Make sure the location is sane so it can be displayed. 
                 var top = App.UserConfigData.GetDouble("StackWindowTop", Top);
                 Top = Math.Min(Math.Max(top, 0), System.Windows.SystemParameters.PrimaryScreenHeight - 200);
 
                 var left = App.UserConfigData.GetDouble("StackWindowLeft", Left);
                 Left = Math.Min(Math.Max(left, 0), System.Windows.SystemParameters.PrimaryScreenWidth - 200);
+#else
+                var top = App.UserConfigData.GetDouble("StackWindowTop", Position.Y);
+                var left = App.UserConfigData.GetDouble("StackWindowLeft", Position.X);
+                Position = new global::Avalonia.PixelPoint((int)Math.Min(Math.Max(left, 0), 3000), (int)Math.Min(Math.Max(top, 0), 2000));
+#endif
 
                 Height = App.UserConfigData.GetDouble("StackWindowHeight", Height);
                 Width = App.UserConfigData.GetDouble("StackWindowWidth", Width);
@@ -3659,7 +3713,11 @@ namespace PerfView
             else if (CallerCalleeTab.IsSelected)
             {
                 // Find the focus
+#if !AVALONIA
                 var dependencyObject = FocusManager.GetFocusedElement(this) as DependencyObject;
+#else
+                var dependencyObject = FocusManager.GetFocusedElement() as DependencyObject;
+#endif
                 if (dependencyObject != null)
                 {
 #if !AVALONIA
@@ -3808,8 +3866,12 @@ namespace PerfView
             }
 
             var newPresetDialog = new NewPresetDialog(this, nameCandidate, m_presets.Select(x => x.Name).ToList());
+#if !AVALONIA
             newPresetDialog.Owner = this;
             if (!(newPresetDialog.ShowDialog() ?? false))
+#else
+            if (!newPresetDialog.ShowDialog<bool>(this).GetAwaiter().GetResult())
+#endif
             {
                 return;
             }
@@ -3833,8 +3895,12 @@ namespace PerfView
         private void DoManagePresets(object sender, RoutedEventArgs e)
         {
             var managePresetsDialog = new ManagePresetsDialog(this, m_presets, Path.GetDirectoryName(DataSource.FilePath), StatusBar);
+#if !AVALONIA
             managePresetsDialog.Owner = this;
             managePresetsDialog.ShowDialog();
+#else
+            managePresetsDialog.ShowDialog(this).GetAwaiter().GetResult();
+#endif
             m_presets = managePresetsDialog.Presets;
             App.UserConfigData["Presets"] = Preset.Serialize(m_presets);
             DoUpdatePresetMenu();

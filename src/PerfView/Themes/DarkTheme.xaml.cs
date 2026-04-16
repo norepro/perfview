@@ -37,7 +37,9 @@ namespace REghZyFramework.Themes
             if (e.Source != null)
                 try
                 {
+#if !AVALONIA
                     CloseWind(Window.GetWindow((FrameworkElement)e.Source));
+#endif
                 }
                 catch
                 {
@@ -49,7 +51,9 @@ namespace REghZyFramework.Themes
             if (e.Source != null)
                 try
                 {
+#if !AVALONIA
                     MaximizeRestore(Window.GetWindow((FrameworkElement)e.Source));
+#endif
                 }
                 catch
                 {
@@ -61,7 +65,9 @@ namespace REghZyFramework.Themes
             if (e.Source != null)
                 try
                 {
+#if !AVALONIA
                     MinimizeWind(Window.GetWindow((FrameworkElement)e.Source));
+#endif
                 }
                 catch
                 {

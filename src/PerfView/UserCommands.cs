@@ -676,7 +676,11 @@ namespace PerfViewExtensibility
                 {
                     GuiApp.MainWindow.Dispatcher.BeginInvoke((Action)delegate ()
                     {
+#if !AVALONIA
                         var logTextWindow = new Controls.TextEditorWindow(GuiApp.MainWindow);
+#else
+                        var logTextWindow = new Controls.TextEditorWindow();
+#endif
                         // Destroy the session when the widow is closed.  
                         logTextWindow.Closed += delegate (object sender, EventArgs e) { session.Dispose(); };
 

@@ -1068,6 +1068,7 @@ namespace PerfView
 
                 DiagramData data = RenderDiagram(width, height, FirstEventTime, LastEventTime, true, 100, true, true);
 
+#if !AVALONIA
                 if (xps)
                 {
                     Toolbox.SaveAsXps(data.visual, width, height, fileName);
@@ -1076,6 +1077,7 @@ namespace PerfView
                 {
                     Toolbox.SaveAsPng(data.visual, width, height, fileName);
                 }
+#endif
             }
         }
 

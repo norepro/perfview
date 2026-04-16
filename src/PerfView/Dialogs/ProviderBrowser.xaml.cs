@@ -271,7 +271,11 @@ namespace PerfView.Dialogs
             log.Log("[Looking up manifest for " + selectedProvider + " ]");
             string manifestString = RegisteredTraceEventParser.GetManifestForRegisteredProvider(selectedProvider);
 
+#if !AVALONIA
             var textEditorWindow = new TextEditorWindow(this);
+#else
+            var textEditorWindow = new TextEditorWindow();
+#endif
             textEditorWindow.Width = 1200;
             textEditorWindow.Height = 800;
             textEditorWindow.TextEditor.IsReadOnly = true;

@@ -15,6 +15,7 @@ using Utilities;
 #if !AVALONIA
 using System.Windows.Threading;
 #else
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -450,7 +451,11 @@ namespace PerfView
             {
                 AdditionalProvidersTextBox.Text = MergeProvider(AdditionalProvidersTextBox.Text, additionalProvider, keys, level);
             });
+#if !AVALONIA
             providerBrowserWindow.ShowDialog();
+#else
+            providerBrowserWindow.ShowDialog(this);
+#endif
         }
         private void RundownCheckboxClick(object sender, RoutedEventArgs e)
         {
