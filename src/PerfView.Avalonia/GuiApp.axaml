@@ -11,5 +11,23 @@
   
     <Application.Styles>
         <FluentTheme />
+
+        <!-- Match WPF PerfView's font size and improve readability -->
+        <Style Selector="Window">
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <!-- Style hyperlink-like buttons to look like links -->
+        <Style Selector="Button.link">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Foreground" Value="#FF4488FF" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="MinWidth" Value="0" />
+        </Style>
+        <Style Selector="Button.link:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
     </Application.Styles>
 </Application>
