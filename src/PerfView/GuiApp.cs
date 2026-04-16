@@ -66,7 +66,7 @@ namespace PerfView
 
             // initialize theme before creating any window
             ThemeViewModel.InitTheme(theme);
-            MainWindow = new MainWindow();
+            MainWindow = new MainWindow(false);
             MainWindow.ThemeViewModel.SetTheme(theme);
 
             var logFile = File.CreateText(App.LogFileName);
