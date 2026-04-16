@@ -37,8 +37,10 @@ namespace PerfView.Dialogs
 
             m_action = action;
             Title = "Setting " + kind + " Path";
+#if !AVALONIA
             TitleHyperLink.CommandParameter = kind + "PathTextBox";
             TitleHyperLinkText.Text = kind + " Path";
+#endif
             SymbolPathTextBox.Text = defaultValue.Replace(";", ";\r\n") + "\r\n";
             GetValue();
             SymbolPathTextBox.SelectionStart = 0;

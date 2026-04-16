@@ -539,7 +539,9 @@ namespace PerfView
 
             if (right)
             {
+#if !AVALONIA
                 col.CellStyle = RightJustifyStyle(col.CellStyle);
+#endif
             }
 
             col.Binding = b;
@@ -565,7 +567,9 @@ namespace PerfView
 
             if (right)
             {
+#if !AVALONIA
                 col.CellStyle = RightJustifyStyle(col.CellStyle);
+#endif
             }
 
             col.Binding = b;
@@ -649,11 +653,13 @@ namespace PerfView
 
             if (binding != null)
             {
+#if !AVALONIA
                 Hyperlink link = new Hyperlink();
                 link.Inlines.Add("?");
                 link.Click += binding;
                 link.CommandParameter = param;
                 tb.Inlines.Add(link);
+#endif
             }
 
             return tb;

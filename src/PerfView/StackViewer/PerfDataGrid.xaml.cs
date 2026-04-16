@@ -30,6 +30,7 @@ namespace PerfView
         public PerfDataGrid()
         {
             InitializeComponent();
+#if !AVALONIA
             Grid.CopyingRowClipboardContent += delegate (object sender, DataGridRowClipboardEventArgs e)
             {
                 // Add markdown table formatting (| symbols) when:
@@ -122,6 +123,7 @@ namespace PerfView
 
                     e.Handled = false;
                 };
+#endif
         }
 
         public bool Find(string pat)
@@ -196,6 +198,7 @@ namespace PerfView
                 Debug.Assert(false, "Null item selected:");
                 return;
             }
+#if !AVALONIA
             Grid.ScrollIntoView(item);
 
             // TODO This stuff feels like a hack.  At some point review.  
@@ -205,6 +208,7 @@ namespace PerfView
                 row.MoveFocus(
                     new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
             }
+#endif
         }
         public int SelectionStartIndex()
         {
@@ -323,12 +327,12 @@ namespace PerfView
             int maxString = m_maxColumnInSelection[columnIndex];
             if (maxString == 0)
             {
+#if !AVALONIA
                 for (int i = 0; i < m_maxColumnInSelection.Length; i++)
                 {
                     m_maxColumnInSelection[i] = GetColumnHeaderText(Grid.Columns[i]).Length;
                 }
 
-#if !AVALONIA
                 foreach (var cellInfo in Grid.SelectedCells)
                 {
                     var idx = cellInfo.Column.DisplayIndex;
@@ -432,7 +436,11 @@ namespace PerfView
 
             // Get the histogram for this cell
             Histogram histogram = null;
+#if !AVALONIA
             var item = e.Row.Item;
+#else
+            var item = e.Row.DataContext;
+#endif
             var asCallTreeNodeBase = item as CallTreeNodeBase;
             if (asCallTreeNodeBase == null)
             {
@@ -643,6 +651,7 @@ namespace PerfView
             m_maxColumnInSelection = null;
         }
 #endif
+#if !AVALONIA
         private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
         {
             var asHyperLink = sender as Hyperlink;
@@ -651,6 +660,7 @@ namespace PerfView
                 MainWindow.DisplayUsersGuide((string)asHyperLink.Tag);
             }
         }
+#endif
 
         /// <summary>
         /// If we have only two cells selected, even if they are on differnet rows we want to morph them

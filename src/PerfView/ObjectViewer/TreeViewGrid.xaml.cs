@@ -47,6 +47,7 @@ namespace PerfView
             // Put the indentation in when we cut and paste
             nameColumn.ClipboardContentBinding = new Binding("IndentedName");
 
+#if !AVALONIA
             Grid.CopyingRowClipboardContent += delegate (object sender, DataGridRowClipboardEventArgs e)
             {
                 for (int i = 0; i < e.ClipboardRowContent.Count; i++)
@@ -106,6 +107,7 @@ namespace PerfView
                     e.ClipboardRowContent[i] = new DataGridClipboardCellContent(clipboardContent.Item, clipboardContent.Column, morphedContent);
                 }
             };
+#endif
         }
 
         // TODO FIX NOW use re remove. 
@@ -190,6 +192,7 @@ namespace PerfView
                 Debug.Assert(false, "Null item selected:");
                 return;
             }
+#if !AVALONIA
             Grid.ScrollIntoView(item);
 
             // TODO This stuff feels like a hack.  At some point review.  
@@ -199,6 +202,7 @@ namespace PerfView
                 row.MoveFocus(
                     new System.Windows.Input.TraversalRequest(System.Windows.Input.FocusNavigationDirection.Next));
             }
+#endif
         }
         private int SelectionStartIndex()
         {
@@ -442,6 +446,7 @@ namespace PerfView
             m_maxColumnInSelection = null;
         }
 #endif
+#if !AVALONIA
         private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
         {
             var asHyperLink = sender as Hyperlink;
@@ -450,6 +455,7 @@ namespace PerfView
                 MainWindow.DisplayUsersGuide((string)asHyperLink.Tag);
             }
         }
+#endif
 
         /// <summary>
         /// If we have only two cells selected, even if they are on differnet rows we want to morph them

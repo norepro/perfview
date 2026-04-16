@@ -415,14 +415,17 @@ namespace PerfView
                     var oldCallTree = m_callTree;
                     m_callTree = newCallTree;
 
+#if !AVALONIA
                     // Gather current sorting information
                     var sortDescriptions = ByNameDataGrid.Grid.Items.SortDescriptions.ToArray();
                     var sortDirections = ByNameDataGrid.Grid.Columns.Select(c => c.SortDirection).ToArray();
+#endif
 
                     // SignalPropertyChange the ByName Tab 
                     m_byNameView = byNameItems;
                     ByNameDataGrid.Grid.ItemsSource = m_byNameView;
 
+#if !AVALONIA
                     // Reapply the previous sort after setting ItemsSource
                     ByNameDataGrid.Grid.Items.SortDescriptions.Clear();
                     foreach (var description in sortDescriptions)
@@ -435,6 +438,7 @@ namespace PerfView
                         var direction = sortDirections[i];
                         ByNameDataGrid.Grid.Columns[i].SortDirection = direction;
                     }
+#endif
 
                     SetFocus(selectedNodeName);
 
@@ -1352,7 +1356,9 @@ namespace PerfView
                     // Hack!  Wait for items to be populated
                     try
                     {
+#if !AVALONIA
                         ByNameDataGrid.Grid.ScrollIntoView(item);
+#endif
                     }
                     catch (Exception ex)
                     {
@@ -1809,6 +1815,7 @@ namespace PerfView
                 return false;
             }
 
+#if !AVALONIA
             var cell = asDO.AncestorOfType<DataGridCell>();
             if (cell == null || cell.Column == null)
             {
@@ -1822,6 +1829,9 @@ namespace PerfView
             }
 
             return (cell.Column == grid.ScenarioHistogramColumn);
+#else
+            return false;
+#endif
         }
 
         private void CanSortScenariosByNode(object sender, CanExecuteRoutedEventArgs e)
@@ -3648,6 +3658,7 @@ namespace PerfView
                 var dependencyObject = FocusManager.GetFocusedElement(this) as DependencyObject;
                 if (dependencyObject != null)
                 {
+#if !AVALONIA
                     if (CallerCalleeView.CallersGrid.Grid.IsAncestorOf(dependencyObject))
                     {
                         return CallerCalleeView.CallersGrid.Grid;
@@ -3661,6 +3672,7 @@ namespace PerfView
                     {
                         return CallerCalleeView.FocusGrid.Grid;
                     }
+#endif
                 }
 
                 return null;

@@ -149,6 +149,7 @@ namespace Utilities
             }
             return -1;
         }
+#if !AVALONIA
         public static string DataGridLocation(this object obj)
         {
             int row = -1;
@@ -175,6 +176,7 @@ namespace Utilities
             }
             return "[" + row.ToString() + "," + column.ToString() + "]";
         }
+#endif
 
         #region private
         private static void VisualTree(object obj, StringBuilder sb, int depth)
@@ -291,6 +293,7 @@ namespace Utilities
             }
         }
 
+#if !AVALONIA
         private static void AppendPath(DependencyObject obj, StringBuilder sb)
         {
             if (obj == null)
@@ -326,6 +329,7 @@ namespace Utilities
             sb.Append(name);
             sb.AppendLine();
         }
+#endif
         #endregion
     }
 

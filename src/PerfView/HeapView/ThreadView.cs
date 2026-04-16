@@ -27,7 +27,9 @@ namespace PerfView
             m_grid = new DataGrid();
             m_grid.AutoGenerateColumns = false;
             m_grid.IsReadOnly = true;
+#if !AVALONIA
             m_grid.ColumnHeaderStyle = Toolbox.FocusableDataGridColumnHeaderStyle(m_grid.ColumnHeaderStyle);
+#endif
 
             // Columns
             m_grid.AddColumn("Thread", "ThreadID");

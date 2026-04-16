@@ -1,4 +1,4 @@
-﻿using EventSources;
+using EventSources;
 using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing.Etlx;
 using Microsoft.Diagnostics.Tracing.TraceUtilities.FilterQueryExpression;
@@ -81,6 +81,7 @@ namespace PerfView
             ParentWindow = parent;
             InitializeComponent();
             Title = DataSource.Title;
+#if !AVALONIA
             Grid.CopyingRowClipboardContent += delegate (object sender, DataGridRowClipboardEventArgs e)
             {
                 for (int i = 0; i < e.ClipboardRowContent.Count; i++)
@@ -138,6 +139,7 @@ namespace PerfView
                     e.ClipboardRowContent[i] = new DataGridClipboardCellContent(clipboardContent.Item, clipboardContent.Column, morphedContent);
                 }
             };
+#endif
 #if AVALONIA
             Closing += delegate (object sender, WindowClosingEventArgs e)
 #else
@@ -177,6 +179,7 @@ namespace PerfView
 
             EventTypes.ItemsSource = m_source.EventNames;
 
+#if !AVALONIA
             Grid.Sorting += delegate (object sender, DataGridSortingEventArgs e)
             {
                 e.Handled = true;
@@ -185,6 +188,7 @@ namespace PerfView
                 var lcv = (ListCollectionView)CollectionViewSource.GetDefaultView(Grid.ItemsSource);
                 lcv.CustomSort = new LogicalGridDataComparer<EventRecord>(e.Column.SortMemberPath, direction);
             };
+#endif
 
             MultiLineViewPaneHidden = (App.UserConfigData["MultiLineViewPaneHidden"] == "true");
 
@@ -199,7 +203,7 @@ namespace PerfView
                     if (column == OriginTimeStampColumn || column == LocalTimeStampColumn)
                     {
 #if AVALONIA
-                        column.Opacity = 0.0f;
+                        column.IsVisible = false;
 #else
                         column.Visibility = Visibility.Hidden;
 #endif
@@ -1435,7 +1439,7 @@ namespace PerfView
                 if (m_source.ColumnsToDisplay != null && i < m_source.ColumnsToDisplay.Count)
                 {
 #if AVALONIA
-                    m_userDefinedColumns[i].Opacity = 1.0f;
+                    m_userDefinedColumns[i].IsVisible = true;
 #else
                     m_userDefinedColumns[i].Visibility = System.Windows.Visibility.Visible;
 #endif
@@ -1447,7 +1451,7 @@ namespace PerfView
                 else
                 {
 #if AVALONIA
-                    m_userDefinedColumns[i].Opacity = 0.0f;
+                    m_userDefinedColumns[i].IsVisible = false;
 #else
                     m_userDefinedColumns[i].Visibility = System.Windows.Visibility.Hidden;
 #endif
@@ -1578,7 +1582,9 @@ namespace PerfView
                 Debug.Assert(false, "Null item selected:");
                 return;
             }
+#if !AVALONIA
             Grid.ScrollIntoView(item);
+#endif
         }
         public int SelectionStartIndex()
         {
@@ -1620,10 +1626,12 @@ namespace PerfView
             int maxString = m_maxColumnInSelection[columnIndex];
             if (maxString == 0)
             {
+#if !AVALONIA
                 for (int i = 0; i < m_maxColumnInSelection.Length; i++)
                 {
                     m_maxColumnInSelection[i] = GetColumnHeaderText(Grid.Columns[i]).Length;
                 }
+#endif
 
 #if !AVALONIA
                 foreach (var cellInfo in Grid.SelectedCells)
@@ -1996,7 +2004,7 @@ namespace PerfView
                     if (i == OriginTimeStampColumn)
                     {
 #if AVALONIA
-                        i.Opacity = 0.0f;
+                        i.IsVisible = false;
 #else
                         i.Visibility = Visibility.Hidden;
 #endif
@@ -2004,7 +2012,7 @@ namespace PerfView
                     else if (i == LocalTimeStampColumn)
                     {
 #if AVALONIA
-                        i.Opacity = 1.0f;
+                        i.IsVisible = true;
 #else
                         i.Visibility = Visibility.Visible;
 #endif
@@ -2023,7 +2031,7 @@ namespace PerfView
                     if (i == OriginTimeStampColumn)
                     {
 #if AVALONIA
-                        i.Opacity = 1.0f;
+                        i.IsVisible = true;
 #else
                         i.Visibility = Visibility.Visible;
 #endif
@@ -2031,7 +2039,7 @@ namespace PerfView
                     else if (i == LocalTimeStampColumn)
                     {
 #if AVALONIA
-                        i.Opacity = 0.0f;
+                        i.IsVisible = false;
 #else
                         i.Visibility = Visibility.Hidden;
 #endif
@@ -2053,7 +2061,7 @@ namespace PerfView
                 if (i == OriginTimeStampColumn)
                 {
 #if AVALONIA
-                    i.Opacity = useLocalTime ? 0.0f : 1.0f;
+                    i.IsVisible = !useLocalTime;
 #else
                     i.Visibility = useLocalTime ? Visibility.Hidden : Visibility.Visible;
 #endif
@@ -2061,7 +2069,7 @@ namespace PerfView
                 else if (i == LocalTimeStampColumn)
                 {
 #if AVALONIA
-                    i.Opacity = useLocalTime ? 1.0f : 0.0f;
+                    i.IsVisible = useLocalTime;
 #else
                     i.Visibility = useLocalTime ? Visibility.Visible : Visibility.Hidden;
 #endif
@@ -2086,7 +2094,7 @@ namespace PerfView
                 if (i == OriginTimeStampColumn || i == LocalTimeStampColumn)
                 {
 #if AVALONIA
-                    i.Opacity = 0.0f;
+                    i.IsVisible = false;
 #else
                     i.Visibility = Visibility.Hidden;
 #endif

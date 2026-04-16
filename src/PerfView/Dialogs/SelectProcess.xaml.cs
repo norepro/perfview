@@ -72,7 +72,9 @@ namespace PerfView
         {
             Grid.SelectedItems.Clear();
             Grid.SelectedItem = item;
+#if !AVALONIA
             Grid.ScrollIntoView(item);
+#endif
         }
         private static int FindNextWithPrefix(List<IProcess> processes, int start, string prefix)
         {

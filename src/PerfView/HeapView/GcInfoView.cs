@@ -176,6 +176,7 @@ namespace PerfView
         /// </summary>
         private void OnHelp(object sender, RoutedEventArgs e)
         {
+#if !AVALONIA
             Hyperlink link = sender as Hyperlink;
 
             if (link != null)
@@ -187,6 +188,7 @@ namespace PerfView
                     m_helpBox.Text = HelpText[param];
                 }
             }
+#endif
         }
 
         /// <summary>
@@ -388,10 +390,14 @@ namespace PerfView
 
             m_grid = new DataGrid();
             m_grid.Background = Brushes.LightGray;
+#if !AVALONIA
             m_grid.MouseRightButtonUp += MouseRightButtonUp;
+#endif
             m_grid.AutoGenerateColumns = false;
             m_grid.IsReadOnly = true;
+#if !AVALONIA
             m_grid.ColumnHeaderStyle = Toolbox.FocusableDataGridColumnHeaderStyle(m_grid.ColumnHeaderStyle);
+#endif
 
             // Columns
             m_grid.AddColumn(Toolbox.CreateTextBlock("GCIndex ", "GCIndex", OnHelp), "Number", true, Toolbox.CountFormatN0);
@@ -528,7 +534,7 @@ namespace PerfView
                 if (GetHeaderText(column.Header).Contains(GetHeaderText(item.Header)))
                 {
 #if AVALONIA
-                    column.Opacity = 0.0f;
+                    column.IsVisible = false;
 #else
                     column.Visibility = System.Windows.Visibility.Hidden;
 #endif
@@ -558,7 +564,7 @@ namespace PerfView
                     if (GetHeaderText(column.Header) == menuItem)
                     {
 #if AVALONIA
-                        column.Opacity = 1.0f;
+                        column.IsVisible = true;
 #else
                         column.Visibility = System.Windows.Visibility.Visible;
 #endif
@@ -579,6 +585,7 @@ namespace PerfView
             m_grid.Columns.Add(newColumn);
         }
 
+#if !AVALONIA
         private void MouseRightButtonUp(object sender, RoutedEventArgs e)
         {
             DependencyObject depObj = (DependencyObject)e.OriginalSource;
@@ -600,6 +607,7 @@ namespace PerfView
                 colHeader.ContextMenu = cxMenu;
             }
         }
+#endif
 
     }
 

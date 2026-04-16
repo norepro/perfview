@@ -104,7 +104,9 @@ namespace PerfView
             m_grid.AddColumn("Description", "Description");
             m_grid.AddColumn("Suggestion", "Suggestion");
             m_grid.AddButtonColumn(typeof(Issue), "Action", "Action", OnClick);
+#if !AVALONIA
             m_grid.ColumnHeaderStyle = Toolbox.FocusableDataGridColumnHeaderStyle(m_grid.ColumnHeaderStyle);
+#endif
 
             m_leftPanel = new StackPanel();
             m_leftPanel.Width = LeftPanelWidth;
