@@ -39,7 +39,9 @@ internal partial class MessageBoxWindow : Window
 #endif
                 break;
             default:
+#if !AVALONIA
                 IconImage.Source = ImageHelpers.ToImageSource(icon);
+#endif
                 break;
         }
     }
@@ -76,7 +78,11 @@ internal partial class MessageBoxWindow : Window
         if (sender is Button button && button.Tag is MessageBoxResult result)
         {
             Result = result;
+#if AVALONIA
+            Close(true);
+#else
             DialogResult = true;
+#endif
         }
     }
 }

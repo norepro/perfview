@@ -6,6 +6,7 @@ using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using MessageBoxImage = MsBox.Avalonia.Enums.Icon;
 #endif
 
 namespace PerfView.Dialogs
@@ -48,9 +49,13 @@ namespace PerfView.Dialogs
                     return;
                 }
             }
-            DialogResult = true;
             PresetName = PresetNameTextBox.Text;
+#if AVALONIA
+            Close(true);
+#else
+            DialogResult = true;
             Close();
+#endif
         }
 
         private void DoKeyDown(object sender, KeyEventArgs e)

@@ -10,6 +10,7 @@ using System.Windows.Controls;
 #else
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using MessageBoxImage = MsBox.Avalonia.Enums.Icon;
 #endif
 
 namespace PerfView.Dialogs
@@ -49,8 +50,12 @@ namespace PerfView.Dialogs
         }
         private void OKClicked(object sender, RoutedEventArgs e)
         {
+#if AVALONIA
+            Close(true);
+#else
             DialogResult = true;
             Close();
+#endif
         }
         private void SaveClicked(object sender, RoutedEventArgs e)
         {

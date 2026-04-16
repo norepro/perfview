@@ -39,10 +39,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows;
 #if AVALONIA
 using Avalonia.Controls;
 #else
-using System.Windows;
 using System.Windows.Media;
 #endif
 using System.Xml;
@@ -5635,6 +5635,7 @@ namespace PerfView
                 // consistent with the RefCount value that is in the events.
                 GuiApp.MainWindow.Dispatcher.BeginInvoke(() =>
                 {
+#if !AVALONIA
                     MessageBox.Show(
                         GuiApp.MainWindow,
                         """
@@ -5642,6 +5643,15 @@ namespace PerfView
                         There seem to be missing instrumentation, which make the referenct counts unreliable
                         """,
                         "Data May be Incorrect");
+#else
+                    XamlMessageBox.Show(
+                        GuiApp.MainWindow,
+                        """
+                        Warning: the Interop CCW events on which this data is based seem to be incomplete.
+                        There seem to be missing instrumentation, which make the referenct counts unreliable
+                        """,
+                        "Data May be Incorrect");
+#endif
                 });
 
                 var objectToTypeMap = new Dictionary<long, Address>(1000);
@@ -10371,6 +10381,7 @@ namespace PerfView
             {
                 GuiApp.MainWindow.Dispatcher.BeginInvoke((Action)delegate ()
                 {
+#if !AVALONIA
                     MessageBox.Show(
                         """
                         The ETL file was too big to convert and was truncated.
@@ -10378,6 +10389,15 @@ namespace PerfView
                         """,
                         "Log File Truncated",
                         MessageBoxButton.OK);
+#else
+                    XamlMessageBox.Show(
+                        """
+                        The ETL file was too big to convert and was truncated.
+                        See log for details.
+                        """,
+                        "Log File Truncated",
+                        MessageBoxButton.OK);
+#endif
 
                 });
             }
