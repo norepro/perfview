@@ -504,8 +504,13 @@ namespace PerfView
                     menuItem.IsChecked = true;
                     cxMenu.Items.Add(menuItem);
                     menuItem.Click += new RoutedEventHandler(menuItem_Click);
+#if AVALONIA
+                    menuItem.Click += new RoutedEventHandler(menuItem_Checked);
+                    menuItem.Click += new RoutedEventHandler(menuItem_Unchecked);
+#else
                     menuItem.Checked += new RoutedEventHandler(menuItem_Checked);
                     menuItem.Unchecked += new RoutedEventHandler(menuItem_Unchecked);
+#endif
                 }
             }
         }

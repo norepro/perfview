@@ -702,7 +702,14 @@ namespace PerfView
             MenuItem item = new MenuItem();
 
             item.Header = header;
+#if AVALONIA
+            if (checkable)
+            {
+                item.ToggleType = MenuItemToggleType.CheckBox;
+            }
+#else
             item.IsCheckable = checkable;
+#endif
             item.IsChecked = chked;
 
             menu.Items.Add(item);
@@ -717,8 +724,13 @@ namespace PerfView
         {
             item.CommandParameter = target;
 
+#if AVALONIA
+            item.Click += MakeVisible;
+            item.Click += MakeCollapsed;
+#else
             item.Checked += MakeVisible;
             item.Unchecked += MakeCollapsed;
+#endif
         }
 
         /// <summary>
@@ -1469,8 +1481,13 @@ namespace PerfView
         /// </summary>
         internal void HookupVisibility(MenuItem item)
         {
+#if AVALONIA
+            item.Click += MakeVisible;
+            item.Click += MakeCollapsed;
+#else
             item.Checked += MakeVisible;
             item.Unchecked += MakeCollapsed;
+#endif
         }
 
         /// <summary>

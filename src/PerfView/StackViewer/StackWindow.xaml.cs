@@ -3359,7 +3359,11 @@ namespace PerfView
                         // Create MenuItem based off of column header name, make it checkable.
                         menuItem = new MenuItem()
                         {
+#if AVALONIA
+                            ToggleType = MenuItemToggleType.CheckBox
+#else
                             IsCheckable = true
+#endif
                         };
 
                         string header = ((TextBlock)col.Header).Text;
