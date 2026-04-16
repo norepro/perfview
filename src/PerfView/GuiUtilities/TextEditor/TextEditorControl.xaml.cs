@@ -36,11 +36,13 @@ namespace Controls
         /// Is the user allowed to modify the text. 
         /// </summary>
         public bool IsReadOnly { get { return Body.IsReadOnly; } set { Body.IsReadOnly = value; } }
+#if !AVALONIA
         /// <summary>
         /// The document representing the text in the Editor.   Most manipuation operations 
         /// are through this object (via TextPointers and TextRanges).  
         /// </summary>
         public FlowDocument Document { get { return Body.Document; } }
+#endif
         /// <summary>
         /// The body of the editor as text.  Generally this is not the best way of retriving the
         /// data.   You should be using operators TextRange or TextPointer fetched from Document.  
@@ -48,8 +50,13 @@ namespace Controls
         /// </summary>
         public string Text
         {
+#if AVALONIA
+            get { return Body.Text; }
+            set { Body.Text = value; }
+#else
             get { return new TextRange(Body.Document.ContentStart, Body.Document.ContentEnd).Text; }
             set { new TextRange(Body.Document.ContentStart, Body.Document.ContentEnd).Text = value; }
+#endif
         }
         /// <summary>
         /// Appends text to the editor's text buffer. 
@@ -142,6 +149,43 @@ namespace Controls
         /// </summary>
         /// <param name="pattern">The .NET regular expression to match.</param>
         /// <returns>Returns a text pointer to the found text or null if not matched. </returns>
+#if AVALONIA
+        public bool Find(string pattern)
+        {
+            try
+            {
+                var pat = new Regex(pattern, RegexOptions.IgnoreCase);
+                var text = Body.Text ?? "";
+                int startIndex = Body.SelectionEnd;
+                if (startIndex >= text.Length)
+                {
+                    startIndex = 0;
+                }
+
+                var match = pat.Match(text, startIndex);
+                if (!match.Success && startIndex > 0)
+                {
+                    match = pat.Match(text, 0);
+                }
+
+                if (match.Success)
+                {
+                    Body.SelectionStart = match.Index;
+                    Body.SelectionEnd = match.Index + match.Length;
+                    Body.Focus();
+                    return true;
+                }
+
+                SystemSounds.Beep.Play();
+                return false;
+            }
+            catch (Exception)
+            {
+                SystemSounds.Beep.Play();
+                return false;
+            }
+        }
+#else
         public TextPointer Find(string pattern)
         {
             try
@@ -210,6 +254,7 @@ namespace Controls
                 return null;
             }
         }
+#endif
 
         #region private
         // User defined commands
@@ -379,6 +424,7 @@ namespace Controls
         {
             Body.FontSize = Math.Max(Body.FontSize - 2, 6);
         }
+#if !AVALONIA
         private TextPointer GetTextPointerFromTextOffset(TextPointer start, int textCharacterOffset)
         {
             while (textCharacterOffset > 0)
@@ -395,6 +441,7 @@ namespace Controls
             }
             return start;
         }
+#endif
 
         private string m_fileName;
         #endregion
