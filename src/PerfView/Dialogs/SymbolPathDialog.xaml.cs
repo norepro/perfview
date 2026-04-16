@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 #else
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 #endif
 

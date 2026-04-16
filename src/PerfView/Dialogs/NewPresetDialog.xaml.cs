@@ -4,6 +4,7 @@ using System.Windows.Input;
 
 #if AVALONIA
 using Avalonia.Controls;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 #endif
 
