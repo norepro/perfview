@@ -48,6 +48,10 @@ namespace PerfView
         // [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public static int Main(string[] args)
         {
+            // Register codepage provider for non-default encodings (e.g., 437 MSDOS).
+            // Required on .NET Core/.NET 5+ where these aren't available by default.
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
             CommandProcessor = new CommandProcessor();
             App.SetAccessibilitySwitchOverrides();
 
