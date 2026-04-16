@@ -96,10 +96,10 @@ namespace PerfView
                 App.Unpack();                   // Install the program if it is not done already
                 App.RelaunchIfNeeded(args);     // If we are running from a a network share, relaunch locally.
 #endif
-
+    
                 // This does the real work
                 retCode = DoMain(args, ref newConsoleCreated, ref writerToCleanup);
-            }
+                }
             catch (ThreadInterruptedException)
             {
                 if (App.CommandProcessor.LogFile != null)

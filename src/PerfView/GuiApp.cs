@@ -46,6 +46,14 @@ namespace PerfView
             }
         }
 
+#if AVALONIA
+        public override void OnFrameworkInitializationCompleted()
+        {
+            base.OnFrameworkInitializationCompleted();
+            ApplicationStarted();
+        }
+#endif
+
         /// <summary>
         /// Called when the application is started.
         /// </summary>
