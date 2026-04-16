@@ -603,8 +603,12 @@ namespace PerfView
 
             if (checkHandler != null)
             {
+#if AVALONIA
+                check.IsCheckedChanged += checkHandler;
+#else
                 check.Checked += checkHandler;
                 check.Unchecked += checkHandler;
+#endif
             }
 
             return check;

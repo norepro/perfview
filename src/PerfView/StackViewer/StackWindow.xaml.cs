@@ -32,6 +32,7 @@ using System.Windows.Media;
 #else
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.Input.Platform;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml.Templates;
 using DependencyObject = Avalonia.AvaloniaObject;
@@ -2057,7 +2058,7 @@ namespace PerfView
         private void DoMergeFilterParams(object sender, ExecutedRoutedEventArgs e)
         {
 #if AVALONIA
-            string text = Clipboard.GetTextAsync().GetAwaiter().GetResult();
+            string text = Clipboard.TryGetTextAsync().GetAwaiter().GetResult();
 #else
             string text = Clipboard.GetText();
 #endif

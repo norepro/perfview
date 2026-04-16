@@ -47,15 +47,12 @@
   <ItemGroup>
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Controls.DataGrid" />
-    <PackageReference Include="Avalonia.Controls.WebView" />
+    <!-- TODO_AVALONIA: Avalonia.Controls.WebView requires a commercial license (AVLIC0001). -->
+    <!-- <PackageReference Include="Avalonia.Controls.WebView" /> -->
     <PackageReference Include="Avalonia.Desktop" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="Avalonia.Fonts.Inter" />
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Include="Avalonia.Diagnostics">
-      <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
-      <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
-    </PackageReference>
+    <!-- Avalonia.Diagnostics was removed in Avalonia 12; DevTools are now built into the core. -->
     <PackageReference Include="Azure.Core" GeneratePathProperty="true" />
     <PackageReference Include="Azure.Identity" GeneratePathProperty="true" />
     <PackageReference Include="CommunityToolkit.Mvvm" />

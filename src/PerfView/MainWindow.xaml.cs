@@ -816,7 +816,7 @@ namespace PerfView
 #if !AVALONIA
             var fileNames = e.Data.GetData(System.Windows.DataFormats.FileDrop) as string[];
 #else
-            var files = e.Data.GetFiles();
+            var files = e.DataTransfer.TryGetFiles();
             var fileNames = files?.Select(f => f.Path?.LocalPath).Where(p => p != null).ToArray();
 #endif
             // Don't allow multiple drops as it is expensive.
@@ -1377,7 +1377,9 @@ namespace PerfView
             }
 
             s_Browser.Show();
+#if !AVALONIA
             s_Browser._Browser.Focus();
+#endif
             return true;
         }
 

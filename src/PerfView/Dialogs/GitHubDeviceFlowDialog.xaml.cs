@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 #else
 using Avalonia.Controls;
+using Avalonia.Input.Platform;
 #endif
 
 namespace PerfView.Dialogs

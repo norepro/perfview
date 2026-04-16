@@ -20,6 +20,9 @@
              <TextBlock Grid.Column="3" Margin="5,2,40,3" VerticalAlignment="Center">Click in Window, Ctrl-F for find</TextBlock>
         </Grid>
         <src:StatusBar x:Name="StatusBar" DockPanel.Dock="Bottom" IsVisible="False"/>
-        <NativeWebView Name="_Browser" Loaded="Browser_Loaded"/>
+        <!-- TODO_AVALONIA: NativeWebView requires a commercial Avalonia license (AVLIC0001). -->
+        <!-- Using a placeholder until licensing is resolved. -->
+        <TextBlock Name="_BrowserPlaceholder" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   Text="[WebView not available - requires Avalonia commercial license]"/>
     </DockPanel>
 </Window>

@@ -40,11 +40,14 @@ namespace PerfView.GuiUtilities
         /// </summary>
         public bool HideOnClose;
 
+#if AVALONIA
+        // TODO_AVALONIA: NativeWebView requires a commercial Avalonia license.
+        // Stubbed out until licensing is resolved.
+        public bool CanGoForward { get { return false; } }
+        public bool CanGoBack { get { return false; } }
+#else
         public bool CanGoForward { get { return _disposed ? false : Browser.CanGoForward; } }
         public bool CanGoBack { get { return _disposed ? false : Browser.CanGoBack; } }
-#if AVALONIA
-        public NativeWebView Browser { get { return _Browser; } }
-#else
         public WebView2 Browser { get { return _Browser; } }
 #endif
 
@@ -78,32 +81,34 @@ namespace PerfView.GuiUtilities
         /// </summary>
         private void Navigate()
         {
+#if !AVALONIA
             if (!_disposed && Source is { } uri)
             {
-#if AVALONIA
-                Browser?.Navigate(uri);
-#else
                 Browser?.CoreWebView2.Navigate(uri.ToString());
-#endif
             }
+#endif
         }
 
         #region private
         private bool _disposed = false;
         private void BackClick(object sender, RoutedEventArgs e)
         {
+#if !AVALONIA
             if (CanGoBack)
             {
                 Browser.GoBack();
             }
+#endif
         }
 
         private void ForwardClick(object sender, RoutedEventArgs e)
         {
+#if !AVALONIA
             if (CanGoForward)
             {
                 Browser.GoForward();
             }
+#endif
         }
 
         /// <summary>
@@ -125,9 +130,7 @@ namespace PerfView.GuiUtilities
                 // Dispose the browser control to prevent resource leaks
                 if (!_disposed)
                 {
-#if AVALONIA
-                    (_Browser as IDisposable)?.Dispose();
-#else
+#if !AVALONIA
                     Browser?.Dispose();
 #endif
                     _disposed = true;
