@@ -38,6 +38,7 @@ namespace PerfView
             set => SetTheme(Theme.System);
         }
 
+#if !AVALONIA
         public class SetThemeCommand : RoutedCommand
         {
             public SetThemeCommand(Theme theme)
@@ -53,6 +54,7 @@ namespace PerfView
         public static SetThemeCommand SetDarkThemeCommand = new SetThemeCommand(Theme.Dark);
 
         public static SetThemeCommand SetSystemThemeCommand = new SetThemeCommand(Theme.System);
+#endif
 
         public event PropertyChangedEventHandler PropertyChanged;
 

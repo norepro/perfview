@@ -60,6 +60,7 @@ namespace PerfView
 
         private bool IsZoomed => scaleTransform.ScaleX != 1.0;
 
+#if !AVALONIA
         public void Draw(IEnumerable<FlameBox> boxes)
         {
             var blackBrush = new SolidColorBrush(Color.FromRgb(12, 12, 12));
@@ -141,6 +142,7 @@ namespace PerfView
         }
 
         protected override AutomationPeer OnCreateAutomationPeer() => new FrameworkElementAutomationPeer(this);
+#endif
 
         /// <summary>
         /// DrawingVisual provides no tooltip support, so I had to implement it myself.. I feel bad for it.

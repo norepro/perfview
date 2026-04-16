@@ -1496,6 +1496,7 @@ namespace PerfView
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The event arguments.</param>
+#if !AVALONIA
         private void SetTheme_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Theme theme = ((ThemeViewModel.SetThemeCommand)e.Command).Theme;
@@ -1505,6 +1506,7 @@ namespace PerfView
 
             e.Handled = true;
         }
+#endif
 
         /// <summary>
         /// A cached instance of <see cref="SymbolReaderAuthenticationHandler"/>.

@@ -227,6 +227,7 @@ namespace PerfView
     }
 
 
+#if !AVALONIA
     /// <summary>
     /// Wrapper Visual for XPS generation with specific page size
     /// </summary>
@@ -285,6 +286,7 @@ namespace PerfView
         }
 
     }
+#endif
 
     /// <summary>
     /// Reusable helper methods
@@ -1132,6 +1134,7 @@ namespace PerfView
 
     public delegate bool CreateContextMenu(ContextMenu cm, Point start, Point end);
 
+#if !AVALONIA
     /// <summary>
     /// Rubber Band implemented as Adorner
     /// </summary>
@@ -1289,6 +1292,7 @@ namespace PerfView
             }
         }
     }
+#endif
 
     /// <summary>
     /// Filter for TraceEvent

@@ -114,8 +114,13 @@ namespace PerfView
         private int m_width;
         private int m_height;
         private int m_xAxis, m_yAxis;
+#if !AVALONIA
         private DrawingVisual m_visual;
         private DrawingContext m_context;
+#else
+        private object m_visual;
+        private object m_context;
+#endif
         private double m_x0;
         private double m_x1;
         private double m_gcHeight;
@@ -221,7 +226,9 @@ namespace PerfView
 
             m_width = width;
             m_height = height;
+#if !AVALONIA
             m_visual = new DrawingVisual();
+#endif
 
             m_blackPen = new Pen(Brushes.Black, 1);
 
@@ -941,7 +948,9 @@ namespace PerfView
         private int m_graphWidth = 80 * 11;
         private int m_graphHeight = 80 * 5;
         private double m_widthZoom = 1;
+#if !AVALONIA
         private RubberBandAdorner m_rubberBand;
+#endif
         private double m_diagramT0;
         private double m_diagramT1;
 
@@ -963,13 +972,17 @@ namespace PerfView
             DiagramData data = m_heapInfo.RenderDiagram(zoomWidth, m_graphHeight, m_diagramT0, m_diagramT1,
                 true, threadCount, m_drawMarker.IsChecked == true, false);
 
+#if !AVALONIA
             if (m_rubberBand != null)
             {
                 m_rubberBand.Detach();
             }
+#endif
 
             m_diagramHolder = new VisualHolder();
+#if !AVALONIA
             m_rubberBand = new RubberBandAdorner(m_diagramHolder, m_diagramHolder.AddMessage, CreateContextMenu);
+#endif
 
             m_diagramHolder.SetVisual(zoomWidth, m_graphHeight, data.visual, m_widthZoom, m_zoomSlider.Value, data.x0, data.x1);
 
