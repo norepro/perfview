@@ -7,6 +7,7 @@ using System.Linq;
 #if AVALONIA
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
+using Avalonia.Media;
 #else
 using System.Windows.Controls;
 using System.Windows.Data;

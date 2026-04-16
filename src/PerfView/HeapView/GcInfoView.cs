@@ -9,6 +9,7 @@ using System.Globalization;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using DependencyObject = Avalonia.AvaloniaObject;
 using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
 #else

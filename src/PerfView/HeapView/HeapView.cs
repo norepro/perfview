@@ -5,6 +5,7 @@ using System.Collections.Generic;
 #if AVALONIA
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 #else
 using System.Windows;
 using System.Windows.Controls;
