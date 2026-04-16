@@ -1,4 +1,4 @@
-﻿using Diagnostics.Tracing.StackSources;
+using Diagnostics.Tracing.StackSources;
 #if NETFRAMEWORK
 using global::DiagnosticsHub.Packaging.Interop;
 #endif
@@ -102,7 +102,11 @@ namespace PerfView
         /// <summary>
         /// The Icon to show next to the entry.  
         /// </summary>
+#if AVALONIA
+        public virtual object Icon { get { return GuiApp.MainWindow?.Resources["StackSourceBitmapImage"]; } }
+#else
         public virtual ImageSource Icon { get { return GuiApp.MainWindow.Resources["StackSourceBitmapImage"] as ImageSource; } }
+#endif
         #region private
         public override string ToString() { if (FilePath != null) { return FilePath; } return Name; }
 
@@ -212,7 +216,11 @@ namespace PerfView
         /// </summary>
         public override void Close() { }
 
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["FolderOpenBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FolderOpenBitmapImage"] as ImageSource; } }
+#endif
 
         #region private
 
@@ -302,7 +310,11 @@ namespace PerfView
 
         public override string HelpAnchor { get { return Name.Replace(" ", ""); } }
 
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["FolderOpenBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FolderOpenBitmapImage"] as ImageSource; } }
+#endif
     }
 
     /// <summary>
@@ -1074,7 +1086,11 @@ namespace PerfView
             m_onOpen(DataFile.FilePath, Name);
         }
         public override void Close() { }
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["HtmlReportBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["HtmlReportBitmapImage"] as ImageSource; } }
+#endif
         #endregion
         #region private
         private Action<string, string> m_onOpen;
@@ -1199,7 +1215,11 @@ namespace PerfView
         }
 
         public override void Close() { }
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["HtmlReportBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["HtmlReportBitmapImage"] as ImageSource; } }
+#endif
 
         private TraceLog GetTrace(StatusBar worker)
         {
@@ -4465,7 +4485,11 @@ namespace PerfView
         /// </summary>
         public override void Close() { }
 
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["FolderOpenBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FolderOpenBitmapImage"] as ImageSource; } }
+#endif
     }
 
     /// <summary>
@@ -4550,7 +4574,11 @@ namespace PerfView
             }
         }
         public override void Close() { }
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["EventSourceBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["EventSourceBitmapImage"] as ImageSource; } }
+#endif
 
         #region private
         internal EventSource m_eventSource;     // TODO internal is a hack
@@ -4784,7 +4812,11 @@ namespace PerfView
             DataFile.FirstAction(stackWindow);
         }
 
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["StackSourceBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["StackSourceBitmapImage"] as ImageSource; } }
+#endif
 
         // If set, we don't show the process selection dialog.  
         public bool SkipSelectProcess;
@@ -4930,7 +4962,11 @@ namespace PerfView
         {
             return m_csvReader.GetEventSource();
         }
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }
+#endif
 
         #region private
         private CSVReader.CSVReader m_csvReader;
@@ -8490,7 +8526,11 @@ namespace PerfView
             }
             base.Close();
         }
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }
+#endif
 
         internal static List<TraceModuleFile> GetInterestingModuleFiles(ETLPerfViewData etlFile, double pdbThresholdPercent, TextWriter log, List<int> focusProcessIDs = null)
         {
@@ -9500,7 +9540,11 @@ namespace PerfView
             base.Close();
         }
 
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }
+#endif
 
         protected internal override void ConfigureStackWindow(string stackSourceName, StackWindow stackWindow)
         {
@@ -10739,7 +10783,11 @@ namespace PerfView
             GuiApp.MainWindow.TakeHeapShapshot(null);
         }
         public override void Close() { }
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }
+#endif
 
         public const string DiagSessionIdentity = "Microsoft.Diagnostics.Minidump";
     }
@@ -11029,7 +11077,11 @@ namespace PerfView
         }
 
         public override void Close() { }
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }
+#endif
 
         /// <summary>
         /// Gets a new local file path for the given resource, extracting it from the .diagsession if required
@@ -11259,7 +11311,11 @@ namespace PerfView
             return null;
         }
 
+        #if AVALONIA
+        public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
+#else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }
+#endif
 
         protected internal override void ConfigureStackWindow(string stackSourceName, StackWindow stackWindow)
         {

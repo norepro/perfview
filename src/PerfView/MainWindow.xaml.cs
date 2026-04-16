@@ -205,10 +205,14 @@ namespace PerfView
 
         public void OpenPreviouslyOpened()
         {
+#if AVALONIA
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+#else
             string path = ".";
+#endif
             if (bool.TryParse(App.UserConfigData["OpenToLastUsedDirectory"], out bool openToLastUsedDirectory) && openToLastUsedDirectory)
             {
-                path = App.UserConfigData["Directory"] ?? ".";
+                path = App.UserConfigData["Directory"] ?? path;
             }
             OpenPath(path);
         }
