@@ -40,7 +40,10 @@ namespace PerfView
             {
                 // Setup unhanded exception handlers
                 AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-#if !AVALONIA
+#if AVALONIA
+                // Avalonia's equivalent of WPF's DispatcherUnhandledException
+                global::Avalonia.Threading.Dispatcher.UIThread.UnhandledException += OnAvaloniaUnhandledException;
+#else
                 DispatcherUnhandledException += OnGuiUnhandledException;
 #endif
             }
@@ -196,6 +199,45 @@ namespace PerfView
                 // If it returns, it means that the user has opted to continue.
                 e.Handled = true;
             }
+        }
+#endif
+
+#if AVALONIA
+        /// <summary>
+        /// Called when an unhandled exception occurs on the Avalonia UI thread.
+        /// </summary>
+        private void OnAvaloniaUnhandledException(object sender, global::Avalonia.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            var message = e.Exception?.ToString() ?? "Unknown error";
+
+            // Log to stderr so it's visible in the console
+            Console.Error.WriteLine("[PerfView] Unhandled UI exception:");
+            Console.Error.WriteLine(message);
+
+            // Log to file
+            try
+            {
+                var crashLog = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "PerfView.Avalonia", "crash.log");
+                System.IO.Directory.CreateDirectory(Path.GetDirectoryName(crashLog));
+                File.AppendAllText(crashLog, $"\n[{DateTime.Now}] Unhandled UI exception:\n{message}\n");
+            }
+            catch { }
+
+            // Try to show in status bar if available
+            try
+            {
+                if (MainWindow?.StatusBar != null)
+                {
+                    MainWindow.StatusBar.LogError("Error: " + e.Exception?.Message);
+                    e.Handled = true;
+                    return;
+                }
+            }
+            catch { }
+
+            e.Handled = true; // Prevent crash, but the error is logged
         }
 #endif
 
