@@ -146,7 +146,8 @@
                              ToolTip.Tip="This is the directory to search for performance data files."
                              KeyDown="DirectoryTextBox_KeyDown" />
                     <Button Grid.Column="1" Content="▼" MinWidth="24" Padding="4,0"
-                            VerticalAlignment="Stretch" Click="DirectoryDropDown_Click"
+                            VerticalAlignment="Stretch" VerticalContentAlignment="Center"
+                            Click="DirectoryDropDown_Click"
                             ToolTip.Tip="Show directory history" />
                     <Popup x:Name="DirectoryPopup" PlacementTarget="{Binding #DirectoryTextBox}"
                            Placement="Bottom" IsLightDismissEnabled="True">
