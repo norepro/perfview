@@ -66,14 +66,11 @@ namespace PerfView
 
             ThemeViewModel = new ThemeViewModel(App.UserConfigData);
             InitializeComponent();
-#if !AVALONIA
             Directory.HistoryLength = 25;
-#endif
             DataContext = this;
 
             // Initialize the directory history if available.
             var directoryHistory = App.UserConfigData["DirectoryHistory"];
-#if !AVALONIA
             if (directoryHistory != null)
             {
                 Directory.SetHistory(directoryHistory.Split(';'));
@@ -85,14 +82,6 @@ namespace PerfView
             {
                 Directory.AddToHistory(docsDir);
             }
-#else
-            // For the Avalonia TextBox, set the last used directory
-            var lastDir = App.UserConfigData["Directory"];
-            if (!string.IsNullOrEmpty(lastDir))
-            {
-                Directory.Text = lastDir;
-            }
-#endif
 
             // Make sure the location is sane so it can be displayed.
 #if !AVALONIA
@@ -314,7 +303,6 @@ namespace PerfView
                 if (force || m_CurrentDirectory == null || fullPath != m_CurrentDirectory.FilePath)
                 {
                     Directory.Text = fullPath;
-#if !AVALONIA
                     if (Directory.AddToHistory(fullPath))
                     {
                         StringBuilder sb = new StringBuilder();
@@ -329,7 +317,6 @@ namespace PerfView
                         }
                         App.UserConfigData["DirectoryHistory"] = sb.ToString();
                     }
-#endif
 
                     App.UserConfigData["Directory"] = fullPath;
                     FileFilterTextBox.Text = "";
@@ -347,9 +334,7 @@ namespace PerfView
             }
             else
             {
-#if !AVALONIA
                 Directory.RemoveFromHistory(Directory.Text);
-#endif
                 if (m_CurrentDirectory != null)
                 {
                     Directory.Text = m_CurrentDirectory.FilePath;
