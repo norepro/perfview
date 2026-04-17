@@ -1,4 +1,4 @@
-﻿/*  Copyright (c) Microsoft Corporation.  All rights reserved. */
+/*  Copyright (c) Microsoft Corporation.  All rights reserved. */
 /* AUTHOR: Vance Morrison   
  * Date  : 10/20/2007  */
 using System;
@@ -316,6 +316,12 @@ class CommandLine
 
                     string helpString = parser.GetHelp(Console.WindowWidth - 1, parameterSetTofocusOn, true);
                     DisplayStringToConsole(helpString);
+                    #if AVALONIA
+
+                    PerfView.App.AvaloniaLog("Environment.Exit(0) called from " + new System.Diagnostics.StackTrace().ToString());
+
+                    #endif
+
                     Environment.Exit(0);
                 }
                 parser.CompleteValidation();
@@ -324,6 +330,12 @@ class CommandLine
             catch (CommandLineParserException e)
             {
                 Console.WriteLine("Error: " + e.Message + "\r\n" + "Use -? for help.");
+                #if AVALONIA
+
+                PerfView.App.AvaloniaLog("Environment.Exit(1) called from " + new System.Diagnostics.StackTrace().ToString());
+
+                #endif
+
                 Environment.Exit(1);
             }
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 
 #if AVALONIA
@@ -47,6 +47,12 @@ namespace PerfView.Dialogs
         private void ExitClicked(object sender, RoutedEventArgs e)
         {
             // TODO allow restart.  
+            #if AVALONIA
+  
+            App.AvaloniaLog("Environment.Exit(-1) called from " + new System.Diagnostics.StackTrace().ToString());
+  
+            #endif
+  
             Environment.Exit(-1);
         }
     }

@@ -1,4 +1,4 @@
-﻿using Microsoft.Diagnostics.Symbols;
+using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Parsers;
 using Microsoft.Diagnostics.Tracing.Parsers.AspNet;
@@ -3237,6 +3237,12 @@ namespace PerfView
             // Kill the current version if we have not opened a log file yet.   
             if (!NoExitOnElevate)
             {
+                #if AVALONIA
+
+                App.AvaloniaLog("Environment.Exit(0) called from " + new System.Diagnostics.StackTrace().ToString());
+
+                #endif
+
                 Environment.Exit(0);
             }
 

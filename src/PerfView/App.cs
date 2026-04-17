@@ -653,6 +653,12 @@ namespace PerfView
                 perfView.StartInfo.FileName = targetExe;
                 perfView.StartInfo.Arguments = m.Groups[2].Value;
                 perfView.Start();
+                #if AVALONIA
+
+                App.AvaloniaLog("Environment.Exit(0) called from " + new System.Diagnostics.StackTrace().ToString());
+
+                #endif
+
                 Environment.Exit(0);
             }
             catch (Exception) { }
@@ -1190,6 +1196,12 @@ namespace PerfView
                         Thread.Sleep(30000);
                         Console.WriteLine("Thread did not die after 30 seconds.  Killing process.");
                     }
+                    #if AVALONIA
+
+                    App.AvaloniaLog("Environment.Exit(-20) called from " + new System.Diagnostics.StackTrace().ToString());
+
+                    #endif
+
                     Environment.Exit(-20);
                 }
                 e.Cancel = true;
