@@ -56,6 +56,13 @@ namespace PerfView
             Directory.CreateDirectory(logDir);
             s_avaloniaLogPath = Path.Combine(logDir, "perfview.log");
             AvaloniaLog($"=== PerfView starting, args: [{string.Join(", ", args)}] ===");
+
+            // In .NET Core, Debug.Assert/Debug.Fail calls Environment.FailFast by default,
+            // which kills the process instantly. Override with a trace listener that logs
+            // the failure instead of terminating — matching .NET Framework behavior.
+            System.Diagnostics.Trace.Listeners.Clear();
+            System.Diagnostics.Trace.Listeners.Add(new PerfViewTraceListener());
+
             AppDomain.CurrentDomain.ProcessExit += (s, e) => AvaloniaLog("ProcessExit fired.");
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
                 AvaloniaLog($"AppDomain.UnhandledException: {e.ExceptionObject}");
@@ -188,6 +195,26 @@ namespace PerfView
                     File.AppendAllText(s_avaloniaLogPath, line + Environment.NewLine);
             }
             catch { }
+        }
+
+        /// <summary>
+        /// Trace listener that logs Debug.Assert/Fail instead of calling Environment.FailFast.
+        /// In .NET Core, the default behavior is to FailFast on assertion failures, which
+        /// silently kills the process. This matches .NET Framework's dialog behavior by
+        /// logging the error and continuing.
+        /// </summary>
+        private class PerfViewTraceListener : System.Diagnostics.TraceListener
+        {
+            public override void Write(string message) { }
+            public override void WriteLine(string message) { }
+
+            public override void Fail(string message, string detailMessage)
+            {
+                var fullMessage = string.IsNullOrEmpty(detailMessage)
+                    ? $"Debug.Assert failed: {message}"
+                    : $"Debug.Assert failed: {message} - {detailMessage}";
+                AvaloniaLog(fullMessage);
+            }
         }
 #endif
 
