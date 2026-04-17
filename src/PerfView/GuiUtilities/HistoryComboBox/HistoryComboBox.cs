@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.ObjectModel;
 
 #if !AVALONIA
 using System.Windows;
@@ -36,6 +37,10 @@ namespace Controls
 #endif
         }
 
+#if AVALONIA
+        private readonly ObservableCollection<string> m_items = new();
+#endif
+
         public HistoryComboBox()
         {
             HistoryLength = 10;
@@ -44,15 +49,22 @@ namespace Controls
             LostFocus += DoLostFocus;
             SelectionChanged += DoComboSelectionChanged;
             DropDownClosed += DoDropDownClosed;
+#if AVALONIA
+            ItemsSource = m_items;
+            m_items.Add("");
+#else
             Items.Add("");
-            // TODO REMOVE var dpd = DependencyPropertyDescriptor.FromProperty(TextProperty, typeof(ComboBox));
-            // dpd.AddValueChanged(this, DoTextChanged);
+#endif
         }
         public int HistoryLength { get; set; }
 
         public void SetHistory(IEnumerable values)
         {
+#if AVALONIA
+            m_items.Clear();
+#else
             Items.Clear();
+#endif
             int count = 0;
             foreach (var value in values)
             {
@@ -62,12 +74,27 @@ namespace Controls
                     break;
                 }
 
+#if AVALONIA
+                m_items.Add(value?.ToString() ?? "");
+#else
                 Items.Add(value);
+#endif
             }
         }
         public void RemoveFromHistory(string value)
         {
             var text = Text;
+#if AVALONIA
+            for (int i = 0; i < m_items.Count; i++)
+            {
+                if (m_items[i] == value)
+                {
+                    m_items.RemoveAt(i);
+                    Text = text;
+                    break;
+                }
+            }
+#else
             for (int i = 0; i < Items.Count; i++)
             {
                 if ((string)Items[i] == value)
@@ -77,10 +104,26 @@ namespace Controls
                     break;
                 }
             }
+#endif
         }
         public bool AddToHistory(string value)
         {
-            if (Items.Count > 0 && ((string)Items[0]) == value)       // Common special case that does nothing.  
+#if AVALONIA
+            if (m_items.Count > 0 && m_items[0] == value)
+            {
+                return false;
+            }
+
+            RemoveFromHistory(value);
+            m_items.Insert(0, value);
+            Text = value;
+
+            while (m_items.Count > HistoryLength)
+            {
+                m_items.RemoveAt(HistoryLength);
+            }
+#else
+            if (Items.Count > 0 && ((string)Items[0]) == value)
             {
                 return false;
             }
@@ -89,11 +132,11 @@ namespace Controls
             Items.Insert(0, value);
             Text = value;
 
-            // Keep the number of entries under control
             while (Items.Count > HistoryLength)
             {
                 Items.RemoveAt(HistoryLength);
             }
+#endif
 
             return true;
         }
@@ -108,10 +151,17 @@ namespace Controls
         public event RoutedEventHandler Enter;
         public void CopyFrom(HistoryComboBox other)
         {
+#if AVALONIA
+            foreach (var item in other.m_items)
+            {
+                m_items.Add(item);
+            }
+#else
             foreach (var item in other.Items)
             {
                 Items.Add(item);
             }
+#endif
         }
 
         #region private
