@@ -11,6 +11,7 @@
   
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
 
         <!-- Match WPF PerfView's font size and improve readability -->
         <Style Selector="Window">
