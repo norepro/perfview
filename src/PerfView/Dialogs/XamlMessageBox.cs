@@ -62,18 +62,10 @@ public static class XamlMessageBox
         MessageBoxWindow window = new(message, caption, buttons, icon, defaultResult);
         var parentWindow = owner ?? GuiApp.MainWindow;
 
-        // Avalonia's ShowDialog is async. Use a nested dispatcher frame to
-        // block synchronously without deadlocking the UI thread.
-        var tcs = new System.Threading.Tasks.TaskCompletionSource<bool>();
-        window.Closed += (s, e) => tcs.TrySetResult(true);
-        window.Show(parentWindow);
-        
-        // Process events until the dialog closes
-        while (!tcs.Task.IsCompleted)
-        {
-            global::Avalonia.Threading.Dispatcher.UIThread.RunJobs();
-            System.Threading.Thread.Sleep(10);
-        }
+        // ShowDialog in Avalonia runs a nested dispatcher loop internally,
+        // so it pumps events and won't deadlock despite being awaited synchronously.
+        var task = window.ShowDialog<bool?>(parentWindow);
+        task.GetAwaiter().GetResult();
 
         return window.Result;
 #else
