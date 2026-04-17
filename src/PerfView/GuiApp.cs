@@ -245,7 +245,8 @@ namespace PerfView
 #if !AVALONIA
                 var ret = dialog.ShowDialog();
 #else
-                dialog.ShowDialog(MainWindow).GetAwaiter().GetResult();
+                // Use Show() instead of ShowDialog to avoid deadlocking the UI thread
+                dialog.Show(MainWindow);
 #endif
             });
         }

@@ -2061,7 +2061,20 @@ namespace PerfView
         private void DoMergeFilterParams(object sender, ExecutedRoutedEventArgs e)
         {
 #if AVALONIA
-            string text = Clipboard.TryGetTextAsync().GetAwaiter().GetResult();
+            var clipboard = TopLevel.GetTopLevel(this)?.Clipboard;
+            string text = null;
+            if (clipboard != null)
+            {
+                var tcs = new System.Threading.Tasks.TaskCompletionSource<string>();
+                clipboard.TryGetTextAsync().ContinueWith(t => tcs.TrySetResult(t.Result));
+                // Pump events while waiting
+                while (!tcs.Task.IsCompleted)
+                {
+                    global::Avalonia.Threading.Dispatcher.UIThread.RunJobs();
+                    System.Threading.Thread.Sleep(10);
+                }
+                text = tcs.Task.Result;
+            }
 #else
             string text = Clipboard.GetText();
 #endif
@@ -3874,7 +3887,16 @@ namespace PerfView
             newPresetDialog.Owner = this;
             if (!(newPresetDialog.ShowDialog() ?? false))
 #else
-            if (!newPresetDialog.ShowDialog<bool>(this).GetAwaiter().GetResult())
+            // Show dialog and pump events until closed
+            bool? dialogResult = null;
+            newPresetDialog.Closed += (s, _) => dialogResult = true;
+            newPresetDialog.Show(this);
+            while (dialogResult == null)
+            {
+                global::Avalonia.Threading.Dispatcher.UIThread.RunJobs();
+                System.Threading.Thread.Sleep(10);
+            }
+            if (string.IsNullOrEmpty(newPresetDialog.PresetName))
 #endif
             {
                 return;
@@ -3903,7 +3925,15 @@ namespace PerfView
             managePresetsDialog.Owner = this;
             managePresetsDialog.ShowDialog();
 #else
-            managePresetsDialog.ShowDialog(this).GetAwaiter().GetResult();
+            // Show dialog and pump events until closed
+            bool closed = false;
+            managePresetsDialog.Closed += (s, _) => closed = true;
+            managePresetsDialog.Show(this);
+            while (!closed)
+            {
+                global::Avalonia.Threading.Dispatcher.UIThread.RunJobs();
+                System.Threading.Thread.Sleep(10);
+            }
 #endif
             m_presets = managePresetsDialog.Presets;
             App.UserConfigData["Presets"] = Preset.Serialize(m_presets);
