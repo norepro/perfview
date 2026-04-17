@@ -26,7 +26,12 @@ namespace PerfView
         public SelectProcess(Window parentWindow, IEnumerable<IProcess> processes, TimeSpan maxLifetime, Action<List<IProcess>> action, bool hasAllProc = false) : base(parentWindow)
         {
             m_action = action;
+#if AVALONIA
+            // Materialize the enumerable — Avalonia DataGrid needs a concrete list
+            m_processes = processes is IList<IProcess> ? processes : new List<IProcess>(processes);
+#else
             m_processes = processes;
+#endif
             InitializeComponent();
             if (!hasAllProc)
             {
@@ -119,7 +124,11 @@ namespace PerfView
             var filterText = ProcessFilterTextBox.Text;
             if (filterText == "")
             {
+#if AVALONIA
+                Grid.ItemsSource = m_processes is System.Collections.IList ? m_processes : new List<IProcess>(m_processes);
+#else
                 Grid.ItemsSource = m_processes;
+#endif
                 return;
             }
             var regex = Regex.Escape(filterText);
