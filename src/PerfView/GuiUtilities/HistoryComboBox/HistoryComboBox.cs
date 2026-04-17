@@ -44,6 +44,9 @@ namespace Controls
         public HistoryComboBox()
         {
             HistoryLength = 10;
+#if AVALONIA
+            IsEditable = true;
+#endif
             KeyDown += DoKeyDown;
             GotFocus += DoGotFocus;
             LostFocus += DoLostFocus;
