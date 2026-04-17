@@ -60,14 +60,21 @@ public static class XamlMessageBox
 
         // Use our own MessageBoxWindow instead of MsBox.Avalonia (incompatible with Avalonia 12)
         MessageBoxWindow window = new(message, caption, buttons, icon, defaultResult);
-        if (owner is not null)
+        var parentWindow = owner ?? GuiApp.MainWindow;
+
+        // Avalonia's ShowDialog is async. Use a nested dispatcher frame to
+        // block synchronously without deadlocking the UI thread.
+        var tcs = new System.Threading.Tasks.TaskCompletionSource<bool>();
+        window.Closed += (s, e) => tcs.TrySetResult(true);
+        window.Show(parentWindow);
+        
+        // Process events until the dialog closes
+        while (!tcs.Task.IsCompleted)
         {
-            window.ShowDialog(owner).GetAwaiter().GetResult();
+            global::Avalonia.Threading.Dispatcher.UIThread.RunJobs();
+            System.Threading.Thread.Sleep(10);
         }
-        else
-        {
-            window.ShowDialog(GuiApp.MainWindow).GetAwaiter().GetResult();
-        }
+
         return window.Result;
 #else
         // XamlMessageBox uses a WPF window that must be created and shown on the UI thread.

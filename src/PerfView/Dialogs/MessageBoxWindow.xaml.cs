@@ -55,7 +55,9 @@ internal partial class MessageBoxWindow : Window
                 Content = Text,
                 Tag = Result,
                 IsDefault = Result == defaultResult,
+#if !AVALONIA
                 IsCancel = Result == MessageBoxResult.Cancel
+#endif
             };
 
             button.Click += Button_Click;
