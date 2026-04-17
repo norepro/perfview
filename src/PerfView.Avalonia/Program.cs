@@ -48,6 +48,18 @@ namespace PerfView
         // [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public static int Main(string[] args)
         {
+#if AVALONIA
+            // Set up persistent logging so crashes/exits are always diagnosable.
+            // Log file: %APPDATA%/PerfView.Avalonia/perfview.log
+            var logDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PerfView.Avalonia");
+            Directory.CreateDirectory(logDir);
+            s_avaloniaLogPath = Path.Combine(logDir, "perfview.log");
+            AvaloniaLog($"=== PerfView starting, args: [{string.Join(", ", args)}] ===");
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => AvaloniaLog("ProcessExit fired.");
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+                AvaloniaLog($"AppDomain.UnhandledException: {e.ExceptionObject}");
+#endif
             // Register codepage provider for non-default encodings (e.g., 437 MSDOS).
             // Required on .NET Core/.NET 5+ where these aren't available by default.
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
@@ -106,6 +118,9 @@ namespace PerfView
                 }
             catch (ThreadInterruptedException)
             {
+#if AVALONIA
+                AvaloniaLog("ThreadInterruptedException caught in Main.");
+#endif
                 if (App.CommandProcessor.LogFile != null)
                 {
                     App.CommandProcessor.LogFile.WriteLine("Thread Aborted by user.");
@@ -113,6 +128,9 @@ namespace PerfView
             }
             catch (Exception e)
             {
+#if AVALONIA
+                AvaloniaLog($"Exception in Main: {e}");
+#endif
                 if (App.CommandProcessor.LogFile == null)
                 {
                     // This really can only happen when program is buggy, but we still want to display an error message.   
@@ -145,6 +163,21 @@ namespace PerfView
 
             return retCode;
         }
+
+#if AVALONIA
+        private static string s_avaloniaLogPath;
+        internal static void AvaloniaLog(string message)
+        {
+            try
+            {
+                var line = $"[{DateTime.Now:HH:mm:ss.fff}] {message}";
+                Console.Error.WriteLine(line);
+                if (s_avaloniaLogPath != null)
+                    File.AppendAllText(s_avaloniaLogPath, line + Environment.NewLine);
+            }
+            catch { }
+        }
+#endif
 
         /// <summary>
         /// DoMain's job is to parse the args, and determine if we should be using the GUI or the command line, then execute
@@ -360,6 +393,9 @@ namespace PerfView
             {
                 // Ask the gui to do the command.   This is in its own method so that on ARM we never try to load WPF.  
                 DoMainForGui();
+#if AVALONIA
+                AvaloniaLog("DoMainForGui returned (app lifetime ended).");
+#endif
                 return 0;       // Does not actually return but 
             }
         }

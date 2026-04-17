@@ -1186,6 +1186,9 @@ namespace PerfView
                 }
 #endif
 
+#if AVALONIA
+                App.AvaloniaLog("MainWindow closing, calling Environment.Exit(0).");
+#endif
                 Environment.Exit(0);
             }
         }

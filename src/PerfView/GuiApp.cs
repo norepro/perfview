@@ -215,21 +215,7 @@ namespace PerfView
         private void OnAvaloniaUnhandledException(object sender, global::Avalonia.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             var message = e.Exception?.ToString() ?? "Unknown error";
-
-            // Log to stderr so it's visible in the console
-            Console.Error.WriteLine("[PerfView] Unhandled UI exception:");
-            Console.Error.WriteLine(message);
-
-            // Log to file
-            try
-            {
-                var crashLog = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    "PerfView.Avalonia", "crash.log");
-                System.IO.Directory.CreateDirectory(Path.GetDirectoryName(crashLog));
-                File.AppendAllText(crashLog, $"\n[{DateTime.Now}] Unhandled UI exception:\n{message}\n");
-            }
-            catch { }
+            App.AvaloniaLog($"Unhandled UI exception: {message}");
 
             // Try to show in status bar if available
             try
