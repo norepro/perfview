@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -6,7 +6,7 @@ using System.Windows.Input;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using MessageBoxImage = MsBox.Avalonia.Enums.Icon;
+using MessageBoxImage = PerfView.Dialogs.MessageBoxImage;
 #endif
 
 namespace PerfView.Dialogs

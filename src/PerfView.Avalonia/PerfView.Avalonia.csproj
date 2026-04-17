@@ -84,7 +84,6 @@
     <PackageReference Include="Azure.Core" GeneratePathProperty="true" />
     <PackageReference Include="Azure.Identity" GeneratePathProperty="true" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
-    <PackageReference Include="MessageBox.Avalonia" />
     <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent.SupportFiles" PrivateAssets="all" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" GeneratePathProperty="true" />
     <PackageReference Include="PerfView.SupportFiles" PrivateAssets="all" />

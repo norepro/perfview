@@ -3,11 +3,7 @@ using System.Windows;
 
 #if AVALONIA
 using Avalonia.Controls;
-using Avalonia.Threading;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Dto;
-using MsBox.Avalonia.Enums;
-using MessageBoxImage = MsBox.Avalonia.Enums.Icon;
+using MessageBoxImage = PerfView.Dialogs.MessageBoxImage;
 #endif
 
 namespace PerfView.Dialogs;
@@ -57,25 +53,22 @@ public static class XamlMessageBox
     public static MessageBoxResult Show(Window owner, string message, string caption, MessageBoxButton buttons, MessageBoxImage icon, MessageBoxResult defaultResult)
     {
 #if AVALONIA
-        if (!Dispatcher.UIThread.CheckAccess())
+        if (!global::Avalonia.Threading.Dispatcher.UIThread.CheckAccess())
         {
-            return Dispatcher.UIThread.Invoke(() => Show(owner, message, caption, buttons, icon));
+            return global::Avalonia.Threading.Dispatcher.UIThread.Invoke(() => Show(owner, message, caption, buttons, icon, defaultResult));
         }
 
-        var messageBoxCustomWindow = MessageBoxManager.GetMessageBoxStandard(new MessageBoxStandardParams
+        // Use our own MessageBoxWindow instead of MsBox.Avalonia (incompatible with Avalonia 12)
+        MessageBoxWindow window = new(message, caption, buttons, icon, defaultResult);
+        if (owner is not null)
         {
-            ContentTitle = caption,
-            ContentMessage = message,
-            ButtonDefinitions = Map(buttons),
-            Icon = icon,
-            WindowStartupLocation = WindowStartupLocation.CenterOwner
-        });
-
-        var dialogTask = owner != null
-            ? messageBoxCustomWindow.ShowWindowDialogAsync(owner)
-            : messageBoxCustomWindow.ShowWindowAsync();
-
-        return Map(dialogTask.GetAwaiter().GetResult());
+            window.ShowDialog(owner).GetAwaiter().GetResult();
+        }
+        else
+        {
+            window.ShowDialog(GuiApp.MainWindow).GetAwaiter().GetResult();
+        }
+        return window.Result;
 #else
         // XamlMessageBox uses a WPF window that must be created and shown on the UI thread.
         // Auto-dispatch to match the old System.Windows.MessageBox behavior of working from
@@ -97,28 +90,4 @@ public static class XamlMessageBox
         return window.Result;
 #endif
     }
-
-#if AVALONIA
-    public static ButtonEnum Map(MessageBoxButton source) => source switch
-    {
-        MessageBoxButton.OK => ButtonEnum.Ok,
-        MessageBoxButton.YesNo => ButtonEnum.YesNo,
-        MessageBoxButton.OKCancel => ButtonEnum.OkCancel,
-        MessageBoxButton.OKAbort => ButtonEnum.OkAbort,
-        MessageBoxButton.YesNoCancel => ButtonEnum.YesNoCancel,
-        MessageBoxButton.YesNoAbort => ButtonEnum.YesNoAbort,
-        _ => throw new ArgumentOutOfRangeException(nameof(source)),
-    };
-
-    public static MessageBoxResult Map(ButtonResult source) => source switch
-    {
-        ButtonResult.Ok => MessageBoxResult.OK,
-        ButtonResult.Yes => MessageBoxResult.Yes,
-        ButtonResult.No => MessageBoxResult.No,
-        ButtonResult.Abort => MessageBoxResult.Abort,
-        ButtonResult.Cancel => MessageBoxResult.Cancel,
-        ButtonResult.None => MessageBoxResult.None,
-        _ => throw new ArgumentOutOfRangeException(nameof(source)),
-    };
-#endif
 }

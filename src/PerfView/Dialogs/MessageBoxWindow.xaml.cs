@@ -5,7 +5,6 @@ using System.Windows.Controls;
 #else
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using MessageBoxImage = MsBox.Avalonia.Enums.Icon;
 #endif
 
 namespace PerfView.Dialogs;
