@@ -290,6 +290,9 @@ namespace PerfView
                         }
                         catch (Exception ex)
                         {
+#if AVALONIA
+                            App.AvaloniaLog($"StatusBar work exception: {ex}");
+#endif
                             EndWork(delegate ()
                             {
                                 if (!(ex is ThreadInterruptedException))
