@@ -41,13 +41,15 @@
         SelectionMode="Extended"
         AutoGenerateColumns="False"
         CanUserSortColumns="False"
+        FontSize="12"
         Margin="0,0,-23,0"
         AutomationProperties.Name="Data Grid">
         <DataGrid.Columns>
             <!-- TODO_AVALONIA: ClipboardContentBinding not available -->
             <DataGridTemplateColumn
                 IsReadOnly="True"
-                Width="*">
+                Width="3*"
+                MinWidth="150">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock Name="Name" Text="{Binding DisplayName}" ToolTip.Tip="{Binding Name}"/>
