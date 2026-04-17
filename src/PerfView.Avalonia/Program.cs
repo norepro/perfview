@@ -1174,13 +1174,39 @@ namespace PerfView
         private static bool UserOKWithSymbolServerGui()
         {
 #if !PERFVIEW_COLLECT
-            // Ask the user if it is OK to use the Microsoft symbol server.  
-            var done = false;
             var ret = false;
             if (GuiApp.MainWindow == null || GuiApp.MainWindow.Dispatcher == null)
             {
                 return ret;
             }
+
+#if AVALONIA
+            // Avalonia 12: ShowDialog is async-only. Show the dialog and
+            // save the symbol path from the Closed callback.
+            var emptyPathDialog = new PerfView.Dialogs.EmptySymbolPathDialog(GuiApp.MainWindow);
+            emptyPathDialog.Closed += (s, e) =>
+            {
+                if (emptyPathDialog.UseMSSymbols)
+                {
+                    var symPath = new SymbolPath(m_SymbolPath ?? "");
+                    symPath.Add(Microsoft.Diagnostics.Symbols.SymbolPath.MicrosoftSymbolServerPath);
+                    SymbolPath = symPath.InsureHasCache(symPath.DefaultSymbolCache()).CacheFirst().ToString();
+                }
+            };
+            if (GuiApp.MainWindow.Dispatcher.CheckAccess())
+            {
+                emptyPathDialog.ShowDialog(GuiApp.MainWindow);
+            }
+            else
+            {
+                GuiApp.MainWindow.Dispatcher.BeginInvoke((Action)delegate ()
+                {
+                    emptyPathDialog.ShowDialog(GuiApp.MainWindow);
+                });
+            }
+            return false; // Async — result handled in Closed callback
+#else
+            var done = false;
 
             // We are on the GUI thread, we can just open the dialog 
             if (GuiApp.MainWindow.Dispatcher.CheckAccess())
@@ -1191,9 +1217,6 @@ namespace PerfView
             }
             else
             {
-                // We are not on the GUI thread, we have to do BeginInvoke to get there.  
-
-                // TODO this is a bit of a hack.  I really want the 'current' StackWindow 
                 GuiApp.MainWindow.Dispatcher.BeginInvoke((Action)delegate ()
                 {
                     try
@@ -1215,6 +1238,7 @@ namespace PerfView
                 }
             }
             return ret;
+#endif
 #else
             return true;
 #endif
