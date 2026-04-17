@@ -36,6 +36,11 @@
         <Style Selector="DataGridRow:nth-child(even)">
             <Setter Property="Background" Value="{DynamicResource DataGridRowAlternateBackground}" />
         </Style>
+        <!-- Reduce TreeView item padding to match WPF PerfView's compact layout -->
+        <Style Selector="TreeViewItem">
+            <Setter Property="MinHeight" Value="20" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
         <!-- Style hyperlink-like buttons to look like links -->
         <Style Selector="Button.link">
             <Setter Property="Background" Value="Transparent" />
