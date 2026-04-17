@@ -17,10 +17,30 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Copy support files needed at runtime -->
+    <!-- Copy support files needed at runtime (help pages, EULA, etc.) -->
     <Content Include="$(PerfViewFolder)/SupportFiles/Eula.rtf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>EULA.rtf</Link>
+    </Content>
+    <Content Include="$(PerfViewFolder)/SupportFiles/UsersGuide.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>UsersGuide.htm</Link>
+    </Content>
+    <Content Include="$(PerfViewFolder)/SupportFiles/HtmlReportUsersGuide.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>HtmlReportUsersGuide.htm</Link>
+    </Content>
+    <Content Include="$(PerfViewFolder)/SupportFiles/PerfViewWebVideos.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>PerfViewWebVideos.htm</Link>
+    </Content>
+    <Content Include="$(PerfViewFolder)/SupportFiles/EventCounterVisualization.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>EventCounterVisualization.html</Link>
+    </Content>
+    <Content Include="$(PerfViewFolder)/SupportFiles/images/**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>images/%(Filename)%(Extension)</Link>
     </Content>
   </ItemGroup>
 
