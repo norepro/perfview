@@ -135,8 +135,24 @@
                 <ColumnDefinition Width="619*"/>
             </Grid.ColumnDefinitions>
             <DockPanel Background="{DynamicResource ContainerBackground}" Grid.Column="0">
-                <controls:HistoryComboBox x:Name="Directory" DockPanel.Dock="Top" MinHeight="25" AutomationProperties.Name="Directory Search Bar"
-                         ToolTip.Tip="This is the directory to search for performance data files." TextEntered="DoTextEnteredInDirectoryTextBox" />
+                <!-- Custom directory input: TextBox + dropdown button showing history -->
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="DirectoryTextBox" Grid.Column="0"
+                             AutomationProperties.Name="Directory Search Bar"
+                             ToolTip.Tip="This is the directory to search for performance data files."
+                             KeyDown="DirectoryTextBox_KeyDown" />
+                    <Button Grid.Column="1" Content="▼" Width="24" Click="DirectoryDropDown_Click"
+                            ToolTip.Tip="Show directory history" />
+                    <Popup x:Name="DirectoryPopup" PlacementTarget="{Binding #DirectoryTextBox}"
+                           Placement="Bottom" IsLightDismissEnabled="True">
+                        <ListBox x:Name="DirectoryHistoryList" MaxHeight="200" MinWidth="300"
+                                 SelectionChanged="DirectoryHistory_SelectionChanged" />
+                    </Popup>
+                </Grid>
                 <Grid DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>

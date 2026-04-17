@@ -55,6 +55,12 @@ namespace PerfView
 
 #if AVALONIA
         public DispatcherAdapter Dispatcher { get; } = new();
+
+        /// <summary>
+        /// Wraps the DirectoryTextBox + DirectoryHistoryList to provide a HistoryComboBox-compatible API.
+        /// </summary>
+        private DirectoryAdapter m_directoryAdapter;
+        public DirectoryAdapter Directory => m_directoryAdapter;
 #endif
 
         /// <summary>Design-time constructor required by Avalonia AXAML compiler.</summary>
@@ -66,6 +72,9 @@ namespace PerfView
 
             ThemeViewModel = new ThemeViewModel(App.UserConfigData);
             InitializeComponent();
+#if AVALONIA
+            m_directoryAdapter = new DirectoryAdapter(DirectoryTextBox, DirectoryHistoryList);
+#endif
             Directory.HistoryLength = 25;
             DataContext = this;
 
@@ -827,6 +836,18 @@ namespace PerfView
             if (e.Key == Key.Return)
             {
                 OpenPath(Directory.Text);
+            }
+        }
+        private void DirectoryDropDown_Click(object sender, RoutedEventArgs e)
+        {
+            DirectoryPopup.IsOpen = !DirectoryPopup.IsOpen;
+        }
+        private void DirectoryHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DirectoryHistoryList.SelectedItem is string dir)
+            {
+                DirectoryPopup.IsOpen = false;
+                OpenPath(dir);
             }
         }
 #endif
