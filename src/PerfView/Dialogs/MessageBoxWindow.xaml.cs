@@ -47,9 +47,15 @@ internal partial class MessageBoxWindow : Window
 
     private void ConfigureButtons(MessageBoxButton buttons, MessageBoxResult defaultResult)
     {
+#if AVALONIA
+        App.AvaloniaLog($"ConfigureButtons: buttons={buttons}, defaultResult={defaultResult}, ButtonsPanel={ButtonsPanel != null}");
+#endif
         ButtonsPanel.Children.Clear();
         foreach ((string Text, MessageBoxResult Result) in Get(buttons))
         {
+#if AVALONIA
+            App.AvaloniaLog($"  Adding button: {Text}");
+#endif
             Button button = new()
             {
                 Content = Text,
@@ -63,6 +69,9 @@ internal partial class MessageBoxWindow : Window
             button.Click += Button_Click;
             ButtonsPanel.Children.Add(button);
         }
+#if AVALONIA
+        App.AvaloniaLog($"  ButtonsPanel.Children.Count={ButtonsPanel.Children.Count}");
+#endif
 
         static (string Text, MessageBoxResult Result)[] Get(MessageBoxButton buttons) => buttons switch
         {

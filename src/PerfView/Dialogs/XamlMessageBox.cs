@@ -58,14 +58,20 @@ public static class XamlMessageBox
             return global::Avalonia.Threading.Dispatcher.UIThread.Invoke(() => Show(owner, message, caption, buttons, icon, defaultResult));
         }
 
-        // Use our own MessageBoxWindow instead of MsBox.Avalonia (incompatible with Avalonia 12)
+        // Avalonia 12 removed synchronous ShowDialog (no nested dispatcher loop).
+        // Use Show() as a non-modal window and block with manual event pumping.
         MessageBoxWindow window = new(message, caption, buttons, icon, defaultResult);
         var parentWindow = owner ?? GuiApp.MainWindow;
+        bool closed = false;
+        window.Closed += (s, e) => closed = true;
+        window.ShowDialog(parentWindow); // Starts async — doesn't block
 
-        // ShowDialog in Avalonia runs a nested dispatcher loop internally,
-        // so it pumps events and won't deadlock despite being awaited synchronously.
-        var task = window.ShowDialog<bool?>(parentWindow);
-        task.GetAwaiter().GetResult();
+        // Manually pump dispatcher until dialog is closed
+        while (!closed)
+        {
+            global::Avalonia.Threading.Dispatcher.UIThread.RunJobs(global::Avalonia.Threading.DispatcherPriority.Background);
+            System.Threading.Thread.Yield();
+        }
 
         return window.Result;
 #else
