@@ -66,11 +66,14 @@ namespace PerfView
 
             ThemeViewModel = new ThemeViewModel(App.UserConfigData);
             InitializeComponent();
+#if !AVALONIA
             Directory.HistoryLength = 25;
+#endif
             DataContext = this;
 
             // Initialize the directory history if available.
             var directoryHistory = App.UserConfigData["DirectoryHistory"];
+#if !AVALONIA
             if (directoryHistory != null)
             {
                 Directory.SetHistory(directoryHistory.Split(';'));
@@ -82,6 +85,7 @@ namespace PerfView
             {
                 Directory.AddToHistory(docsDir);
             }
+#endif
 
             // Make sure the location is sane so it can be displayed.
 #if !AVALONIA
@@ -300,6 +304,7 @@ namespace PerfView
                 if (force || m_CurrentDirectory == null || fullPath != m_CurrentDirectory.FilePath)
                 {
                     Directory.Text = fullPath;
+#if !AVALONIA
                     if (Directory.AddToHistory(fullPath))
                     {
                         StringBuilder sb = new StringBuilder();
@@ -314,6 +319,7 @@ namespace PerfView
                         }
                         App.UserConfigData["DirectoryHistory"] = sb.ToString();
                     }
+#endif
 
                     App.UserConfigData["Directory"] = fullPath;
                     FileFilterTextBox.Text = "";
@@ -331,7 +337,9 @@ namespace PerfView
             }
             else
             {
+#if !AVALONIA
                 Directory.RemoveFromHistory(Directory.Text);
+#endif
                 if (m_CurrentDirectory != null)
                 {
                     Directory.Text = m_CurrentDirectory.FilePath;
@@ -818,6 +826,15 @@ namespace PerfView
         {
             OpenPath(Directory.Text);
         }
+#if AVALONIA
+        private void DirectoryTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                OpenPath(Directory.Text);
+            }
+        }
+#endif
         private void DoDrop(object sender, DragEventArgs e)
         {
 #if !AVALONIA
