@@ -45,6 +45,15 @@ namespace PerfView
             ProcessFilterTextBox.Text = "";
 
             UpdateItemSource();
+#if AVALONIA
+            App.AvaloniaLog($"SelectProcess: ItemsSource type={Grid.ItemsSource?.GetType().Name}, count={(Grid.ItemsSource as System.Collections.ICollection)?.Count}");
+            if (Grid.ItemsSource is System.Collections.IEnumerable items)
+            {
+                int i = 0;
+                foreach (var item in items) { i++; if (i <= 3) App.AvaloniaLog($"  Item: {item}"); }
+                App.AvaloniaLog($"  Total items: {i}");
+            }
+#endif
             var filteredProcesses = Grid.ItemsSource as List<IProcess>;
 
             // Set selection point to the first process

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 
@@ -39,6 +39,12 @@ namespace Controls
 
 #if AVALONIA
         private readonly ObservableCollection<string> m_items = new();
+        /// <summary>
+        /// Shadows the base ComboBox.Items to provide a mutable collection.
+        /// Avalonia 12 removed the mutable Items property; this gives callers
+        /// a compatible API without needing #if AVALONIA everywhere.
+        /// </summary>
+        public new ObservableCollection<string> Items => m_items;
 #endif
 
         public HistoryComboBox()
@@ -54,7 +60,7 @@ namespace Controls
             DropDownClosed += DoDropDownClosed;
 #if AVALONIA
             ItemsSource = m_items;
-            m_items.Add("");
+            Items.Add("");
 #else
             Items.Add("");
 #endif
@@ -64,7 +70,7 @@ namespace Controls
         public void SetHistory(IEnumerable values)
         {
 #if AVALONIA
-            m_items.Clear();
+            Items.Clear();
 #else
             Items.Clear();
 #endif
@@ -78,7 +84,7 @@ namespace Controls
                 }
 
 #if AVALONIA
-                m_items.Add(value?.ToString() ?? "");
+                Items.Add(value?.ToString() ?? "");
 #else
                 Items.Add(value);
 #endif
@@ -88,11 +94,11 @@ namespace Controls
         {
             var text = Text;
 #if AVALONIA
-            for (int i = 0; i < m_items.Count; i++)
+            for (int i = 0; i < Items.Count; i++)
             {
                 if (m_items[i] == value)
                 {
-                    m_items.RemoveAt(i);
+                    Items.RemoveAt(i);
                     Text = text;
                     break;
                 }
@@ -112,18 +118,18 @@ namespace Controls
         public bool AddToHistory(string value)
         {
 #if AVALONIA
-            if (m_items.Count > 0 && m_items[0] == value)
+            if (Items.Count > 0 && m_items[0] == value)
             {
                 return false;
             }
 
             RemoveFromHistory(value);
-            m_items.Insert(0, value);
+            Items.Insert(0, value);
             Text = value;
 
-            while (m_items.Count > HistoryLength)
+            while (Items.Count > HistoryLength)
             {
-                m_items.RemoveAt(HistoryLength);
+                Items.RemoveAt(HistoryLength);
             }
 #else
             if (Items.Count > 0 && ((string)Items[0]) == value)
@@ -155,9 +161,9 @@ namespace Controls
         public void CopyFrom(HistoryComboBox other)
         {
 #if AVALONIA
-            foreach (var item in other.m_items)
+            foreach (var item in other.Items)
             {
-                m_items.Add(item);
+                Items.Add(item);
             }
 #else
             foreach (var item in other.Items)
