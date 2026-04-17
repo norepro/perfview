@@ -85,6 +85,13 @@ namespace PerfView
             {
                 Directory.AddToHistory(docsDir);
             }
+#else
+            // For the Avalonia TextBox, set the last used directory
+            var lastDir = App.UserConfigData["Directory"];
+            if (!string.IsNullOrEmpty(lastDir))
+            {
+                Directory.Text = lastDir;
+            }
 #endif
 
             // Make sure the location is sane so it can be displayed.
