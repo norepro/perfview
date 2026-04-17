@@ -1181,29 +1181,22 @@ namespace PerfView
             }
 
 #if AVALONIA
-            // Avalonia 12: ShowDialog is async-only. Show the dialog and
-            // save the symbol path from the Closed callback.
-            var emptyPathDialog = new PerfView.Dialogs.EmptySymbolPathDialog(GuiApp.MainWindow);
-            emptyPathDialog.Closed += (s, e) =>
+            // Avalonia 12: ShowDialog is async-only and UI objects must be created on UI thread.
+            // Dispatch everything to UI thread and save symbol path in Closed callback.
+            global::Avalonia.Threading.Dispatcher.UIThread.Post(() =>
             {
-                if (emptyPathDialog.UseMSSymbols)
+                var emptyPathDialog = new PerfView.Dialogs.EmptySymbolPathDialog(GuiApp.MainWindow);
+                emptyPathDialog.Closed += (s, e) =>
                 {
-                    var symPath = new SymbolPath(m_SymbolPath ?? "");
-                    symPath.Add(Microsoft.Diagnostics.Symbols.SymbolPath.MicrosoftSymbolServerPath);
-                    SymbolPath = symPath.InsureHasCache(symPath.DefaultSymbolCache()).CacheFirst().ToString();
-                }
-            };
-            if (GuiApp.MainWindow.Dispatcher.CheckAccess())
-            {
+                    if (emptyPathDialog.UseMSSymbols)
+                    {
+                        var symPath = new SymbolPath(m_SymbolPath ?? "");
+                        symPath.Add(Microsoft.Diagnostics.Symbols.SymbolPath.MicrosoftSymbolServerPath);
+                        SymbolPath = symPath.InsureHasCache(symPath.DefaultSymbolCache()).CacheFirst().ToString();
+                    }
+                };
                 emptyPathDialog.ShowDialog(GuiApp.MainWindow);
-            }
-            else
-            {
-                GuiApp.MainWindow.Dispatcher.BeginInvoke((Action)delegate ()
-                {
-                    emptyPathDialog.ShowDialog(GuiApp.MainWindow);
-                });
-            }
+            });
             return false; // Async — result handled in Closed callback
 #else
             var done = false;
