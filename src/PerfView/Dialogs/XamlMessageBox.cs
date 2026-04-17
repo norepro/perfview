@@ -55,25 +55,22 @@ public static class XamlMessageBox
 #if AVALONIA
         if (!global::Avalonia.Threading.Dispatcher.UIThread.CheckAccess())
         {
-            return global::Avalonia.Threading.Dispatcher.UIThread.Invoke(() => Show(owner, message, caption, buttons, icon, defaultResult));
+            // Background thread: dispatch to UI and block
+            MessageBoxResult bgResult = defaultResult;
+            var mre = new System.Threading.ManualResetEventSlim();
+            global::Avalonia.Threading.Dispatcher.UIThread.Post(async () =>
+            {
+                bgResult = await ShowAsync(owner, message, caption, buttons, icon, defaultResult);
+                mre.Set();
+            });
+            mre.Wait();
+            return bgResult;
         }
 
-        // Avalonia 12 removed synchronous ShowDialog (no nested dispatcher loop).
-        // Use Show() as a non-modal window and block with manual event pumping.
-        MessageBoxWindow window = new(message, caption, buttons, icon, defaultResult);
-        var parentWindow = owner ?? GuiApp.MainWindow;
-        bool closed = false;
-        window.Closed += (s, e) => closed = true;
-        window.ShowDialog(parentWindow); // Starts async — doesn't block
-
-        // Manually pump dispatcher until dialog is closed
-        while (!closed)
-        {
-            global::Avalonia.Threading.Dispatcher.UIThread.RunJobs(global::Avalonia.Threading.DispatcherPriority.Background);
-            System.Threading.Thread.Yield();
-        }
-
-        return window.Result;
+        // UI thread: Avalonia 12 dialogs are async-only.
+        // Show non-modally and return default — callers needing result should use ShowAsync.
+        _ = ShowAndHandleResultAsync(owner, message, caption, buttons, icon, defaultResult);
+        return defaultResult;
 #else
         // XamlMessageBox uses a WPF window that must be created and shown on the UI thread.
         // Auto-dispatch to match the old System.Windows.MessageBox behavior of working from
@@ -95,4 +92,29 @@ public static class XamlMessageBox
         return window.Result;
 #endif
     }
+
+#if AVALONIA
+    /// <summary>
+    /// Async version of Show for Avalonia 12 (which requires async dialogs).
+    /// </summary>
+    public static async System.Threading.Tasks.Task<MessageBoxResult> ShowAsync(
+        Window owner, string message, string caption, MessageBoxButton buttons,
+        MessageBoxImage icon, MessageBoxResult defaultResult)
+    {
+        MessageBoxWindow window = new(message, caption, buttons, icon, defaultResult);
+        var parentWindow = owner ?? GuiApp.MainWindow;
+        await window.ShowDialog(parentWindow);
+        return window.Result;
+    }
+
+    /// <summary>
+    /// Fire-and-forget wrapper used by synchronous Show on the UI thread.
+    /// </summary>
+    private static async System.Threading.Tasks.Task ShowAndHandleResultAsync(
+        Window owner, string message, string caption, MessageBoxButton buttons,
+        MessageBoxImage icon, MessageBoxResult defaultResult)
+    {
+        await ShowAsync(owner, message, caption, buttons, icon, defaultResult);
+    }
+#endif
 }

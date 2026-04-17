@@ -1484,6 +1484,11 @@ namespace PerfView
                     m_AllowNavigateToWeb = allowNavigateToWeb == "true";
                     if (!m_AllowNavigateToWeb)
                     {
+#if AVALONIA
+                        // Avalonia 12 dialogs are async — launch and handle result via callback
+                        _ = CheckAllowNavigateToWebAsync();
+                        return false; // Don't navigate yet, async will handle it
+#else
                         var result = XamlMessageBox.Show(
                             """
                             PerfView is about to open content on the web.
@@ -1497,6 +1502,7 @@ namespace PerfView
                             m_AllowNavigateToWeb = true;
                             App.UserConfigData["AllowNavigateToWeb"] = "true";
                         }
+#endif
                     }
                 }
                 return m_AllowNavigateToWeb;
@@ -1504,6 +1510,25 @@ namespace PerfView
         }
 
         private bool m_AllowNavigateToWeb;
+
+#if AVALONIA
+        private async System.Threading.Tasks.Task CheckAllowNavigateToWebAsync()
+        {
+            var result = await XamlMessageBox.ShowAsync(
+                null,
+                "PerfView is about to open content on the web.\nIs this OK?",
+                "Navigate to Web",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.None,
+                MessageBoxResult.No);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                m_AllowNavigateToWeb = true;
+                App.UserConfigData["AllowNavigateToWeb"] = "true";
+            }
+        }
+#endif
 
         private PerfViewDirectory m_CurrentDirectory;
         private static WebBrowserWindow s_Browser;
