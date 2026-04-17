@@ -182,7 +182,8 @@
                     </TreeView.Styles>
                     <TreeView.ItemTemplate>
                         <TreeDataTemplate ItemsSource="{Binding Children}">
-                            <StackPanel Orientation="Horizontal" DoubleTapped="DoMouseDoubleClickInTreeView">
+                            <StackPanel Orientation="Horizontal" Background="Transparent"
+                                        PointerPressed="TreeViewItem_PointerPressed">
                                 <StackPanel.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Command="{x:Static src:MainWindow.ItemHelpCommand}"/>

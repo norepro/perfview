@@ -802,12 +802,19 @@ namespace PerfView
 #if AVALONIA
         private void DoMouseDoubleClickInTreeView(object sender, TappedEventArgs e)
         {
-            // Get the item from the DataContext of the StackPanel in the item template
-            var item = (sender as global::Avalonia.Controls.Control)?.DataContext as PerfViewTreeItem;
-            if (item != null)
+            // Unused — kept for WPF compatibility
+        }
+        private void TreeViewItem_PointerPressed(object sender, global::Avalonia.Input.PointerPressedEventArgs e)
+        {
+            if (e.ClickCount == 2)
             {
-                e.Handled = true; // Prevent TreeViewItem from toggling expansion
-                item.Open(this, StatusBar);
+                var item = (sender as global::Avalonia.Controls.Control)?.DataContext as PerfViewTreeItem;
+                App.AvaloniaLog($"TreeViewItem_PointerPressed double-click: item={item?.Name ?? "null"}");
+                if (item != null)
+                {
+                    e.Handled = true;
+                    item.Open(this, StatusBar);
+                }
             }
         }
 #else
