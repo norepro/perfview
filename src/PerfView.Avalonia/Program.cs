@@ -59,6 +59,18 @@ namespace PerfView
             AppDomain.CurrentDomain.ProcessExit += (s, e) => AvaloniaLog("ProcessExit fired.");
             AppDomain.CurrentDomain.UnhandledException += (s, e) =>
                 AvaloniaLog($"AppDomain.UnhandledException: {e.ExceptionObject}");
+            TaskScheduler.UnobservedTaskException += (s, e) =>
+                AvaloniaLog($"UnobservedTaskException: {e.Exception}");
+            AppDomain.CurrentDomain.FirstChanceException += (s, e) =>
+            {
+                // Only log exceptions that look serious (skip routine ones)
+                var ex = e.Exception;
+                if (ex is OutOfMemoryException || ex is StackOverflowException || 
+                    ex is AccessViolationException || ex is System.Runtime.InteropServices.SEHException)
+                {
+                    AvaloniaLog($"FATAL FirstChanceException: {ex}");
+                }
+            };
 #endif
             // Register codepage provider for non-default encodings (e.g., 437 MSDOS).
             // Required on .NET Core/.NET 5+ where these aren't available by default.
@@ -408,15 +420,25 @@ namespace PerfView
         {
 #if !PERFVIEW_COLLECT
 #if AVALONIA
-            AppBuilder.Configure(() => new PerfView.GuiApp())
-                .UsePlatformDetect()
-                .WithInterFont()
-                .LogToTrace()
-                .StartWithClassicDesktopLifetime(Array.Empty<string>(), lifetime =>
-                {
-                    // Prevent app from exiting when dialogs close — only exit on explicit MainWindow close
-                    lifetime.ShutdownMode = global::Avalonia.Controls.ShutdownMode.OnMainWindowClose;
-                });
+            try
+            {
+                AvaloniaLog("Starting Avalonia app builder...");
+                AppBuilder.Configure(() => new PerfView.GuiApp())
+                    .UsePlatformDetect()
+                    .WithInterFont()
+                    .LogToTrace()
+                    .StartWithClassicDesktopLifetime(Array.Empty<string>(), lifetime =>
+                    {
+                        // Prevent app from exiting when dialogs close — only exit on explicit MainWindow close
+                        lifetime.ShutdownMode = global::Avalonia.Controls.ShutdownMode.OnMainWindowClose;
+                    });
+                AvaloniaLog("Avalonia lifetime exited normally.");
+            }
+            catch (Exception ex)
+            {
+                AvaloniaLog($"CRASH in DoMainForGui: {ex}");
+                throw;
+            }
 #else
             DisplaySplashScreen();          // If we have not already displayed the splash screen do it now.  
             s_splashScreen = null;          // this serves no purpose any more.  
