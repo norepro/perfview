@@ -9,6 +9,19 @@
         <!-- TODO_AVALONIA: ViewLocator not yet implemented -->
     </Application.DataTemplates>
   
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="DataGridRowAlternateBackground" Color="#F0F0F0" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="DataGridRowAlternateBackground" Color="#2A2A2A" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
@@ -16,6 +29,12 @@
         <!-- Match WPF PerfView's font size and improve readability -->
         <Style Selector="Window">
             <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="DataGrid">
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="DataGridRow:nth-child(even)">
+            <Setter Property="Background" Value="{DynamicResource DataGridRowAlternateBackground}" />
         </Style>
         <!-- Style hyperlink-like buttons to look like links -->
         <Style Selector="Button.link">
