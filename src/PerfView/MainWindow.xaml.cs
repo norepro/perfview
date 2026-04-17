@@ -844,9 +844,10 @@ namespace PerfView
         }
         private void DirectoryHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (DirectoryHistoryList.SelectedItem is string dir)
+            if (e.AddedItems?.Count > 0 && e.AddedItems[0] is string dir)
             {
                 DirectoryPopup.IsOpen = false;
+                DirectoryHistoryList.SelectedIndex = -1; // Prevent re-fire
                 OpenPath(dir);
             }
         }
