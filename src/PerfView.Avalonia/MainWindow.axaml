@@ -167,7 +167,6 @@
                     <TextBox Name="FileFilterTextBox" TextChanged="FilterTextChanged" KeyDown="FilterKeyDown" Grid.Column="1" Margin="5,2,0,2" AutomationProperties.Name="File Filter"/>
                 </Grid>
                 <TreeView x:Name="TreeView" AutomationProperties.Name="File Explorer" Grid.Column="0"
-                          DoubleTapped="DoMouseDoubleClickInTreeView"
                           KeyDown="KeyDownInTreeView"
                           SelectionChanged="SelectedItemChangedInTreeView"
                           PointerPressed="TreeView_PreviewMouseRightButtonDown"
@@ -183,7 +182,7 @@
                     </TreeView.Styles>
                     <TreeView.ItemTemplate>
                         <TreeDataTemplate ItemsSource="{Binding Children}">
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" DoubleTapped="DoMouseDoubleClickInTreeView">
                                 <StackPanel.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Command="{x:Static src:MainWindow.ItemHelpCommand}"/>

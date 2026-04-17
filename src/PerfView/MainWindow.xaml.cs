@@ -802,15 +802,11 @@ namespace PerfView
 #if AVALONIA
         private void DoMouseDoubleClickInTreeView(object sender, TappedEventArgs e)
         {
-            // In Avalonia, get the item from the event source since SelectedItem 
-            // may not be updated yet during DoubleTapped on TreeView.
-            var source = e.Source as global::Avalonia.Controls.Control;
-            while (source != null && source is not TreeViewItem)
-                source = source.Parent as global::Avalonia.Controls.Control;
-            
-            var item = (source as TreeViewItem)?.DataContext as PerfViewTreeItem;
+            // Get the item from the DataContext of the StackPanel in the item template
+            var item = (sender as global::Avalonia.Controls.Control)?.DataContext as PerfViewTreeItem;
             if (item != null)
             {
+                e.Handled = true; // Prevent TreeViewItem from toggling expansion
                 item.Open(this, StatusBar);
             }
         }
