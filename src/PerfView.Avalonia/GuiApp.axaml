@@ -41,6 +41,17 @@
             <Setter Property="MinHeight" Value="20" />
             <Setter Property="Padding" Value="0" />
         </Style>
+        <!-- Compact TabItem styling to match WPF PerfView -->
+        <Style Selector="TabItem">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="8,2" />
+            <Setter Property="MinHeight" Value="0" />
+        </Style>
+        <!-- Compact CheckBox styling -->
+        <Style Selector="CheckBox">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Padding" Value="4,0" />
+        </Style>
         <!-- Style hyperlink-like buttons to look like links -->
         <Style Selector="Button.link">
             <Setter Property="Background" Value="Transparent" />

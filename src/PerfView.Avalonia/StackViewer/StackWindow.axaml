@@ -180,26 +180,16 @@
                 </MenuItem>
             </Menu>
             <Rectangle Grid.Column="1" Grid.ColumnSpan="10" Fill="{DynamicResource ControlDefaultBackground}"/>
-            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="3,0" TextWrapping="Wrap">
-                <!-- TODO_AVALONIA: Hyperlink not available -->
-                Stack View Help (F1)
-            </TextBlock>
-            <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"  Margin="3,0" TextWrapping="Wrap">
-                <!-- TODO_AVALONIA: Hyperlink not available -->
-                Understanding Perf Data
-            </TextBlock>
-            <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0" TextWrapping="Wrap">
-                <!-- TODO_AVALONIA: Hyperlink not available -->
-                Starting an Analysis
-            </TextBlock>
-            <TextBlock Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0" TextWrapping="Wrap">
-                <!-- TODO_AVALONIA: Hyperlink not available -->
-                Troubleshooting
-            </TextBlock>
-            <TextBlock Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0" TextWrapping="Wrap">
-                <!-- TODO_AVALONIA: Hyperlink not available -->
-                Tips
-            </TextBlock>
+            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Classes="link" Click="DoHyperlinkHelp" Tag="StackViewerQuickStart">Stack View Help (F1)</Button>
+            <Button Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Classes="link" Click="DoHyperlinkHelp" Tag="UnderstandingPerfData">Understanding Perf Data</Button>
+            <Button Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Classes="link" Click="DoHyperlinkHelp" Tag="StartingAnAnalysis">Starting an Analysis</Button>
+            <Button Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Classes="link" Click="DoHyperlinkHelp" Tag="StackViewerTroubleshooting">Troubleshooting</Button>
+            <Button Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Classes="link" Click="DoHyperlinkHelp" Tag="StackViewerTips">Tips</Button>
         </Grid>
         <!-- This is the line with Back Forward, and the info bar -->
         <Grid DockPanel.Dock="Top" >
@@ -387,44 +377,20 @@ will be removed completely from the trace.
             </Grid.RowDefinitions>
             <TabControl Grid.Row="0" Margin="0,3,0,0" IsEnabled="{Binding #StatusBar.IsNotWorking}">
                 <!-- ByNameTab-->
-                <TabItem Name="ByNameTab">
-                    <TabItem.Header>
-                        <TextBlock>
-                        <!-- TODO_AVALONIA: Hyperlink not available -->
-                        By Name ?
-                        </TextBlock>
-                    </TabItem.Header>
+                <TabItem Name="ByNameTab" Header="By Name ?">
                     <src:PerfDataGrid x:Name="ByNameDataGrid" Margin="0,0,20,0" DoubleTapped="ByName_MouseDoubleClick"/>
                 </TabItem>
                 <!-- CallerCalleeTab -->
-                <TabItem Name="CallerCalleeTab" >
-                    <TabItem.Header>
-                        <TextBlock>
-                        <!-- TODO_AVALONIA: Hyperlink not available -->
-                        Caller-Callee ?
-                        </TextBlock>
-                    </TabItem.Header>
+                <TabItem Name="CallerCalleeTab" Header="Caller-Callee ?">
                     <!-- TODO FIX NOW The margin is a hack.  I don't know why I need it... -->
                     <src:CallerCalleeView x:Name="CallerCalleeView" Margin="0,0,20,0"/>
                 </TabItem>
                 <!-- CallerTreeTab -->
-                <TabItem Name="CallTreeTab">
-                    <TabItem.Header>
-                        <TextBlock>
-                        <!-- TODO_AVALONIA: Hyperlink not available -->
-                        CallTree ?
-                        </TextBlock>
-                    </TabItem.Header>
+                <TabItem Name="CallTreeTab" Header="CallTree ?">
                     <src:PerfDataGrid x:Name="CallTreeDataGrid" Margin="0,0,20,0"/>
                 </TabItem>
                 <!-- CallersTab -->
-                <TabItem Name="CallersTab">
-                    <TabItem.Header>
-                        <TextBlock>
-                        <!-- TODO_AVALONIA: Hyperlink not available -->
-                        Callers ?
-                        </TextBlock>
-                    </TabItem.Header>
+                <TabItem Name="CallersTab" Header="Callers ?">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -435,13 +401,7 @@ will be removed completely from the trace.
                     </Grid>
                 </TabItem>
                 <!-- CalleesTab -->
-                <TabItem Name="CalleesTab">
-                    <TabItem.Header>
-                        <TextBlock>
-                        <!-- TODO_AVALONIA: Hyperlink not available -->
-                        Callees ?
-                        </TextBlock>
-                    </TabItem.Header>
+                <TabItem Name="CalleesTab" Header="Callees ?">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -452,23 +412,11 @@ will be removed completely from the trace.
                     </Grid>
                 </TabItem>
                 <!-- FlameGraphTab -->
-                <TabItem Name="FlameGraphTab" GotFocus="FlameGraphTab_GotFocus">
-                    <TabItem.Header>
-                        <TextBlock>
-                            <!-- TODO_AVALONIA: Hyperlink not available -->
-                            Flame Graph ?
-                        </TextBlock>
-                    </TabItem.Header>
+                <TabItem Name="FlameGraphTab" GotFocus="FlameGraphTab_GotFocus" Header="Flame Graph ?">
                     <src:FlameGraphDrawingCanvas x:Name="FlameGraphCanvas" Background="#EEEEEE" ClipToBounds="True" SizeChanged="FlameGraphCanvas_SizeChanged" CurrentFlameBoxChanged="FlameGraphCanvas_CurrentFlameBoxChanged" AutomationProperties.Name="Flame Graph" />
                 </TabItem>
                 <!-- NotesTab -->
-                <TabItem Name="NotesTab" GotFocus="NotesTab_GotFocus" LostFocus="NotesTab_LostFocus">
-                    <TabItem.Header>
-                        <TextBlock>
-                        <!-- TODO_AVALONIA: Hyperlink not available -->
-                        Notes ?
-                        </TextBlock>
-                    </TabItem.Header>
+                <TabItem Name="NotesTab" GotFocus="NotesTab_GotFocus" LostFocus="NotesTab_LostFocus" Header="Notes ?">
                     <TextBox Name="NotesTabBody" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontFamily="Courier New" FontSize="11" TextChanged="Notes_TextChanged" AutomationProperties.Name="Notes"/>
                 </TabItem>
             </TabControl>

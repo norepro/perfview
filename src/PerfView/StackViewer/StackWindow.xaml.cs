@@ -2735,6 +2735,31 @@ namespace PerfView
         }
 
 #if AVALONIA
+        /// <summary>Avalonia Button.Click handler for help links (uses Tag instead of CommandParameter).</summary>
+        private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var param = button?.Tag as string;
+            DoHyperlinkHelp(param);
+        }
+
+        private void DoHyperlinkHelp(string param)
+        {
+            if (param == null)
+                param = "StackViewerQuickStart";
+
+            if (DataSource.DataFile is ClrProfilerHeapPerfViewFile || DataSource.DataFile is HeapDumpPerfViewFile)
+            {
+                if (param == "StartingAnAnalysis" || param == "UnderstandingPerfData" || param == "StackViewerQuickStart" || param == "Tutorial")
+                    param += "GCHeap";
+            }
+
+            StatusBar.Log("Displaying Users Guide in Web Browser.");
+            MainWindow.DisplayUsersGuide(param);
+        }
+#endif
+
+#if AVALONIA
         private void ByName_MouseDoubleClick(object sender, TappedEventArgs e)
 #else
         private void ByName_MouseDoubleClick(object sender, MouseButtonEventArgs e)
