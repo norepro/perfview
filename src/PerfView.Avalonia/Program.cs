@@ -205,15 +205,26 @@ namespace PerfView
         /// </summary>
         private class PerfViewTraceListener : System.Diagnostics.TraceListener
         {
+            private int m_assertCount;
+            private const int MaxLoggedAsserts = 5;
+
             public override void Write(string message) { }
             public override void WriteLine(string message) { }
 
             public override void Fail(string message, string detailMessage)
             {
+                m_assertCount++;
+                if (m_assertCount > MaxLoggedAsserts)
+                    return; // Suppress flood
+
+                var stack = new System.Diagnostics.StackTrace(2, true).ToString();
                 var fullMessage = string.IsNullOrEmpty(detailMessage)
                     ? $"Debug.Assert failed: {message}"
                     : $"Debug.Assert failed: {message} - {detailMessage}";
-                AvaloniaLog(fullMessage);
+                AvaloniaLog($"{fullMessage}\n  Stack: {stack}");
+
+                if (m_assertCount == MaxLoggedAsserts)
+                    AvaloniaLog($"(Suppressing further Debug.Assert messages)");
             }
         }
 #endif
