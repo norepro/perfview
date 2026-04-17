@@ -1155,6 +1155,11 @@ namespace PerfView
 
             var children = m_CurrentDirectory.Children;
             TreeView.ItemsSource = children;
+#if AVALONIA
+            App.AvaloniaLog($"UpdateFileFilter: children.Count={children.Count}, filter={m_CurrentDirectory.Filter?.ToString() ?? "null"}");
+            foreach (var c in children.Take(5))
+                App.AvaloniaLog($"  child: {c.Name} ({c.GetType().Name})");
+#endif
             if (children.Count > 0)
             {
                 children[0].IsSelected = true;

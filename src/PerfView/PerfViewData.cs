@@ -184,12 +184,12 @@ namespace PerfView
 
                                 m_Children.Add(new PerfViewDirectory(dir));
                             }
-
-                            // We always have the parent directory.  
-                            m_Children.Add(new PerfViewDirectory(System.IO.Path.Combine(m_filePath, "..")));
                         }
                         // FIX NOW review
                         catch (Exception) { }
+
+                        // We always have the parent directory (even if we can't read the current one).
+                        m_Children.Add(new PerfViewDirectory(System.IO.Path.Combine(m_filePath, "..")));
                     }
                 }
                 return m_Children;
