@@ -54,6 +54,12 @@ namespace PerfView
         {
             base.OnFrameworkInitializationCompleted();
             ApplicationStarted();
+
+            // Tell the lifetime which window is the main window
+            if (ApplicationLifetime is global::Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                desktop.MainWindow = MainWindow;
+            }
         }
 #endif
 

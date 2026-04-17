@@ -376,7 +376,11 @@ namespace PerfView
                 .UsePlatformDetect()
                 .WithInterFont()
                 .LogToTrace()
-                .StartWithClassicDesktopLifetime(Array.Empty<string>());
+                .StartWithClassicDesktopLifetime(Array.Empty<string>(), lifetime =>
+                {
+                    // Prevent app from exiting when dialogs close — only exit on explicit MainWindow close
+                    lifetime.ShutdownMode = global::Avalonia.Controls.ShutdownMode.OnMainWindowClose;
+                });
 #else
             DisplaySplashScreen();          // If we have not already displayed the splash screen do it now.  
             s_splashScreen = null;          // this serves no purpose any more.  
