@@ -56,8 +56,7 @@
   <ItemGroup>
     <PackageReference Include="Avalonia" />
     <PackageReference Include="Avalonia.Controls.DataGrid" />
-    <!-- TODO_AVALONIA: Avalonia.Controls.WebView requires a commercial license (AVLIC0001). -->
-    <!-- <PackageReference Include="Avalonia.Controls.WebView" /> -->
+    <PackageReference Include="Avalonia.Controls.WebView" />
     <PackageReference Include="Avalonia.Desktop" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="Avalonia.Fonts.Inter" />

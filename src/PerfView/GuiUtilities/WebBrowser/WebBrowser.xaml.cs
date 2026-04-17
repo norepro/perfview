@@ -44,10 +44,9 @@ namespace PerfView.GuiUtilities
         public bool HideOnClose;
 
 #if AVALONIA
-        // TODO_AVALONIA: NativeWebView requires a commercial Avalonia license.
-        // Stubbed out until licensing is resolved.
-        public bool CanGoForward { get { return false; } }
-        public bool CanGoBack { get { return false; } }
+        public bool CanGoForward { get { return _disposed ? false : _Browser.CanGoForward; } }
+        public bool CanGoBack { get { return _disposed ? false : _Browser.CanGoBack; } }
+        public NativeWebView Browser { get { return _Browser; } }
 #else
         public bool CanGoForward { get { return _disposed ? false : Browser.CanGoForward; } }
         public bool CanGoBack { get { return _disposed ? false : Browser.CanGoBack; } }
@@ -84,34 +83,40 @@ namespace PerfView.GuiUtilities
         /// </summary>
         private void Navigate()
         {
-#if !AVALONIA
             if (!_disposed && Source is { } uri)
             {
+#if AVALONIA
+                _Browser?.Navigate(uri);
+#else
                 Browser?.CoreWebView2.Navigate(uri.ToString());
-            }
 #endif
+            }
         }
 
         #region private
         private bool _disposed = false;
         private void BackClick(object sender, RoutedEventArgs e)
         {
-#if !AVALONIA
             if (CanGoBack)
             {
+#if AVALONIA
+                _Browser.GoBack();
+#else
                 Browser.GoBack();
-            }
 #endif
+            }
         }
 
         private void ForwardClick(object sender, RoutedEventArgs e)
         {
-#if !AVALONIA
             if (CanGoForward)
             {
+#if AVALONIA
+                _Browser.GoForward();
+#else
                 Browser.GoForward();
-            }
 #endif
+            }
         }
 
         /// <summary>
@@ -133,7 +138,9 @@ namespace PerfView.GuiUtilities
                 // Dispose the browser control to prevent resource leaks
                 if (!_disposed)
                 {
-#if !AVALONIA
+#if AVALONIA
+                    (_Browser as IDisposable)?.Dispose();
+#else
                     Browser?.Dispose();
 #endif
                     _disposed = true;
