@@ -7,7 +7,7 @@ public sealed class DispatcherAdapter
 {
     public static readonly DispatcherAdapter Instance = new();
 
-    public void BeginInvoke(Action callback) => Dispatcher.UIThread.Invoke(callback);
+    public void BeginInvoke(Action callback) => Dispatcher.UIThread.InvokeAsync(callback);
 
     public bool CheckAccess() => Dispatcher.UIThread.CheckAccess();
 
