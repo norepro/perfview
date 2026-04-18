@@ -858,7 +858,17 @@ namespace Microsoft.Diagnostics.Tracing
 
         protected override BlockHeader ReadBlockHeader()
         {
-            byte tag = _stream.Read<byte>();
+            byte tag;
+            try
+            {
+                tag = _stream.Read<byte>();
+            }
+            catch (FormatException)
+            {
+                // End of stream reached while trying to read the next block header.
+                // This can happen with truncated or incomplete nettrace files.
+                return new BlockHeader(BlockKind.EndOfStream, 0);
+            }
             if (tag == (byte)FastSerializationTag.NullReference)
             {
                 return new BlockHeader(BlockKind.EndOfStream, 0);
