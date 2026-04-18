@@ -3761,6 +3761,15 @@ namespace PerfView
                         nodes.Add(callTreeNode.Data);
 
                 return nodes.Distinct().ToArray();
+#else
+                var nodes = new List<CallTreeNodeBase>();
+                foreach (var item in dataGrid.SelectedItems)
+                    if (item is CallTreeNodeBase nodeBase)
+                        nodes.Add(nodeBase);
+                    else if (item is CallTreeViewNode callTreeNode)
+                        nodes.Add(callTreeNode.Data);
+
+                return nodes.Distinct().ToArray();
 #endif
             }
 
