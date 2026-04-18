@@ -2855,6 +2855,10 @@ namespace PerfView
                 return;
             }
 
+#if AVALONIA
+            App.AvaloniaLog($"Notes_TextChanged: text='{(Notes?.Text?.Length > 50 ? Notes.Text.Substring(0, 50) + "..." : Notes?.Text)}', stack={new System.Diagnostics.StackTrace(1).ToString().Split('\n')[0].Trim()}");
+#endif
+
             if (!m_ViewsShouldBeSaved)
             {
                 m_ViewsShouldBeSaved = true;

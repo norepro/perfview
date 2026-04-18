@@ -425,9 +425,8 @@ will be removed completely from the trace.
             <TextBox Name="Notes" Grid.Row="2"  GotFocus="Notes_GotFocus"
                      ContextMenu="{Binding #DockPanel.ContextMenu}"
                      AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontFamily="Courier New" FontSize="11" TextChanged="Notes_TextChanged" VerticalAlignment="Stretch"
-                     AutomationProperties.Name="Notes">
-                Notes typed here will be saved when the view is saved.  F2 will hide/unhide.
-            </TextBox>
+                     AutomationProperties.Name="Notes"
+                     Watermark="Notes typed here will be saved when the view is saved.  F2 will hide/unhide." />
             <TextBlock Name="HelpMessage" Grid.Row="2" TextAlignment="Center" VerticalAlignment="Center" FontSize="35" Opacity="0.5">
                 <!-- TODO_AVALONIA: EventTrigger/Storyboard animation not directly available in Avalonia XAML the same way -->
                 <!-- Consider using Avalonia animations or behaviors -->
