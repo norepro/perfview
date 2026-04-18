@@ -41,6 +41,7 @@
         SelectionMode="Extended"
         AutoGenerateColumns="False"
         CanUserSortColumns="False"
+        CanUserResizeColumns="True"
         FontSize="12"
         Margin="0,0,-23,0"
         AutomationProperties.Name="Data Grid">
