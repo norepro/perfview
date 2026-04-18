@@ -56,9 +56,6 @@ namespace PerfView
 #if AVALONIA
         public DispatcherAdapter Dispatcher { get; } = new();
 
-        /// <summary>
-        /// Wraps the DirectoryTextBox + DirectoryHistoryList to provide a HistoryComboBox-compatible API.
-        /// </summary>
         private DirectoryAdapter m_directoryAdapter;
         public DirectoryAdapter Directory => m_directoryAdapter;
 #endif
@@ -73,7 +70,7 @@ namespace PerfView
             ThemeViewModel = new ThemeViewModel(App.UserConfigData);
             InitializeComponent();
 #if AVALONIA
-            m_directoryAdapter = new DirectoryAdapter(DirectoryTextBox, DirectoryHistoryList);
+            m_directoryAdapter = new DirectoryAdapter(DirectoryComboBox);
 #endif
             Directory.HistoryLength = 25;
             DataContext = this;
@@ -847,23 +844,16 @@ namespace PerfView
             OpenPath(Directory.Text);
         }
 #if AVALONIA
-        private void DirectoryTextBox_KeyDown(object sender, KeyEventArgs e)
+        private void DirectoryComboBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
-            {
                 OpenPath(Directory.Text);
-            }
         }
-        private void DirectoryDropDown_Click(object sender, RoutedEventArgs e)
-        {
-            DirectoryPopup.IsOpen = !DirectoryPopup.IsOpen;
-        }
-        private void DirectoryHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DirectoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems?.Count > 0 && e.AddedItems[0] is string dir)
             {
-                DirectoryPopup.IsOpen = false;
-                DirectoryHistoryList.SelectedIndex = -1; // Prevent re-fire
+                DirectoryComboBox.SelectedIndex = -1; // prevent re-fire on same item
                 OpenPath(dir);
             }
         }

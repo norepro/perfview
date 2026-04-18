@@ -2,7 +2,7 @@
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="clr-namespace:PerfView"
-        xmlns:controls="clr-namespace:Controls"
+        xmlns:controls="using:Controls"
         x:CompileBindings="False"
         Closed="Window_Closed"
         Title="PerfView" Height="535" Width="1000">
@@ -135,26 +135,12 @@
                 <ColumnDefinition Width="619*"/>
             </Grid.ColumnDefinitions>
             <DockPanel Background="{DynamicResource ContainerBackground}" Grid.Column="0">
-                <!-- Custom directory input: TextBox + dropdown button showing history -->
-                <Grid DockPanel.Dock="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBox x:Name="DirectoryTextBox" Grid.Column="0"
-                             AutomationProperties.Name="Directory Search Bar"
-                             ToolTip.Tip="This is the directory to search for performance data files."
-                             KeyDown="DirectoryTextBox_KeyDown" />
-                    <Button Grid.Column="1" Content="▼" MinWidth="24" Padding="4,0"
-                            VerticalAlignment="Stretch" VerticalContentAlignment="Center"
-                            Click="DirectoryDropDown_Click"
-                            ToolTip.Tip="Show directory history" />
-                    <Popup x:Name="DirectoryPopup" PlacementTarget="{Binding #DirectoryTextBox}"
-                           Placement="Bottom" IsLightDismissEnabled="True">
-                        <ListBox x:Name="DirectoryHistoryList" MaxHeight="200" MinWidth="300"
-                                 SelectionChanged="DirectoryHistory_SelectionChanged" />
-                    </Popup>
-                </Grid>
+                <ComboBox x:Name="DirectoryComboBox" DockPanel.Dock="Top"
+                          IsEditable="True" HorizontalAlignment="Stretch"
+                          AutomationProperties.Name="Directory Search Bar"
+                          ToolTip.Tip="This is the directory to search for performance data files."
+                          KeyDown="DirectoryComboBox_KeyDown"
+                          SelectionChanged="DirectoryComboBox_SelectionChanged" />
                 <Grid DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>

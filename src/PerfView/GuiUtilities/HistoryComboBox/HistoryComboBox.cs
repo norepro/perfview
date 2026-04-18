@@ -28,11 +28,14 @@ namespace Controls
     {
         static HistoryComboBox()
         {
+#if AVALONIA
+            // OverrideDefaultValue<TOwner> is the correct Avalonia idiom; the WPF-style
+            // OverrideMetadata(Type, ...) overload does not update the effective default value
+            // in Avalonia, which would leave IsEditable=false at template-application time.
+            IsEditableProperty.OverrideDefaultValue<HistoryComboBox>(true);
+#else
             IsEditableProperty.OverrideMetadata(
                 typeof(HistoryComboBox),
-#if AVALONIA
-                new StyledPropertyMetadata<bool>(true));
-#else
                 new FrameworkPropertyMetadata(true));
 #endif
         }
@@ -270,6 +273,22 @@ namespace Controls
         {
             base.OnApplyTemplate(e);
             m_textBox = e.NameScope.Find<TextBox>("PART_EditableTextBox");
+            // Sync any Text value that was set before the template was applied.
+            if (m_textBox != null && Text != null && m_textBox.Text != Text)
+                m_textBox.Text = Text;
+        }
+
+        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+        {
+            base.OnPropertyChanged(change);
+            // Avalonia 12 doesn't reliably propagate ComboBox.Text to PART_EditableTextBox
+            // when set programmatically. Force-update the inner TextBox directly.
+            if (change.Property == ComboBox.TextProperty && m_textBox != null)
+            {
+                var newText = change.GetNewValue<string?>() ?? "";
+                if (m_textBox.Text != newText)
+                    m_textBox.Text = newText;
+            }
         }
 #else
         internal TextBox GetTextBox()

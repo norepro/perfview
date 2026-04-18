@@ -5,28 +5,27 @@ using System.Collections.ObjectModel;
 namespace PerfView;
 
 /// <summary>
-/// Provides a HistoryComboBox-compatible API using a TextBox + ListBox + Popup,
-/// working around Avalonia 12's ComboBox not rendering IsEditable mode properly.
+/// Provides a HistoryComboBox-compatible API backed by an Avalonia ComboBox with IsEditable=true.
+/// A plain ComboBox is used instead of HistoryComboBox because Avalonia 12 does not render the
+/// IsEditable template correctly on ComboBox subclasses in stretch/DockPanel layout contexts.
 /// </summary>
 public class DirectoryAdapter
 {
-    private readonly TextBox m_textBox;
-    private readonly ListBox m_listBox;
+    private readonly ComboBox m_comboBox;
     private readonly ObservableCollection<string> m_items = new();
 
-    public DirectoryAdapter(TextBox textBox, ListBox listBox)
+    public DirectoryAdapter(ComboBox comboBox)
     {
-        m_textBox = textBox;
-        m_listBox = listBox;
-        m_listBox.ItemsSource = m_items;
+        m_comboBox = comboBox;
+        m_comboBox.ItemsSource = m_items;
     }
 
     public int HistoryLength { get; set; } = 10;
 
     public string Text
     {
-        get => m_textBox.Text ?? "";
-        set => m_textBox.Text = value;
+        get => m_comboBox.Text ?? "";
+        set => m_comboBox.Text = value;
     }
 
     public ObservableCollection<string> Items => m_items;
@@ -37,8 +36,7 @@ public class DirectoryAdapter
         int count = 0;
         foreach (var value in values)
         {
-            count++;
-            if (count >= HistoryLength)
+            if (count++ >= HistoryLength)
                 break;
             m_items.Add(value?.ToString() ?? "");
         }
@@ -73,5 +71,5 @@ public class DirectoryAdapter
         }
     }
 
-    public void Focus() => m_textBox.Focus();
+    public void Focus() => m_comboBox.Focus();
 }
