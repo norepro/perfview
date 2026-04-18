@@ -65,6 +65,7 @@ namespace PerfView
 
             Title = DataSource.Title;
             FinishInit();
+            m_windowFullyLoaded = true;
         }
         public StackWindow(Window parentWindow, StackWindow template) : base(parentWindow)
         {
@@ -111,6 +112,7 @@ namespace PerfView
                     RemoveColumn(colName);
                 }
             }
+            m_windowFullyLoaded = true;
         }
         public string GetDefaultFoldPercentage()
         {
@@ -2845,9 +2847,10 @@ namespace PerfView
             NotesPaneHidden = !NotesPaneHidden;
         }
         private bool m_ViewsShouldBeSaved;
+        private bool m_windowFullyLoaded;
         private void Notes_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (m_IgnoreNotesChange)
+            if (m_IgnoreNotesChange || !m_windowFullyLoaded)
             {
                 return;
             }
