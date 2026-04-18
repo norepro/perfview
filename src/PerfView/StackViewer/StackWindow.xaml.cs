@@ -2212,6 +2212,18 @@ namespace PerfView
 
         private void DoLookupSymbols(object sender, ExecutedRoutedEventArgs e)
         {
+            DoLookupSymbolsImpl();
+        }
+
+#if AVALONIA
+        private void DoLookupSymbols_Click(object sender, RoutedEventArgs e)
+        {
+            DoLookupSymbolsImpl();
+        }
+#endif
+
+        private void DoLookupSymbolsImpl()
+        {
             int processID = 0;
             var m = Regex.Match(IncludeRegExTextBox.Text, @"Process[^;()]*\((\d+)\)(.*)");
             if (m.Success)

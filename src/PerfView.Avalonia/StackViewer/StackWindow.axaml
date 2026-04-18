@@ -102,7 +102,7 @@
                     <MenuItem Header="Increase Fold %" />
                     <MenuItem Header="Decrease Fold %" />
                 </MenuItem>
-                <MenuItem Header="Lookup Symbols" />
+                <MenuItem Header="Lookup Symbols" Click="DoLookupSymbols_Click" />
                 <MenuItem Header="Lookup Warm Symbols" />
                 <MenuItem Header="Goto Source (Def)" />
                 <Separator/>
