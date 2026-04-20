@@ -241,6 +241,15 @@ namespace PerfView
         {
         }
 
+#if AVALONIA
+        public override object Icon
+        {
+            get
+            {
+                return GuiApp.MainWindow?.Resources["ChartBitmapImage"];
+            }
+        }
+#else
         public override ImageSource Icon
         {
             get
@@ -248,6 +257,7 @@ namespace PerfView
                 return GuiApp.MainWindow.Resources["ChartBitmapImage"] as ImageSource;
             }
         }
+#endif
     }
 }
 
