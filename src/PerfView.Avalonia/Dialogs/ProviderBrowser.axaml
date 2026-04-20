@@ -61,8 +61,8 @@
             </Grid.RowDefinitions>
             <TextBlock Name="LevelLabel" Text="Level"  Grid.Row="0" Grid.Column="0" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Width="190" />
             <ListBox Name="LevelListBox"  Grid.Row="1" Grid.Column="0" SelectionMode="Single" SelectionChanged="LevelSelected"   Height="131" VerticalAlignment="Top" HorizontalAlignment="Center" Width="170" Margin="10,0" />
-            <Button x:Name="Return" Grid.Row="2" Grid.Column="0" Content="Add Provider" Click="DoReturnClick"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,4,10,-3" Width="170"/>
-            <Button x:Name="ViewManifest" Grid.Row="3" Grid.Column="0" Content="View Manifest" Click="DoViewManifestClick"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,4,10,-3" Width="170"/>
+            <Button x:Name="Return" Grid.Row="2" Grid.Column="0" Content="Add Provider" Click="DoReturnClick"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,4,10,0" Width="170"/>
+            <Button x:Name="ViewManifest" Grid.Row="3" Grid.Column="0" Content="View Manifest" Click="DoViewManifestClick"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10,4,10,0" Width="170"/>
 
         </Grid>
     </Grid>

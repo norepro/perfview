@@ -94,7 +94,7 @@
         </Grid>
 
         <!-- Row with FreezeProcess ... -->
-        <Grid Grid.Row="4"  Margin="0,2,0,-1">
+        <Grid Grid.Row="4"  Margin="0,2,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

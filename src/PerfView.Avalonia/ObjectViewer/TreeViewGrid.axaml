@@ -36,8 +36,7 @@
         AutoGenerateColumns="False"
         Background="White"
         SelectionMode="Extended"
-        CanUserSortColumns="False"
-        Margin="0,0,-23,0">
+        CanUserSortColumns="False">
         <DataGrid.Columns>
             <!-- TODO_AVALONIA: HeaderStyle not available -->
             <!-- TODO_AVALONIA: ClipboardContentBinding not available -->
