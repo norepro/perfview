@@ -41,6 +41,13 @@ namespace Controls
         }
 
 #if AVALONIA
+        // Use the ComboBox ControlTheme so the Fluent template (including PART_EditableTextBox)
+        // is applied to this subclass. Without this, Avalonia 12 fails to resolve a theme
+        // for HistoryComboBox and no template is ever applied.
+        protected override Type StyleKeyOverride => typeof(ComboBox);
+#endif
+
+#if AVALONIA
         private readonly ObservableCollection<string> m_items = new();
         /// <summary>
         /// Shadows the base ComboBox.Items to provide a mutable collection.
@@ -280,12 +287,26 @@ namespace Controls
 
         protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
         {
+            if (change.Property == SelectedItemProperty)
+            {
+                // When items are cleared/modified, the base ComboBox resets Text via
+                // UpdateInputTextFromSelection(null). Preserve Text because in an
+                // editable combo box, Text is the authoritative value.
+                // DoDropDownClosed explicitly sets Text when the user picks from the dropdown.
+                string savedText = Text;
+                base.OnPropertyChanged(change);
+                if (Text != savedText)
+                    SetCurrentValue(TextProperty, savedText);
+                return;
+            }
+
             base.OnPropertyChanged(change);
+
             // Avalonia 12 doesn't reliably propagate ComboBox.Text to PART_EditableTextBox
             // when set programmatically. Force-update the inner TextBox directly.
             if (change.Property == ComboBox.TextProperty && m_textBox != null)
             {
-                var newText = change.GetNewValue<string?>() ?? "";
+                var newText = change.GetNewValue<string>() ?? "";
                 if (m_textBox.Text != newText)
                     m_textBox.Text = newText;
             }
