@@ -62,6 +62,9 @@ namespace Controls
             HistoryLength = 10;
 #if AVALONIA
             IsEditable = true;
+            // The Fluent ComboBox theme defaults HorizontalAlignment to Left.
+            // HistoryComboBox controls should stretch to fill their layout cell.
+            HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Stretch;
 #endif
             KeyDown += DoKeyDown;
             GotFocus += DoGotFocus;
