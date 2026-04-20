@@ -41,10 +41,10 @@
             </Grid.ColumnDefinitions>
             <CheckBox Name="IncludeChildProcessesCheckBox" Grid.Column="0" Margin="5,0,0,0" VerticalAlignment="Center" 
                      ToolTip.Tip="Include all descendant processes of selected processes">Include descendant processes</CheckBox>
-            <Button Name="OKButton" Margin="5,4" Grid.Column="2" MinWidth="80" Content="OK" Click="OKClicked" />
+            <Button Name="OKButton" Margin="5,4" Grid.Column="2" MinWidth="80" Content="OK" Click="OKClicked" HorizontalContentAlignment="Center" />
             <Button Name="AllProcsButton" Margin="5,4" Grid.Column="4" MinWidth="80" Content="All Procs" Click="AllProcsClicked"
-                    ToolTip.Tip="Investigate all processes"/>
-            <Button Margin="5,4" Grid.Column="6" MinWidth="80" Content="Cancel" Click="CancelClicked" />
+                    ToolTip.Tip="Investigate all processes" HorizontalContentAlignment="Center"/>
+            <Button Margin="5,4" Grid.Column="6" MinWidth="80" Content="Cancel" Click="CancelClicked" HorizontalContentAlignment="Center" />
         </Grid>
         <Grid KeyDown="GridKeyDownHander">
             <DataGrid Name="Grid"
@@ -52,6 +52,7 @@
               AutoGenerateColumns="False"
               DoubleTapped="OKClicked"
               IsReadOnly="True"
+              FontSize="12"
               AutomationProperties.Name="Process Selection Table">
               <!-- TODO_AVALONIA: AlternatingRowBackground not in Avalonia DataGrid -->
               <!-- TODO_AVALONIA: ColumnHeaderStyle needs Avalonia style conversion -->

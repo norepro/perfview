@@ -32,6 +32,7 @@
         </Style>
         <Style Selector="DataGrid">
             <Setter Property="FontSize" Value="12" />
+            <Setter Property="RowHeight" Value="22" />
         </Style>
         <Style Selector="DataGridRow:nth-child(even)">
             <Setter Property="Background" Value="{DynamicResource DataGridRowAlternateBackground}" />
