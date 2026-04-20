@@ -39,8 +39,14 @@
         </Style>
         <!-- Reduce TreeView item padding to match WPF PerfView's compact layout -->
         <Style Selector="TreeViewItem">
-            <Setter Property="MinHeight" Value="20" />
+            <Setter Property="MinHeight" Value="18" />
             <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <!-- Reduce inner content padding in TreeViewItem template -->
+        <Style Selector="TreeViewItem /template/ Border#PART_LayoutRoot">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="MinHeight" Value="18" />
         </Style>
         <!-- Compact TabItem styling to match WPF PerfView -->
         <Style Selector="TabItem">
