@@ -50,15 +50,31 @@ namespace PerfView
         }
 
 #if AVALONIA
+        private static PerfView.Avalonia.SplashScreen s_avaloniaSpashScreen;
+
         public override void OnFrameworkInitializationCompleted()
         {
             base.OnFrameworkInitializationCompleted();
+
+            // Show splash screen immediately while the main window loads
+            s_avaloniaSpashScreen = new PerfView.Avalonia.SplashScreen();
+            s_avaloniaSpashScreen.Show();
+
             ApplicationStarted();
 
             // Tell the lifetime which window is the main window
             if (ApplicationLifetime is global::Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = MainWindow;
+            }
+        }
+
+        internal static void CloseAvaloniaSpashScreen()
+        {
+            if (s_avaloniaSpashScreen != null)
+            {
+                s_avaloniaSpashScreen.Close();
+                s_avaloniaSpashScreen = null;
             }
         }
 #endif
@@ -138,6 +154,9 @@ namespace PerfView
             MainWindow.Loaded += delegate (object sender, global::Avalonia.Interactivity.RoutedEventArgs ev)
 #endif
             {
+#if AVALONIA
+                CloseAvaloniaSpashScreen();
+#endif
                 string[] providers = App.CommandLineArgs.Providers;
 
                 if (App.CommandLineArgs.CommandLineFailure != null)
