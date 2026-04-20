@@ -2832,7 +2832,13 @@ namespace PerfView
                 {
                     App.UserConfigData["NotesPaneHidden"] = "true";
                     m_NotesPaneHidden = true;
-#if !AVALONIA
+#if AVALONIA
+                    Notes.IsVisible = false;
+                    HelpMessage.IsVisible = false;
+                    NotesSplitter.IsVisible = false;
+                    if (Notes.Parent is global::Avalonia.Controls.Grid notesGrid && notesGrid.RowDefinitions.Count > 2)
+                        notesGrid.RowDefinitions[2].Height = new global::Avalonia.Controls.GridLength(0);
+#else
                     NodePaneRowDef.MaxHeight = 0;
 #endif
                 }
@@ -2840,7 +2846,13 @@ namespace PerfView
                 {
                     App.UserConfigData["NotesPaneHidden"] = "false";
                     m_NotesPaneHidden = false;
-#if !AVALONIA
+#if AVALONIA
+                    Notes.IsVisible = true;
+                    HelpMessage.IsVisible = true;
+                    NotesSplitter.IsVisible = true;
+                    if (Notes.Parent is global::Avalonia.Controls.Grid notesGrid2 && notesGrid2.RowDefinitions.Count > 2)
+                        notesGrid2.RowDefinitions[2].Height = new global::Avalonia.Controls.GridLength(25, global::Avalonia.Controls.GridUnitType.Star);
+#else
                     NodePaneRowDef.MaxHeight = Double.PositiveInfinity;
 #endif
                 }
@@ -2858,6 +2870,17 @@ namespace PerfView
         {
             NotesPaneHidden = !NotesPaneHidden;
         }
+
+#if AVALONIA
+        private void StackWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F2)
+            {
+                NotesPaneHidden = !NotesPaneHidden;
+                e.Handled = true;
+            }
+        }
+#endif
         private bool m_ViewsShouldBeSaved;
         private bool m_windowFullyLoaded;
         private void Notes_TextChanged(object sender, TextChangedEventArgs e)

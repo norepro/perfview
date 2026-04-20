@@ -9,7 +9,8 @@
     xmlns:controls="using:Controls"
     x:CompileBindings="False"
     Title="PerfView Stacks"
-    Width="919" Height="605">
+    Width="919" Height="605"
+    KeyDown="StackWindow_KeyDown">
     <Window.Resources>
         <!-- DataContext for this template is a CallTreeViewNode -->
         <DataTemplate x:Key="TreeControlCell">
@@ -420,7 +421,7 @@ will be removed completely from the trace.
                     <TextBox Name="NotesTabBody" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontFamily="Courier New" FontSize="11" TextChanged="Notes_TextChanged" AutomationProperties.Name="Notes"/>
                 </TabItem>
             </TabControl>
-            <GridSplitter Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+            <GridSplitter Name="NotesSplitter" Grid.Row="1" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
             <ContentControl Name="NodePane"/>
             <TextBox Name="Notes" Grid.Row="2"  GotFocus="Notes_GotFocus"
                      ContextMenu="{Binding #DockPanel.ContextMenu}"
