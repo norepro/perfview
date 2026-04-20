@@ -42,7 +42,8 @@
         AutoGenerateColumns="False"
         CanUserSortColumns="False"
         CanUserResizeColumns="True"
-        FontSize="12"
+        FontSize="11"
+        ColumnWidth="SizeToCells"
         AutomationProperties.Name="Data Grid">
         <DataGrid.Columns>
             <!-- TODO_AVALONIA: ClipboardContentBinding not available -->
@@ -52,7 +53,7 @@
                 MinWidth="150">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <TextBlock Name="Name" Text="{Binding DisplayName}" ToolTip.Tip="{Binding Name}"/>
+                        <TextBlock Name="Name" Text="{Binding DisplayName}" ToolTip.Tip="{Binding Name}" VerticalAlignment="Center"/>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
                 <DataGridTemplateColumn.Header>

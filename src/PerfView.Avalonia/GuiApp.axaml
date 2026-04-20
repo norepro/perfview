@@ -31,8 +31,42 @@
             <Setter Property="FontSize" Value="12" />
         </Style>
         <Style Selector="DataGrid">
-            <Setter Property="FontSize" Value="12" />
-            <Setter Property="RowHeight" Value="22" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="RowHeight" Value="18" />
+            <Style.Resources>
+                <!-- Override CheckBox sizing within DataGrid to fit compact rows -->
+                <x:Double x:Key="CheckBoxMinHeight">16</x:Double>
+                <!-- Override the Fluent theme's 12,0,12,0 margin on DataGridTextColumn cells -->
+                <ControlTheme x:Key="DataGridCellTextBlockTheme" TargetType="TextBlock">
+                    <Setter Property="Margin" Value="4,0,4,0" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </ControlTheme>
+            </Style.Resources>
+        </Style>
+        <Style Selector="DataGridRow">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="MinHeight" Value="0" />
+        </Style>
+        <!-- Fluent default: FontSize=15, MinHeight=32. Override for compact rows. -->
+        <Style Selector="DataGridCell">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="MinHeight" Value="0" />
+        </Style>
+        <!-- Fluent default: Padding=12,0,0,0  FontSize=12  MinHeight=32. Override for compact headers. -->
+        <Style Selector="DataGridColumnHeader">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="Padding" Value="4,2,0,2" />
+        </Style>
+        <!-- Shrink the checkbox inside DataGrid cells to fit compact rows -->
+        <Style Selector="DataGridCell CheckBox">
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+        <Style Selector="DataGridCell CheckBox /template/ Border#NormalRectangle">
+            <Setter Property="Width" Value="14" />
+            <Setter Property="Height" Value="14" />
         </Style>
         <Style Selector="DataGridRow:nth-child(even)">
             <Setter Property="Background" Value="{DynamicResource DataGridRowAlternateBackground}" />

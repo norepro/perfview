@@ -15,9 +15,10 @@
         <!-- DataContext for this template is a CallTreeViewNode -->
         <DataTemplate x:Key="TreeControlCell">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding IndentString}" FontFamily="Courier New"/>
-                <CheckBox IsChecked="{Binding IsExpanded, Mode=TwoWay}" IsEnabled="{Binding HasChildren}" AutomationProperties.Name="Expand"/>
-                <TextBlock Name="Name" Text="{Binding Name}" FontWeight="{Binding FontWeight}"/>
+                <TextBlock Text="{Binding IndentString}" FontFamily="Courier New" VerticalAlignment="Center"/>
+                <CheckBox IsChecked="{Binding IsExpanded, Mode=TwoWay}" IsEnabled="{Binding HasChildren}" AutomationProperties.Name="Expand"
+                          MinWidth="0" MinHeight="0" Padding="0" Margin="0" Width="16" Height="16" VerticalAlignment="Center"/>
+                <TextBlock Name="Name" Text="{Binding Name}" FontWeight="{Binding FontWeight}" VerticalAlignment="Center"/>
                 <TextBlock Margin="5,0,0,0" IsVisible="{Binding VisibleIfDisplayingSecondary}">
                     <!-- TODO_AVALONIA: Hyperlink not available. Was: Command="Help" CommandParameter="PrimaryAndSecondaryNodes" -->
                     ?

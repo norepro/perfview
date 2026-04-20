@@ -77,7 +77,6 @@
     <PackageReference Include="Avalonia.Desktop" />
     <PackageReference Include="Avalonia.Themes.Fluent" />
     <PackageReference Include="Avalonia.Fonts.Inter" />
-    <!-- Avalonia.Diagnostics was removed in Avalonia 12; DevTools are now built into the core. -->
     <PackageReference Include="Azure.Core" GeneratePathProperty="true" />
     <PackageReference Include="Azure.Identity" GeneratePathProperty="true" />
     <PackageReference Include="CommunityToolkit.Mvvm" />

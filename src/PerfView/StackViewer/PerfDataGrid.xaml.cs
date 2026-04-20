@@ -249,7 +249,15 @@ namespace PerfView
             int i = 0;
             while (i < Grid.Columns.Count)
             {
-                var name = ((TextBlock)Grid.Columns[i].Header).Name;
+                var header = Grid.Columns[i].Header;
+#if AVALONIA
+                if (header is not TextBlock)
+                {
+                    i++;
+                    continue;
+                }
+#endif
+                var name = ((TextBlock)header).Name;
                 if (name == columnName)
                 {
                     return i;
