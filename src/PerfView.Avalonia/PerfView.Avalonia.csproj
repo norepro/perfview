@@ -18,11 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- Copy support files needed at runtime (help pages, EULA, etc.) -->
-    <Content Include="$(PerfViewFolder)/SupportFiles/Eula.rtf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>EULA.rtf</Link>
-    </Content>
+    <!-- Copy support files needed at runtime (help pages, etc.) -->
     <Content Include="$(PerfViewFolder)/SupportFiles/UsersGuide.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>UsersGuide.htm</Link>
