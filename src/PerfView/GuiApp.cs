@@ -178,6 +178,9 @@ namespace PerfView
                 // Run commands in the PerfViewExtensions\PerfViewStartup file.
                 PerfViewExtensibility.Extensions.RunUserStartupCommands(MainWindow.StatusBar);
                 MainWindow.OpenPreviouslyOpened();
+#if AVALONIA
+                MainWindow.m_suppressDirectorySelectionChanged = false;
+#endif
                 MainWindow.ExecuteCommand(commandName, App.CommandLineArgs.DoCommand, null, continuation);
             };
             MainWindow.Show();

@@ -71,6 +71,7 @@ namespace PerfView
             InitializeComponent();
 #if AVALONIA
             m_directoryAdapter = new DirectoryAdapter(DirectoryComboBox);
+            m_suppressDirectorySelectionChanged = true;
 #endif
             Directory.HistoryLength = 25;
             DataContext = this;
@@ -851,6 +852,7 @@ namespace PerfView
         }
         private void DirectoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (m_suppressDirectorySelectionChanged) return;
             if (e.AddedItems?.Count > 0 && e.AddedItems[0] is string dir)
             {
                 DirectoryComboBox.SelectedIndex = -1; // prevent re-fire on same item
@@ -1521,6 +1523,9 @@ namespace PerfView
 #endif
 
         private PerfViewDirectory m_CurrentDirectory;
+#if AVALONIA
+        internal bool m_suppressDirectorySelectionChanged;
+#endif
         private static WebBrowserWindow s_Browser;
         private UserCommandDialog m_UserDefineCommandDialog;
         #endregion
