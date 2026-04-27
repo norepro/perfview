@@ -102,6 +102,10 @@
             <Setter Property="Padding" Value="8,2" />
             <Setter Property="MinHeight" Value="0" />
         </Style>
+        <!-- Add bottom margin to tab content so the selected underline doesn't overlap text -->
+        <Style Selector="TabItem /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Margin" Value="0,0,0,4" />
+        </Style>
         <!-- Compact CheckBox styling -->
         <Style Selector="CheckBox">
             <Setter Property="FontSize" Value="12" />
