@@ -307,7 +307,7 @@ Every Frame will have these patterns applied (in order) before stack trees are f
             </controls:HistoryComboBox>
             <Button Grid.Column="2" Classes="link" VerticalAlignment="Center" Margin="5,0,1,0"
                     Click="DoHyperlinkHelp" Tag="FoldPercentTextBox">Fold%:</Button>
-            <controls:HistoryComboBox x:Name="FoldPercentTextBox" Grid.Column="3" MinWidth="42" Margin="0,0,5,0" AutomationProperties.Name="Fold Percent">
+            <controls:HistoryComboBox x:Name="FoldPercentTextBox" Grid.Column="3" Width="65" Margin="0,0,5,0" AutomationProperties.Name="Fold Percent">
                 <ToolTip.Tip>
                         <TextBlock> Nodes that have less than this % Inclusive metric will be removed and their
                         metric added to their caller.</TextBlock>
