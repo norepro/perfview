@@ -32,8 +32,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Menu Grid.Column="0" Background="{DynamicResource ControlDefaultBackground}" AutomationProperties.Name="Navigation">
@@ -111,7 +110,7 @@
                     <MenuItem Header="_About" Click="DoAbout"/>
                 </MenuItem>
             </Menu>
-            <Rectangle Grid.Column="1" Grid.ColumnSpan="11" Fill="{DynamicResource ControlDefaultBackground}"/>
+            <Rectangle Grid.Column="1" Grid.ColumnSpan="7" Fill="{DynamicResource ControlDefaultBackground}"/>
             <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
                     Classes="link" Click="DoHyperlinkHelp" Tag="MainViewerQuickStart">Main View Help (F1)</Button>
             <Button Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0,0,0"
