@@ -687,6 +687,14 @@ namespace PerfView
                 MainWindow.DisplayUsersGuide((string)asHyperLink.Tag);
             }
         }
+#else
+        private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is string tag)
+            {
+                MainWindow.DisplayUsersGuide(tag);
+            }
+        }
 #endif
 
         /// <summary>

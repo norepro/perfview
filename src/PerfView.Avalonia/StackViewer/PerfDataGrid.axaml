@@ -57,15 +57,14 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
                 <DataGridTemplateColumn.Header>
-                    <TextBlock Name="NameColumn">
-                        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                        Name ?
+                    <StackPanel Name="NameColumn" Orientation="Horizontal" >
+                        <TextBlock Text="Name " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="NameColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
                                       The name of the method or group (see GroupPat dialog box).
                                 </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTemplateColumn.Header>
             </DataGridTemplateColumn>
             <!-- TODO_AVALONIA: ElementStyle not available -->
@@ -73,15 +72,14 @@
                 IsReadOnly="True"
                 Binding="{Binding InclusiveMetricPercent, StringFormat={}{0:n1}}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="IncPercentColumn">
-                       <!-- TODO_AVALONIA: Hyperlink -->
-                       Inc % ?
+                    <StackPanel Name="IncPercentColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                        <TextBlock Text="Inc % " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="IncPercentColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
                                      The % of the total sample metric that occurred in this item or any of its callees.
                                 </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
             <!-- TODO_AVALONIA: ElementStyle not available -->
@@ -89,15 +87,14 @@
                 IsReadOnly="True"
                 Binding="{Binding InclusiveMetric, StringFormat={}{0:n1}}">
                 <DataGridTextColumn.Header >
-                    <TextBlock Margin="0,0,5,0" Name="IncColumn">
-                        <!-- TODO_AVALONIA: Hyperlink -->
-                        Inc ?
+                    <StackPanel Name="IncColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                        <TextBlock Text="Inc " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="IncColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
                                      The sum of the sample metric that occurred in this item or any of its callees.
                                 </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
 
@@ -107,15 +104,14 @@
                 IsReadOnly="True"
                 Binding="{Binding AverageInclusiveMetric, StringFormat={}{0:n1}}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="IncAvgColumn">
-                        <!-- TODO_AVALONIA: Hyperlink -->
-                        Inc Avg ?
+                    <StackPanel Name="IncAvgColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                        <TextBlock Text="Inc Avg " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="IncAvgColumn">?</Button>
                         <ToolTip.Tip>
                             <TextBlock>
                                      The average of the sample metric that occurred in this item or any of its callees.
                             </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
 
@@ -124,15 +120,14 @@
                 IsReadOnly="True"
                 Binding="{Binding InclusiveCount, StringFormat={}{0:n0}}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="IncCountColumn">
-                        <!-- TODO_AVALONIA: Hyperlink -->
-                        Inc Ct ?
+                    <StackPanel Name="IncCountColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                        <TextBlock Text="Inc Ct " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="IncCountColumn">?</Button>
                         <ToolTip.Tip>
                             <TextBlock>
                                     The count of the instances in item or its children.
                             </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
 
@@ -141,15 +136,14 @@
                 IsReadOnly="True"
                 Binding="{Binding ExclusiveMetricPercent, StringFormat={}{0:n1}}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="ExcPercentColumn">
-                        <!-- TODO_AVALONIA: Hyperlink -->
-                        Exc % ?
+                    <StackPanel Name="ExcPercentColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                        <TextBlock Text="Exc % " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="ExcPercentColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
                                     The % of the total sample metric that occurred in this item exclusively (not its children, does include folding).
                                 </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
 
@@ -158,15 +152,14 @@
                 IsReadOnly="True"
                 Binding="{Binding ExclusiveMetric, StringFormat={}{0:n0}}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="ExcColumn">
-                        <!-- TODO_AVALONIA: Hyperlink -->
-                        Exc ?
+                    <StackPanel Name="ExcColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                        <TextBlock Text="Exc " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="ExcColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
                                     The sum of the sample metric that occurred in this item exclusively (not its children, does include folding).
                                 </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
 
@@ -175,15 +168,14 @@
                 IsReadOnly="True"
                 Binding="{Binding ExclusiveCount, StringFormat={}{0:n0}}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="ExcCountColumn">
-                        <!-- TODO_AVALONIA: Hyperlink -->
-                        Exc Ct ?
+                    <StackPanel Name="ExcCountColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                        <TextBlock Text="Exc Ct " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="ExcCountColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
                                     The count of the instances in item (excluding its children, does include folding)
                                 </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
 
@@ -192,15 +184,14 @@
                 IsReadOnly="True"
                 Binding="{Binding ExclusiveFoldedMetric, StringFormat={}{0:n0}}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="FoldColumn">
-                        <!-- TODO_AVALONIA: Hyperlink -->
-                        Fold ?
+                    <StackPanel Name="FoldColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                        <TextBlock Text="Fold " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="FoldColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
                                     The exclusive metric that have been folded into this node (by FoldPat or Fold %).
                                 </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
 
@@ -209,15 +200,14 @@
                 IsReadOnly="True"
                 Binding="{Binding ExclusiveFoldedCount, StringFormat={}{0:n0}}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="FoldCountColumn">
-                        <!-- TODO_AVALONIA: Hyperlink -->
-                        Fold Ct ?
+                    <StackPanel Name="FoldCountColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                        <TextBlock Text="Fold Ct " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="FoldCountColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
                                     The count that have been folded into this node (by FoldPat or Fold %).
                                 </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
             <!-- TODO promote ReadOnly to the table as a whole -->
@@ -230,7 +220,7 @@
                 Binding="{Binding InclusiveMetricByTimeString}">
                 <DataGridTextColumn.Header>
                     <StackPanel Name="WhenColumn" Orientation="Horizontal" Margin="0,0,5,0">
-                        <TextBlock Text="When " VerticalAlignment="Center"/><Button Classes="link" Padding="0">?</Button>
+                        <TextBlock Text="When " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="WhenColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock TextAlignment="Left">
                                     The time interval (from Start to End) is divided up into 32 buckets.
@@ -271,7 +261,7 @@ Selecting this text in the status window and use SetRange (Alt-R) to set range.
                 Binding="{Binding InclusiveMetricByScenarioString}">
                 <DataGridTextColumn.Header>
                     <StackPanel Name="WhichColumn" Orientation="Horizontal" Margin="0,0,5,0">
-                        <TextBlock Text="Which " VerticalAlignment="Center"/><Button Classes="link" Padding="0">?</Button>
+                        <TextBlock Text="Which " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="WhichColumn">?</Button>
                         <ToolTip.Tip>
                             <TextBlock TextAlignment="Left">
                                     The scenarios are divided into up to 32 buckets.
@@ -306,15 +296,14 @@ Double-click to enter select mode. Select text and use "Set Scenario List" to li
                 IsReadOnly="True"
                 Binding="{Binding FirstTimeRelativeMSec, StringFormat={}{0:n3}}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="FirstColumn">
-                        <!-- TODO_AVALONIA: Hyperlink -->
-                        First ?
+                    <StackPanel Name="FirstColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                        <TextBlock Text="First " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="FirstColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
                                     The time in of the first sample (msec from start of trace).
                                 </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
             <!-- TODO_AVALONIA: ElementStyle not available -->
@@ -322,15 +311,14 @@ Double-click to enter select mode. Select text and use "Set Scenario List" to li
                 IsReadOnly="True"
                 Binding="{Binding LastTimeRelativeMSec, StringFormat={}{0:n3}}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="LastColumn">
-                        <!-- TODO_AVALONIA: Hyperlink -->
-                        Last ?
+                    <StackPanel Name="LastColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                        <TextBlock Text="Last " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="LastColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
                                     The time in of the last sample (msec from start of trace).
                                 </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
         </DataGrid.Columns>

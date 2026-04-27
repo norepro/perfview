@@ -165,7 +165,14 @@ namespace PerfView
             int col = perfDataGrid.GetColumnIndex(columnName);
             if (col > -1)
             {
+#if AVALONIA
+                var header = perfDataGrid.Grid.Columns[col].Header;
+                string columnDisplayString = header is TextBlock tb ? tb.Text
+                    : header is Panel p ? p.Name
+                    : header?.ToString() ?? "";
+#else
                 string columnDisplayString = ((TextBlock)perfDataGrid.Grid.Columns[col].Header).Text;
+#endif
 
                 // Find that in the list of MenuItems, and delete it if present.  
                 for (int i = 0; i < viewMenu.Items.Count; i++)
