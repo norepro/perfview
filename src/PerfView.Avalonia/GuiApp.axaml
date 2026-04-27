@@ -115,6 +115,11 @@
         <Style Selector="ComboBox /template/ TextBox#PART_EditableTextBox">
             <Setter Property="MinHeight" Value="20" />
         </Style>
+        <!-- Compact TextBox styling to match WPF PerfView -->
+        <Style Selector="TextBox">
+            <Setter Property="MinHeight" Value="20" />
+            <Setter Property="Padding" Value="4,2" />
+        </Style>
         <!-- Style hyperlink-like buttons to look like links -->
         <Style Selector="Button.link">
             <Setter Property="Background" Value="Transparent" />
