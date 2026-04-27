@@ -356,20 +356,32 @@ will be removed completely from the trace.
             </Grid.RowDefinitions>
             <TabControl Grid.Row="0" Margin="0,3,0,0" IsEnabled="{Binding #StatusBar.IsNotWorking}">
                 <!-- ByNameTab-->
-                <TabItem Name="ByNameTab" Header="By Name ?">
+                <TabItem Name="ByNameTab">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="By Name " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="ByNameView">?</Button></StackPanel>
+                    </TabItem.Header>
                     <src:PerfDataGrid x:Name="ByNameDataGrid" Margin="0,0,20,0" DoubleTapped="ByName_MouseDoubleClick"/>
                 </TabItem>
                 <!-- CallerCalleeTab -->
-                <TabItem Name="CallerCalleeTab" Header="Caller-Callee ?">
+                <TabItem Name="CallerCalleeTab">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="Caller-Callee " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="CallerCalleeView">?</Button></StackPanel>
+                    </TabItem.Header>
                     <!-- TODO FIX NOW The margin is a hack.  I don't know why I need it... -->
                     <src:CallerCalleeView x:Name="CallerCalleeView" Margin="0,0,20,0"/>
                 </TabItem>
                 <!-- CallerTreeTab -->
-                <TabItem Name="CallTreeTab" Header="CallTree ?">
+                <TabItem Name="CallTreeTab">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="CallTree " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="CallTreeView">?</Button></StackPanel>
+                    </TabItem.Header>
                     <src:PerfDataGrid x:Name="CallTreeDataGrid" Margin="0,0,20,0"/>
                 </TabItem>
                 <!-- CallersTab -->
-                <TabItem Name="CallersTab" Header="Callers ?">
+                <TabItem Name="CallersTab">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="Callers " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="CallersView">?</Button></StackPanel>
+                    </TabItem.Header>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -380,7 +392,10 @@ will be removed completely from the trace.
                     </Grid>
                 </TabItem>
                 <!-- CalleesTab -->
-                <TabItem Name="CalleesTab" Header="Callees ?">
+                <TabItem Name="CalleesTab">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="Callees " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="CalleesView">?</Button></StackPanel>
+                    </TabItem.Header>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -391,11 +406,17 @@ will be removed completely from the trace.
                     </Grid>
                 </TabItem>
                 <!-- FlameGraphTab -->
-                <TabItem Name="FlameGraphTab" GotFocus="FlameGraphTab_GotFocus" Header="Flame Graph ?">
+                <TabItem Name="FlameGraphTab" GotFocus="FlameGraphTab_GotFocus">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="Flame Graph " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="FlameGraphView">?</Button></StackPanel>
+                    </TabItem.Header>
                     <src:FlameGraphDrawingCanvas x:Name="FlameGraphCanvas" Background="#EEEEEE" ClipToBounds="True" SizeChanged="FlameGraphCanvas_SizeChanged" CurrentFlameBoxChanged="FlameGraphCanvas_CurrentFlameBoxChanged" AutomationProperties.Name="Flame Graph" />
                 </TabItem>
                 <!-- NotesTab -->
-                <TabItem Name="NotesTab" GotFocus="NotesTab_GotFocus" LostFocus="NotesTab_LostFocus" Header="Notes ?">
+                <TabItem Name="NotesTab" GotFocus="NotesTab_GotFocus" LostFocus="NotesTab_LostFocus">
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="Notes " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="NotesView">?</Button></StackPanel>
+                    </TabItem.Header>
                     <TextBox Name="NotesTabBody" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" FontFamily="Courier New" FontSize="11" TextChanged="Notes_TextChanged" AutomationProperties.Name="Notes"/>
                 </TabItem>
             </TabControl>
