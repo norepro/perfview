@@ -19,12 +19,26 @@
                     <SolidColorBrush x:Key="DataGridRowAlternateBackground" Color="#2A2A2A" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+            <!-- Compact ComboBox: override Fluent defaults -->
+            <x:Double x:Key="ComboBoxMinHeight">20</x:Double>
+            <Thickness x:Key="ComboBoxPadding">4,1,0,1</Thickness>
+            <Thickness x:Key="ComboBoxEditableTextPadding">4,1,24,1</Thickness>
         </ResourceDictionary>
     </Application.Resources>
 
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+
+        <!-- Override Fluent theme resources for compact ComboBox -->
+        <Style Selector=":is(Control)">
+            <Style.Resources>
+                <x:Double x:Key="ComboBoxMinHeight">20</x:Double>
+                <Thickness x:Key="ComboBoxPadding">4,1,0,1</Thickness>
+                <Thickness x:Key="ComboBoxEditableTextPadding">4,1,24,1</Thickness>
+                <x:Double x:Key="TextControlThemeMinHeight">20</x:Double>
+            </Style.Resources>
+        </Style>
 
         <!-- Match WPF PerfView's font size and improve readability -->
         <Style Selector="Window">
@@ -92,6 +106,14 @@
         <Style Selector="CheckBox">
             <Setter Property="FontSize" Value="12" />
             <Setter Property="Padding" Value="4,0" />
+        </Style>
+        <!-- Compact ComboBox styling to match WPF PerfView -->
+        <Style Selector="ComboBox">
+            <Setter Property="MinHeight" Value="20" />
+            <Setter Property="Padding" Value="4,1,0,1" />
+        </Style>
+        <Style Selector="ComboBox /template/ TextBox#PART_EditableTextBox">
+            <Setter Property="MinHeight" Value="20" />
         </Style>
         <!-- Style hyperlink-like buttons to look like links -->
         <Style Selector="Button.link">
