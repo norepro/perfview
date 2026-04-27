@@ -43,7 +43,7 @@
         CanUserSortColumns="False"
         CanUserResizeColumns="True"
         FontSize="12"
-        ColumnWidth="SizeToCells"
+        ColumnWidth="Auto"
         AutomationProperties.Name="Data Grid">
         <DataGrid.Columns>
             <!-- TODO_AVALONIA: ClipboardContentBinding not available -->
