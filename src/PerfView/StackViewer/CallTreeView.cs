@@ -417,6 +417,7 @@ namespace PerfView
             var children = MakeChildren();
             m_treeView.m_flattenedTree.InsertRange(MyIndex + 1, children);
             m_isExpanded = true;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExpanded)));
 
             ValidateTree();
             // Auto expand nodes that have only one real child.  (Don't do this for graph nodes as it may not terminate.  
@@ -460,6 +461,7 @@ namespace PerfView
 
             m_treeView.m_flattenedTree.RemoveRange(firstChild, lastChild - firstChild);
             m_isExpanded = false;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsExpanded)));
 
             // set the selected node to my caller (if available) or myself if there is none.  
             m_treeView.Select(Data.Caller ?? Data);
