@@ -30,13 +30,15 @@
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
 
-        <!-- Override Fluent theme resources for compact ComboBox -->
+        <!-- Override Fluent theme resources for compact controls -->
         <Style Selector=":is(Control)">
             <Style.Resources>
                 <x:Double x:Key="ComboBoxMinHeight">20</x:Double>
                 <Thickness x:Key="ComboBoxPadding">4,1,0,1</Thickness>
                 <Thickness x:Key="ComboBoxEditableTextPadding">4,1,24,1</Thickness>
                 <x:Double x:Key="TextControlThemeMinHeight">20</x:Double>
+                <Thickness x:Key="HorizontalMenuFlyoutItemThemePaddingNarrow">4,2,4,2</Thickness>
+                <Thickness x:Key="HorizontalMenuFlyoutItemMargin">0</Thickness>
             </Style.Resources>
         </Style>
 
