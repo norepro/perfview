@@ -3506,7 +3506,14 @@ namespace PerfView
                     MenuItem menuItem = null;
 
                     // Find the associated PerfDataGridMenuItem by name
-                    IEnumerable<Tuple<string, MenuItem>> temp = perfDataGridMenuItems.Where(x => x.Item1 == ((TextBlock)col.Header).Text);
+#if AVALONIA
+                    string headerText = col.Header is TextBlock tb ? tb.Text
+                        : col.Header is Panel p ? p.Name  // StackPanel headers use Name as identifier
+                        : col.Header?.ToString() ?? "";
+#else
+                    string headerText = ((TextBlock)col.Header).Text;
+#endif
+                    IEnumerable<Tuple<string, MenuItem>> temp = perfDataGridMenuItems.Where(x => x.Item1 == headerText);
 
                     // If it has not been created yet. Create an instance.
                     if (temp.Count() == 0)
@@ -3521,7 +3528,7 @@ namespace PerfView
 #endif
                         };
 
-                        string header = ((TextBlock)col.Header).Text;
+                        string header = headerText;
                         menuItem.Header = header;
 
                         // Checked value and visibliity of column is based off of ConfigData.
