@@ -37,6 +37,7 @@
                 <Thickness x:Key="ComboBoxPadding">4,1,0,1</Thickness>
                 <Thickness x:Key="ComboBoxEditableTextPadding">4,1,24,1</Thickness>
                 <x:Double x:Key="TextControlThemeMinHeight">20</x:Double>
+                <Thickness x:Key="TextControlThemePadding">4,2,4,2</Thickness>
                 <Thickness x:Key="HorizontalMenuFlyoutItemThemePaddingNarrow">4,2,4,2</Thickness>
                 <Thickness x:Key="HorizontalMenuFlyoutItemMargin">0</Thickness>
             </Style.Resources>
@@ -120,11 +121,13 @@
         </Style>
         <Style Selector="ComboBox /template/ TextBox#PART_EditableTextBox">
             <Setter Property="MinHeight" Value="20" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
         <!-- Compact TextBox styling to match WPF PerfView -->
         <Style Selector="TextBox">
             <Setter Property="MinHeight" Value="20" />
             <Setter Property="Padding" Value="4,2" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
         <!-- Style hyperlink-like buttons to look like links -->
         <Style Selector="Button.link">
