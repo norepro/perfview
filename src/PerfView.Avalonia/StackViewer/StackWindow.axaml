@@ -223,29 +223,23 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal">
-                <TextBlock VerticalAlignment="Center" Margin="5,0,1,0">
-                    <!-- TODO_AVALONIA: Hyperlink not available -->
-                    Start:
-                </TextBlock>
+                <Button Classes="link" VerticalAlignment="Center" Margin="5,0,1,0"
+                        Click="DoHyperlinkHelp" Tag="StartTextBox">Start:</Button>
                 <controls:HistoryComboBox  x:Name="StartTextBox" Width="90" AutomationProperties.Name="Start Time">
                     <ToolTip.Tip>
                         <TextBlock>Exclude any samples that happened before this time (MSec from start).</TextBlock>
                     </ToolTip.Tip>
                 </controls:HistoryComboBox>
-                <TextBlock VerticalAlignment="Center" Margin="10,0,1,0">
-                    <!-- TODO_AVALONIA: Hyperlink not available -->
-                    End:
-                </TextBlock>
+                <Button Classes="link" VerticalAlignment="Center" Margin="10,0,1,0"
+                        Click="DoHyperlinkHelp" Tag="EndTextBox">End:</Button>
                 <controls:HistoryComboBox x:Name="EndTextBox" Width="90" AutomationProperties.Name="End Time">
                     <ToolTip.Tip>
                         <TextBlock>Exclude any samples that happened after this time (MSec from start).</TextBlock>
                     </ToolTip.Tip>
                 </controls:HistoryComboBox>
                 <StackPanel Name="ScenarioStackPanel" Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Margin="10,0,1,0">
-                        <!-- TODO_AVALONIA: Hyperlink not available -->
-                        Scenarios:
-                    </TextBlock>
+                    <Button Classes="link" VerticalAlignment="Center" Margin="10,0,1,0"
+                            Click="DoHyperlinkHelp" Tag="ScenarioTextBox">Scenarios:</Button>
                     <controls:HistoryComboBox x:Name="ScenarioTextBox" Width="170">
                         <ToolTip.Tip>
                             <TextBlock>Show these scenarios.</TextBlock>
@@ -253,26 +247,20 @@
                     </controls:HistoryComboBox>
                 </StackPanel>
                 <StackPanel Name="MemoryStackPanel"  Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Margin="15,0,1,0">
-                        <!-- TODO_AVALONIA: Hyperlink not available -->
-                        Priority:
-                    </TextBlock>
+                    <Button Classes="link" VerticalAlignment="Center" Margin="15,0,1,0"
+                            Click="DoHyperlinkHelp" Tag="PriorityTextBox">Priority:</Button>
                     <controls:HistoryComboBox  x:Name="PriorityTextBox" Width="170">
                         <ToolTip.Tip>
                             <TextBlock>Specifies the priority of types when converting a graph to a tree.</TextBlock>
                         </ToolTip.Tip>
                     </controls:HistoryComboBox>
-                    <TextBlock VerticalAlignment="Center" Margin="5,0,1,0">
-                        <!-- TODO_AVALONIA: Hyperlink not available -->
-                        Pri1Only:
-                    </TextBlock>
+                    <Button Classes="link" VerticalAlignment="Center" Margin="5,0,1,0"
+                            Click="DoHyperlinkHelp" Tag="Pri1OnlyCheckBox">Pri1Only:</Button>
                     <CheckBox Margin="3,0,1,0" VerticalAlignment="Center"  Name="Pri1OnlyCheckBox" Click="DoPri1Only" />
                 </StackPanel>
                 <StackPanel Name="SamplingStackPanel"  Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center" Margin="5,0,1,0">
-                        <!-- TODO_AVALONIA: Hyperlink not available -->
-                        Sampling:
-                    </TextBlock>
+                    <Button Classes="link" VerticalAlignment="Center" Margin="5,0,1,0"
+                            Click="DoHyperlinkHelp" Tag="SamplingTextBox">Sampling:</Button>
                     <controls:HistoryComboBox  x:Name="SamplingTextBox" Width="45">
                         <ToolTip.Tip>
                             <TextBlock>Sample at this rate to cut down data size.</TextBlock>
@@ -280,10 +268,8 @@
                     </controls:HistoryComboBox>
                 </StackPanel>
             </StackPanel>
-            <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="20,0,1,0">
-                        <!-- TODO_AVALONIA: Hyperlink not available -->
-                        Find:
-            </TextBlock>
+            <Button Grid.Column="1" Classes="link" VerticalAlignment="Center" Margin="20,0,1,0"
+                    Click="DoHyperlinkHelp" Tag="FindTextBox">Find:</Button>
             <controls:HistoryComboBox x:Name="FindTextBox" Grid.Column="2" MinWidth="100" AutomationProperties.Name="Find">
                 <ToolTip.Tip>
                     <TextBlock>Find a name in the display below (Standard .NET Regular Expressions apply, case insensitive).</TextBlock>
@@ -305,10 +291,8 @@
                 <ColumnDefinition Width="100*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0">
-                    <!-- TODO_AVALONIA: Hyperlink not available -->
-                    GroupPats:
-            </TextBlock>
+            <Button Grid.Column="0" Classes="link" VerticalAlignment="Center" Margin="5,0,1,0"
+                    Click="DoHyperlinkHelp" Tag="GroupPatsTextBox">GroupPats:</Button>
             <controls:HistoryComboBox x:Name="GroupRegExTextBox" Grid.Column="1" MinWidth="80" AutomationProperties.Name="Group Patterns">
                 <ToolTip.Tip>
                         <TextBlock>
@@ -321,20 +305,16 @@ Every Frame will have these patterns applied (in order) before stack trees are f
                         </TextBlock>
                 </ToolTip.Tip>
             </controls:HistoryComboBox>
-            <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5,0,1,0">
-                <!-- TODO_AVALONIA: Hyperlink not available -->
-                Fold%:
-            </TextBlock>
+            <Button Grid.Column="2" Classes="link" VerticalAlignment="Center" Margin="5,0,1,0"
+                    Click="DoHyperlinkHelp" Tag="FoldPercentTextBox">Fold%:</Button>
             <controls:HistoryComboBox x:Name="FoldPercentTextBox" Grid.Column="3" MinWidth="42" Margin="0,0,5,0" AutomationProperties.Name="Fold Percent">
                 <ToolTip.Tip>
                         <TextBlock> Nodes that have less than this % Inclusive metric will be removed and their
                         metric added to their caller.</TextBlock>
                 </ToolTip.Tip>
             </controls:HistoryComboBox>
-            <TextBlock Grid.Column="4" VerticalAlignment="Center" Margin="5,0,1,0">
-                <!-- TODO_AVALONIA: Hyperlink not available -->
-                FoldPats:
-            </TextBlock>
+            <Button Grid.Column="4" Classes="link" VerticalAlignment="Center" Margin="5,0,1,0"
+                    Click="DoHyperlinkHelp" Tag="FoldPatsTextBox">FoldPats:</Button>
             <controls:HistoryComboBox x:Name="FoldRegExTextBox" Grid.Column="5" MinWidth="80" AutomationProperties.Name="Fold Patterns">
                 <ToolTip.Tip>
                         <TextBlock>
@@ -343,10 +323,8 @@ All nodes matching any group will be removed and their metric added to their cal
                         </TextBlock>
                 </ToolTip.Tip>
             </controls:HistoryComboBox>
-            <TextBlock Grid.Column="6" VerticalAlignment="Center" Margin="10,0,1,0">
-                <!-- TODO_AVALONIA: Hyperlink not available -->
-                IncPats:
-            </TextBlock>
+            <Button Grid.Column="6" Classes="link" VerticalAlignment="Center" Margin="10,0,1,0"
+                    Click="DoHyperlinkHelp" Tag="IncPatsTextBox">IncPats:</Button>
             <controls:HistoryComboBox x:Name="IncludeRegExTextBox" Grid.Column="7"  MinWidth="80" Margin="0,0,5,0" AutomationProperties.Name="Include Patterns">
                 <ToolTip.Tip>
                         <TextBlock>
@@ -356,10 +334,8 @@ will be included in the trace.
                         </TextBlock>
                 </ToolTip.Tip>
             </controls:HistoryComboBox>
-            <TextBlock Grid.Column="8" VerticalAlignment="Center" Margin="10,0,1,0">
-                <!-- TODO_AVALONIA: Hyperlink not available -->
-                ExcPats:
-            </TextBlock>
+            <Button Grid.Column="8" Classes="link" VerticalAlignment="Center" Margin="10,0,1,0"
+                    Click="DoHyperlinkHelp" Tag="ExcPatsTextBox">ExcPats:</Button>
             <controls:HistoryComboBox x:Name="ExcludeRegExTextBox" Grid.Column="9" MinWidth="80" AutomationProperties.Name="Exclude Patterns">
                 <ToolTip.Tip>
                         <TextBlock>
