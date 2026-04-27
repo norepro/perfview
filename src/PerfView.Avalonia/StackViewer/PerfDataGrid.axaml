@@ -225,6 +225,8 @@
             <!-- TODO_AVALONIA: EditingElementStyle not available -->
             <DataGridTextColumn
                 IsReadOnly="False"
+                FontFamily="Courier New"
+                FontSize="10"
                 Binding="{Binding InclusiveMetricByTimeString}">
                 <DataGridTextColumn.Header>
                     <TextBlock Margin="0,0,5,0" Name="WhenColumn">
@@ -265,6 +267,8 @@ Selecting this text in the status window and use SetRange (Alt-R) to set range.
             <!-- TODO_AVALONIA: EditingElementStyle not available -->
             <DataGridTextColumn
                 IsReadOnly="False"
+                FontFamily="Courier New"
+                FontSize="10"
                 Binding="{Binding InclusiveMetricByScenarioString}">
                 <DataGridTextColumn.Header>
                     <TextBlock Margin="0,0,5,0" Name="WhichColumn">
