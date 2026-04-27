@@ -251,13 +251,15 @@ namespace PerfView
             {
                 var header = Grid.Columns[i].Header;
 #if AVALONIA
-                if (header is not TextBlock)
-                {
-                    i++;
-                    continue;
-                }
-#endif
+                string name = null;
+                if (header is TextBlock tb)
+                    name = tb.Name;
+                else if (header is Panel panel)
+                    name = panel.Name;
+                if (name == null) { i++; continue; }
+#else
                 var name = ((TextBlock)header).Name;
+#endif
                 if (name == columnName)
                 {
                     return i;
@@ -274,7 +276,16 @@ namespace PerfView
             var ret = new List<string>(Grid.Columns.Count);
             foreach (var column in Grid.Columns)
             {
+#if AVALONIA
+                string name = null;
+                if (column.Header is TextBlock tb)
+                    name = tb.Name;
+                else if (column.Header is Panel panel)
+                    name = panel.Name;
+                ret.Add(name ?? "");
+#else
                 ret.Add(((TextBlock)column.Header).Name);
+#endif
             }
             return ret;
         }

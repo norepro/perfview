@@ -229,10 +229,9 @@
                 FontSize="10"
                 Binding="{Binding InclusiveMetricByTimeString}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="WhenColumn">
-                    <!-- TODO_AVALONIA: Hyperlink -->
-                    When ?
-                    <ToolTip.Tip>
+                    <StackPanel Name="WhenColumn" Orientation="Horizontal" Margin="0,0,5,0">
+                        <TextBlock Text="When " VerticalAlignment="Center"/><Button Classes="link" Padding="0">?</Button>
+                        <ToolTip.Tip>
                                 <TextBlock TextAlignment="Left">
                                     The time interval (from Start to End) is divided up into 32 buckets.
 The buckets are normalized to a 100% value.
@@ -260,7 +259,7 @@ z = -260% &lt; X &lt; -250%
 Selecting this text in the status window and use SetRange (Alt-R) to set range.
                                 </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
             <!-- TODO_AVALONIA: ElementStyle not available -->
@@ -271,11 +270,9 @@ Selecting this text in the status window and use SetRange (Alt-R) to set range.
                 FontSize="10"
                 Binding="{Binding InclusiveMetricByScenarioString}">
                 <DataGridTextColumn.Header>
-                    <TextBlock Margin="0,0,5,0" Name="WhichColumn">
-                    <!-- TODO_AVALONIA: Hyperlink -->
-                    Which ?
+                    <StackPanel Name="WhichColumn" Orientation="Horizontal" Margin="0,0,5,0">
+                        <TextBlock Text="Which " VerticalAlignment="Center"/><Button Classes="link" Padding="0">?</Button>
                         <ToolTip.Tip>
-                            <!-- TODO: update this tooltip help -->
                             <TextBlock TextAlignment="Left">
                                     The scenarios are divided into up to 32 buckets.
 The buckets are normalized to a 100% value.
@@ -301,7 +298,7 @@ z = -260% &lt; X &lt; -250%
 Double-click to enter select mode. Select text and use "Set Scenario List" to limit the view to a set of scenarios.
                             </TextBlock>
                         </ToolTip.Tip>
-                    </TextBlock>
+                    </StackPanel>
                 </DataGridTextColumn.Header>
             </DataGridTextColumn>
             <!-- TODO_AVALONIA: ElementStyle not available -->
