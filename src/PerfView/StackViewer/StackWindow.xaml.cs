@@ -348,6 +348,9 @@ namespace PerfView
 
                 m_history.Add(new FilterParams(filterParams));
                 m_historyPos = m_history.Count - 1;
+#if AVALONIA
+                UpdateHistoryButtons();
+#endif
             }
 
             var asMemoryGraphSource = newSource as Graphs.MemoryGraphStackSource;
@@ -820,6 +823,9 @@ namespace PerfView
 
                 m_settingFromHistory = false;
             }
+#if AVALONIA
+            UpdateHistoryButtons();
+#endif
         }
         private void CanDoBack(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -838,6 +844,9 @@ namespace PerfView
                 Update();
                 m_settingFromHistory = false;
             }
+#if AVALONIA
+            UpdateHistoryButtons();
+#endif
         }
         private void CanDoForward(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -846,6 +855,14 @@ namespace PerfView
                 e.CanExecute = true;
             }
         }
+
+#if AVALONIA
+        private void UpdateHistoryButtons()
+        {
+            BackButton.IsEnabled = m_historyPos > 0;
+            ForwardButton.IsEnabled = m_historyPos + 1 < m_history.Count;
+        }
+#endif
 
         private void DoClose(object sender, RoutedEventArgs e) => Close();
 

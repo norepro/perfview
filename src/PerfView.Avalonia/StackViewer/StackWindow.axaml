@@ -205,11 +205,12 @@
                     ToolTip.Tip="Update grid views with the filter parameters from textboxes. (F5)">
                 Update</Button>
             <!-- TODO_AVALONIA: ApplicationCommands BrowseBack not available -->
-            <Button Grid.Column="1" Margin="7,2,3,2" FontSize="9" Click="DoBack"
+            <Button x:Name="BackButton" Grid.Column="1" Margin="7,2,3,2" FontSize="9" Click="DoBack"
+                    IsEnabled="False"
                     ToolTip.Tip="Set to previous filter parameters (Alt-left arrow)">
                 Back</Button>
-            <!-- TODO_AVALONIA: ApplicationCommands BrowseForward not available -->
-            <Button Grid.Column="2" Margin="3,2,3,2" FontSize="9" Click="DoForward"
+            <Button x:Name="ForwardButton" Grid.Column="2" Margin="3,2,3,2" FontSize="9" Click="DoForward"
+                    IsEnabled="False"
                     ToolTip.Tip="Set to forward filter parameters (Alt-right arrow)">
                 Forward</Button>
             <TextBox Name="TopStats" Grid.Column="3" Background="Transparent" Margin="0,1" AutomationProperties.Name="Top Stats"/>
