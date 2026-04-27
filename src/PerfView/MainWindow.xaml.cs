@@ -1424,6 +1424,23 @@ namespace PerfView
                         }
                     }
                 };
+#else
+                s_Browser.Browser.NavigationStarted += delegate (object sender, global::Avalonia.Controls.WebViewNavigationStartingEventArgs e)
+                {
+                    if (e.Request is { } uri && !string.IsNullOrEmpty(uri.Host))
+                    {
+                        if (!GuiApp.MainWindow.AllowNavigateToWeb)
+                        {
+                            GuiApp.MainWindow.StatusBar.LogError("Navigating to web disallowed, canceling.");
+                            e.Cancel = true;
+                        }
+                        else
+                        {
+                            OpenExternalBrowser(uri);
+                            e.Cancel = true;
+                        }
+                    }
+                };
 #endif
             }
 

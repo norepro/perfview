@@ -216,7 +216,7 @@ namespace PerfView
         /// </summary>
         public override void Close() { }
 
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["FolderOpenBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FolderOpenBitmapImage"] as ImageSource; } }
@@ -310,7 +310,7 @@ namespace PerfView
 
         public override string HelpAnchor { get { return Name.Replace(" ", ""); } }
 
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["FolderOpenBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FolderOpenBitmapImage"] as ImageSource; } }
@@ -1086,7 +1086,7 @@ namespace PerfView
             m_onOpen(DataFile.FilePath, Name);
         }
         public override void Close() { }
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["HtmlReportBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["HtmlReportBitmapImage"] as ImageSource; } }
@@ -1176,6 +1176,28 @@ namespace PerfView
                                 });
                             }
                         };
+#else
+                        Viewer.Browser.NavigationStarted += delegate (object sender, global::Avalonia.Controls.WebViewNavigationStartingEventArgs e)
+                        {
+                            if (e.Request is { Scheme: "command" } uri)
+                            {
+                                e.Cancel = true;
+                                Viewer.StatusBar.StartWork("Following Hyperlink", delegate ()
+                                {
+                                    Action continuation;
+                                    var message = DoCommand(uri, Viewer.StatusBar, out continuation);
+                                    Viewer.StatusBar.EndWork(delegate ()
+                                    {
+                                        if (message != null)
+                                        {
+                                            Viewer.StatusBar.Log(message);
+                                        }
+
+                                        continuation?.Invoke();
+                                    });
+                                });
+                            }
+                        };
 #endif
 
                         Viewer.Width = 1000;
@@ -1215,7 +1237,7 @@ namespace PerfView
         }
 
         public override void Close() { }
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["HtmlReportBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["HtmlReportBitmapImage"] as ImageSource; } }
@@ -4485,7 +4507,7 @@ namespace PerfView
         /// </summary>
         public override void Close() { }
 
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["FolderOpenBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FolderOpenBitmapImage"] as ImageSource; } }
@@ -4574,7 +4596,7 @@ namespace PerfView
             }
         }
         public override void Close() { }
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["EventSourceBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["EventSourceBitmapImage"] as ImageSource; } }
@@ -4812,7 +4834,7 @@ namespace PerfView
             DataFile.FirstAction(stackWindow);
         }
 
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["StackSourceBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["StackSourceBitmapImage"] as ImageSource; } }
@@ -4962,7 +4984,7 @@ namespace PerfView
         {
             return m_csvReader.GetEventSource();
         }
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }
@@ -8526,7 +8548,7 @@ namespace PerfView
             }
             base.Close();
         }
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }
@@ -9540,7 +9562,7 @@ namespace PerfView
             base.Close();
         }
 
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }
@@ -10387,6 +10409,7 @@ namespace PerfView
                 }
                 catch (Exception e)
                 {
+                    Console.WriteLine(e);
                     log.WriteLine("Error: Exception EventPipe conversion: {0}", e.ToString());
                     log.WriteLine("[Error: exception while opening EventPipe data.]");
 
@@ -10783,7 +10806,7 @@ namespace PerfView
             GuiApp.MainWindow.TakeHeapShapshot(null);
         }
         public override void Close() { }
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }
@@ -11077,7 +11100,7 @@ namespace PerfView
         }
 
         public override void Close() { }
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }
@@ -11311,7 +11334,7 @@ namespace PerfView
             return null;
         }
 
-        #if AVALONIA
+#if AVALONIA
         public override object Icon { get { return GuiApp.MainWindow?.Resources["FileBitmapImage"]; } }
 #else
         public override ImageSource Icon { get { return GuiApp.MainWindow.Resources["FileBitmapImage"] as ImageSource; } }

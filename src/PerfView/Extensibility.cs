@@ -324,6 +324,23 @@ namespace PerfViewExtensibility
                         }
                     }
                 };
+#else
+                viewer.Browser.NavigationStarted += delegate (object sender, global::Avalonia.Controls.WebViewNavigationStartingEventArgs e)
+                {
+                    if (e.Request is { Scheme: "command" } uri)
+                    {
+                        e.Cancel = true;
+                        viewer.StatusBar.IsVisible = true;
+                        viewer.StatusBar.StartWork("Following Hyperlink", delegate ()
+                        {
+                            if (DoCommand != null)
+                                DoCommand(uri.LocalPath, viewer.StatusBar.LogWriter, viewer);
+                            else
+                                viewer.StatusBar.Log("This view does not support command URLs.");
+                            viewer.StatusBar.EndWork(null);
+                        });
+                    }
+                };
 #endif
                 viewer.Width = 1000;
                 viewer.Height = 600;
