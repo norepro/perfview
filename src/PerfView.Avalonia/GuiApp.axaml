@@ -31,7 +31,7 @@
             <Setter Property="FontSize" Value="12" />
         </Style>
         <Style Selector="DataGrid">
-            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontSize" Value="12" />
             <Setter Property="RowHeight" Value="18" />
             <Style.Resources>
                 <!-- Override CheckBox sizing within DataGrid to fit compact rows -->
@@ -44,17 +44,17 @@
             </Style.Resources>
         </Style>
         <Style Selector="DataGridRow">
-            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontSize" Value="12" />
             <Setter Property="MinHeight" Value="0" />
         </Style>
         <!-- Fluent default: FontSize=15, MinHeight=32. Override for compact rows. -->
         <Style Selector="DataGridCell">
-            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontSize" Value="12" />
             <Setter Property="MinHeight" Value="0" />
         </Style>
         <!-- Fluent default: Padding=12,0,0,0  FontSize=12  MinHeight=32. Override for compact headers. -->
         <Style Selector="DataGridColumnHeader">
-            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontSize" Value="12" />
             <Setter Property="MinHeight" Value="0" />
             <Setter Property="Padding" Value="4,2,0,2" />
         </Style>
@@ -90,7 +90,7 @@
         </Style>
         <!-- Compact CheckBox styling -->
         <Style Selector="CheckBox">
-            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontSize" Value="12" />
             <Setter Property="Padding" Value="4,0" />
         </Style>
         <!-- Style hyperlink-like buttons to look like links -->

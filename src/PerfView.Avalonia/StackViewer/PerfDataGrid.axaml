@@ -42,7 +42,7 @@
         AutoGenerateColumns="False"
         CanUserSortColumns="False"
         CanUserResizeColumns="True"
-        FontSize="11"
+        FontSize="12"
         ColumnWidth="SizeToCells"
         AutomationProperties.Name="Data Grid">
         <DataGrid.Columns>
