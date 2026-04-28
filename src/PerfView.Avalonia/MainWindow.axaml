@@ -55,7 +55,7 @@
                 </MenuItem>
                 <MenuItem Header="_Memory">
                     <MenuItem Header="_Take Heap Snapshot" Click="DoTakeHeapSnapshot" HotKey="Alt+S" InputGesture="Alt+S" ToolTip.Tip="Take a snapshot of the CLR GC Heap."/>
-                    <MenuItem Header="Take Heap Snapshot From Dump" Command="{x:Static src:MainWindow.HeapSnapshotFromDumpCommand}" ToolTip.Tip="Take a snapshot of the CLR GC Heap from a process Dump."/>
+                    <MenuItem Header="Take Heap Snapshot From Dump" Click="DoTakeHeapShapshotFromProcessDump" ToolTip.Tip="Take a snapshot of the CLR GC Heap from a process Dump."/>
                 </MenuItem>
                 <MenuItem Header="Si_ze">
                     <MenuItem Header="_DirectorySize" Click="DoDirectorySize" HotKey="Alt+D" InputGesture="Alt+D" ToolTip.Tip="Computes the disk usage (recursively) for a directory.">
