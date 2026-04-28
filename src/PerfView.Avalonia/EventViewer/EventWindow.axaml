@@ -343,15 +343,19 @@ Can paste ranges into this box.</TextBlock>
                 <!-- TODO_AVALONIA: AlternatingRowBackground not directly supported -->
                 <DataGrid x:Name="MultiLineView" Grid.Row="3" AutoGenerateColumns="False"
                           AutomationProperties.Name="Multi-Line View">
+                    <DataGrid.Resources>
+                        <ControlTheme x:Key="DataGridCellTextBlockTheme" TargetType="TextBlock">
+                            <Setter Property="Margin" Value="4,0,4,0" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </ControlTheme>
+                    </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Payload Name" Binding="{Binding PayloadName, Mode=OneWay}" Width="*"/>
                         <DataGridTextColumn Header="Payload" Binding="{Binding PayloadValue, Mode=OneWay}" Width="3*" />
-                        <!-- TODO_AVALONIA: ElementStyle with TextWrapping and FontFamily not available on DataGridTextColumn -->
                     </DataGrid.Columns>
                 </DataGrid>
-                <!-- TODO_AVALONIA: BooleanToVisibilityConverter binding needs rework -->
-                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Text="Press F2 to hide/unhide"
-                           IsVisible="{Binding Items.Count, ElementName=MultiLineView, Converter={x:Static ObjectConverters.IsNull}}"/>
+                <TextBlock x:Name="MultiLineViewHelpText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3"
+                           Text="Press F2 to hide/unhide"/>
             </Grid>
         </Grid>
     </DockPanel>

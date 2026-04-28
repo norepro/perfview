@@ -313,6 +313,7 @@ namespace PerfView
 #if AVALONIA
                     MultiLineView.IsVisible = false;
                     MultiLineViewSplitter.IsVisible = false;
+                    MultiLineViewHelpText.IsVisible = false;
 #else
                     MultiLineViewPaneRowDef.MaxHeight = 0;
 #endif
@@ -324,6 +325,9 @@ namespace PerfView
 #if AVALONIA
                     MultiLineView.IsVisible = true;
                     MultiLineViewSplitter.IsVisible = true;
+                    // Only show help text if no payload data is loaded
+                    if (MultiLineView.ItemsSource == null)
+                        MultiLineViewHelpText.IsVisible = true;
 #else
                     MultiLineViewPaneRowDef.MaxHeight = Double.PositiveInfinity;
 #endif
@@ -900,6 +904,7 @@ namespace PerfView
             if (e.AddedItems?.Count > 0 && e.AddedItems[0] is EventRecord selectedRecord)
             {
                 MultiLineView.ItemsSource = selectedRecord.Payloads;
+                MultiLineViewHelpText.IsVisible = false;
             }
         }
 
