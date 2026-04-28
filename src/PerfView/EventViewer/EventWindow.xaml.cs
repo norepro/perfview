@@ -314,6 +314,8 @@ namespace PerfView
                     MultiLineView.IsVisible = false;
                     MultiLineViewSplitter.IsVisible = false;
                     MultiLineViewHelpText.IsVisible = false;
+                    if (MultiLineView.Parent is global::Avalonia.Controls.Grid g && g.RowDefinitions.Count > 3)
+                        g.RowDefinitions[3].Height = new global::Avalonia.Controls.GridLength(0);
 #else
                     MultiLineViewPaneRowDef.MaxHeight = 0;
 #endif
@@ -325,9 +327,10 @@ namespace PerfView
 #if AVALONIA
                     MultiLineView.IsVisible = true;
                     MultiLineViewSplitter.IsVisible = true;
-                    // Only show help text if no payload data is loaded
                     if (MultiLineView.ItemsSource == null)
                         MultiLineViewHelpText.IsVisible = true;
+                    if (MultiLineView.Parent is global::Avalonia.Controls.Grid g2 && g2.RowDefinitions.Count > 3)
+                        g2.RowDefinitions[3].Height = new global::Avalonia.Controls.GridLength(0.25, global::Avalonia.Controls.GridUnitType.Star);
 #else
                     MultiLineViewPaneRowDef.MaxHeight = Double.PositiveInfinity;
 #endif
