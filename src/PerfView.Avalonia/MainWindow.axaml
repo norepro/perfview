@@ -60,17 +60,17 @@
                 <MenuItem Header="Si_ze">
                     <MenuItem Header="_DirectorySize" Click="DoDirectorySize" HotKey="Alt+D" InputGesture="Alt+D" ToolTip.Tip="Computes the disk usage (recursively) for a directory.">
                         <MenuItem.Icon>
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">?</TextBlock>
+                            <Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="DirectorySize" FontSize="14">?</Button>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Name="ImageSizeMenuItem" IsVisible="False" Header="_ImageSize" Click="DoImageSize" HotKey="Alt+I" InputGesture="Alt+I" ToolTip.Tip="Displays the breakdown of what is in a DLL or EXE by symbol. (needs PDB for DLL or EXE).">
                         <MenuItem.Icon>
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">?</TextBlock>
+                            <Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="ImageSize" FontSize="14">?</Button>
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Name="ILSizeMenuItem" IsVisible="False" Header="ILSize" Click="DoILSize" HotKey="Alt+L" InputGesture="Alt+L" ToolTip.Tip="Displays the breakdown of what is in a DLL or EXE by symbol. (needs PDB for DLL or EXE).">
                         <MenuItem.Icon>
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">?</TextBlock>
+                            <Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="ILSize" FontSize="14">?</Button>
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
