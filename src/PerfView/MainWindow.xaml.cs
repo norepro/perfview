@@ -212,18 +212,11 @@ namespace PerfView
 
         public void OpenPreviouslyOpened()
         {
-#if AVALONIA
-            // Always restore the last used directory for Avalonia since there's no
-            // meaningful CWD default (unlike WPF which runs from Program Files).
-            string path = App.UserConfigData["Directory"]
-                ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-#else
             string path = ".";
             if (bool.TryParse(App.UserConfigData["OpenToLastUsedDirectory"], out bool openToLastUsedDirectory) && openToLastUsedDirectory)
             {
                 path = App.UserConfigData["Directory"] ?? path;
             }
-#endif
             OpenPath(path);
         }
         /// <summary>
