@@ -19,16 +19,16 @@
                 <CheckBox IsChecked="{Binding IsExpanded, Mode=TwoWay}" IsEnabled="{Binding HasChildren}" AutomationProperties.Name="Expand"
                           MinWidth="0" MinHeight="0" Padding="0" Margin="0" Width="16" Height="16" VerticalAlignment="Center">
                     <CheckBox.Resources>
-                        <x:Double x:Key="CheckBoxMinHeight">14</x:Double>
+                        <x:Double x:Key="CheckBoxMinHeight">16</x:Double>
                     </CheckBox.Resources>
                     <CheckBox.Styles>
                         <Style Selector="CheckBox /template/ Border#NormalRectangle">
                             <Setter Property="Width" Value="14" />
                             <Setter Property="Height" Value="14" />
                         </Style>
-                        <Style Selector="CheckBox /template/ Grid#RootGrid > Grid">
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="HorizontalAlignment" Value="Center" />
+                        <Style Selector="CheckBox /template/ Grid#RootGrid > Grid > Viewbox">
+                            <Setter Property="Width" Value="14" />
+                            <Setter Property="Height" Value="14" />
                         </Style>
                     </CheckBox.Styles>
                 </CheckBox>
