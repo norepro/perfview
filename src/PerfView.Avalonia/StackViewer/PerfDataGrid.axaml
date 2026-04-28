@@ -107,6 +107,7 @@
             <DataGridTextColumn
                 CanUserSort="False"
                 IsReadOnly="True"
+                MinWidth="55"
                 Binding="{Binding AverageInclusiveMetric, StringFormat={}{0:n1}}">
                 <DataGridTextColumn.Header>
                     <StackPanel Name="IncAvgColumn" Orientation="Horizontal" >
