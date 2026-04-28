@@ -42,6 +42,7 @@
         <!-- TODO_AVALONIA: RichTextBox not available in Avalonia; using TextBox as simplified replacement.
              For rich text editing, consider AvaloniaEdit or a similar library. -->
         <TextBox Name="Body" AcceptsReturn="True" FontFamily="Courier New"
+                 VerticalContentAlignment="Top"
                  AutomationProperties.Name="{Binding $parent[UserControl].(AutomationProperties.Name)}">
             <!-- TODO_AVALONIA: RichTextBox.ContextMenu with WPF commands (Find, FindNext, Cut, Copy, Paste, SelectAll, Clear, DeleteLine, EditingCommands) not ported.
                  Avalonia TextBox has built-in Cut/Copy/Paste/SelectAll context menu. -->

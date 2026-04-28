@@ -413,6 +413,13 @@ namespace PerfView
         {
             MainWindow.DisplayUsersGuide(e.Parameter as string);
         }
+#if AVALONIA
+        private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is string tag)
+                MainWindow.DisplayUsersGuide(tag);
+        }
+#endif
         private void DataFileKeyDown(object sender, KeyEventArgs e)
         {
             if (m_isCollect && e.Key == Key.Return)
@@ -795,7 +802,7 @@ namespace PerfView
             m_args.NetMonCapture = NetMonCheckBox.IsChecked ?? false;
             m_args.NetworkCapture = NetCaptureCheckBox.IsChecked ?? false;
 
-            if (OSHeapExeTextBox.Text.Length > 0)
+            if ((OSHeapExeTextBox.Text ?? "").Length > 0)
             {
                 m_args.OSHeapExe = OSHeapExeTextBox.Text;
             }
@@ -804,7 +811,7 @@ namespace PerfView
                 m_args.OSHeapExe = null;
             }
 
-            if (OSHeapProcessTextBox.Text.Length > 0)
+            if ((OSHeapProcessTextBox.Text ?? "").Length > 0)
             {
                 if (!int.TryParse(OSHeapProcessTextBox.Text, out m_args.OSHeapProcess))
                 {

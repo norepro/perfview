@@ -5,7 +5,11 @@
         xmlns:controls="using:Controls"
         Background="{DynamicResource ControlDarkerBackground}"
         Title="Collecting ETW Data while running a command"
-        Height="222" Width="925" MinHeight="222" MinWidth="925">
+        Height="222" Width="925" MinHeight="222" MinWidth="925"
+        x:CompileBindings="False">
+    <src:WindowBase.Resources>
+        <x:Double x:Key="CheckBoxMinHeight">24</x:Double>
+    </src:WindowBase.Resources>
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <Grid>
@@ -25,13 +29,11 @@
             </Grid.ColumnDefinitions>
             <!-- Help message at top -->
             <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="#ABADB3" BorderThickness="1">
-                <TextBlock Background="{DynamicResource HelpRibbonBackground}" TextWrapping="Wrap" AutomationProperties.Name="Run collection help">
-                    This dialog give options for collecting ETW profile data. The only required field the 'Command' field and
-                    this is only necessary when using the 'Run' command.
+                <TextBlock Background="{DynamicResource HelpRibbonBackground}" TextWrapping="Wrap" FontSize="11" AutomationProperties.Name="Run collection help">
+                    This dialog give options for collecting ETW profile data. The only required field the 'Command' field and this is only necessary when using the 'Run' command.
                     <LineBreak/>
                     <Run FontWeight="Bold">If you wish to analyze on another machine use the Zip option when collecting data.</Run>
-                    <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                    See Collecting ETW Profile Data for more.
+                    See <InlineUIContainer><Button Classes="link" Padding="0" FontSize="11" Click="DoHyperlinkHelp" Tag="CollectingData">Collecting ETW Profile Data</Button></InlineUIContainer> for more.
                 </TextBlock>
             </Border>
             <!-- CommandToRun section for running specific process -->
