@@ -5,7 +5,7 @@
         xmlns:controls="using:Controls"
         x:CompileBindings="False"
         Background="{DynamicResource ControlDarkerBackground}"
-        Title="Executing User Defined Command" Height="116" Width="669">
+        Title="Executing User Defined Command" Height="90" Width="669" SizeToContent="Height">
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
     <!--
     <Window.CommandBindings>
@@ -19,19 +19,23 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia, replaced with TextBlock -->
-        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="8,2,5,2">
-            <Run Name="TitleHyperLinkText" Text="Help on Invoking User Defined Commands"/>
-        </TextBlock>
+        <Button Grid.Row="0" Classes="link" HorizontalAlignment="Center" Margin="8,2,5,2"
+                Click="DoHyperlinkHelp" Tag="UserCommand">
+            <TextBlock Name="TitleHyperLinkText" Text="Help on Invoking User Defined Commands"/>
+        </Button>
         <controls:HistoryComboBox x:Name="CommandTextBox" Grid.Row="1" Margin="10,2,10,2"
                          ToolTip.Tip="Enter user-defined command. Tab will commit completion."
-                         Enter="OKClicked" />
-        <!-- TODO_AVALONIA: AutomationProperties.HelpText binding and AutomationProperties.Name need verification -->
+                         Enter="OKClicked">
+            <controls:HistoryComboBox.Resources>
+                <SolidColorBrush x:Key="ComboBoxBackground" Color="Transparent" />
+                <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="Transparent" />
+            </controls:HistoryComboBox.Resources>
+        </controls:HistoryComboBox>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" FlowDirection="RightToLeft">
-            <Button Margin="10,5,10,5" Width="80" Content="OK" Click="OKClicked" TabIndex="2"/>
-            <Button Margin="10,5,10,5" Width="80" Content="Cancel" Click="CancelClicked" TabIndex="1"/>
-            <Button Margin="10,5,10,5" Width="120" Content="Command Help" Click="HelpClicked" TabIndex="0"/>
+            <Button Margin="10,5,10,5" Width="80" Content="OK" Click="OKClicked" HorizontalContentAlignment="Center" TabIndex="2"/>
+            <Button Margin="10,5,10,5" Width="80" Content="Cancel" Click="CancelClicked" HorizontalContentAlignment="Center" TabIndex="1"/>
+            <Button Margin="10,5,10,5" Width="120" Content="Command Help" Click="HelpClicked" HorizontalContentAlignment="Center" TabIndex="0"/>
         </StackPanel>
     </Grid>
 </src:WindowBase>
