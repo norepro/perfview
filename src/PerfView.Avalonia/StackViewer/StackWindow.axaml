@@ -354,7 +354,7 @@ will be removed completely from the trace.
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="25*"/>
             </Grid.RowDefinitions>
-            <TabControl Grid.Row="0" Margin="0,3,0,0" IsEnabled="{Binding #StatusBar.IsNotWorking}">
+            <TabControl Grid.Row="0" Margin="0,3,0,0" IsEnabled="{Binding #StatusBar.IsNotWorking}" SelectionChanged="TabControl_SelectionChanged">
                 <!-- ByNameTab-->
                 <TabItem Name="ByNameTab">
                     <TabItem.Header>

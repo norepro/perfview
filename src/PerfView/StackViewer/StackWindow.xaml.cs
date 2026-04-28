@@ -2993,6 +2993,37 @@ namespace PerfView
             m_NotesTabActive = false;
         }
 
+#if AVALONIA
+        /// <summary>
+        /// In Avalonia, GotFocus/LostFocus on TabItem don't fire reliably when switching tabs.
+        /// Use TabControl.SelectionChanged to drive Notes pane visibility and FlameGraph redraw.
+        /// </summary>
+        private void TabControl_SelectionChanged(object sender, global::Avalonia.Controls.SelectionChangedEventArgs e)
+        {
+            if (NotesTab == null)
+                return;
+
+            if (NotesTab.IsSelected)
+            {
+                // Entering Notes tab
+                NotesTab_GotFocus(sender, new RoutedEventArgs());
+            }
+            else if (m_NotesTabActive)
+            {
+                // Leaving Notes tab
+                NotesTab_LostFocus(sender, new RoutedEventArgs());
+            }
+
+            if (FlameGraphTab != null && FlameGraphTab.IsSelected)
+            {
+                if (FlameGraphCanvas.IsEmpty || m_RedrawFlameGraphWhenItBecomesVisible)
+                {
+                    RedrawFlameGraph();
+                }
+            }
+        }
+#endif
+
         private bool m_RedrawFlameGraphWhenItBecomesVisible = false;
 
         private void FlameGraphTab_GotFocus(object sender, RoutedEventArgs e)
