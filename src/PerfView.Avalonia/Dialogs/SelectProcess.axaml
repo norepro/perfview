@@ -7,13 +7,8 @@
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
     <DockPanel>
         <Border DockPanel.Dock="Top" BorderBrush="#ABADB3" BorderThickness="1">
-            <TextBlock Background="{DynamicResource HelpRibbonBackground}" TextWrapping="Wrap" AutomationProperties.Name="Select process help">
-                The data collected was machine wide, but typically you are interested in only one process.
-                This dialog box allows you to choose a particular process to focus on by either double clicking on a
-                process or by selecting a process and hitting OK.
-                The 'All Procs' button can be used if you wish to look at all data.
-                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                See Selecting A Process Help for more.
+            <TextBlock Background="{DynamicResource HelpRibbonBackground}" TextWrapping="Wrap" FontSize="11" AutomationProperties.Name="Select process help">
+                The data collected was machine wide, but typically you are interested in only one process. This dialog box allows you to choose a particular process to focus on by either double clicking on a process or by selecting a process and hitting OK. The 'All Procs' button can be used if you wish to look at all data. See <InlineUIContainer><Button Classes="link" Padding="0" FontSize="11" Click="DoHyperlinkHelp" Tag="SelectProcessDialog">Selecting A Process Help</Button></InlineUIContainer> for more.
             </TextBlock>
         </Border>
         <Grid DockPanel.Dock="Top" >

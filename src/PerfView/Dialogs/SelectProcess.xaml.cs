@@ -264,6 +264,13 @@ namespace PerfView
         {
             MainWindow.DisplayUsersGuide(e.Parameter as string);
         }
+#if AVALONIA
+        private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is string tag)
+                MainWindow.DisplayUsersGuide(tag);
+        }
+#endif
         private void GridKeyDownHander(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
