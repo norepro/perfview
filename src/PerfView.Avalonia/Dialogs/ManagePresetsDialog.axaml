@@ -19,10 +19,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Left part (master one) -->
-        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-        <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="10,2,5,2" >
-            <Run Name="TitleHyperLinkText" Text="Presets"/>
-        </TextBlock>
+        <Button Classes="link" Padding="0" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="10,2,5,2" Click="DoHyperlinkHelp" Tag="PresetList">Presets</Button>
         <ListBox x:Name="PresetListBox" Grid.Row="1" Grid.Column="0" Margin="10,10,10,10" SelectionMode="Single" SelectionChanged="DoPresetSelected"/>
 
         <!-- Right part (details) -->
@@ -41,9 +38,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
-                           Text="Name:"/>
+                <Button Classes="link" Padding="0" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
+                        Click="DoHyperlinkHelp" Tag="Preset">Name:</Button>
                 <TextBox Grid.Row="0" Grid.Column="1" Name="PresetName" Margin="10,2,10,2">
                     <ToolTip.Tip>
                         <TextBlock>
@@ -52,9 +48,8 @@
                     </ToolTip.Tip>
                 </TextBox>
 
-                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
-                           Text="GroupPats:"/>
+                <Button Classes="link" Padding="0" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
+                        Click="DoHyperlinkHelp" Tag="GroupPatsTextBox">GroupPats:</Button>
                 <TextBox Grid.Row="1" Grid.Column="1" Name="GroupPatsTextBox" Margin="10,2,10,2">
                     <ToolTip.Tip>
                         <TextBlock>
@@ -67,18 +62,16 @@
                         </TextBlock>
                     </ToolTip.Tip>
                 </TextBox>
-                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
-                           Text="Fold%:"/>
+                <Button Classes="link" Padding="0" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
+                        Click="DoHyperlinkHelp" Tag="FoldPercentTextBox">Fold%:</Button>
                 <TextBox Name="FoldPercentTextBox" Grid.Row="2" Grid.Column="1" Margin="10,2,10,2">
                     <ToolTip.Tip>
                         <TextBlock> Nodes that have less than this % Inclusive metric will be removed and their
                         metric added to their caller.</TextBlock>
                     </ToolTip.Tip>
                 </TextBox>
-                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
-                           Text="FoldPats:"/>
+                <Button Classes="link" Padding="0" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
+                        Click="DoHyperlinkHelp" Tag="FoldPatsTextBox">FoldPats:</Button>
                 <TextBox Name="FoldRegExTextBox" Grid.Row="3" Grid.Column="1" MinWidth="80" Margin="10,2,10,2">
                     <ToolTip.Tip>
                         <TextBlock>
@@ -87,9 +80,8 @@
                         </TextBlock>
                     </ToolTip.Tip>
                 </TextBox>
-                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Margin="5,0,1,0"
-                           Text="Comment:"/>
+                <Button Classes="link" Padding="0" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" Margin="5,0,1,0"
+                        Click="DoHyperlinkHelp" Tag="Preset">Comment:</Button>
                 <TextBox Name="CommentTextBox" Grid.Row="4" Grid.Column="1"  MinWidth="80" Margin="10,2,10,2" TextWrapping="Wrap" AcceptsReturn="True" Height="72">
                     <ToolTip.Tip>
                         <TextBlock>

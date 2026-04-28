@@ -22,8 +22,9 @@
             <TextBlock Grid.Row="0" Background="{DynamicResource HelpRibbonBackground}" TextWrapping="Wrap" AutomationProperties.Name="Memory data collection help">
                 This dialog gives options for collecting Memory (GC Heap) data. Typically simply typing a few characters
                 of the process name in the Filter text box and hitting &lt;Enter&gt; is enough.
-                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                See Collecting GC Heap Data and Understanding GC Heap Data for more.
+                See <InlineUIContainer BaselineAlignment="Center"><Button Classes="link" Padding="0" FontSize="11" Click="DoHyperlinkHelp" Tag="CollectingDataGCHeap">Collecting GC Heap Data.</Button></InlineUIContainer> and
+                <InlineUIContainer BaselineAlignment="Center"><Button Classes="link" Padding="0" FontSize="11" Click="DoHyperlinkHelp" Tag="UnderstandingPerfDataGCHeap">Understanding GC Heap Data.</Button></InlineUIContainer>
+                for more.
             </TextBlock>
         </Border>
 
@@ -33,9 +34,8 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="100*"/>
             </Grid.ColumnDefinitions>
-            <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-            <TextBlock  Grid.Column="0"  Margin="5,0" VerticalAlignment="Center" ToolTip.Tip="The file name of the process dump file from which to extract the GC heap."
-                        Text="Process Dump File:"/>
+            <Button Classes="link" Padding="0" Grid.Column="0" Margin="5,0" VerticalAlignment="Center" ToolTip.Tip="The file name of the process dump file from which to extract the GC heap."
+                    Click="DoHyperlinkHelp" Tag="ProcessDumpTextBox">Process Dump File:</Button>
             <TextBox  Margin="0,5,5,0" Grid.Column="1" Name="ProcessDumpTextBox" VerticalAlignment="Center" KeyDown="ProcessDumpKeyDown" AutomationProperties.Name="Process Dump File"  />
         </Grid>
 
@@ -54,14 +54,12 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0" ToolTip.Tip="Only processes that match this RegEx filter pattern are displayed."
-                           Text="Filter:"/>
+                <Button Classes="link" Padding="0" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0" ToolTip.Tip="Only processes that match this RegEx filter pattern are displayed."
+                        Click="DoHyperlinkHelp" Tag="ProcessFilterTextBox">Filter:</Button>
                 <TextBox VerticalAlignment="Center" Grid.Column="1" Width="100" Margin="5,0,0,0"  Name="FilterTextBox" TextChanged="FilterTextChanged" KeyDown="FilterTextKeyDown" AutomationProperties.Name="Process Filter"/>
 
-                <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5,0,0,0" ToolTip.Tip="Normally only processed with GC heaps are displayed.  Checking this shows all processes."
-                           Text="All Procs:"/>
+                <Button Classes="link" Padding="0" Grid.Column="2" VerticalAlignment="Center" Margin="5,0,0,0" ToolTip.Tip="Normally only processed with GC heaps are displayed.  Checking this shows all processes."
+                        Click="DoHyperlinkHelp" Tag="AllProcsCheckBox">All Procs:</Button>
                 <CheckBox Grid.Column="3" Name="AllProcsCheckBox" VerticalAlignment="Center"  IsChecked="True" Click="AllProcsClick" AutomationProperties.Name="All Processes" />
 
                 <TextBlock Grid.Column="4" Margin="15,0,0,0" VerticalAlignment="Center" Name="ElevateWarning" TextWrapping="Wrap">
@@ -85,9 +83,8 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-            <TextBlock  Grid.Column="0" Margin="5,0" VerticalAlignment="Center" ToolTip.Tip="The name of the data file to create."
-                        Text="Output Data File:"/>
+            <Button Classes="link" Padding="0" Grid.Column="0" Margin="5,0" VerticalAlignment="Center" ToolTip.Tip="The name of the data file to create."
+                    Click="DoHyperlinkHelp" Tag="GCHeapDataFileNameTextBox">Output Data File:</Button>
             <TextBox Grid.Column="1"  Name="DataFileNameTextBox" VerticalAlignment="Center" KeyDown="DataFileKeyDown" AutomationProperties.Name="Output Data Filename" />
             <Button Grid.Column="2" Content="..."  Width="25" Margin="5,5"
                 VerticalAlignment="Center" Click="DataFileButtonClick" ToolTip.Tip="Click to select the file name in a file chooser dialog." />
@@ -102,23 +99,20 @@
 
             <WrapPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
-                    <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                    <TextBlock VerticalAlignment="Center" Margin="5,0,2,0" ToolTip.Tip="If object count exceeds this (in thousands), old events are discarded."
-                               Text="Max Dump K Objs:"/>
+                    <Button Classes="link" Padding="0" VerticalAlignment="Center" Margin="5,0,2,0" ToolTip.Tip="If object count exceeds this (in thousands), old events are discarded."
+                            Click="DoHyperlinkHelp" Tag="MaxDumpTextBox">Max Dump K Objs:</Button>
                     <TextBox Name="MaxDumpTextBox" VerticalAlignment="Center" Width="50" Margin="5,0" AutomationProperties.Name="Max Dump K Objs"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                    <TextBlock VerticalAlignment="Center" Margin="5,0,2,0" ToolTip.Tip="If checked, freezes the process during the collection."
-                               Text="Freeze:"/>
+                    <Button Classes="link" Padding="0" VerticalAlignment="Center" Margin="5,0,2,0" ToolTip.Tip="If checked, freezes the process during the collection."
+                            Click="DoHyperlinkHelp" Tag="FreezeCheckBox">Freeze:</Button>
                     <CheckBox Name="FreezeCheckBox" VerticalAlignment="Center" Margin="0,0,10,0" AutomationProperties.Name="Freeze"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-                    <TextBlock VerticalAlignment="Center" Margin="5,0,2,0" ToolTip.Tip="If checked Dump will be in Clr Profiler format."
-                               Text="Save ETL:"/>
+                    <Button Classes="link" Padding="0" VerticalAlignment="Center" Margin="5,0,2,0" ToolTip.Tip="If checked Dump will be in Clr Profiler format."
+                            Click="DoHyperlinkHelp" Tag="SaveETLCheckBox">Save ETL:</Button>
                     <CheckBox Name="SaveETLCheckBox" VerticalAlignment="Center" Margin="0,0,10,0" AutomationProperties.Name="Save ETL"/>
                 </StackPanel>
             </WrapPanel>

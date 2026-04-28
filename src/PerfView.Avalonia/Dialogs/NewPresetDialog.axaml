@@ -18,8 +18,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <!-- TODO_AVALONIA: Hyperlink not available in Avalonia, replaced with TextBlock -->
-            <TextBlock HorizontalAlignment="Left" Margin="8,2,5,2" Name="TitleHyperLinkText" Text="Preset Name"/>
+            <Button Classes="link" Padding="0" HorizontalAlignment="Left" Margin="8,2,5,2" Click="DoHyperlinkHelp" Tag="PresetNameTextBox">Preset Name</Button>
             <TextBox Name="PresetNameTextBox" Width="290" Margin="10,2,10,2" KeyDown="DoKeyDown" ScrollViewer.HorizontalScrollBarVisibility="Auto" />
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,0,0,0">

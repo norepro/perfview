@@ -24,31 +24,27 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-        <TextBlock x:Name="ProviderBrowserLink" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"
-                   Text="Provider Browser"/>
+        <Button Classes="link" Padding="0" x:Name="ProviderBrowserLink" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18"
+                Click="DoHyperlinkHelp" Tag="">Provider Browser</Button>
         <TextBlock Name="ProviderLabel" Text="Provider" Grid.Row="5" Grid.Column="0" Height="20" VerticalAlignment="Top" Margin="10,0,0,0" />
         <TextBox x:Name="SelectedProviderString"  Grid.Row="6" Grid.Column="0" IsEnabled="False"    Height="29" VerticalAlignment="Top" Grid.ColumnSpan= "4" Margin="10,0,0,0" />
 
         <TextBlock x:Name="ProcessFilterLabel" Text="Process Filter" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Width="170" Height="20" VerticalAlignment="Top" Margin="10,0,0,0" />
         <TextBox Name="ProcessNameFilter"  Grid.Row="2" Grid.Column="0" TextChanged="DoProcessFilterTextChange" Height="26" VerticalAlignment="Top" Margin="10,0"/>
-        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-        <TextBlock x:Name="ProcessLink" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Width="170" Height="20" VerticalAlignment="Top" Margin="10,0,0,0"
-                   Text="Processes"/>
+        <Button Classes="link" Padding="0" x:Name="ProcessLink" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"
+                Click="DoHyperlinkHelp" Tag="Processes">Processes</Button>
         <ListBox Name="ProcessNameListBox"  Grid.Row="4" Grid.Column="0" SelectionMode="Single" SelectionChanged="DoProcessSelected" Margin="10,0,10,10"/>
 
         <TextBlock x:Name="ProvderFilterLabel" Text="Provider Filter" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" Width="170" Height="20" VerticalAlignment="Top" Margin="10,0,0,0" />
         <TextBox Name="ProviderNameFilter"  Grid.Row="2" Grid.Column="1" TextChanged="DoProviderFilterTextChange" Height="26" VerticalAlignment="Top" Margin="10,0"/>
-        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-        <TextBlock x:Name="ProviderLink"  Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Width="170" Height="20" VerticalAlignment="Top" Margin="10,0,0,0"
-                   Text="Providers"/>
+        <Button Classes="link" Padding="0" x:Name="ProviderLink" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"
+                Click="DoHyperlinkHelp" Tag="Providers">Providers</Button>
         <ListBox Name="ProviderNameListBox"  Grid.Row="4" Grid.Column="1" SelectionMode="Single" SelectionChanged="ProviderSelected" Margin="10,0,10,10"/>
 
         <TextBlock Name="KeyFilterLabel" Text="Key Filter"  Grid.Row="1" Grid.Column="2" Height="20" VerticalAlignment="Top" Margin="14,0,0,0" HorizontalAlignment="Left" Width="251" Grid.ColumnSpan="2" />
         <TextBox Name="KeyNameFilter" Grid.Row="2" Grid.Column="2" TextChanged="DoKeyFilterTextChange"  Height="26" VerticalAlignment="Top" Margin="10,0,5,0"/>
-        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia -->
-        <TextBlock x:Name="KeyLink"  Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" Width="170" Height="20" VerticalAlignment="Top" Margin="10,0,0,0"
-                   Text="Keywords"/>
+        <Button Classes="link" Padding="0" x:Name="KeyLink" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"
+                Click="DoHyperlinkHelp" Tag="Keywords">Keywords</Button>
         <ListBox Name="KeyNameListBox"  Grid.Row="4" Grid.Column="2" SelectionMode="Multiple" SelectionChanged="KeySelected" Margin="10,0,9,10" />
 
 
