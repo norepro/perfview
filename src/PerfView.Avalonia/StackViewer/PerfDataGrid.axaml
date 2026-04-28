@@ -10,8 +10,6 @@
         d:DesignHeight="223" d:DesignWidth="600">
     <UserControl.Resources>
         <converter:ColorValidatorConverter x:Key="converter" />
-        <!-- Shared Styles -->
-        <!-- TODO_AVALONIA: ElementStyle not available in Avalonia DataGridTextColumn; RightAlign style needs alternative approach -->
         <Style x:Key="RightAlign" Selector="TextBlock">
             <Setter Property="TextAlignment" Value="Right" />
         </Style>
@@ -45,6 +43,13 @@
         FontSize="12"
         ColumnWidth="Auto"
         AutomationProperties.Name="Data Grid">
+        <DataGrid.Resources>
+            <ControlTheme x:Key="DataGridCellTextBlockTheme" TargetType="TextBlock">
+                <Setter Property="Margin" Value="0,0,4,0" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="TextAlignment" Value="Right" />
+            </ControlTheme>
+        </DataGrid.Resources>
         <DataGrid.Columns>
             <!-- TODO_AVALONIA: ClipboardContentBinding not available -->
             <DataGridTemplateColumn

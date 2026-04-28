@@ -3330,19 +3330,31 @@ namespace PerfView
             var col = ByNameDataGrid.GetColumnIndex("ExcPercentColumn");
             if (0 <= col && col != 1)
             {
+#if AVALONIA
+                ByNameDataGrid.Grid.Columns[col].DisplayIndex = 1;
+#else
                 ByNameDataGrid.Grid.Columns.Move(col, 1);
+#endif
             }
 
             col = ByNameDataGrid.GetColumnIndex("ExcColumn");
             if (0 <= col && col != 2)
             {
+#if AVALONIA
+                ByNameDataGrid.Grid.Columns[col].DisplayIndex = 2;
+#else
                 ByNameDataGrid.Grid.Columns.Move(col, 2);
+#endif
             }
 
             col = ByNameDataGrid.GetColumnIndex("ExcCountColumn");
             if (0 <= col && col != 3)
             {
+#if AVALONIA
+                ByNameDataGrid.Grid.Columns[col].DisplayIndex = 3;
+#else
                 ByNameDataGrid.Grid.Columns.Move(col, 3);
+#endif
             }
 
             // Initialize the CallTree, Callers, and Callees tabs
