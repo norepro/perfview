@@ -19,20 +19,20 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- TODO_AVALONIA: Hyperlink not available in Avalonia, replaced with TextBlock -->
-        <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin="8,2,5,2">
-            <Run Name="TitleHyperLinkText" Text="Symbol Path"/>
-        </TextBlock>
+        <Button Grid.Row="0" Classes="link" HorizontalAlignment="Center" Margin="8,2,5,2"
+                Click="DoHyperlinkHelp" Tag="SymbolPathTextBox">
+            <TextBlock Name="TitleHyperLinkText" Text="Symbol Path"/>
+        </Button>
         <TextBox Grid.Row="1" Name="SymbolPathTextBox" Margin="10,2,10,2" KeyDown="DoKeyDown"
-                 AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 AcceptsReturn="True" VerticalContentAlignment="Top"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
                  TextChanged="DoTextChanged" />
-        <!-- TODO_AVALONIA: AutomationProperties.Name needs verification -->
         <TextBox Grid.Row="2" Name="EnvVarTextBox" Margin="10,2,10,10" IsReadOnly="True" />
         <StackPanel Grid.Row="3" Orientation="Horizontal" FlowDirection="RightToLeft">
-
-        <Button Margin="10,2,10,5" Width="80" Content="OK" Click="OKClicked"/>
-        <Button Margin="10,2,10,5" Name="AddMSSymbols" Content="  Add Microsoft Symbol Server  " Click="AddMSSymbolsClicked"
-                ToolTip.Tip="Adds the URL for the Microsoft symbol server to the Symbol path (it not already present)"/>
+            <Button Margin="10,2,10,5" Width="80" Content="OK" Click="OKClicked" HorizontalContentAlignment="Center"/>
+            <Button Margin="10,2,10,5" Name="AddMSSymbols" Content="Add Microsoft Symbol Server" Click="AddMSSymbolsClicked"
+                    HorizontalContentAlignment="Center"
+                    ToolTip.Tip="Adds the URL for the Microsoft symbol server to the Symbol path (it not already present)"/>
         </StackPanel>
     </Grid>
 </src:WindowBase>
