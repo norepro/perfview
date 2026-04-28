@@ -1160,7 +1160,11 @@ namespace PerfView
         private void DoPrivacyPolicy(object sender, RoutedEventArgs e)
         {
             StatusBar.Log("Displaying the privacy policy.");
+#if AVALONIA
+            Process.Start(new ProcessStartInfo("https://go.microsoft.com/fwlink/?LinkId=521839") { UseShellExecute = true });
+#else
             Process.Start("https://go.microsoft.com/fwlink/?LinkId=521839");
+#endif
         }
 
         private void UpdateFileFilter()

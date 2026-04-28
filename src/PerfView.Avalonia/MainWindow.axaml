@@ -94,18 +94,18 @@
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Help">
-                    <MenuItem Header="_Help on Main View" Click="DoHyperlinkHelp" Tag="MainViewerQuickStart" />
-                    <MenuItem Header="_Users Guide" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="UsersGuide"/>
+                    <MenuItem Header="_Help on Main View" Click="DoHyperlinkHelp" Tag="MainViewerQuickStart" HotKey="F1" InputGesture="F1" />
+                    <MenuItem Header="_Users Guide" Click="DoHyperlinkHelp" Tag="UsersGuide"/>
                     <MenuItem Name="VideoMenuEntry" Header="Getting started _Videos" Click="DoVideoClick"/>
-                    <MenuItem Header="Get the _Latest Version" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="LatestVersion"/>
+                    <MenuItem Header="Get the _Latest Version" Click="DoHyperlinkHelp" Tag="LatestVersion"/>
                     <MenuItem Header="_Reference Guide" Click="DoReferenceGuide"/>
                     <MenuItem Header="_Command Line Help" Click="DoCommandLineHelp"/>
                     <MenuItem Header="User Command Help" Click="DoUserCommandHelp"/>
-                    <MenuItem Header="Multi-Scenarios Analysis" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="MultiScenarioAnalysis"/>
-                    <MenuItem Header="_Extending Perfview" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="PerfViewExtensions"/>
-                    <MenuItem Header="Viewing Linux Data" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="ViewingLinuxData"/>
-                    <MenuItem Header="Viewing External Data" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="ViewingExternalData"/>
-                    <MenuItem Header="Using EventSources" Command="{x:Static src:MainWindow.UsersGuideCommand}" CommandParameter="UsingEventSources"/>
+                    <MenuItem Header="Multi-Scenarios Analysis" Click="DoHyperlinkHelp" Tag="MultiScenarioAnalysis"/>
+                    <MenuItem Header="_Extending Perfview" Click="DoHyperlinkHelp" Tag="PerfViewExtensions"/>
+                    <MenuItem Header="Viewing Linux Data" Click="DoHyperlinkHelp" Tag="ViewingLinuxData"/>
+                    <MenuItem Header="Viewing External Data" Click="DoHyperlinkHelp" Tag="ViewingExternalData"/>
+                    <MenuItem Header="Using EventSources" Click="DoHyperlinkHelp" Tag="UsingEventSources"/>
                     <MenuItem Header="_Release Notes" Click="DoReleaseNotes"/>
                     <MenuItem Header="Privacy Policy" Click="DoPrivacyPolicy" />
                     <MenuItem Header="_About" Click="DoAbout"/>
