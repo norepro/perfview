@@ -132,7 +132,7 @@
                  Text="Enter a command to run." ToolTip.Tip="Status information."/>
 
             <Expander Name="AdvancedOptionsExpander" Grid.Row="6" Header="Advanced Options" Grid.ColumnSpan="3" Expanded="DoExpand" Collapsed="DoCollapsed">
-                <Grid Name="AdvancedOptionsGrid">
+                <Grid Name="AdvancedOptionsGrid" Grid.IsSharedSizeScope="True">
                     <!-- TODO_AVALONIA: Style conversion needed - default style for TextBlock with TextWrapping -->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100*"/>
@@ -149,21 +149,21 @@
                     <!-- Check boxes for individual kernel events -->
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col1"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col2"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col3"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col4"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col5"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col6"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col7"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col8"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col9"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col10"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col11"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col12"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col13"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <!-- TODO_AVALONIA: Hyperlink not available in Avalonia (all hyperlinks in this section replaced with plain TextBlock) -->
@@ -206,22 +206,21 @@
                     <!-- Check boxes for more kernel events -->
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="92*"/>
-                            <ColumnDefinition Width="13*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="104*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="21*"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col1"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col2"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col3"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col4"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col5"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col6"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col7"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col8"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col9"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col10"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col11"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col12"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col13"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
@@ -245,36 +244,36 @@
                         <CheckBox Grid.Column="7" Name="NetMonCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="NetMon"/>
 
                         <TextBlock Grid.Row="0" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
-                           ToolTip.Tip="Capture the full payload of all network packets that enter or leave the machine." Grid.ColumnSpan="2"
+                           ToolTip.Tip="Capture the full payload of all network packets that enter or leave the machine."
                            Text="Net Capture:"/>
-                        <CheckBox Grid.Column="10" Name="NetCaptureCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="Net Capture" />
+                        <CheckBox Grid.Column="9" Name="NetCaptureCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="Net Capture" />
 
-                        <TextBlock Grid.Row="0" Grid.Column="11" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
+                        <TextBlock Grid.Row="0" Grid.Column="10" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
                            ToolTip.Tip="Capture events from the Task Parallel Library."
                            Text="Tasks (TPL):"/>
-                        <CheckBox Grid.Column="12" Name="TplCaptureCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="Tasks (TPL)" />
+                        <CheckBox Grid.Column="11" Name="TplCaptureCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="Tasks (TPL)" />
 
-                        <CheckBox Grid.Row="0" Grid.Column="14" Name="Box7" VerticalAlignment="Center" IsVisible="False" Margin="0,2" />
+                        <CheckBox Grid.Row="0" Grid.Column="13" Name="Box7" VerticalAlignment="Center" IsVisible="False" Margin="0,2" />
                     </Grid>
 
                     <!-- Check boxes for clr events -->
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="100*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="20*"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col1"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col2"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col3"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col4"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col5"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col6"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col7"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col8"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col9"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col10"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col11"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col12"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col13"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
@@ -316,22 +315,21 @@
                     <!-- Check boxes for more clr events (GC Heap related) -->
                     <Grid Grid.Row="3">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="92*"/>
-                            <ColumnDefinition Width="13*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="105*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="104*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="21*"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col0"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col1"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col2"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col3"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col4"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col5"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col6"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col7"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col8"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col9"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col10"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col11"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col12"/>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Col13"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,2,5,2" TextWrapping="Wrap"
@@ -354,17 +352,17 @@
                            Text=".NET SampAlloc:"/>
                         <CheckBox Grid.Row="0" Grid.Column="7" Name="DotNetAllocSampledCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name=".NET Sample Alloc" />
 
-                        <TextBlock Grid.Row="0" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="16.2,2,0,2" TextWrapping="Wrap"
-                           ToolTip.Tip="Do smart sampling which aggressive trims commonly allocated types, and rare time not at all." Grid.ColumnSpan="2"
+                        <TextBlock Grid.Row="0" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                           ToolTip.Tip="Do smart sampling which aggressive trims commonly allocated types, and rare time not at all."
                            Text="ETW .NET Alloc:"/>
-                        <CheckBox Grid.Row="0" Grid.Column="10" Name="ETWDotNetAllocSampledCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="ETW .NET Alloc"/>
+                        <CheckBox Grid.Row="0" Grid.Column="9" Name="ETWDotNetAllocSampledCheckBox" VerticalAlignment="Center" Margin="0,2" AutomationProperties.Name="ETW .NET Alloc"/>
 
-                        <TextBlock Grid.Row="0" Grid.Column="11" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
+                        <TextBlock Grid.Row="0" Grid.Column="10" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8,2,5,2" TextWrapping="Wrap"
                            ToolTip.Tip="Collect a heap snapshot prior to stopping collection."
                            Text="Dump Heap:"/>
-                        <CheckBox Grid.Row="0" Grid.Column="12" Name="HeapSnapshotCheckBox" VerticalAlignment="Center" AutomationProperties.Name="Dump Heap"/>
+                        <CheckBox Grid.Row="0" Grid.Column="11" Name="HeapSnapshotCheckBox" VerticalAlignment="Center" AutomationProperties.Name="Dump Heap"/>
 
-                        <CheckBox Grid.Row="0" Grid.Column="14" VerticalAlignment="Center" IsVisible="False" Margin="0,2" />
+                        <CheckBox Grid.Row="0" Grid.Column="13" VerticalAlignment="Center" IsVisible="False" Margin="0,2" />
                     </Grid>
 
                     <!-- Additional Providers -->
