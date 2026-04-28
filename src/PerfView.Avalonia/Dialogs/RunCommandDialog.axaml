@@ -5,7 +5,7 @@
         xmlns:controls="using:Controls"
         Background="{DynamicResource ControlDarkerBackground}"
         Title="Collecting ETW Data while running a command"
-        Height="250" Width="1050" MinHeight="250" MinWidth="925"
+        Height="222" Width="1050" MinHeight="200" MinWidth="925"
         x:CompileBindings="False">
     <src:WindowBase.Resources>
         <x:Double x:Key="CheckBoxMinHeight">20</x:Double>
