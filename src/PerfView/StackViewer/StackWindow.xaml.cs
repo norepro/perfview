@@ -2903,6 +2903,31 @@ namespace PerfView
                 NotesPaneHidden = !NotesPaneHidden;
                 e.Handled = true;
             }
+            else if (e.Key == Key.F5)
+            {
+                DoUpdate(sender, e);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.F1)
+            {
+                DoHyperlinkHelp("StackViewerQuickStart");
+                e.Handled = true;
+            }
+            else if (e.Key == Key.F3)
+            {
+                FindNext(FindTextBox.Text);
+                e.Handled = true;
+            }
+            else if (e.Key == Key.F && e.KeyModifiers == KeyModifiers.Control)
+            {
+                FindTextBox.Focus();
+                e.Handled = true;
+            }
+            else if (e.Key == Key.D && e.KeyModifiers == KeyModifiers.Alt)
+            {
+                DoLookupSymbolsImpl();
+                e.Handled = true;
+            }
         }
 #endif
         private bool m_ViewsShouldBeSaved;

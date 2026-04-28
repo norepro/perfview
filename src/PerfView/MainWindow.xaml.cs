@@ -72,6 +72,9 @@ namespace PerfView
 #if AVALONIA
             m_directoryAdapter = new DirectoryAdapter(DirectoryComboBox);
             m_suppressDirectorySelectionChanged = true;
+            // Intercept Alt+key: listen on KeyUp since Alt activates the menu and
+            // swallows subsequent KeyDown events. The letter arrives on KeyUp.
+            AddHandler(KeyUpEvent, MainWindow_KeyUp, global::Avalonia.Interactivity.RoutingStrategies.Tunnel);
 #endif
             Directory.HistoryLength = 25;
             DataContext = this;
@@ -857,6 +860,30 @@ namespace PerfView
             {
                 DirectoryComboBox.SelectedIndex = -1; // prevent re-fire on same item
                 OpenPath(dir);
+            }
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F5 && e.KeyModifiers == KeyModifiers.None)
+            {
+                RefreshCurrentDirectory();
+                e.Handled = true;
+            }
+        }
+
+        private void MainWindow_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyModifiers == KeyModifiers.Alt)
+            {
+                switch (e.Key)
+                {
+                    case Key.U: DoUserCommand(sender, e); e.Handled = true; break;
+                    case Key.C: DoCollect(sender, e); e.Handled = true; break;
+                    case Key.R: DoRun(sender, e); e.Handled = true; break;
+                    case Key.A: DoAbort(sender, e); e.Handled = true; break;
+                    case Key.S: TakeHeapShapshot(null); e.Handled = true; break;
+                }
             }
         }
 #endif
