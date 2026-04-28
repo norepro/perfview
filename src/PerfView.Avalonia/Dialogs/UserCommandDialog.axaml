@@ -25,12 +25,7 @@
         </Button>
         <controls:HistoryComboBox x:Name="CommandTextBox" Grid.Row="1" Margin="10,2,10,2"
                          ToolTip.Tip="Enter user-defined command. Tab will commit completion."
-                         Enter="OKClicked">
-            <controls:HistoryComboBox.Resources>
-                <SolidColorBrush x:Key="ComboBoxBackground" Color="Transparent" />
-                <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="Transparent" />
-            </controls:HistoryComboBox.Resources>
-        </controls:HistoryComboBox>
+                         Enter="OKClicked" />
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" FlowDirection="RightToLeft">
             <Button Margin="10,5,10,5" Width="80" Content="OK" Click="OKClicked" HorizontalContentAlignment="Center" TabIndex="2"/>

@@ -200,17 +200,21 @@ namespace Controls
         private void DoGotFocus(object sender, RoutedEventArgs e)
         {
             m_hasFocus = true;
+#if !AVALONIA
             m_origBackground = Background;
             Background = new SolidColorBrush(Color.FromRgb(0xDC, 0xE5, 0xEB));
+#endif
         }
         private void DoLostFocus(object sender, RoutedEventArgs e)
         {
             bool prevFocus = m_hasFocus;
             m_hasFocus = false;
+#if !AVALONIA
             if (m_origBackground != null)
             {
                 Background = m_origBackground;
             }
+#endif
 
             if (prevFocus)
             {
