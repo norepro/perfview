@@ -300,6 +300,7 @@ Double-click to enter select mode. Select text and use "Set Scenario List" to li
             <!-- TODO_AVALONIA: ElementStyle not available -->
             <DataGridTextColumn
                 IsReadOnly="True"
+                MinWidth="50"
                 Binding="{Binding FirstTimeRelativeMSec, StringFormat={}{0:n3}}">
                 <DataGridTextColumn.Header>
                     <StackPanel Name="FirstColumn" Orientation="Horizontal" >
@@ -315,6 +316,7 @@ Double-click to enter select mode. Select text and use "Set Scenario List" to li
             <!-- TODO_AVALONIA: ElementStyle not available -->
             <DataGridTextColumn
                 IsReadOnly="True"
+                MinWidth="50"
                 Binding="{Binding LastTimeRelativeMSec, StringFormat={}{0:n3}}">
                 <DataGridTextColumn.Header>
                     <StackPanel Name="LastColumn" Orientation="Horizontal" >
