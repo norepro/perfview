@@ -241,6 +241,12 @@ Can paste ranges into this box.</TextBlock>
                     ToolTip.Tip="Click on Update button to update."
                     SelectionMode="Extended"
                     AutomationProperties.Name="Events Table">
+                    <DataGrid.Resources>
+                        <ControlTheme x:Key="DataGridCellTextBlockTheme" TargetType="TextBlock">
+                            <Setter Property="Margin" Value="4,0,4,0" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </ControlTheme>
+                    </DataGrid.Resources>
                     <DataGrid.Columns>
                         <DataGridTextColumn
                         Header="Event Name"
