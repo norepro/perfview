@@ -135,7 +135,7 @@ namespace PerfView.Dialogs
                 if (selection != null)
                 {
                     SetInputFileName(selection);
-                    if (!SelectingDirectories && e.Key == Key.Return && File.Exists(Path.Combine(CurrentDirectory, InputFileName.Text)))
+                    if (!SelectingDirectories && e.Key == Key.Return && File.Exists(Path.Combine(CurrentDirectory, InputFileName.Text ?? "")))
                     {
                         OKClicked(null, null);
                         return;
@@ -266,7 +266,7 @@ namespace PerfView.Dialogs
             if (selection != null)
             {
                 SetInputFileName(selection);
-                if (!SelectingDirectories && File.Exists(Path.Combine(CurrentDirectory, InputFileName.Text)))
+                if (!SelectingDirectories && File.Exists(Path.Combine(CurrentDirectory, InputFileName.Text ?? "")))
                 {
                     OKClicked(null, null);
                 }
@@ -276,7 +276,7 @@ namespace PerfView.Dialogs
         private void OKClicked(object sender, RoutedEventArgs e)
         {
             bool success;
-            string inputFileName = Path.Combine(CurrentDirectory, InputFileName.Text);
+            string inputFileName = Path.Combine(CurrentDirectory, InputFileName.Text ?? "");
             if (SelectingDirectories)
             {
                 if (inputFileName.Length == 0)
