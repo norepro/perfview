@@ -72,7 +72,7 @@
                 IsReadOnly="True"
                 Binding="{Binding InclusiveMetricPercent, StringFormat={}{0:n1}}">
                 <DataGridTextColumn.Header>
-                    <StackPanel Name="IncPercentColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                    <StackPanel Name="IncPercentColumn" Orientation="Horizontal" >
                         <TextBlock Text="Inc % " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="IncPercentColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
@@ -87,7 +87,7 @@
                 IsReadOnly="True"
                 Binding="{Binding InclusiveMetric, StringFormat={}{0:n1}}">
                 <DataGridTextColumn.Header >
-                    <StackPanel Name="IncColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                    <StackPanel Name="IncColumn" Orientation="Horizontal" >
                         <TextBlock Text="Inc " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="IncColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
@@ -104,7 +104,7 @@
                 IsReadOnly="True"
                 Binding="{Binding AverageInclusiveMetric, StringFormat={}{0:n1}}">
                 <DataGridTextColumn.Header>
-                    <StackPanel Name="IncAvgColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                    <StackPanel Name="IncAvgColumn" Orientation="Horizontal" >
                         <TextBlock Text="Inc Avg " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="IncAvgColumn">?</Button>
                         <ToolTip.Tip>
                             <TextBlock>
@@ -120,7 +120,7 @@
                 IsReadOnly="True"
                 Binding="{Binding InclusiveCount, StringFormat={}{0:n0}}">
                 <DataGridTextColumn.Header>
-                    <StackPanel Name="IncCountColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                    <StackPanel Name="IncCountColumn" Orientation="Horizontal" >
                         <TextBlock Text="Inc Ct " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="IncCountColumn">?</Button>
                         <ToolTip.Tip>
                             <TextBlock>
@@ -136,7 +136,7 @@
                 IsReadOnly="True"
                 Binding="{Binding ExclusiveMetricPercent, StringFormat={}{0:n1}}">
                 <DataGridTextColumn.Header>
-                    <StackPanel Name="ExcPercentColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                    <StackPanel Name="ExcPercentColumn" Orientation="Horizontal" >
                         <TextBlock Text="Exc % " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="ExcPercentColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
@@ -152,7 +152,7 @@
                 IsReadOnly="True"
                 Binding="{Binding ExclusiveMetric, StringFormat={}{0:n0}}">
                 <DataGridTextColumn.Header>
-                    <StackPanel Name="ExcColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                    <StackPanel Name="ExcColumn" Orientation="Horizontal" >
                         <TextBlock Text="Exc " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="ExcColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
@@ -168,7 +168,7 @@
                 IsReadOnly="True"
                 Binding="{Binding ExclusiveCount, StringFormat={}{0:n0}}">
                 <DataGridTextColumn.Header>
-                    <StackPanel Name="ExcCountColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                    <StackPanel Name="ExcCountColumn" Orientation="Horizontal" >
                         <TextBlock Text="Exc Ct " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="ExcCountColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
@@ -184,7 +184,7 @@
                 IsReadOnly="True"
                 Binding="{Binding ExclusiveFoldedMetric, StringFormat={}{0:n0}}">
                 <DataGridTextColumn.Header>
-                    <StackPanel Name="FoldColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                    <StackPanel Name="FoldColumn" Orientation="Horizontal" >
                         <TextBlock Text="Fold " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="FoldColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
@@ -200,7 +200,7 @@
                 IsReadOnly="True"
                 Binding="{Binding ExclusiveFoldedCount, StringFormat={}{0:n0}}">
                 <DataGridTextColumn.Header>
-                    <StackPanel Name="FoldCountColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                    <StackPanel Name="FoldCountColumn" Orientation="Horizontal" >
                         <TextBlock Text="Fold Ct " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="FoldCountColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
@@ -296,7 +296,7 @@ Double-click to enter select mode. Select text and use "Set Scenario List" to li
                 IsReadOnly="True"
                 Binding="{Binding FirstTimeRelativeMSec, StringFormat={}{0:n3}}">
                 <DataGridTextColumn.Header>
-                    <StackPanel Name="FirstColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                    <StackPanel Name="FirstColumn" Orientation="Horizontal" >
                         <TextBlock Text="First " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="FirstColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
@@ -311,7 +311,7 @@ Double-click to enter select mode. Select text and use "Set Scenario List" to li
                 IsReadOnly="True"
                 Binding="{Binding LastTimeRelativeMSec, StringFormat={}{0:n3}}">
                 <DataGridTextColumn.Header>
-                    <StackPanel Name="LastColumn" Orientation="Horizontal" Margin="0,0,5,0" >
+                    <StackPanel Name="LastColumn" Orientation="Horizontal" >
                         <TextBlock Text="Last " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="LastColumn">?</Button>
                         <ToolTip.Tip>
                                 <TextBlock>
