@@ -406,7 +406,7 @@ will be removed completely from the trace.
                     </Grid>
                 </TabItem>
                 <!-- FlameGraphTab -->
-                <TabItem Name="FlameGraphTab" GotFocus="FlameGraphTab_GotFocus">
+                <TabItem Name="FlameGraphTab">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal"><TextBlock Text="Flame Graph " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="FlameGraphView">?</Button></StackPanel>
                     </TabItem.Header>
@@ -415,7 +415,7 @@ will be removed completely from the trace.
                     </Border>
                 </TabItem>
                 <!-- NotesTab -->
-                <TabItem Name="NotesTab" GotFocus="NotesTab_GotFocus" LostFocus="NotesTab_LostFocus">
+                <TabItem Name="NotesTab">
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal"><TextBlock Text="Notes " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="NotesView">?</Button></StackPanel>
                     </TabItem.Header>

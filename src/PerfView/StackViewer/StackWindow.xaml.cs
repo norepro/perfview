@@ -3000,17 +3000,20 @@ namespace PerfView
         /// </summary>
         private void TabControl_SelectionChanged(object sender, global::Avalonia.Controls.SelectionChangedEventArgs e)
         {
+            // Only handle events from the TabControl itself, not bubbled from child DataGrids/ListBoxes
+            if (e.Source != sender)
+                return;
+
             if (NotesTab == null)
                 return;
 
             if (NotesTab.IsSelected)
             {
-                // Entering Notes tab
-                NotesTab_GotFocus(sender, new RoutedEventArgs());
+                if (!m_NotesTabActive)
+                    NotesTab_GotFocus(sender, new RoutedEventArgs());
             }
             else if (m_NotesTabActive)
             {
-                // Leaving Notes tab
                 NotesTab_LostFocus(sender, new RoutedEventArgs());
             }
 
