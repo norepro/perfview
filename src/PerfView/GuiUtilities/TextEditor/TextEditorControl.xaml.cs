@@ -544,7 +544,7 @@ namespace Controls
         {
             m_timer.Stop();
 
-            if (m_textEditorControl.IsVisible && m_sb.Length > 0)
+            if (m_sb.Length > 0)
             {
 #if AVALONIA
                 Dispatcher.UIThread.InvokeAsync((Action)delegate ()
@@ -552,6 +552,9 @@ namespace Controls
                 m_textEditorControl.Dispatcher.BeginInvoke((Action)delegate ()
 #endif
                 {
+                    if (!m_textEditorControl.IsVisible)
+                        return;
+
                     lock (this)
                     {
                         // Flushing is expensive, do it no more frequently than once every 200 msec
