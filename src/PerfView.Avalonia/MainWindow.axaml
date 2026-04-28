@@ -88,10 +88,9 @@
                     <MenuItem Header="Navigate to last used directory on launch." x:Name="Option_OpenToLastUsedDirectory" ToggleType="CheckBox" Click="ToggleOpenToLastUsedDirectory" ToolTip.Tip="When launching PerfView, navigate to the last opened directory instead of the current working directory."/>
                     <MenuItem Header="Truncate raw data when dumping an event" x:Name="Option_TruncateRawEventData" ToggleType="CheckBox" Click="ToggleTruncateRawEventData" ToolTip.Tip="Controls whether or not a raw event dumped from the events view is truncated." />
                     <MenuItem Header="Theme">
-                        <!-- TODO_AVALONIA: ThemeViewModel commands need Avalonia-compatible implementation -->
-                        <MenuItem Header="Light" x:Name="Theme_Light" IsChecked="{Binding Path=ThemeViewModel.IsLightTheme}"/>
-                        <MenuItem Header="Dark" x:Name="Theme_Dark" IsChecked="{Binding Path=ThemeViewModel.IsDarkTheme}"/>
-                        <MenuItem Header="System" x:Name="Theme_System" IsChecked="{Binding Path=ThemeViewModel.IsSystemTheme}"/>
+                        <MenuItem Header="Light" x:Name="Theme_Light" IsChecked="{Binding Path=ThemeViewModel.IsLightTheme}" ToggleType="Radio" Click="SetThemeLight"/>
+                        <MenuItem Header="Dark" x:Name="Theme_Dark" IsChecked="{Binding Path=ThemeViewModel.IsDarkTheme}" ToggleType="Radio" Click="SetThemeDark"/>
+                        <MenuItem Header="System" x:Name="Theme_System" IsChecked="{Binding Path=ThemeViewModel.IsSystemTheme}" ToggleType="Radio" Click="SetThemeSystem"/>
                     </MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Help">

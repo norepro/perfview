@@ -102,6 +102,8 @@ namespace PerfView
                 var dict = new ResourceDictionary() { Source = new Uri(src, UriKind.Relative) };
                 Application.Current.Resources.MergedDictionaries[0] = dict;
             }
+#else
+            ApplyAvaloniaTheme(theme);
 #endif
         }
 
@@ -115,8 +117,30 @@ namespace PerfView
             _userConfigData["Theme"] = newTheme.ToString();
             CurrentTheme = newTheme;
 
+#if AVALONIA
+            ApplyAvaloniaTheme(newTheme);
+#endif
+
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs($"Is{newTheme}Theme"));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs($"Is{oldTheme}Theme"));
         }
+
+#if AVALONIA
+        /// <summary>
+        /// Apply the theme variant to the running Avalonia application at runtime.
+        /// </summary>
+        private static void ApplyAvaloniaTheme(Theme theme)
+        {
+            if (global::Avalonia.Application.Current == null)
+                return;
+
+            global::Avalonia.Application.Current.RequestedThemeVariant = theme switch
+            {
+                Theme.Light => global::Avalonia.Styling.ThemeVariant.Light,
+                Theme.Dark => global::Avalonia.Styling.ThemeVariant.Dark,
+                _ => global::Avalonia.Styling.ThemeVariant.Default,  // follows system
+            };
+        }
+#endif
     }
 }

@@ -1702,6 +1702,10 @@ namespace PerfView
 
             e.Handled = true;
         }
+#else
+        private void SetThemeLight(object sender, RoutedEventArgs e) => ThemeViewModel.SetTheme(PerfView.Theme.Light);
+        private void SetThemeDark(object sender, RoutedEventArgs e) => ThemeViewModel.SetTheme(PerfView.Theme.Dark);
+        private void SetThemeSystem(object sender, RoutedEventArgs e) => ThemeViewModel.SetTheme(PerfView.Theme.System);
 #endif
 
         /// <summary>
