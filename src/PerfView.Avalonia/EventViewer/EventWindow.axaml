@@ -5,7 +5,8 @@
         xmlns:src="using:PerfView"
         xmlns:controls="using:Controls"
         x:CompileBindings="False"
-        Title="Events Filtered by Type" WindowState="Maximized">
+        Title="Events Filtered by Type" WindowState="Maximized"
+        KeyDown="EventWindow_KeyDown">
     <Window.Resources>
         <!-- Shared Styles -->
         <!-- TODO_AVALONIA: Style without TargetType needs adjustment -->
@@ -240,6 +241,7 @@ Can paste ranges into this box.</TextBlock>
                     AutoGenerateColumns="False"
                     ToolTip.Tip="Click on Update button to update."
                     SelectionMode="Extended"
+                    SelectionChanged="Grid_SelectionChanged"
                     AutomationProperties.Name="Events Table">
                     <DataGrid.Resources>
                         <ControlTheme x:Key="DataGridCellTextBlockTheme" TargetType="TextBlock">
@@ -336,7 +338,7 @@ Can paste ranges into this box.</TextBlock>
                         Width="Auto" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <GridSplitter Grid.Row="2" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                <GridSplitter x:Name="MultiLineViewSplitter" Grid.Row="2" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                 <!-- TODO_AVALONIA: ScrollViewer.CanContentScroll not available -->
                 <!-- TODO_AVALONIA: AlternatingRowBackground not directly supported -->
                 <DataGrid x:Name="MultiLineView" Grid.Row="3" AutoGenerateColumns="False"

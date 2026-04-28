@@ -310,7 +310,10 @@ namespace PerfView
                 {
                     App.UserConfigData["MultiLineViewPaneHidden"] = "true";
                     m_MultiLineViewPaneHidden = true;
-#if !AVALONIA
+#if AVALONIA
+                    MultiLineView.IsVisible = false;
+                    MultiLineViewSplitter.IsVisible = false;
+#else
                     MultiLineViewPaneRowDef.MaxHeight = 0;
 #endif
                 }
@@ -318,7 +321,10 @@ namespace PerfView
                 {
                     App.UserConfigData["MultiLineViewPaneHidden"] = "false";
                     m_MultiLineViewPaneHidden = false;
-#if !AVALONIA
+#if AVALONIA
+                    MultiLineView.IsVisible = true;
+                    MultiLineViewSplitter.IsVisible = true;
+#else
                     MultiLineViewPaneRowDef.MaxHeight = Double.PositiveInfinity;
 #endif
 
@@ -887,6 +893,25 @@ namespace PerfView
         {
             MultiLineViewPaneHidden = !MultiLineViewPaneHidden;
         }
+
+#if AVALONIA
+        private void Grid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems?.Count > 0 && e.AddedItems[0] is EventRecord selectedRecord)
+            {
+                MultiLineView.ItemsSource = selectedRecord.Payloads;
+            }
+        }
+
+        private void EventWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F2)
+            {
+                MultiLineViewPaneHidden = !MultiLineViewPaneHidden;
+                e.Handled = true;
+            }
+        }
+#endif
         private void DoColumnsToDisplayListClick(object sender, RoutedEventArgs e)
         {
             if (EventTypes.SelectedItems.Count == 0)
