@@ -476,15 +476,37 @@ namespace PerfView
 
         internal void DoRun(object sender, RoutedEventArgs e)
         {
+#if AVALONIA
+            try
+            {
+#endif
             ChangeCurrentDirectoryIfNeeded();
             CollectWindow = new RunCommandDialog(App.CommandLineArgs, this, false, TryOpenDataFile);
             CollectWindow.Show();
+#if AVALONIA
+            }
+            catch (ApplicationException ex)
+            {
+                StatusBar.LogError(ex.Message);
+            }
+#endif
         }
         internal void DoCollect(object sender, RoutedEventArgs e)
         {
+#if AVALONIA
+            try
+            {
+#endif
             ChangeCurrentDirectoryIfNeeded();
             CollectWindow = new RunCommandDialog(App.CommandLineArgs, this, true, TryOpenDataFile);
             CollectWindow.Show();
+#if AVALONIA
+            }
+            catch (ApplicationException ex)
+            {
+                StatusBar.LogError(ex.Message);
+            }
+#endif
         }
 
         internal void TryOpenDataFile()
