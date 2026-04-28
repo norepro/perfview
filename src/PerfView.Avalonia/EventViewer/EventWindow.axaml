@@ -182,6 +182,7 @@ Can paste ranges into this box.</TextBlock>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
             <DockPanel>
@@ -208,8 +209,8 @@ Can paste ranges into this box.</TextBlock>
                          ToolTip.Tip="Double click, ctrl-Click and shift-Click to select the events you wish to see."
                          AutomationProperties.Name="Event Types"/>
             </DockPanel>
-            <GridSplitter Grid.Column="0" Width="3" />
-            <Grid Grid.Column="1">
+            <GridSplitter Grid.Column="1" Width="3" />
+            <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
