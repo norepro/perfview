@@ -202,7 +202,7 @@ namespace PerfView.Dialogs
         {
             // First remove any prefix that is a valid directory from 'filePath' and update CurrentDirectory.
             // The logical path Path.Combine(CurrentDirectory, filePath), is not changed under this transformation.  
-            var filePath = InputFileName.Text;
+            var filePath = InputFileName.Text ?? "";
             if (filePath.Length != 0)
             {
                 filePath = Path.Combine(CurrentDirectory, filePath);
