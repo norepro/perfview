@@ -172,6 +172,7 @@ namespace PerfView
                     s_log = new TextEditorWindow();
                     s_log.HideOnClose = true;
                     s_log.Title = "Status Log";
+                    s_log.TextEditor.Body.IsReadOnly = true;
                 }
                 return s_log;
             }
