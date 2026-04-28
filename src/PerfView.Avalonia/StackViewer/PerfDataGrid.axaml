@@ -217,6 +217,7 @@
                 IsReadOnly="False"
                 FontFamily="Courier New"
                 FontSize="10"
+                MinWidth="200"
                 Binding="{Binding InclusiveMetricByTimeString}">
                 <DataGridTextColumn.Header>
                     <StackPanel Name="WhenColumn" Orientation="Horizontal" Margin="0,0,5,0">
