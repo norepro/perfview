@@ -410,7 +410,9 @@ will be removed completely from the trace.
                     <TabItem.Header>
                         <StackPanel Orientation="Horizontal"><TextBlock Text="Flame Graph " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="FlameGraphView">?</Button></StackPanel>
                     </TabItem.Header>
-                    <src:FlameGraphDrawingCanvas x:Name="FlameGraphCanvas" Background="#EEEEEE" ClipToBounds="True" SizeChanged="FlameGraphCanvas_SizeChanged" CurrentFlameBoxChanged="FlameGraphCanvas_CurrentFlameBoxChanged" AutomationProperties.Name="Flame Graph" />
+                    <Border Background="#EEEEEE">
+                        <src:FlameGraphDrawingCanvas x:Name="FlameGraphCanvas" ClipToBounds="True" SizeChanged="FlameGraphCanvas_SizeChanged" CurrentFlameBoxChanged="FlameGraphCanvas_CurrentFlameBoxChanged" AutomationProperties.Name="Flame Graph" />
+                    </Border>
                 </TabItem>
                 <!-- NotesTab -->
                 <TabItem Name="NotesTab" GotFocus="NotesTab_GotFocus" LostFocus="NotesTab_LostFocus">

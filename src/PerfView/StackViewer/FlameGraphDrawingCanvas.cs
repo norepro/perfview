@@ -21,7 +21,12 @@ using Avalonia.Media;
 
 namespace PerfView
 {
-    public class FlameGraphDrawingCanvas : Canvas
+    public class FlameGraphDrawingCanvas :
+#if AVALONIA
+        Control
+#else
+        Canvas
+#endif
     {
         private static readonly Typeface Typeface = new Typeface("Consolas");
 
@@ -77,7 +82,94 @@ namespace PerfView
 
         private bool IsZoomed => scaleTransform.ScaleX != 1.0;
 
-#if !AVALONIA
+#if AVALONIA
+        private static readonly IBrush BlackBrush = new SolidColorBrush(Color.FromRgb(12, 12, 12));
+        private static readonly IBrush TextBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+
+        public void Draw(IEnumerable<FlameBox> boxes)
+        {
+            Clear();
+
+            foreach (var box in boxes)
+            {
+                flameBoxesMap.Add(box);
+            }
+
+            flameBoxesMap.Sort();
+            InvalidateVisual();
+        }
+
+        public override void Render(DrawingContext drawingContext)
+        {
+            base.Render(drawingContext);
+
+            if (flameBoxesMap.EnumerateBoxes().Any() == false)
+                return;
+
+            // Apply scale transform around center point
+            using (drawingContext.PushTransform(
+                Matrix.CreateTranslation(-_scaleCenterX, -_scaleCenterY) *
+                Matrix.CreateScale(scaleTransform.ScaleX, scaleTransform.ScaleY) *
+                Matrix.CreateTranslation(_scaleCenterX, _scaleCenterY)))
+            {
+                // Draw borders around flame boxes using rectangles rather than Pen for performance
+                double maxBorder = 0.5 / scaleTransform.ScaleX;
+                const double MaxBorderPercent = 0.2;
+                foreach (var box in flameBoxesMap.EnumerateBoxes())
+                {
+                    var node = box.Node;
+
+                    // Draw root border box
+                    if (node.Caller == null)
+                    {
+                        var rootBorderBox = new Rect(box.X - maxBorder, box.Y - maxBorder, box.Width + 2 * maxBorder, box.Height);
+                        drawingContext.DrawRectangle(BlackBrush, null, rootBorderBox);
+                    }
+
+                    // Draw a single border box around all children
+                    if (node.Callees != null)
+                    {
+                        double childrenRatio = node.Callees.Sum(child => Math.Abs(child.InclusiveMetric)) / Math.Abs(node.InclusiveMetric);
+                        double childrenWidth = box.Width * childrenRatio;
+                        double childrenX = box.X + (box.Width - childrenWidth) / 2.0;
+                        double childrenY = box.Y - box.Height;
+                        var borderSize = Math.Min(maxBorder, childrenWidth * MaxBorderPercent);
+                        var borderBox = new Rect(childrenX - borderSize, childrenY - borderSize, childrenWidth + 2 * borderSize, box.Height);
+                        drawingContext.DrawRectangle(BlackBrush, null, borderBox);
+                    }
+                }
+
+                int index = 0;
+                foreach (var box in flameBoxesMap.EnumerateBoxes())
+                {
+                    var brushSet = Brushes[box.Node.InclusiveMetric < 0 ? 1 : 0];
+                    var brush = brushSet[index++ % brushSet.Length];
+
+                    var boxRectangle = new Rect(box.X, box.Y, box.Width, box.Height);
+                    drawingContext.DrawRectangle(brush, null, boxRectangle);
+
+                    if (box.Width > 50 && box.Height >= 6)
+                    {
+                        // Compute font size: approximate SizeInPoints from pixel height
+                        double fontSize = Math.Min(box.Height * 0.75, 20);
+
+                        var text = new FormattedText(
+                                box.Node.DisplayName,
+                                CultureInfo.InvariantCulture,
+                                FlowDirection.LeftToRight,
+                                Typeface,
+                                fontSize,
+                                TextBrush);
+
+                        text.MaxTextWidth = box.Width;
+                        text.MaxTextHeight = box.Height;
+
+                        drawingContext.DrawText(text, new Point(box.X, box.Y));
+                    }
+                }
+            }
+        }
+#else
         public void Draw(IEnumerable<FlameBox> boxes)
         {
             var blackBrush = new SolidColorBrush(Color.FromRgb(12, 12, 12));

@@ -2959,7 +2959,14 @@ namespace PerfView
             m_IgnoreNotesChange = false;
 
             m_NotesTabActive = true;
-#if !AVALONIA
+#if AVALONIA
+            // Hide the bottom notes pane so the Notes tab fills the entire view
+            Notes.IsVisible = false;
+            NotesSplitter.IsVisible = false;
+            HelpMessage.IsVisible = false;
+            if (Notes.Parent is global::Avalonia.Controls.Grid notesGridGot && notesGridGot.RowDefinitions.Count > 2)
+                notesGridGot.RowDefinitions[2].Height = new global::Avalonia.Controls.GridLength(0);
+#else
             NodePaneRowDef.MaxHeight = 0;
 #endif
         }
@@ -2972,7 +2979,13 @@ namespace PerfView
 
             if (!m_NotesPaneHidden)
             {
-#if !AVALONIA
+#if AVALONIA
+                // Restore the bottom notes pane when leaving Notes tab
+                Notes.IsVisible = true;
+                NotesSplitter.IsVisible = true;
+                if (Notes.Parent is global::Avalonia.Controls.Grid notesGridLost && notesGridLost.RowDefinitions.Count > 2)
+                    notesGridLost.RowDefinitions[2].Height = new global::Avalonia.Controls.GridLength(25, global::Avalonia.Controls.GridUnitType.Star);
+#else
                 NodePaneRowDef.MaxHeight = Double.PositiveInfinity;
 #endif
             }
@@ -3006,14 +3019,14 @@ namespace PerfView
 
         private void RedrawFlameGraph()
         {
-#if !AVALONIA
             FlameGraphCanvas.Draw(
                   CallTree.Root.HasChildren
-                      ? FlameGraph.Calculate(CallTree, FlameGraphCanvas.ActualWidth, FlameGraphCanvas.ActualHeight)
-                      : Enumerable.Empty<FlameGraph.FlameBox>());
+#if AVALONIA
+                      ? FlameGraph.Calculate(CallTree, FlameGraphCanvas.Bounds.Width, FlameGraphCanvas.Bounds.Height)
 #else
-            FlameGraphCanvas.InvalidateVisual();
+                      ? FlameGraph.Calculate(CallTree, FlameGraphCanvas.ActualWidth, FlameGraphCanvas.ActualHeight)
 #endif
+                      : Enumerable.Empty<FlameGraph.FlameBox>());
 
             m_RedrawFlameGraphWhenItBecomesVisible = false;
         }
