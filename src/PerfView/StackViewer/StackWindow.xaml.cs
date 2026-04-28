@@ -2872,7 +2872,6 @@ namespace PerfView
                     m_NotesPaneHidden = false;
 #if AVALONIA
                     Notes.IsVisible = true;
-                    HelpMessage.IsVisible = true;
                     NotesSplitter.IsVisible = true;
                     if (Notes.Parent is global::Avalonia.Controls.Grid notesGrid2 && notesGrid2.RowDefinitions.Count > 2)
                         notesGrid2.RowDefinitions[2].Height = new global::Avalonia.Controls.GridLength(25, global::Avalonia.Controls.GridUnitType.Star);
