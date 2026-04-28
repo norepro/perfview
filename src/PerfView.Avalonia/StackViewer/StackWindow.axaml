@@ -12,26 +12,64 @@
     Width="919" Height="605"
     KeyDown="StackWindow_KeyDown">
     <Window.Resources>
+        <!-- Compact CheckBox theme for tree expand/collapse checkboxes -->
+        <ControlTheme x:Key="CompactCheckBox" TargetType="CheckBox">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid Width="14" Height="14">
+                        <Border x:Name="NormalRectangle"
+                                BorderBrush="{DynamicResource CheckBoxCheckBackgroundStrokeUnchecked}"
+                                Background="{DynamicResource CheckBoxCheckBackgroundFillUnchecked}"
+                                BorderThickness="{DynamicResource CheckBoxBorderThemeThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                Width="14" Height="14" />
+                        <Viewbox Width="12" Height="12">
+                            <Panel Width="16" Height="16">
+                                <Path x:Name="CheckGlyph" Opacity="0"
+                                      Fill="{DynamicResource CheckBoxCheckGlyphForegroundUnchecked}"
+                                      Stretch="Uniform" VerticalAlignment="Center" FlowDirection="LeftToRight" />
+                            </Panel>
+                        </Viewbox>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+            <!-- Checked state -->
+            <Style Selector="^:checked /template/ Border#NormalRectangle">
+                <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxCheckBackgroundFillChecked}" />
+                <Setter Property="Background" Value="{DynamicResource CheckBoxCheckBackgroundFillChecked}" />
+            </Style>
+            <Style Selector="^:checked /template/ Path#CheckGlyph">
+                <Setter Property="Fill" Value="{DynamicResource CheckBoxCheckGlyphForegroundChecked}" />
+                <Setter Property="Data" Value="M5.5 10.586 1.707 6.793A1 1 0 0 0 .293 8.207l4.5 4.5a1 1 0 0 0 1.414 0l11-11A1 1 0 0 0 15.793.293L5.5 10.586Z" />
+                <Setter Property="Opacity" Value="1" />
+            </Style>
+            <!-- PointerOver states -->
+            <Style Selector="^:pointerover /template/ Border#NormalRectangle">
+                <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxCheckBackgroundStrokeUncheckedPointerOver}" />
+                <Setter Property="Background" Value="{DynamicResource CheckBoxCheckBackgroundFillUncheckedPointerOver}" />
+            </Style>
+            <Style Selector="^:checked:pointerover /template/ Border#NormalRectangle">
+                <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxCheckBackgroundFillCheckedPointerOver}" />
+                <Setter Property="Background" Value="{DynamicResource CheckBoxCheckBackgroundFillCheckedPointerOver}" />
+            </Style>
+            <!-- Disabled state -->
+            <Style Selector="^:disabled /template/ Border#NormalRectangle">
+                <Setter Property="BorderBrush" Value="{DynamicResource CheckBoxCheckBackgroundStrokeUncheckedDisabled}" />
+                <Setter Property="Background" Value="{DynamicResource CheckBoxCheckBackgroundFillUncheckedDisabled}" />
+            </Style>
+            <Style Selector="^:disabled /template/ Path#CheckGlyph">
+                <Setter Property="Fill" Value="{DynamicResource CheckBoxCheckGlyphForegroundUncheckedDisabled}" />
+            </Style>
+        </ControlTheme>
+
         <!-- DataContext for this template is a CallTreeViewNode -->
         <DataTemplate x:Key="TreeControlCell">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="{Binding IndentString}" FontFamily="Courier New" VerticalAlignment="Center"/>
                 <CheckBox IsChecked="{Binding IsExpanded, Mode=TwoWay}" IsEnabled="{Binding HasChildren}" AutomationProperties.Name="Expand"
-                          MinWidth="0" MinHeight="0" Padding="0" Margin="0" Width="16" Height="16" VerticalAlignment="Center">
-                    <CheckBox.Resources>
-                        <x:Double x:Key="CheckBoxMinHeight">16</x:Double>
-                    </CheckBox.Resources>
-                    <CheckBox.Styles>
-                        <Style Selector="CheckBox /template/ Border#NormalRectangle">
-                            <Setter Property="Width" Value="14" />
-                            <Setter Property="Height" Value="14" />
-                        </Style>
-                        <Style Selector="CheckBox /template/ Grid#RootGrid > Grid > Viewbox">
-                            <Setter Property="Width" Value="14" />
-                            <Setter Property="Height" Value="14" />
-                        </Style>
-                    </CheckBox.Styles>
-                </CheckBox>
+                          MinWidth="0" MinHeight="0" Padding="0" Margin="0" Width="16" Height="16" VerticalAlignment="Center"
+                          Theme="{StaticResource CompactCheckBox}"/>
                 <TextBlock Name="Name" Text="{Binding Name}" FontWeight="{Binding FontWeight}" VerticalAlignment="Center"/>
                 <TextBlock Margin="5,0,0,0" IsVisible="{Binding VisibleIfDisplayingSecondary}">
                     <!-- TODO_AVALONIA: Hyperlink not available. Was: Command="Help" CommandParameter="PrimaryAndSecondaryNodes" -->
