@@ -21,18 +21,9 @@
         </Style>
     </Window.Styles>
     <Window.KeyBindings>
-        <KeyBinding Gesture="Ctrl+L" Command="{x:Static src:MainWindow.FocusDirectoryCommand}" />
-        <KeyBinding Gesture="Alt+C" Command="{x:Static src:MainWindow.CollectCommand}" />
-        <KeyBinding Gesture="Alt+R" Command="{x:Static src:MainWindow.RunCommand}" />
-        <KeyBinding Gesture="Alt+A" Command="{x:Static src:MainWindow.AbortCommand}" />
-        <KeyBinding Gesture="Alt+U" Command="{x:Static src:MainWindow.UserCommand}" />
         <KeyBinding Gesture="F5" Command="{x:Static src:MainWindow.RefreshDirCommand}" />
         <KeyBinding Gesture="Delete" Command="{x:Static src:MainWindow.DeleteCommand}" />
         <KeyBinding Gesture="Escape" Command="{x:Static src:MainWindow.CancelCommand}" />
-        <KeyBinding Gesture="Alt+S" Command="{x:Static src:MainWindow.HeapSnapshotCommand}" />
-        <KeyBinding Gesture="Alt+D" Command="{x:Static src:MainWindow.DirectorySizeCommand}" />
-        <KeyBinding Gesture="Alt+I" Command="{x:Static src:MainWindow.ImageSizeCommand}" />
-        <KeyBinding Gesture="Alt+L" Command="{x:Static src:MainWindow.ILSizeCommand}" />
     </Window.KeyBindings>
     <DockPanel>
         <Grid DockPanel.Dock="Top">
@@ -51,33 +42,33 @@
                     <MenuItem Header="_Clear Temp Files" Click="DoClearTempFiles" ToolTip.Tip="Some operations create temporary files.  This command clears all of these."/>
                     <MenuItem Header="Clear User Config" Click="DoClearUserConfig" ToolTip.Tip="Reset all user preferences back to their defaults when PerfView was first installed."/>
                     <MenuItem Header="Set Symbol _Path" Click="DoSetSymbolPath" ToolTip.Tip="Sets the locations to look for symbolic information (PDB files)."/>
-                    <MenuItem Header="_User Command" Click="DoUserCommand" InputGesture="Alt+U" ToolTip.Tip="Run a User Defined Command."/>
-                    <MenuItem Header="Go to Directory" Command="{x:Static src:MainWindow.FocusDirectoryCommand}" InputGesture="Ctrl+L" ToolTip.Tip="Focus and select the directory textbox."/>
+                    <MenuItem Header="_User Command" Click="DoUserCommand" HotKey="Alt+U" InputGesture="Alt+U" ToolTip.Tip="Run a User Defined Command."/>
+                    <MenuItem Header="Go to Directory" Click="DoFocusDirectory" HotKey="Ctrl+L" InputGesture="Ctrl+L" ToolTip.Tip="Focus and select the directory textbox."/>
                     <MenuItem Header="_Exit" Click="DoExit"/>
                 </MenuItem>
                 <MenuItem Header="_Collect">
-                    <MenuItem Header="_Run" Command="{x:Static src:MainWindow.RunCommand}" InputGesture="Alt+R" ToolTip.Tip="Launch a program and collect data during its run. "/>
-                    <MenuItem Header="_Collect" Command="{x:Static src:MainWindow.CollectCommand}" InputGesture="Alt+C" ToolTip.Tip="Collect data machine wide with explicit start and stop."/>
-                    <MenuItem Header="_Abort" Command="{x:Static src:MainWindow.AbortCommand}" InputGesture="Alt+A" ToolTip.Tip="Abort any collection in progress."/>
+                    <MenuItem Header="_Run" Click="DoRun" HotKey="Alt+R" InputGesture="Alt+R" ToolTip.Tip="Launch a program and collect data during its run. "/>
+                    <MenuItem Header="_Collect" Click="DoCollect" HotKey="Alt+C" InputGesture="Alt+C" ToolTip.Tip="Collect data machine wide with explicit start and stop."/>
+                    <MenuItem Header="_Abort" Click="DoAbort" HotKey="Alt+A" InputGesture="Alt+A" ToolTip.Tip="Abort any collection in progress."/>
                     <MenuItem Header="_Merge" Command="{x:Static src:MainWindow.MergeCommand}" ToolTip.Tip="Prepare files for analysis on another computer."/>
                     <MenuItem Header="Merge and Zip All" Click="DoMergeAndZipAll" ToolTip.Tip="Merge and zip all unmerged traces in the current folder."/>
                 </MenuItem>
                 <MenuItem Header="_Memory">
-                    <MenuItem Header="_Take Heap Snapshot" Command="{x:Static src:MainWindow.HeapSnapshotCommand}" InputGesture="Alt+S" ToolTip.Tip="Take a snapshot of the CLR GC Heap."/>
+                    <MenuItem Header="_Take Heap Snapshot" Click="DoTakeHeapSnapshot" HotKey="Alt+S" InputGesture="Alt+S" ToolTip.Tip="Take a snapshot of the CLR GC Heap."/>
                     <MenuItem Header="Take Heap Snapshot From Dump" Command="{x:Static src:MainWindow.HeapSnapshotFromDumpCommand}" ToolTip.Tip="Take a snapshot of the CLR GC Heap from a process Dump."/>
                 </MenuItem>
                 <MenuItem Header="Si_ze">
-                    <MenuItem Header="_DirectorySize" Command="{x:Static src:MainWindow.DirectorySizeCommand}" InputGesture="Alt+D" ToolTip.Tip="Computes the disk usage (recursively) for a directory.">
+                    <MenuItem Header="_DirectorySize" Click="DoDirectorySize" HotKey="Alt+D" InputGesture="Alt+D" ToolTip.Tip="Computes the disk usage (recursively) for a directory.">
                         <MenuItem.Icon>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">?</TextBlock>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Name="ImageSizeMenuItem" IsVisible="False" Header="_ImageSize" Command="{x:Static src:MainWindow.ImageSizeCommand}" InputGesture="Alt+I" ToolTip.Tip="Displays the breakdown of what is in a DLL or EXE by symbol. (needs PDB for DLL or EXE).">
+                    <MenuItem Name="ImageSizeMenuItem" IsVisible="False" Header="_ImageSize" Click="DoImageSize" HotKey="Alt+I" InputGesture="Alt+I" ToolTip.Tip="Displays the breakdown of what is in a DLL or EXE by symbol. (needs PDB for DLL or EXE).">
                         <MenuItem.Icon>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">?</TextBlock>
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Name="ILSizeMenuItem" IsVisible="False" Header="ILSize" Command="{x:Static src:MainWindow.ILSizeCommand}" InputGesture="Alt+L" ToolTip.Tip="Displays the breakdown of what is in a DLL or EXE by symbol. (needs PDB for DLL or EXE).">
+                    <MenuItem Name="ILSizeMenuItem" IsVisible="False" Header="ILSize" Click="DoILSize" HotKey="Alt+L" InputGesture="Alt+L" ToolTip.Tip="Displays the breakdown of what is in a DLL or EXE by symbol. (needs PDB for DLL or EXE).">
                         <MenuItem.Icon>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">?</TextBlock>
                         </MenuItem.Icon>
