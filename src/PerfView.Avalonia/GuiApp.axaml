@@ -41,6 +41,7 @@
                 <Thickness x:Key="HorizontalMenuFlyoutItemThemePaddingNarrow">4,2,4,2</Thickness>
                 <Thickness x:Key="HorizontalMenuFlyoutItemMargin">0</Thickness>
                 <Thickness x:Key="ListBoxItemPadding">4,1,4,1</Thickness>
+                <x:Double x:Key="CheckBoxMinHeight">24</x:Double>
             </Style.Resources>
         </Style>
 
@@ -117,6 +118,11 @@
         <Style Selector="CheckBox">
             <Setter Property="FontSize" Value="12" />
             <Setter Property="Padding" Value="4,0" />
+            <Setter Property="MinHeight" Value="24" />
+        </Style>
+        <!-- Center the glyph grid vertically (Fluent default is Top) -->
+        <Style Selector="CheckBox /template/ Grid#RootGrid > Grid">
+            <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
         <!-- Compact ComboBox styling to match WPF PerfView -->
         <Style Selector="ComboBox">

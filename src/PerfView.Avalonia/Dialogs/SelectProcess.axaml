@@ -34,8 +34,13 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <CheckBox Name="IncludeChildProcessesCheckBox" Grid.Column="0" Margin="5,0,0,0" VerticalAlignment="Center" 
-                     ToolTip.Tip="Include all descendant processes of selected processes">Include descendant processes</CheckBox>
+            <CheckBox Name="IncludeChildProcessesCheckBox" Grid.Column="0" Margin="5,2,0,2" VerticalAlignment="Center"
+                     ToolTip.Tip="Include all descendant processes of selected processes">
+                <CheckBox.Resources>
+                    <x:Double x:Key="CheckBoxMinHeight">24</x:Double>
+                </CheckBox.Resources>
+                Include descendant processes
+            </CheckBox>
             <Button Name="OKButton" Margin="5,4" Grid.Column="2" MinWidth="80" Content="OK" Click="OKClicked" HorizontalContentAlignment="Center" />
             <Button Name="AllProcsButton" Margin="5,4" Grid.Column="4" MinWidth="80" Content="All Procs" Click="AllProcsClicked"
                     ToolTip.Tip="Investigate all processes" HorizontalContentAlignment="Center"/>
