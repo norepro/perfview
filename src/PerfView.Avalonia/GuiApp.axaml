@@ -40,6 +40,7 @@
                 <Thickness x:Key="TextControlThemePadding">4,2,4,2</Thickness>
                 <Thickness x:Key="HorizontalMenuFlyoutItemThemePaddingNarrow">4,2,4,2</Thickness>
                 <Thickness x:Key="HorizontalMenuFlyoutItemMargin">0</Thickness>
+                <Thickness x:Key="ListBoxItemPadding">4,1,4,1</Thickness>
             </Style.Resources>
         </Style>
 
