@@ -103,6 +103,9 @@ namespace PerfView
         {
             base.Render(drawingContext);
 
+            // Draw background to enable hit testing for pointer events
+            drawingContext.FillRectangle(global::Avalonia.Media.Brushes.Transparent, new Rect(Bounds.Size));
+
             if (flameBoxesMap.EnumerateBoxes().Any() == false)
                 return;
 
