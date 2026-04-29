@@ -41,8 +41,9 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
                 <DataGridTemplateColumn.Header>
-                    <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-                    <TextBlock Name="NameColumn" Text="Name ?" />
+                    <StackPanel Name="NameColumn" Orientation="Horizontal">
+                        <TextBlock Text="Name " VerticalAlignment="Center"/><Button Classes="link" Padding="0" Click="DoHyperlinkHelp" Tag="NameColumn">?</Button>
+                    </StackPanel>
                 </DataGridTemplateColumn.Header>
             </DataGridTemplateColumn>
             <!-- TODO_AVALONIA: Was Hidden - using IsVisible="False" -->

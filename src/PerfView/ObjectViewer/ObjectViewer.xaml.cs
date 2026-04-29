@@ -7,9 +7,8 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 #else
-using System.Reactive;
 using Avalonia.Controls;
-using ReactiveUI;
+using Avalonia.Interactivity;
 #endif
 
 namespace PerfView
@@ -37,7 +36,7 @@ namespace PerfView
             TreeViewGrid.SetController(new ObjectViewerTreeViewController(graph, refGraph, focusNodes));
 
 #if AVALONIA
-            HelpCommand = ReactiveCommand.Create<object, Unit>(ExecuteHelp);
+            // Help links are handled via Button.Click="DoHyperlinkHelp" in AXAML.
 #endif
         }
 
@@ -49,9 +48,14 @@ namespace PerfView
             new InputGestureCollection() { new KeyGesture(Key.F3) });
         public static RoutedUICommand ExpandCommand = new RoutedUICommand("Expand", "Expand", typeof(StackWindow),
             new InputGestureCollection() { new KeyGesture(Key.Space) });
+#endif
 
         private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
         {
+#if AVALONIA
+            var param = (sender as Control)?.Tag as string ?? "ObjectViewerQuickStart";
+            MainWindow.DisplayUsersGuide(param);
+#else
             var asHyperLink = sender as Hyperlink;
             if (asHyperLink != null)
             {
@@ -72,7 +76,10 @@ namespace PerfView
             }
 
             // TODO FIX NOW define ObjectViewerQuickStart ObjectViewerTips in the help, ValueColumn NameColumn.   
+#endif
         }
+
+#if !AVALONIA
 
         private void DoFind(object sender, ExecutedRoutedEventArgs e)
         {
@@ -85,23 +92,7 @@ namespace PerfView
         {
         }
 #else
-        public ReactiveCommand<object, Unit> HelpCommand { get; }
-
-        private Unit ExecuteHelp(object parameter)
-        {
-            string topic = parameter as string;
-
-            if (string.IsNullOrEmpty(topic))
-            {
-                // Default F1 help
-                topic = "ObjectViewerQuickStart";
-            }
-
-            // Call your static display method
-            MainWindow.DisplayUsersGuide(topic);
-
-            return Unit.Default;
-        }
+        // Avalonia help links are handled via Button.Click="DoHyperlinkHelp" in AXAML.
 #endif
 
         /// <summary>

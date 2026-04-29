@@ -2,6 +2,7 @@
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
+        x:CompileBindings="False"
         Title="ObjectViewer" Height="370" Width="732">
     <!-- TODO_AVALONIA: CommandBinding - commands need to be reimplemented for Avalonia -->
     <DockPanel Name="DockPanel" Background="{DynamicResource ControlDefaultBackground}">
@@ -28,14 +29,10 @@
                 </MenuItem>
             </Menu>
             <Rectangle Grid.Column="1" Grid.ColumnSpan="10" Fill="{DynamicResource ControlDefaultBackground}"/>
-            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
-                       Text="Object Viewer Help (F1)"
-                       Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
-            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-            <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
-                       Text="Tips"
-                       Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <Button Grid.Column="1" Classes="link" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Click="DoHyperlinkHelp" Tag="ObjectViewerQuickStart">Object Viewer Help (F1)</Button>
+            <Button Grid.Column="2" Classes="link" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Click="DoHyperlinkHelp" Tag="ObjectViewerTips">Tips</Button>
         </Grid>
 
         <!-- status bar at the bottom -->

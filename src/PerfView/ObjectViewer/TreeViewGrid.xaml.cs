@@ -463,6 +463,15 @@ namespace PerfView
                 MainWindow.DisplayUsersGuide((string)asHyperLink.Tag);
             }
         }
+#else
+        private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
+        {
+            var param = (sender as Control)?.Tag as string;
+            if (param != null)
+            {
+                MainWindow.DisplayUsersGuide(param);
+            }
+        }
 #endif
 
         /// <summary>

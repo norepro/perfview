@@ -423,6 +423,14 @@ namespace PerfView
             MainWindow.DisplayUsersGuide(param);
 
         }
+#if AVALONIA
+        private void DoHyperlinkHelp(object sender, RoutedEventArgs e)
+        {
+            var param = (sender as Control)?.Tag as string ?? "EventViewerQuickStart";
+            StatusBar.Log("Displaying Users Guide in Web Browser.");
+            MainWindow.DisplayUsersGuide(param);
+        }
+#endif
         private void DoClose(object sender, RoutedEventArgs e)
         {
             Close();

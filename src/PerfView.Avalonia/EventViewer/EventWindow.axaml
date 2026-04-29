@@ -74,18 +74,12 @@
                 </MenuItem>
             </Menu>
             <Rectangle Grid.Column="1" Grid.ColumnSpan="10" Fill="{DynamicResource ControlDefaultBackground}"/>
-            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-            <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
-                       Text="Event View Help (F1)"
-                       Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
-            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-            <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
-                       Text="Troubleshooting"
-                       Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
-            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-            <TextBlock Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
-                       Text="Tips"
-                       Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <Button Grid.Column="1" Classes="link" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Click="DoHyperlinkHelp" Tag="EventViewerQuickStart">Event View Help (F1)</Button>
+            <Button Grid.Column="2" Classes="link" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Click="DoHyperlinkHelp" Tag="EventViewerTroubleshooting">Troubleshooting</Button>
+            <Button Grid.Column="3" Classes="link" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
+                    Click="DoHyperlinkHelp" Tag="EventViewerTips">Tips</Button>
         </Grid>
         <Grid DockPanel.Dock="Top" Margin="0,1">
             <Grid.ColumnDefinitions>
@@ -95,35 +89,31 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal">
                 <Button Margin="3,2,3,2" FontSize="9" Click="DoUpdate" ToolTip.Tip="Update main window using current filter parameters (F5).">Update</Button>
-                <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5,0,1,0"
-                           Text="Start:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+                <Button Classes="link" VerticalAlignment="Center" Margin="5,0,1,0" Padding="0"
+                        Click="DoHyperlinkHelp" Tag="StartTextBox">Start:</Button>
                 <controls:HistoryComboBox x:Name="StartTextBox" Width="90" Enter="DoUpdate" AutomationProperties.Name="Start Time">
                     <ToolTip.Tip>
                         <TextBlock>Exclude any samples that happened before this time (MSec from start).
 Can paste ranges into this box.</TextBlock>
                     </ToolTip.Tip>
                 </controls:HistoryComboBox>
-                <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-                <TextBlock VerticalAlignment="Center" Margin="10,0,1,0"
-                           Text="End:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+                <Button Classes="link" VerticalAlignment="Center" Margin="10,0,1,0" Padding="0"
+                        Click="DoHyperlinkHelp" Tag="EndTextBox">End:</Button>
                 <controls:HistoryComboBox x:Name="EndTextBox" Width="90" Enter="DoUpdate" AutomationProperties.Name="End Time">
                     <ToolTip.Tip>
                         <TextBlock>Exclude any samples that happened after this time (MSec from start).</TextBlock>
                     </ToolTip.Tip>
                 </controls:HistoryComboBox>
-                <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-                <TextBlock VerticalAlignment="Center" Margin="10,0,1,0"
-                           Text="MaxRet:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+                <Button Classes="link" VerticalAlignment="Center" Margin="10,0,1,0" Padding="0"
+                        Click="DoHyperlinkHelp" Tag="MaxRetTextBox">MaxRet:</Button>
                 <controls:HistoryComboBox x:Name="MaxRetTextBox" Width="80" Enter="DoUpdate" AutomationProperties.Name="Max Records Returned">
                     <ToolTip.Tip>
                         <TextBlock>At most this number of records are returned (speeds things up).</TextBlock>
                     </ToolTip.Tip>
                 </controls:HistoryComboBox>
             </StackPanel>
-            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-            <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="20,0,1,0"
-                       Text="Find:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <Button Grid.Column="1" Classes="link" VerticalAlignment="Center" Margin="20,0,1,0" Padding="0"
+                    Click="DoHyperlinkHelp" Tag="FindTextBox">Find:</Button>
             <controls:HistoryComboBox x:Name="FindTextBox" Grid.Column="2" MinWidth="100" Enter="DoFindEnter" AutomationProperties.Name="Find">
                 <ToolTip.Tip>
                     <TextBlock>Find a name in the display below (Standard .NET Regular Explressions apply, case insensitive).</TextBlock>
@@ -140,25 +130,22 @@ Can paste ranges into this box.</TextBlock>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="20,0,1,0"
-                       Text="Process Filter:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <Button Grid.Column="0" Classes="link" VerticalAlignment="Center" Margin="20,0,1,0" Padding="0"
+                    Click="DoHyperlinkHelp" Tag="ProcessFilterTextBox">Process Filter:</Button>
             <controls:HistoryComboBox Grid.Column="1" Margin="0,3,0,3" x:Name="ProcessFilterTextBox" Enter="DoUpdate" AutomationProperties.Name="Process Filter">
                 <ToolTip.Tip>
                     <TextBlock>A .NET Regular expression that must match the process name field.</TextBlock>
                 </ToolTip.Tip>
             </controls:HistoryComboBox>
-            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-            <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="10,0,1,0"
-                       Text="Text Filter:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <Button Grid.Column="2" Classes="link" VerticalAlignment="Center" Margin="10,0,1,0" Padding="0"
+                    Click="DoHyperlinkHelp" Tag="TextFilterTextBox">Text Filter:</Button>
             <controls:HistoryComboBox Grid.Column="3" Margin="0,3,0,3" x:Name="TextFilterTextBox" Enter="DoUpdate" AutomationProperties.Name="Text Filter">
                 <ToolTip.Tip>
                     <TextBlock>A .NET Regular expression that must match the data field.</TextBlock>
                 </ToolTip.Tip>
             </controls:HistoryComboBox>
-            <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-            <TextBlock Grid.Column="4" VerticalAlignment="Center" Margin="10,0,1,0"
-                       Text="Columns To Display:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+            <Button Grid.Column="4" Classes="link" VerticalAlignment="Center" Margin="10,0,1,0" Padding="0"
+                    Click="DoHyperlinkHelp" Tag="ColumnsToDisplayTextBox">Columns To Display:</Button>
             <Button Grid.Column="5" Name="ListButton" Margin="3,3,3,3" Content="Cols" Click="DoColumnsToDisplayListClick"
                     ToolTip.Tip="Displays a list you can shift click and ctrl-click to select columns to display." />
             <Popup Name="ColumnsToDisplayPopup" IsLightDismissEnabled="True" PlacementTarget="{Binding ElementName=ListButton}" Placement="Bottom">
@@ -186,13 +173,10 @@ Can paste ranges into this box.</TextBlock>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-                    <TextBlock Grid.Column="0" TextAlignment="Center" VerticalAlignment="Center" Margin="10,2,20,0"
-                               FontWeight="Bold" Text="Event Types"
-                               Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
-                    <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-                    <TextBlock Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" Margin="10,0,2,0"
-                               Text="Filter:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+                    <Button Grid.Column="0" Classes="link" VerticalAlignment="Center" Margin="10,2,20,0" Padding="0"
+                            FontWeight="Bold" Click="DoHyperlinkHelp" Tag="EventTypes">Event Types</Button>
+                    <Button Grid.Column="1" Classes="link" VerticalAlignment="Center" Margin="10,0,2,0" Padding="0"
+                            Click="DoHyperlinkHelp" Tag="EventTypesFilter">Filter:</Button>
 
                     <TextBox Name="EventTypeFilterTextBox" Grid.Column="2" TextChanged="DoEventTypeFilterTextBoxChanged"
                              ToolTip.Tip="Restrict the event types shown to those containing text typed here."
@@ -215,9 +199,8 @@ Can paste ranges into this box.</TextBlock>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <!-- TODO_AVALONIA: Hyperlink replaced with TextBlock -->
-                    <TextBlock Grid.Column="0" TextAlignment="Center" VerticalAlignment="Center" Margin="10,0,2,0"
-                               Text="Histogram:" Foreground="Blue" TextDecorations="Underline" Cursor="Hand" />
+                    <Button Grid.Column="0" Classes="link" VerticalAlignment="Center" Margin="10,0,2,0" Padding="0"
+                            Click="DoHyperlinkHelp" Tag="Histogram">Histogram:</Button>
                     <TextBox Grid.Column="1" Name="Histogram" Height="20" Margin="3,0,0,0" Background="Transparent"
                              Grid.Row="0" IsReadOnly="True"
                              FontFamily="Courier New" FontSize="10"
