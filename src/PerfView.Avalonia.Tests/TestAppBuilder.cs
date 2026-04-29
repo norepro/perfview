@@ -1,7 +1,8 @@
 using Avalonia;
 using Avalonia.Headless;
+using Avalonia.Headless.XUnit;
 
-[assembly: Avalonia.Headless.XUnit.AvaloniaTestFramework]
+[assembly: AvaloniaTestFramework]
 
 namespace PerfViewTests
 {

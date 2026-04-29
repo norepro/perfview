@@ -12,8 +12,7 @@ namespace PerfViewTests.Dialogs
 {
     /// <summary>
     /// Avalonia equivalent of the WPF XamlMessageBoxTests.
-    /// Uses Avalonia.Headless for headless UI testing without a visible window.
-    /// Tests threading dispatch and MessageBoxWindow construction.
+    /// Uses Avalonia.Headless for headless UI testing.
     /// </summary>
     public class XamlMessageBoxTests
     {
