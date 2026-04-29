@@ -14,8 +14,6 @@
     <UserControl.Styles>
         <Style Selector="DataGridColumnHeader">
             <Setter Property="Focusable" Value="True" />
-            <Setter Property="Background" Value="{DynamicResource ControlDefaultBackground}" />
-            <Setter Property="Foreground" Value="{DynamicResource ControlText}" />
         </Style>
     </UserControl.Styles>
     <DataGrid Name="Grid"

@@ -13,8 +13,6 @@
     <Window.Styles>
         <Style Selector="DataGridColumnHeader">
             <Setter Property="Focusable" Value="True" />
-            <Setter Property="Background" Value="{DynamicResource ControlDefaultBackground}" />
-            <Setter Property="Foreground" Value="{DynamicResource ControlText}" />
         </Style>
     </Window.Styles>
     <DockPanel Background="{DynamicResource BackgroundColour}">
