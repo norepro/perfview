@@ -2,11 +2,14 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.VisualTree;
+using PerfView;
 
 namespace System.Windows.Input;
 
 /// <summary>
 /// WPF compatibility shim for Keyboard static class.
+/// Avalonia does not have a global Keyboard static — callers should use event args
+/// (e.KeyModifiers) for modifier key state when possible.
 /// </summary>
 public static class Keyboard
 {
@@ -14,8 +17,8 @@ public static class Keyboard
     {
         get
         {
-            // TODO_AVALONIA: Avalonia doesn't have a static Keyboard.Modifiers equivalent.
-            // This returns None as a safe default; event handlers should use e.KeyModifiers instead.
+            // Avalonia has no static equivalent for current modifier keys.
+            // Callers should use e.KeyModifiers from KeyEventArgs instead.
             return ModifierKeys.None;
         }
     }
@@ -29,8 +32,9 @@ public static class Keyboard
     {
         get
         {
-            // TODO_AVALONIA: No direct equivalent for Keyboard.FocusedElement
-            return null;
+            // Use Avalonia's FocusManager to find the currently focused element.
+            var topLevel = TopLevel.GetTopLevel(GuiApp.MainWindow);
+            return topLevel?.FocusManager?.GetFocusedElement() as Control;
         }
     }
 }

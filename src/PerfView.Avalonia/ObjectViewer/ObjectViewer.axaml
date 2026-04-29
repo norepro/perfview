@@ -4,7 +4,7 @@
         xmlns:src="using:PerfView"
         Title="ObjectViewer" Height="370" Width="732">
     <!-- TODO_AVALONIA: CommandBinding - commands need to be reimplemented for Avalonia -->
-    <DockPanel Name="DockPanel" Background="#7F3E3A3E">
+    <DockPanel Name="DockPanel" Background="{DynamicResource ControlDefaultBackground}">
         <DockPanel.ContextMenu>
             <ContextMenu>
                 <!-- TODO_AVALONIA: RoutedCommand MenuItem bindings need reimplementation -->

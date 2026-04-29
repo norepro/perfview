@@ -5,7 +5,6 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <Nullable>disable</Nullable>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <DefineConstants>$(DefineConstants);AVALONIA</DefineConstants>
     <PerfViewFolder>../PerfView</PerfViewFolder>
   </PropertyGroup>
@@ -83,7 +82,6 @@
     <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent.SupportFiles" PrivateAssets="all" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" GeneratePathProperty="true" />
     <PackageReference Include="PerfView.SupportFiles" PrivateAssets="all" />
-    <PackageReference Include="ReactiveUI.Avalonia" />
     <PackageReference Include="System.Diagnostics.EventLog" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" />
     <PackageReference Include="System.Management" />

@@ -34,7 +34,7 @@
     <!-- TODO_AVALONIA: ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" may need adjustment -->
     <DataGrid Name="Grid"
         AutoGenerateColumns="False"
-        Background="White"
+        Background="{DynamicResource ControlDefaultBackground}"
         SelectionMode="Extended"
         CanUserSortColumns="False">
         <DataGrid.Columns>
