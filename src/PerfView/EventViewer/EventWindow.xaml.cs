@@ -431,6 +431,27 @@ namespace PerfView
             MainWindow.DisplayUsersGuide(param);
         }
 #endif
+#if AVALONIA
+        // Avalonia Click handler overloads for context menu items
+        private void DoNewWindow_Click(object sender, RoutedEventArgs e) => DoNewWindow(sender, new ExecutedRoutedEventArgs());
+        private void DoUpdate_Click(object sender, RoutedEventArgs e) => DoUpdate(sender, e);
+        private void DoShowEventCounterGraph_Click(object sender, RoutedEventArgs e) => DoShowEventCounterGraph(sender, new ExecutedRoutedEventArgs());
+        private void DoProcessFilter_Click(object sender, RoutedEventArgs e) => DoProcessFilter(sender, new ExecutedRoutedEventArgs());
+        private void DoRangeFilter_Click(object sender, RoutedEventArgs e) => DoRangeFilter(sender, new ExecutedRoutedEventArgs());
+        private void DoCopyTimeRange_Click(object sender, RoutedEventArgs e) => DoCopyTimeRange(sender, new ExecutedRoutedEventArgs());
+        private void DoFind_Click(object sender, RoutedEventArgs e) => DoFind(sender, e);
+        private void DoFindNext_Click(object sender, RoutedEventArgs e) => DoFindNext(sender, e);
+        private void DoOpenCpuStacks_Click(object sender, RoutedEventArgs e) => DoOpenCpuStacks(sender, new ExecutedRoutedEventArgs());
+        private void DoOpenThreadStacks_Click(object sender, RoutedEventArgs e) => DoOpenThreadStacks(sender, new ExecutedRoutedEventArgs());
+        private void DoOpenAnyStacks_Click(object sender, RoutedEventArgs e) => DoOpenAnyStacks(sender, new ExecutedRoutedEventArgs());
+        private void DoOpenAnyStartStopStacks_Click(object sender, RoutedEventArgs e) => DoOpenAnyStartStopStacks(sender, new ExecutedRoutedEventArgs());
+        private void DoOpenAnyTaskTreeStacks_Click(object sender, RoutedEventArgs e) => DoOpenAnyTaskTreeStacks(sender, new ExecutedRoutedEventArgs());
+        private void DoSaveAsCsv_Click(object sender, RoutedEventArgs e) => DoSaveAsCsv(sender, new ExecutedRoutedEventArgs());
+        private void DoSaveAsXml_Click(object sender, RoutedEventArgs e) => DoSaveAsXml(sender, new ExecutedRoutedEventArgs());
+        private void DoOpenInExcel_Click(object sender, RoutedEventArgs e) => DoOpenInExcel(sender, new ExecutedRoutedEventArgs());
+        private void DoDumpEvent_Click(object sender, RoutedEventArgs e) => DoDumpEvent(sender, new ExecutedRoutedEventArgs());
+        private void DoHighlightInHistogram_Click(object sender, RoutedEventArgs e) => DoHighlightInHistogram(sender, new ExecutedRoutedEventArgs());
+#endif
         private void DoClose(object sender, RoutedEventArgs e)
         {
             Close();

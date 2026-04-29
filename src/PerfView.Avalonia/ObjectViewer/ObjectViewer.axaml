@@ -8,10 +8,9 @@
     <DockPanel Name="DockPanel" Background="{DynamicResource ControlDefaultBackground}">
         <DockPanel.ContextMenu>
             <ContextMenu>
-                <!-- TODO_AVALONIA: RoutedCommand MenuItem bindings need reimplementation -->
-                <MenuItem Header="Find" />
-                <MenuItem Header="Find Next" />
-                <MenuItem Header="Expand" />
+                <MenuItem Header="Find" Click="DoFind_Click" />
+                <MenuItem Header="Find Next" Click="DoFindNext_Click" />
+                <MenuItem Header="Expand" Click="DoExpand_Click" />
             </ContextMenu>
         </DockPanel.ContextMenu>
         <!-- This is the menu bar -->

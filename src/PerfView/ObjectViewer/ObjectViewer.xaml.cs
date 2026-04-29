@@ -93,6 +93,10 @@ namespace PerfView
         }
 #else
         // Avalonia help links are handled via Button.Click="DoHyperlinkHelp" in AXAML.
+        // Avalonia Click handler overloads for context menu items (stubs — WPF versions were also empty)
+        private void DoFind_Click(object sender, RoutedEventArgs e) { }
+        private void DoFindNext_Click(object sender, RoutedEventArgs e) { }
+        private void DoExpand_Click(object sender, RoutedEventArgs e) { }
 #endif
 
         /// <summary>

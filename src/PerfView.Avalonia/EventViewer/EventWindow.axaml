@@ -19,31 +19,30 @@
         <!-- TODO_AVALONIA: CommandBinding - all command bindings need reimplementation for Avalonia -->
         <DockPanel.ContextMenu>
             <ContextMenu>
-                <!-- TODO_AVALONIA: RoutedCommand MenuItem bindings need reimplementation -->
-                <MenuItem Header="New Window" />
-                <MenuItem Header="Update" />
+                <MenuItem Header="New Window" Click="DoNewWindow_Click" />
+                <MenuItem Header="Update" Click="DoUpdate_Click" />
                 <Separator/>
-                <MenuItem Header="Show EventCounter Graph" />
+                <MenuItem Header="Show EventCounter Graph" Click="DoShowEventCounterGraph_Click" />
                 <Separator/>
-                <MenuItem Header="Set Process Filter" />
-                <MenuItem Header="Set Range Filter" />
-                <MenuItem Header="Copy Time Range" />
+                <MenuItem Header="Set Process Filter" Click="DoProcessFilter_Click" />
+                <MenuItem Header="Set Range Filter" Click="DoRangeFilter_Click" />
+                <MenuItem Header="Copy Time Range" Click="DoCopyTimeRange_Click" />
                 <Separator/>
-                <MenuItem Header="Find" />
-                <MenuItem Header="Find Next" />
+                <MenuItem Header="Find" Click="DoFind_Click" />
+                <MenuItem Header="Find Next" Click="DoFindNext_Click" />
                 <Separator/>
-                <MenuItem Header="Open Cpu Stacks" />
-                <MenuItem Header="Open Thread Stacks" />
-                <MenuItem Header="Open Any Stacks" />
-                <MenuItem Header="Open Any Start Stop Stacks" />
-                <MenuItem Header="Open Any TaskTree Stacks" />
+                <MenuItem Header="Open Cpu Stacks" Click="DoOpenCpuStacks_Click" />
+                <MenuItem Header="Open Thread Stacks" Click="DoOpenThreadStacks_Click" />
+                <MenuItem Header="Open Any Stacks" Click="DoOpenAnyStacks_Click" />
+                <MenuItem Header="Open Any Start Stop Stacks" Click="DoOpenAnyStartStopStacks_Click" />
+                <MenuItem Header="Open Any TaskTree Stacks" Click="DoOpenAnyTaskTreeStacks_Click" />
                 <Separator/>
-                <MenuItem Header="Save View as CSV" />
-                <MenuItem Header="Save View as XML" />
-                <MenuItem Header="Open View In Excel" />
+                <MenuItem Header="Save View as CSV" Click="DoSaveAsCsv_Click" />
+                <MenuItem Header="Save View as XML" Click="DoSaveAsXml_Click" />
+                <MenuItem Header="Open View In Excel" Click="DoOpenInExcel_Click" />
                 <Separator/>
-                <MenuItem Header="Dump Event" />
-                <MenuItem Header="Highlight In Histogram" />
+                <MenuItem Header="Dump Event" Click="DoDumpEvent_Click" />
+                <MenuItem Header="Highlight In Histogram" Click="DoHighlightInHistogram_Click" />
             </ContextMenu>
         </DockPanel.ContextMenu>
         <!-- The Menu bar -->
