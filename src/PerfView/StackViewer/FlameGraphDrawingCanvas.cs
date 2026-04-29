@@ -70,7 +70,16 @@ namespace PerfView
             Focusable = true;
         }
 
-        public bool IsEmpty => visuals.Count == 0;
+        public bool IsEmpty =>
+#if AVALONIA
+            m_hasBoxes == false;
+#else
+            visuals.Count == 0;
+#endif
+
+#if AVALONIA
+        private bool m_hasBoxes;
+#endif
 
         public CallTreeNodeBase SelectedNode => selectedNode;
 
@@ -95,6 +104,7 @@ namespace PerfView
                 flameBoxesMap.Add(box);
             }
 
+            m_hasBoxes = flameBoxesMap.EnumerateBoxes().Any();
             flameBoxesMap.Sort();
             InvalidateVisual();
         }
@@ -465,6 +475,7 @@ namespace PerfView
             }
 #else
             visuals.Clear();
+            m_hasBoxes = false;
 #endif
 
             flameBoxesMap.Clear();
