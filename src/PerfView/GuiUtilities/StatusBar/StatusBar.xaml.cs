@@ -250,7 +250,11 @@ namespace PerfView
             m_CancelButton.IsEnabled = true;
             m_workMessage = message;
             m_ProgressText.Text = "Working";
+#if AVALONIA
+            m_ProgressPanel.Background = m_blinkColor;
+#else
             Background = m_blinkColor;
+#endif
             var completeMessage = "Started: " + message;
             Status = completeMessage;
             LogWriter.WriteLine(completeMessage);
@@ -367,7 +371,11 @@ namespace PerfView
                     m_timer.IsEnabled = false;
                     m_CancelButton.IsEnabled = false;
                     m_ProgressText.Text = "Ready";
+#if AVALONIA
+                    m_ProgressPanel.Background = Brushes.Transparent;
+#else
                     Background = Brushes.Transparent;
+#endif
                     var message = (m_abortStarted ? "Aborted: " : "Completed: ") + m_workMessage +
                         "   (Elapsed Time: " + Duration.TotalSeconds.ToString("f3") + " sec)";
                     LogWriter.WriteLine(message);
@@ -568,7 +576,11 @@ namespace PerfView
         {
             m_workTimeSec++;
             // Make the background blink
+#if AVALONIA
+            m_ProgressPanel.Background = ((m_workTimeSec & 1) != 0) ? Brushes.Transparent : m_blinkColor;
+#else
             Background = ((m_workTimeSec & 1) != 0) ? Brushes.Transparent : m_blinkColor;
+#endif
 
             m_ProgressText.Text = "Working " + m_workTimeSec.ToString();
         }
