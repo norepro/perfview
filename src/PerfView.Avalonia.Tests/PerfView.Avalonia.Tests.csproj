@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>PerfViewTests</RootNamespace>
+    <AssemblyName>PerfView.Avalonia.Tests</AssemblyName>
+    <Description>Unit tests for PerfView Avalonia port.</Description>
+    <Nullable>disable</Nullable>
+    <DefineConstants>$(DefineConstants);AVALONIA</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PerfView.Avalonia\PerfView.Avalonia.csproj" />
+    <ProjectReference Include="..\PerfView.TestUtilities\PerfView.TestUtilities.csproj" />
+    <ProjectReference Include="..\TraceEvent\TraceEvent.csproj" />
+  </ItemGroup>
+
+  <!-- Share pure-logic test files from PerfView.Tests -->
+  <ItemGroup>
+    <Compile Include="..\PerfView.Tests\AuthenticationTests.cs" Link="AuthenticationTests.cs" />
+    <Compile Include="..\PerfView.Tests\DebuggerStackSourceTests.cs" Link="DebuggerStackSourceTests.cs" />
+    <Compile Include="..\PerfView.Tests\Utilities\RandomNumberTests.cs" Link="Utilities\RandomNumberTests.cs" />
+    <Compile Include="..\PerfView.Tests\GraphSerialization\GraphSerializationTests.cs" Link="GraphSerialization\GraphSerializationTests.cs" />
+    <Compile Include="..\PerfView.Tests\GraphSerialization\TestBase.cs" Link="GraphSerialization\TestBase.cs" />
+    <Compile Include="..\PerfView.Tests\StackViewer\KnownDataGrid.cs" Link="StackViewer\KnownDataGrid.cs" />
+  </ItemGroup>
+
+  <!-- Copy test data from PerfView.Tests -->
+  <ItemGroup>
+    <Content Include="..\PerfView.Tests\GraphSerialization\inputs\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>GraphSerialization\inputs\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\PerfView.Tests\xunit.runner.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>xunit.runner.json</Link>
+    </Content>
+  </ItemGroup>
+</Project>

@@ -1,5 +1,7 @@
 <Solution>
   <Project Path="../FastSerialization/FastSerialization.csproj" />
+  <Project Path="../PerfView.Avalonia.Tests/PerfView.Avalonia.Tests.csproj" />
+  <Project Path="../PerfView.TestUtilities/PerfView.TestUtilities.csproj" />
   <Project Path="../TraceEvent/TraceEvent.csproj" />
   <Project Path="PerfView.Avalonia.csproj" />
 </Solution>

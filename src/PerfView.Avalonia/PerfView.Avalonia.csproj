@@ -97,4 +97,8 @@
     <ProjectReference Include="../SymbolsAuth/SymbolsAuth.csproj" />
     <ProjectReference Include="../TraceEvent/TraceEvent.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="PerfView.Avalonia.Tests" />
+  </ItemGroup>
 </Project>
