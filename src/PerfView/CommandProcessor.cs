@@ -2759,8 +2759,6 @@ namespace PerfView
 
 #if PERFVIEW_COLLECT
             throw new ApplicationException("PerfViewCollect needs to run with elevated privileges.");
-#elif AVALONIA
-            throw new ApplicationException("PerfView.Avalonia must be run with elevated (Administrator) privileges for data collection. Please restart as Administrator.");
 #else
             LaunchPerfViewElevated(command, parsedArgs);
 #endif

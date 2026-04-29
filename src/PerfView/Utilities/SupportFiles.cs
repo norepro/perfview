@@ -207,7 +207,13 @@ namespace Utilities
             {
                 if (s_exePath == null)
                 {
+#if AVALONIA
+                    // On .NET Core, Assembly.GetEntryAssembly().ManifestModule.FullyQualifiedName
+                    // returns the .dll path. Environment.ProcessPath returns the actual .exe.
+                    s_exePath = Environment.ProcessPath;
+#else
                     s_exePath = Assembly.GetEntryAssembly().ManifestModule.FullyQualifiedName;
+#endif
                 }
 
                 return s_exePath;
