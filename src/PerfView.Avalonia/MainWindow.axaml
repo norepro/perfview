@@ -199,71 +199,71 @@
                           IsEnabled="{Binding #StatusBar.IsNotWorking}"
                           AutomationProperties.Name="Usage Information">
                 <StackPanel Margin="8">
-                    <TextBlock FontSize="14" FontWeight="Bold" TextWrapping="Wrap">Welcome to PerfView!</TextBlock>
-                    <TextBlock Margin="0,2,0,0" TextWrapping="Wrap">PerfView is an application designed to simplify the collection and analysis of performance data.</TextBlock>
-                    <TextBlock Margin="0,4,0,0" TextWrapping="Wrap">
+                    <SelectableTextBlock FontSize="14" FontWeight="Bold" TextWrapping="Wrap">Welcome to PerfView!</SelectableTextBlock>
+                    <SelectableTextBlock Margin="0,2,0,0" TextWrapping="Wrap">PerfView is an application designed to simplify the collection and analysis of performance data.</SelectableTextBlock>
+                    <SelectableTextBlock Margin="0,4,0,0" TextWrapping="Wrap">
                         <Run>Pressing the </Run><Run FontWeight="Bold">F1</Run><Run> key will give you help for current view.
                         Any blue hyperlinks in the UI also take you to help.
                         For an overview of PerfView see the </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" Click="DoHyperlinkHelp" Tag="UsersGuide">User's Guide</Button></InlineUIContainer><Run>.
                         If you wish to ask a question that the documentation did not answer or if you have feedback or a bug report,
                         see the </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" Click="DoHyperlinkHelp" Tag="Feedback">feedback instructions</Button></InlineUIContainer><Run> in the documentation.</Run>
-                    </TextBlock>
-                    <TextBlock Margin="0,4,0,0" TextWrapping="Wrap">
+                    </SelectableTextBlock>
+                    <SelectableTextBlock Margin="0,4,0,0" TextWrapping="Wrap">
                         <Run FontWeight="Bold">If you are new to PerfView</Run><Run>, we strongly recommend reading the </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" Click="DoHyperlinkHelp" Tag="Tutorial">tutorial</Button></InlineUIContainer><Run>
                         or watch the tutorial </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" Click="DoVideoClick">videos</Button></InlineUIContainer><Run>.
                         It should only take 10-20 minutes to walk through.  Also recommend is reading </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" Click="DoHyperlinkHelp" Tag="WhatPerfViewCanDoForYou">what perfView can do for you</Button></InlineUIContainer><Run>.</Run>
-                    </TextBlock>
-                    <TextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Optimizing Time, or Unmanaged Memory: Collecting ETW Profile Data</TextBlock>
-                    <TextBlock TextWrapping="Wrap">
+                    </SelectableTextBlock>
+                    <SelectableTextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Optimizing Time, or Unmanaged Memory: Collecting ETW Profile Data</SelectableTextBlock>
+                    <SelectableTextBlock TextWrapping="Wrap">
                         <Run>PerfView can collect a time based ETW trace for investigating </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" FontWeight="Bold" Click="DoHyperlinkHelp" Tag="CpuInvestigation">CPU</Button></InlineUIContainer><Run> and </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" FontWeight="Bold" Click="DoHyperlinkHelp" Tag="MakingServerInvestigationEasy">Server Response Time</Button></InlineUIContainer><Run>, as well as </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" Click="DoHyperlinkHelp" Tag="BlockedTimeInvestigation">Wall Clock / Blocked Time</Button></InlineUIContainer><Run>,
                         </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" Click="DoHyperlinkHelp" Tag="UnmanagedMemoryAnalysis">Unmanaged memory</Button></InlineUIContainer><Run> or </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" Click="DoHyperlinkHelp" Tag="GCHeapNetMemStacks">Managed memory</Button></InlineUIContainer><Run>.
                         For these cases PerfView has two ways of </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" Click="DoHyperlinkHelp" Tag="CollectingData">collecting ETW trace data</Button></InlineUIContainer><Run>:</Run>
-                    </TextBlock>
+                    </SelectableTextBlock>
                     <StackPanel Margin="20,2,0,0">
-                        <TextBlock TextWrapping="Wrap">
+                        <SelectableTextBlock TextWrapping="Wrap">
                             <Run>&#x2022; </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" FontWeight="Bold" Click="DoRun">Run a command</Button></InlineUIContainer><Run> and collect data while the command is running.  Collect->Run   (Alt-R)</Run>
-                        </TextBlock>
-                        <TextBlock TextWrapping="Wrap">
+                        </SelectableTextBlock>
+                        <SelectableTextBlock TextWrapping="Wrap">
                             <Run>&#x2022; </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" FontWeight="Bold" Click="DoCollect">Collect data machine wide</Button></InlineUIContainer><Run> by starting and stopping collection manually.  Collect->Collect   (Alt-C)</Run>
-                        </TextBlock>
+                        </SelectableTextBlock>
                     </StackPanel>
-                    <TextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Optimizing Managed Memory: Collecting .NET Runtime Heap Data</TextBlock>
-                    <TextBlock TextWrapping="Wrap">
+                    <SelectableTextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Optimizing Managed Memory: Collecting .NET Runtime Heap Data</SelectableTextBlock>
+                    <SelectableTextBlock TextWrapping="Wrap">
                         <Run>PerfView can also collect data about the GC heap of a .NET Runtime process. See </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" Click="DoHyperlinkHelp" Tag="MainViewerQuickStartGCHeap">GC Heap Quick Start</Button></InlineUIContainer><Run> for more details.</Run>
-                    </TextBlock>
+                    </SelectableTextBlock>
                     <StackPanel Margin="20,2,0,0">
-                        <TextBlock TextWrapping="Wrap">
+                        <SelectableTextBlock TextWrapping="Wrap">
                             <Run>&#x2022; </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" FontWeight="Bold" Click="DoTakeHeapSnapshot">Take a heap snapshot</Button></InlineUIContainer><Run> of an existing process  Memory->Take Heap Snapshot   (Alt-S)</Run>
-                        </TextBlock>
-                        <TextBlock TextWrapping="Wrap">
+                        </SelectableTextBlock>
+                        <SelectableTextBlock TextWrapping="Wrap">
                             <Run>&#x2022; </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" FontWeight="Bold" Click="DoTakeHeapShapshotFromProcessDump">To Take a heap snapshot from a Process Dump</Button></InlineUIContainer><Run> simply double click on the .DMP file in the file view to the left.</Run>
-                        </TextBlock>
+                        </SelectableTextBlock>
                     </StackPanel>
-                    <TextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Viewing Existing Profile Data</TextBlock>
-                    <TextBlock Margin="0,4,0,0" TextWrapping="Wrap">The result of data collection is data stored in data files of varying extensions.
+                    <SelectableTextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Viewing Existing Profile Data</SelectableTextBlock>
+                    <SelectableTextBlock Margin="0,4,0,0" TextWrapping="Wrap">The result of data collection is data stored in data files of varying extensions.
                         The left pane is a list of file names in the current directory that PerfView knows how to open.
                         Simply double click on the file of interest to view the data.   You can change the current directory
                         by either double clicking on a subdirectory or typing the name in the textbox in the upper left.
-                    </TextBlock>
-                    <TextBlock Margin="0,4,0,0" TextWrapping="Wrap">
+                    </SelectableTextBlock>
+                    <SelectableTextBlock Margin="0,4,0,0" TextWrapping="Wrap">
                         <Run>If the file contains more than one view of the data then double clicking on the object
                         populates children nodes in the treeview.  Double clicking on one of the children will open the viewer for that
                         view. </Run><Run FontWeight="Bold">Right clicking and selecting 'Help on Item'</Run><Run> will take you to the help for that particular entry in the viewer.
                         There are two main viewers of profile data:</Run>
-                    </TextBlock>
+                    </SelectableTextBlock>
                     <StackPanel Margin="20,2,0,0">
-                        <TextBlock TextWrapping="Wrap">&#x2022; A stack viewer which allows aggregation and filtering of events with associated stack traces.</TextBlock>
-                        <TextBlock TextWrapping="Wrap">&#x2022; An event viewer which allows filtering of time based events.</TextBlock>
+                        <SelectableTextBlock TextWrapping="Wrap">&#x2022; A stack viewer which allows aggregation and filtering of events with associated stack traces.</SelectableTextBlock>
+                        <SelectableTextBlock TextWrapping="Wrap">&#x2022; An event viewer which allows filtering of time based events.</SelectableTextBlock>
                     </StackPanel>
-                    <TextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Diffing Profile Data</TextBlock>
-                    <TextBlock Margin="0,4,0,0" TextWrapping="Wrap">
+                    <SelectableTextBlock Margin="0,8,0,0" FontWeight="Bold" TextWrapping="Wrap">Diffing Profile Data</SelectableTextBlock>
+                    <SelectableTextBlock Margin="0,4,0,0" TextWrapping="Wrap">
                         <Run>PerfView has the ability to determine the difference between two traces,
                         which is very useful in doing regression analysis.    To use the Diff functionality first
                         view both traces in separate stack view windows and (if necessary) filter out all but the region
                         that represents an equivalent amount of work in each view.
                         Then use the Diff menu on the stack view window of the 'regressed' trace and to select the other
                         window as its baseline.   See </Run><InlineUIContainer BaselineAlignment="TextBottom"><Button Classes="link" Margin="2,0" FontSize="12" Click="DoHyperlinkHelp" Tag="DiffingData">Diff Help</Button></InlineUIContainer><Run> for more.</Run>
-                    </TextBlock>
+                    </SelectableTextBlock>
                 </StackPanel>
             </ScrollViewer>
         </Grid>
