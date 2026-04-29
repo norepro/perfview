@@ -79,6 +79,7 @@
     <PackageReference Include="Azure.Core" GeneratePathProperty="true" />
     <PackageReference Include="Azure.Identity" GeneratePathProperty="true" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent.AutomatedAnalysis.Analyzers" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent.SupportFiles" PrivateAssets="all" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" GeneratePathProperty="true" />
     <PackageReference Include="PerfView.SupportFiles" PrivateAssets="all" />
@@ -101,4 +102,105 @@
   <ItemGroup>
     <InternalsVisibleTo Include="PerfView.Avalonia.Tests" />
   </ItemGroup>
+
+  <!-- ============ Native DLLs from TraceEvent SupportFiles ============ -->
+  <!-- These are native binaries that cannot be resolved by NuGet on .NET 10.
+       They are embedded into the EXE and extracted at runtime, matching the
+       WPF PerfView single-file deployment approach. -->
+  <ItemGroup>
+    <!-- msdia140.dll - DIA SDK for PDB reading -->
+    <EmbeddedResource Include="$(TraceEventSupportFilesBase)native\x86\msdia140.dll">
+      <LogicalName>.\x86\msdia140.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(TraceEventSupportFilesBase)native\amd64\msdia140.dll">
+      <LogicalName>.\amd64\msdia140.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+
+    <!-- KernelTraceControl.dll - ETW kernel trace support -->
+    <EmbeddedResource Include="$(TraceEventSupportFilesBase)native\x86\KernelTraceControl.dll">
+      <LogicalName>.\x86\KernelTraceControl.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(TraceEventSupportFilesBase)native\x86\KernelTraceControl.Win61.dll">
+      <LogicalName>.\x86\KernelTraceControl.Win61.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(TraceEventSupportFilesBase)native\arm\KernelTraceControl.dll">
+      <LogicalName>.\arm\KernelTraceControl.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(TraceEventSupportFilesBase)native\amd64\KernelTraceControl.dll">
+      <LogicalName>.\amd64\KernelTraceControl.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+
+    <!-- Dia2Lib.dll - COM interop for DIA SDK -->
+    <EmbeddedResource Include="$(TraceEventSupportFilesBase)net462\Dia2Lib.dll">
+      <LogicalName>.\Dia2Lib.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- ============ TraceEvent AutomatedAnalysis Analyzers ============ -->
+  <ItemGroup>
+    <EmbeddedResource Include="$(TraceEventAutomatedAnalysisAnalyzersBase)Microsoft.Diagnostics.Tracing.TraceEvent.AutomatedAnalysis.Analyzers.dll">
+      <LogicalName>.\Analyzers\Microsoft.Diagnostics.Tracing.TraceEvent.AutomatedAnalysis.Analyzers.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(TraceEventAutomatedAnalysisAnalyzersBase)TraceEvent.Analyzers.config.xml">
+      <LogicalName>.\Analyzers\TraceEvent.Analyzers.config.xml</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- ============ Native DLLs from PerfView SupportFiles ============ -->
+  <ItemGroup>
+    <!-- DiagnosticsHub - for .diagsession file support -->
+    <EmbeddedResource Include="$(PerfViewSupportFilesBase)net40\Microsoft.DiagnosticsHub.Packaging.InteropEx.dll">
+      <LogicalName>.\Microsoft.DiagnosticsHub.Packaging.InteropEx.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(PerfViewSupportFilesBase)native\x86\DiagnosticsHub.Packaging.dll">
+      <LogicalName>.\x86\DiagnosticsHub.Packaging.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(PerfViewSupportFilesBase)native\amd64\DiagnosticsHub.Packaging.dll">
+      <LogicalName>.\amd64\DiagnosticsHub.Packaging.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(PerfViewSupportFilesBase)net40\DiagnosticsHub.Packaging.Interop.dll">
+      <LogicalName>.\DiagnosticsHub.Packaging.Interop.dll</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- ============ Support Files ============ -->
+  <ItemGroup>
+    <EmbeddedResource Include="$(PerfViewFolder)/SupportFiles/PerfView.xml">
+      <LogicalName>.\PerfView.xml</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(PerfViewFolder)/SupportFiles/EULA.rtf">
+      <LogicalName>.\EULA.rtf</LogicalName>
+      <Visible>False</Visible>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- TODO: HeapDump.exe embedding requires building the HeapDump project (net462) first.
+       This is done by the full PerfView build but not yet integrated into the Avalonia-only build.
+       For now, HeapDump features will not work in the standalone Avalonia build. -->
+
+  <!-- TODO: EtwClrProfiler.dll embedding requires building the EtwClrProfilerSigning project first.
+       This is done by the full PerfView build but not yet integrated into the Avalonia-only build.
+       For now, CLR profiler features (ForceGC, per-object allocation) will not work in the standalone Avalonia build. -->
+
+  <!-- Copy AutomatedAnalysis analyzers to the output directory (mirrors WPF PerfView behavior). -->
+  <ItemGroup>
+    <AutomatedAnalysisAnalyzers Include="$(TraceEventAutomatedAnalysisAnalyzersBase)Microsoft.Diagnostics.Tracing.TraceEvent.AutomatedAnalysis.Analyzers.dll;$(TraceEventAutomatedAnalysisAnalyzersBase)TraceEvent.Analyzers.config.xml" />
+  </ItemGroup>
+  <Target Name="CopyAnalyzersToTarget" AfterTargets="Build">
+    <Copy SourceFiles="@(AutomatedAnalysisAnalyzers)" DestinationFolder="$(TargetDir)Analyzers" />
+  </Target>
 </Project>
