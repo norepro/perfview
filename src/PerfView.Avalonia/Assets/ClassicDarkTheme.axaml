@@ -80,18 +80,10 @@
             <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="#FF999999" />
 
             <!-- ============ DataGrid ============ -->
-            <!-- Column headers: gray background matching WPF -->
-            <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush" Color="#FF343434" />
-            <SolidColorBrush x:Key="DataGridColumnHeaderForegroundBrush" Color="#FFEBEBEB" />
-            <SolidColorBrush x:Key="DataGridColumnHeaderHoveredBackgroundBrush" Color="#FF3F3F3F" />
-            <SolidColorBrush x:Key="DataGridColumnHeaderPressedBackgroundBrush" Color="#FF323232" />
-            <!-- Row backgrounds -->
-            <SolidColorBrush x:Key="DataGridRowBackgroundBrush" Color="#FF2D2D2D" />
-            <SolidColorBrush x:Key="DataGridRowHoveredBackgroundColor" Color="#FF3F3F3F" />
-            <!-- Gold/olive alternating rows matching WPF dark theme -->
-            <SolidColorBrush x:Key="DataGridRowAlternateBackground" Color="#FF424124" />
-            <!-- Cell background -->
-            <SolidColorBrush x:Key="DataGridCellBackgroundBrush" Color="Transparent" />
+            <!-- NOTE: DataGrid row/header colors are applied via window-level Styles
+                 in ThemeViewModel.BuildClassicDarkDataGridStyles() because the DataGrid
+                 ControlTheme resolves resources from its own StyleInclude scope, not
+                 from app-level resources. Only non-DataGrid resources work here. -->
 
             <!-- ============ Expander ============ -->
             <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#FF2D2D2D" />

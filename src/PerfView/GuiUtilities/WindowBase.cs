@@ -44,11 +44,9 @@ namespace PerfView
 
         private void ApplyClassicDarkDataGridStyles()
         {
-            if (ThemeViewModel.ClassicDarkDataGridStyles != null)
+            if (ThemeViewModel.IsClassicDarkDataGridActive)
             {
-                // Each window needs its own copy — Styles can only have one owner.
                 Styles.Add(ThemeViewModel.BuildClassicDarkDataGridStyles());
-                // Also add resource overrides to make BackgroundRectangle transparent
                 Resources.MergedDictionaries.Add(ThemeViewModel.BuildClassicDarkDataGridResources());
             }
         }
