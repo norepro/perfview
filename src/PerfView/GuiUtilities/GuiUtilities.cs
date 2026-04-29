@@ -7,8 +7,6 @@ using System.Globalization;
 
 #if AVALONIA
 using Avalonia.Data.Converters;
-using DependencyObject = Avalonia.AvaloniaObject;
-using FrameworkElement = Avalonia.Controls.Control;
 #else
 using System.Windows.Media;
 using System.Windows.Controls;

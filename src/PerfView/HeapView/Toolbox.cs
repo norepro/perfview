@@ -33,10 +33,7 @@ using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
-using FrameworkElement = Avalonia.Controls.Control;
-using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
 using Style = Avalonia.Styling.Style;
-using UIElement = Avalonia.Controls.Control;
 #endif
 
 namespace PerfView

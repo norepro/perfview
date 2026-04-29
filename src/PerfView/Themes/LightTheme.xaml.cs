@@ -25,7 +25,6 @@ using System.Windows;
 #if AVALONIA
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using FrameworkElement = Avalonia.Controls.Control;
 #endif
 
 namespace REghZyFramework.Themes

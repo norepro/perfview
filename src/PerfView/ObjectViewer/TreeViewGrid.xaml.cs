@@ -10,7 +10,6 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml.Templates;
-using FrameworkElement = Avalonia.Controls.Control;
 #else
 using System.Windows;
 using System.Windows.Controls;

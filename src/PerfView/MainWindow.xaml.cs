@@ -28,7 +28,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.VisualTree;
-using DependencyObject = Avalonia.AvaloniaObject;
 #endif
 
 namespace PerfView

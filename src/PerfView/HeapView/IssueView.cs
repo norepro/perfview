@@ -9,8 +9,6 @@ using System.Windows;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
-using FrameworkElement = Avalonia.Controls.Control;
-using RoutedEventHandler = System.EventHandler<Avalonia.Interactivity.RoutedEventArgs>;
 #else
 using System.Windows.Controls;
 using System.Windows.Media;
