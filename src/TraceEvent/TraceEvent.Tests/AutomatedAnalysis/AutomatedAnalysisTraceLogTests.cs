@@ -1,4 +1,4 @@
-﻿using Microsoft.Diagnostics.Symbols;
+using Microsoft.Diagnostics.Symbols;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.AutomatedAnalysis;
 using Microsoft.Diagnostics.Tracing.Etlx;
@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

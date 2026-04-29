@@ -1,11 +1,10 @@
-﻿using PerfView.TestUtilities;
+using PerfView.TestUtilities;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

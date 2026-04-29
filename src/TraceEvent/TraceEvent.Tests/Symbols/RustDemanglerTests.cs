@@ -1,6 +1,5 @@
 using Microsoft.Diagnostics.Symbols;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

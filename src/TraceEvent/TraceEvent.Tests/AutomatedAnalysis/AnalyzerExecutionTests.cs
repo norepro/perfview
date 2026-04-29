@@ -1,4 +1,4 @@
-﻿using Microsoft.Diagnostics.Tracing.AutomatedAnalysis;
+using Microsoft.Diagnostics.Tracing.AutomatedAnalysis;
 using Microsoft.Diagnostics.Symbols;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,6 @@ using Microsoft.Diagnostics.Tracing.Etlx;
 using System.IO;
 using PerfView.TestUtilities;
 using Xunit;
-using Xunit.Abstractions;
 using TestEventTests.Analyzers;
 using System.Linq;
 

@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.IO;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Etlx;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using PEFile;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

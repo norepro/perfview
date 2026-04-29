@@ -1,10 +1,9 @@
-﻿using Microsoft.Diagnostics.Tracing;
+using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Parsers;
 using Microsoft.Diagnostics.Tracing.Parsers.Clr;
 using System;
 using System.IO;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

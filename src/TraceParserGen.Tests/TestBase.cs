@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceParserGen.Tests
 {

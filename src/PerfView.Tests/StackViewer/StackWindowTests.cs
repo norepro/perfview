@@ -1,4 +1,4 @@
-﻿using Microsoft.Diagnostics.Tracing.Stacks;
+using Microsoft.Diagnostics.Tracing.Stacks;
 using Microsoft.Diagnostics.Utilities;
 using Microsoft.VisualStudio.Threading;
 using PerfView;
@@ -20,7 +20,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Utilities;
 using Xunit;
-using Xunit.Abstractions;
 using DataGridCellInfo = System.Windows.Controls.DataGridCellInfo;
 
 namespace PerfViewTests.StackViewer

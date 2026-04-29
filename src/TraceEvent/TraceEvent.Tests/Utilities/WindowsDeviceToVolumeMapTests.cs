@@ -1,7 +1,6 @@
 using System;
 using Microsoft.Diagnostics.Utilities;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

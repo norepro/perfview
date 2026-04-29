@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Xml;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

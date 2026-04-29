@@ -1,4 +1,4 @@
-﻿using FastSerialization;
+using FastSerialization;
 using Microsoft.Diagnostics.NETCore.Client;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Etlx;
@@ -14,7 +14,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 using static Microsoft.Diagnostics.Tracing.Etlx.TraceLog;
 
 namespace TraceEventTests

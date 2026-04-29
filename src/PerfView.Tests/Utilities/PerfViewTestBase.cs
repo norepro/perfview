@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.Threading;
+using Microsoft.VisualStudio.Threading;
 using PerfView;
 using System;
 using System.Runtime.ExceptionServices;
@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace PerfViewTests.Utilities
 {

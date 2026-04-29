@@ -1,4 +1,4 @@
-﻿using Microsoft.Diagnostics.Symbols;
+using Microsoft.Diagnostics.Symbols;
 using PerfView.TestUtilities;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

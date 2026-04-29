@@ -1,6 +1,5 @@
-﻿using System.IO;
+using System.IO;
 using System.Text;
-using Xunit.Abstractions;
 using Microsoft.Diagnostics.Symbols;
 using Xunit;
 using System;

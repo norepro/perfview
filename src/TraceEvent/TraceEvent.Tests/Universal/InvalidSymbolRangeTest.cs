@@ -5,7 +5,6 @@ using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Etlx;
 using Microsoft.Diagnostics.Tracing.EventPipe;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

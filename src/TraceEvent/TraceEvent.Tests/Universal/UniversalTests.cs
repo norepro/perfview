@@ -1,7 +1,6 @@
-﻿using Microsoft.Diagnostics.Tracing.Parsers.Universal.Events;
+using Microsoft.Diagnostics.Tracing.Parsers.Universal.Events;
 using System;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

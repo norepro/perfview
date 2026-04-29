@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 using System.Threading;
-using Xunit.Sdk;
+using Xunit.v3;
 
 /*
  * This code was originally part of the xunit samples:
@@ -78,7 +78,8 @@ namespace PerfView.TestUtilities
         /// and replaces them with the new cultures defined in the constructor.
         /// </summary>
         /// <param name="methodUnderTest">The method under test</param>
-        public override void Before(MethodInfo methodUnderTest)
+        /// <param name="test">The test being run</param>
+        public override void Before(MethodInfo methodUnderTest, IXunitTest test)
         {
             originalCulture = Thread.CurrentThread.CurrentCulture;
             originalUICulture = Thread.CurrentThread.CurrentUICulture;
@@ -92,7 +93,8 @@ namespace PerfView.TestUtilities
         /// <see cref="CultureInfo.CurrentUICulture" /> to <see cref="Thread.CurrentPrincipal" />
         /// </summary>
         /// <param name="methodUnderTest">The method under test</param>
-        public override void After(MethodInfo methodUnderTest)
+        /// <param name="test">The test being run</param>
+        public override void After(MethodInfo methodUnderTest, IXunitTest test)
         {
             Thread.CurrentThread.CurrentCulture = originalCulture;
             Thread.CurrentThread.CurrentUICulture = originalUICulture;

@@ -1,11 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Threading;
 using Microsoft.Diagnostics.Tracing.AutomatedAnalysis;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace TraceEventTests
 {

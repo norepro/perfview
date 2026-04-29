@@ -1,10 +1,9 @@
-﻿using Microsoft.Diagnostics.Tracing.AutomatedAnalysis;
+using Microsoft.Diagnostics.Tracing.AutomatedAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using PerfView.TestUtilities;
 using Xunit;
-using Xunit.Abstractions;
 using TestEventTests.Analyzers;
 using System.Linq;
 
