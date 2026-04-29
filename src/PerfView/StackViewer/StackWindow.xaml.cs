@@ -3263,6 +3263,105 @@ namespace PerfView
 
         public bool ComputeMaxInTopStats;
 
+        #region avaloniaClickHandlers
+#if AVALONIA
+        // Avalonia Click handler overloads that delegate to existing WPF ExecutedRoutedEventArgs handlers.
+        // Handlers that already accept RoutedEventArgs delegate directly.
+        // Handlers that need e.Parameter read it from the MenuItem's Tag property.
+        // Handlers that need e.Command set the appropriate static command.
+
+        private void DoUpdate_Click(object sender, RoutedEventArgs e) => DoUpdate(sender, e);
+        private void DoNewWindow_Click(object sender, RoutedEventArgs e) => DoNewWindow(sender, new ExecutedRoutedEventArgs());
+        private void DoFindInByName_Click(object sender, RoutedEventArgs e) => DoFindInByName(sender, new ExecutedRoutedEventArgs());
+        private void DoViewInCallerCallee_Click(object sender, RoutedEventArgs e) => DoViewInCallerCallee(sender, e);
+        private void DoViewInCallers_Click(object sender, RoutedEventArgs e) => DoViewInCallers(sender, new ExecutedRoutedEventArgs());
+        private void DoViewInCallees_Click(object sender, RoutedEventArgs e) => DoViewInCallees(sender, new ExecutedRoutedEventArgs());
+        private void DoFindInCallTreeName_Click(object sender, RoutedEventArgs e) => DoFindInCallTreeName(sender, new ExecutedRoutedEventArgs());
+        private void DoOpenEvents_Click(object sender, RoutedEventArgs e) => DoOpenEvents(sender, new ExecutedRoutedEventArgs());
+        private void DoFind_Click(object sender, RoutedEventArgs e) => DoFind(sender, new ExecutedRoutedEventArgs());
+        private void DoFindNext_Click(object sender, RoutedEventArgs e) => DoFindNext(sender, e);
+        private void DoGroupModule_Click(object sender, RoutedEventArgs e) => DoGroupModule(sender, new ExecutedRoutedEventArgs());
+        private void DoEntryGroupModule_Click(object sender, RoutedEventArgs e) => DoEntryGroupModule(sender, new ExecutedRoutedEventArgs());
+        private void DoUngroup_Click(object sender, RoutedEventArgs e) => DoUngroup(sender, new ExecutedRoutedEventArgs());
+        private void DoUngroupModule_Click(object sender, RoutedEventArgs e) => DoUngroupModule(sender, new ExecutedRoutedEventArgs());
+        private void DoRaiseItemPriority_Click(object sender, RoutedEventArgs e) => DoRaiseItemPriority(sender, new ExecutedRoutedEventArgs());
+        private void DoLowerItemPriority_Click(object sender, RoutedEventArgs e) => DoLowerItemPriority(sender, new ExecutedRoutedEventArgs());
+        private void DoRaiseModulePriority_Click(object sender, RoutedEventArgs e) => DoRaiseModulePriority(sender, new ExecutedRoutedEventArgs());
+        private void DoLowerModulePriority_Click(object sender, RoutedEventArgs e) => DoLowerModulePriority(sender, new ExecutedRoutedEventArgs());
+        private void DoFoldModule_Click(object sender, RoutedEventArgs e) => DoFoldModule(sender, new ExecutedRoutedEventArgs());
+        private void DoFoldItem_Click(object sender, RoutedEventArgs e) => DoFoldItem(sender, new ExecutedRoutedEventArgs());
+        private void DoRemoveAllFolding_Click(object sender, RoutedEventArgs e) => DoRemoveAllFolding(sender, new ExecutedRoutedEventArgs());
+        private void DoFoldPercent_Click(object sender, RoutedEventArgs e) => DoFoldPercent(sender, new ExecutedRoutedEventArgs());
+        private void DoIncreaseFoldPercent_Click(object sender, RoutedEventArgs e) => DoIncreaseFoldPercent(sender, new ExecutedRoutedEventArgs());
+        private void DoDecreaseFoldPercent_Click(object sender, RoutedEventArgs e) => DoDecreaseFoldPercent(sender, new ExecutedRoutedEventArgs());
+        private void DoLookupWarmSymbols_Click(object sender, RoutedEventArgs e) => DoLookupWarmSymbols(sender, new ExecutedRoutedEventArgs());
+        private void DoGotoSource_Click(object sender, RoutedEventArgs e) => DoGotoSource(sender, new ExecutedRoutedEventArgs());
+        private void DoSetTimeRange_Click(object sender, RoutedEventArgs e) => DoSetTimeRange(sender, new ExecutedRoutedEventArgs());
+        private void DoCopyTimeRange_Click(object sender, RoutedEventArgs e) => DoCopyTimeRange(sender, new ExecutedRoutedEventArgs());
+        private void DoSetScenarioList_Click(object sender, RoutedEventArgs e) => DoSetScenarioList(sender, new ExecutedRoutedEventArgs());
+        private void DoCopyScenarioList_Click(object sender, RoutedEventArgs e) => DoCopyScenarioList(sender, new ExecutedRoutedEventArgs());
+        private void DoCopyScenarioListNames_Click(object sender, RoutedEventArgs e) => DoCopyScenarioListNames(sender, new ExecutedRoutedEventArgs());
+        private void DoSortScenariosByDefault_Click(object sender, RoutedEventArgs e) => DoSortScenariosByDefault(sender, new ExecutedRoutedEventArgs());
+        private void DoSortScenariosByRootNode_Click(object sender, RoutedEventArgs e) => DoSortScenariosByRootNode(sender, new ExecutedRoutedEventArgs());
+        private void DoSortScenariosByThisNode_Click(object sender, RoutedEventArgs e) => DoSortScenariosByThisNode(sender, new ExecutedRoutedEventArgs());
+        private void DoIncludeItem_Click(object sender, RoutedEventArgs e) => DoIncludeItem(sender, new ExecutedRoutedEventArgs());
+        private void DoExcludeItem_Click(object sender, RoutedEventArgs e) => DoExcludeItem(sender, new ExecutedRoutedEventArgs());
+        private void DoExpandAll_Click(object sender, RoutedEventArgs e) => DoExpandAll(sender, new ExecutedRoutedEventArgs());
+        private void DoExpand_Click(object sender, RoutedEventArgs e) => DoExpand(sender, new ExecutedRoutedEventArgs());
+        private void DoCollapse_Click(object sender, RoutedEventArgs e) => DoCollapse(sender, new ExecutedRoutedEventArgs());
+        private void DoCopyFilterParams_Click(object sender, RoutedEventArgs e) => DoCopyFilterParams(sender, new ExecutedRoutedEventArgs());
+        private void DoMergeFilterParams_Click(object sender, RoutedEventArgs e) => DoMergeFilterParams(sender, new ExecutedRoutedEventArgs());
+        private void DoCancel_Click(object sender, RoutedEventArgs e) => DoCancel(sender, new ExecutedRoutedEventArgs());
+        private void DoToggleNoPadOnCopy_Click(object sender, RoutedEventArgs e) => DoToggleNoPadOnCopy(sender, new ExecutedRoutedEventArgs());
+        private void DoToggleNotesPane_Click(object sender, RoutedEventArgs e) => DoToggleNotesPane(sender, new ExecutedRoutedEventArgs());
+        private void DoSaveFlameGraph_Click(object sender, RoutedEventArgs e) => DoSaveFlameGraph(sender, e);
+
+        // Handlers needing e.Parameter (bool) from MenuItem Tag
+        private void DoDrillInto_Click(object sender, RoutedEventArgs e)
+        {
+            var tag = (sender as Control)?.Tag as string;
+            bool exclusive = tag == "True";
+            DoDrillInto(sender, new ExecutedRoutedEventArgs
+            {
+                Parameter = exclusive,
+                Command = exclusive ? DrillIntoExclusiveCommand : DrillIntoInclusiveCommand
+            });
+        }
+
+        private void DoFlatten_Click(object sender, RoutedEventArgs e)
+        {
+            var tag = (sender as Control)?.Tag as string;
+            bool exclusive = tag == "True";
+            DoFlatten(sender, new ExecutedRoutedEventArgs { Parameter = exclusive });
+        }
+
+        private void DoViewObjects_Click(object sender, RoutedEventArgs e)
+        {
+            var tag = (sender as Control)?.Tag as string;
+            bool exclusive = tag == "True";
+            DoViewObjects(sender, new ExecutedRoutedEventArgs
+            {
+                Parameter = exclusive,
+                Command = exclusive ? ViewObjectsExclusiveCommand : ViewObjectsInclusiveCommand
+            });
+        }
+
+        private void DoDumpObject_Click(object sender, RoutedEventArgs e)
+        {
+            var tag = (sender as Control)?.Tag as string;
+            bool exclusive = tag == "True";
+            DoDumpObject(sender, new ExecutedRoutedEventArgs { Parameter = exclusive });
+        }
+
+        // Handler needing e.Parameter (string) from MenuItem Tag
+        private void DoSetBackgroundColor_Click(object sender, RoutedEventArgs e)
+        {
+            var color = (sender as Control)?.Tag as string;
+            DoSetBackgroundColor(sender, new ExecutedRoutedEventArgs { Parameter = color });
+        }
+#endif
+        #endregion
+
         #region commandDefintions
         // Global
         public static RoutedUICommand UsersGuideCommand = new RoutedUICommand("UsersGuide", "UsersGuide", typeof(StackWindow),

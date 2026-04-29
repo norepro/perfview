@@ -115,94 +115,93 @@
     <DockPanel Name="DockPanel" Background="{DynamicResource ControlBrightDefaultBackground}">
         <DockPanel.ContextMenu>
             <ContextMenu>
-                <!-- TODO_AVALONIA: All MenuItem Command bindings using x:Static RoutedCommand need ICommand replacement -->
                 <MenuItem Header="Drill Into">
-                    <MenuItem Header="Drill Into Inclusive Samples" />
-                    <MenuItem Header="Drill Into Exclusive Samples" />
+                    <MenuItem Header="Drill Into Inclusive Samples" Tag="False" Click="DoDrillInto_Click" />
+                    <MenuItem Header="Drill Into Exclusive Samples" Tag="True" Click="DoDrillInto_Click" />
                 </MenuItem>
                 <MenuItem Header="Flatten">
-                    <MenuItem Header="Flatten Inclusive Samples" />
-                    <MenuItem Header="Flatten Exclusive Samples" />
+                    <MenuItem Header="Flatten Inclusive Samples" Tag="False" Click="DoFlatten_Click" />
+                    <MenuItem Header="Flatten Exclusive Samples" Tag="True" Click="DoFlatten_Click" />
                 </MenuItem>
-                <MenuItem Header="New Window" />
+                <MenuItem Header="New Window" Click="DoNewWindow_Click" />
                 <MenuItem Header="Goto">
-                    <MenuItem Header="Goto Item in ByName" />
-                    <MenuItem Header="Goto Item in Caller-Callee" />
-                    <MenuItem Header="Goto Item in Callers" />
-                    <MenuItem Header="Goto Item in Callees" />
-                    <MenuItem Header="Goto Item in CallTree" />
-                    <MenuItem Header="Open Events" />
+                    <MenuItem Header="Goto Item in ByName" Click="DoFindInByName_Click" />
+                    <MenuItem Header="Goto Item in Caller-Callee" Click="DoViewInCallerCallee_Click" />
+                    <MenuItem Header="Goto Item in Callers" Click="DoViewInCallers_Click" />
+                    <MenuItem Header="Goto Item in Callees" Click="DoViewInCallees_Click" />
+                    <MenuItem Header="Goto Item in CallTree" Click="DoFindInCallTreeName_Click" />
+                    <MenuItem Header="Open Events" Click="DoOpenEvents_Click" />
                     <Separator/>
-                    <MenuItem Header="Find" />
-                    <MenuItem Header="Find Next" />
+                    <MenuItem Header="Find" Click="DoFind_Click" />
+                    <MenuItem Header="Find Next" Click="DoFindNext_Click" />
                 </MenuItem>
                 <MenuItem Header="Grouping">
-                    <MenuItem Header="Group Module" />
-                    <MenuItem Header="Entry Group Module" />
-                    <MenuItem Header="Ungroup" />
-                    <MenuItem Header="Ungroup Module" />
+                    <MenuItem Header="Group Module" Click="DoGroupModule_Click" />
+                    <MenuItem Header="Entry Group Module" Click="DoEntryGroupModule_Click" />
+                    <MenuItem Header="Ungroup" Click="DoUngroup_Click" />
+                    <MenuItem Header="Ungroup Module" Click="DoUngroupModule_Click" />
                 </MenuItem>
                 <MenuItem Header="Priority" ToolTip.Tip="Specifies the priority of types when converting a graph to a tree" >
-                    <MenuItem Header="Raise Item Priority" />
-                    <MenuItem Header="Lower Item Priority" />
-                    <MenuItem Header="Raise Module Priority" />
-                    <MenuItem Header="Lower Module Priority" />
+                    <MenuItem Header="Raise Item Priority" Click="DoRaiseItemPriority_Click" />
+                    <MenuItem Header="Lower Item Priority" Click="DoLowerItemPriority_Click" />
+                    <MenuItem Header="Raise Module Priority" Click="DoRaiseModulePriority_Click" />
+                    <MenuItem Header="Lower Module Priority" Click="DoLowerModulePriority_Click" />
                 </MenuItem>
                 <MenuItem Header="Folding">
-                    <MenuItem Header="Fold Module" />
-                    <MenuItem Header="Fold Item" />
-                    <MenuItem Header="Remove All Folding" />
+                    <MenuItem Header="Fold Module" Click="DoFoldModule_Click" />
+                    <MenuItem Header="Fold Item" Click="DoFoldItem_Click" />
+                    <MenuItem Header="Remove All Folding" Click="DoRemoveAllFolding_Click" />
                     <Separator/>
-                    <MenuItem Header="Fold %" />
-                    <MenuItem Header="Increase Fold %" />
-                    <MenuItem Header="Decrease Fold %" />
+                    <MenuItem Header="Fold %" Click="DoFoldPercent_Click" />
+                    <MenuItem Header="Increase Fold %" Click="DoIncreaseFoldPercent_Click" />
+                    <MenuItem Header="Decrease Fold %" Click="DoDecreaseFoldPercent_Click" />
                 </MenuItem>
                 <MenuItem Header="Lookup Symbols" Click="DoLookupSymbols_Click" />
-                <MenuItem Header="Lookup Warm Symbols" />
-                <MenuItem Header="Goto Source (Def)" />
+                <MenuItem Header="Lookup Warm Symbols" Click="DoLookupWarmSymbols_Click" />
+                <MenuItem Header="Goto Source (Def)" Click="DoGotoSource_Click" />
                 <Separator/>
-                <MenuItem Header="Set Time Range" />
-                <MenuItem Header="Copy Time Range" />
+                <MenuItem Header="Set Time Range" Click="DoSetTimeRange_Click" />
+                <MenuItem Header="Copy Time Range" Click="DoCopyTimeRange_Click" />
                 <MenuItem Header="Scenarios" Name="ScenarioContextMenu">
-                    <MenuItem Header="Set Scenario List" />
-                    <MenuItem Header="Copy Scenario List" />
-                    <MenuItem Header="Copy Scenario List Names" />
+                    <MenuItem Header="Set Scenario List" Click="DoSetScenarioList_Click" />
+                    <MenuItem Header="Copy Scenario List" Click="DoCopyScenarioList_Click" />
+                    <MenuItem Header="Copy Scenario List Names" Click="DoCopyScenarioListNames_Click" />
                     <MenuItem Header="Sort Scenarios">
-                        <MenuItem Header="By Default" />
-                        <MenuItem Header="By Root Node" />
-                        <MenuItem Header="By This Node" />
+                        <MenuItem Header="By Default" Click="DoSortScenariosByDefault_Click" />
+                        <MenuItem Header="By Root Node" Click="DoSortScenariosByRootNode_Click" />
+                        <MenuItem Header="By This Node" Click="DoSortScenariosByThisNode_Click" />
                     </MenuItem>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Include Item" />
-                <MenuItem Header="Exclude Item" />
+                <MenuItem Header="Include Item" Click="DoIncludeItem_Click" />
+                <MenuItem Header="Exclude Item" Click="DoExcludeItem_Click" />
                 <Separator/>
-                <MenuItem Header="Expand All" />
-                <MenuItem Header="Expand" />
-                <MenuItem Header="Collapse" />
+                <MenuItem Header="Expand All" Click="DoExpandAll_Click" />
+                <MenuItem Header="Expand" Click="DoExpand_Click" />
+                <MenuItem Header="Collapse" Click="DoCollapse_Click" />
                 <MenuItem Header="Set Background Color">
-                    <MenuItem Header="Set Brown Background Color" Background="BurlyWood" />
-                    <MenuItem Header="Set Blue Background Color" Background="LightSkyBlue" />
-                    <MenuItem Header="Set Red Background Color" Background="Coral" />
+                    <MenuItem Header="Set Brown Background Color" Background="BurlyWood" Tag="BurlyWood" Click="DoSetBackgroundColor_Click" />
+                    <MenuItem Header="Set Blue Background Color" Background="LightSkyBlue" Tag="LightSkyBlue" Click="DoSetBackgroundColor_Click" />
+                    <MenuItem Header="Set Red Background Color" Background="Coral" Tag="Coral" Click="DoSetBackgroundColor_Click" />
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="FilterParams">
-                    <MenuItem Header="Copy Filter Params" />
-                    <MenuItem Header="Merge Filter Params" />
+                    <MenuItem Header="Copy Filter Params" Click="DoCopyFilterParams_Click" />
+                    <MenuItem Header="Merge Filter Params" Click="DoMergeFilterParams_Click" />
                 </MenuItem>
                 <MenuItem Header="Misc">
-                    <MenuItem Header="Update" />
-                    <MenuItem Header="Cancel" />
-                    <MenuItem Header="Toggle No Pad On Copy" />
+                    <MenuItem Header="Update" Click="DoUpdate_Click" />
+                    <MenuItem Header="Cancel" Click="DoCancel_Click" />
+                    <MenuItem Header="Toggle No Pad On Copy" Click="DoToggleNoPadOnCopy_Click" />
                 </MenuItem>
                 <MenuItem Header="Memory">
-                    <MenuItem Header="View Objects Inclusive Samples" />
-                    <MenuItem Header="View Objects Exclusive Samples" />
-                    <MenuItem Header="Dump Object Inclusive Samples" />
-                    <MenuItem Header="Dump Object Exclusive Samples" />
+                    <MenuItem Header="View Objects Inclusive Samples" Tag="False" Click="DoViewObjects_Click" />
+                    <MenuItem Header="View Objects Exclusive Samples" Tag="True" Click="DoViewObjects_Click" />
+                    <MenuItem Header="Dump Object Inclusive Samples" Tag="False" Click="DoDumpObject_Click" />
+                    <MenuItem Header="Dump Object Exclusive Samples" Tag="True" Click="DoDumpObject_Click" />
                 </MenuItem>
-                <MenuItem Header="Toggle Notes Pane" />
-                <MenuItem Header="Save Flame Graph" />
+                <MenuItem Header="Toggle Notes Pane" Click="DoToggleNotesPane_Click" />
+                <MenuItem Header="Save Flame Graph" Click="DoSaveFlameGraph_Click" />
             </ContextMenu>
         </DockPanel.ContextMenu>
         <!-- This is the menu bar -->
