@@ -10,31 +10,14 @@
         d:DesignHeight="223" d:DesignWidth="600">
     <UserControl.Resources>
         <converter:ColorValidatorConverter x:Key="converter" />
-        <Style x:Key="RightAlign" Selector="TextBlock">
-            <Setter Property="TextAlignment" Value="Right" />
-        </Style>
-        <Style x:Key="HistogramCell" Selector="TextBlock">
-            <Setter Property="FontFamily" Value="Courier New"/>
-            <Setter Property="FontSize" Value="10"/>
-        </Style>
-        <Style x:Key="HistogramEditCell" Selector="TextBox">
-            <Setter Property="FontFamily" Value="Courier New"/>
-            <Setter Property="FontSize" Value="10"/>
-            <Setter Property="IsReadOnly" Value="True"/>
-        </Style>
-        <!-- TODO_AVALONIA: ColumnHeaderStyle with TargetType DataGridColumnHeader -->
-        <Style x:Key="ColumnHeaderStyle" Selector="DataGridColumnHeader">
+    </UserControl.Resources>
+    <UserControl.Styles>
+        <Style Selector="DataGridColumnHeader">
             <Setter Property="Focusable" Value="True" />
             <Setter Property="Background" Value="{DynamicResource ControlDefaultBackground}" />
             <Setter Property="Foreground" Value="{DynamicResource ControlText}" />
         </Style>
-    </UserControl.Resources>
-    <!-- TODO_AVALONIA: SelectionUnit="CellOrRowHeader" not available -->
-    <!-- TODO_AVALONIA: SelectedCellsChanged not available -->
-    <!-- TODO_AVALONIA: AlternatingRowBackground not available -->
-    <!-- TODO_AVALONIA: ClipboardCopyMode not available -->
-    <!-- TODO_AVALONIA: PreparingCellForEdit not available -->
-    <!-- TODO_AVALONIA: ColumnHeaderStyle not available on DataGrid -->
+    </UserControl.Styles>
     <DataGrid Name="Grid"
         SelectionMode="Extended"
         AutoGenerateColumns="False"

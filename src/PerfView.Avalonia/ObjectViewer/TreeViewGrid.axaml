@@ -9,11 +9,6 @@
         d:DesignHeight="223" d:DesignWidth="600">
 
     <UserControl.Resources>
-        <!-- Shared Styles -->
-        <!-- TODO_AVALONIA: Style without TargetType needs adjustment -->
-        <Style x:Key="CenterAlign">
-            <Setter Property="TextBlock.TextAlignment" Value="Center" />
-        </Style>
         <!-- DataContext for this template is a Tree control behavior -->
         <DataTemplate x:Key="TreeControlCell">
             <StackPanel Orientation="Horizontal">
@@ -22,16 +17,13 @@
                 <TextBlock Name="Name" Text="{Binding Name}"/>
             </StackPanel>
         </DataTemplate>
-        <Style x:Key="ColumnHeaderStyle" Selector="DataGridColumnHeader">
+    </UserControl.Resources>
+    <UserControl.Styles>
+        <Style Selector="DataGridColumnHeader">
             <Setter Property="Focusable" Value="True" />
         </Style>
-    </UserControl.Resources>
-    <!-- TODO_AVALONIA: AlternatingRowBackground not directly supported -->
+    </UserControl.Styles>
     <!-- TODO_AVALONIA: SelectionUnit="CellOrRowHeader" not supported in Avalonia DataGrid -->
-    <!-- TODO_AVALONIA: SelectedCellsChanged event not available -->
-    <!-- TODO_AVALONIA: ClipboardCopyMode not available -->
-    <!-- TODO_AVALONIA: PreparingCellForEdit event not available -->
-    <!-- TODO_AVALONIA: ColumnHeaderStyle="{StaticResource ColumnHeaderStyle}" may need adjustment -->
     <DataGrid Name="Grid"
         AutoGenerateColumns="False"
         Background="{DynamicResource ControlDefaultBackground}"

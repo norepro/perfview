@@ -8,21 +8,15 @@
         Title="Events Filtered by Type" WindowState="Maximized"
         KeyDown="EventWindow_KeyDown">
     <Window.Resources>
-        <!-- Shared Styles -->
-        <!-- TODO_AVALONIA: Style without TargetType needs adjustment -->
-        <Style x:Key="RightAlign">
-            <Setter Property="TextBlock.TextAlignment" Value="Right" />
-        </Style>
-        <Style x:Key="CenterAlign">
-            <Setter Property="TextBlock.TextAlignment" Value="Center" />
-        </Style>
-        <Style x:Key="ColumnHeaderStyle" Selector="DataGridColumnHeader">
+        <!-- TODO_AVALONIA: BooleanToVisibilityConverter - use native Avalonia converters -->
+    </Window.Resources>
+    <Window.Styles>
+        <Style Selector="DataGridColumnHeader">
             <Setter Property="Focusable" Value="True" />
             <Setter Property="Background" Value="{DynamicResource ControlDefaultBackground}" />
             <Setter Property="Foreground" Value="{DynamicResource ControlText}" />
         </Style>
-        <!-- TODO_AVALONIA: BooleanToVisibilityConverter - use native Avalonia converters -->
-    </Window.Resources>
+    </Window.Styles>
     <DockPanel Background="{DynamicResource BackgroundColour}">
         <!-- TODO_AVALONIA: CommandBinding - all command bindings need reimplementation for Avalonia -->
         <DockPanel.ContextMenu>
@@ -235,8 +229,6 @@ Can paste ranges into this box.</TextBlock>
                 <!-- TODO_AVALONIA: AlternatingRowBackground not directly supported -->
                 <!-- TODO_AVALONIA: SelectionUnit="CellOrRowHeader" not supported -->
                 <!-- TODO_AVALONIA: SelectedCellsChanged event not available -->
-                <!-- TODO_AVALONIA: PreviewMouseWheel replaced with PointerWheelChanged -->
-                <!-- TODO_AVALONIA: ColumnHeaderStyle may need adjustment -->
                 <DataGrid Grid.Row="1" Name="Grid"
                     AutoGenerateColumns="False"
                     ToolTip.Tip="Click on Update button to update."
