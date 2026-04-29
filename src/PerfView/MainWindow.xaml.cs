@@ -1701,6 +1701,7 @@ namespace PerfView
 #else
         private void SetThemeLight(object sender, RoutedEventArgs e) => ThemeViewModel.SetTheme(PerfView.Theme.Light);
         private void SetThemeDark(object sender, RoutedEventArgs e) => ThemeViewModel.SetTheme(PerfView.Theme.Dark);
+        private void SetThemeClassicDark(object sender, RoutedEventArgs e) => ThemeViewModel.SetTheme(PerfView.Theme.ClassicDark);
         private void SetThemeSystem(object sender, RoutedEventArgs e) => ThemeViewModel.SetTheme(PerfView.Theme.System);
 #endif
 

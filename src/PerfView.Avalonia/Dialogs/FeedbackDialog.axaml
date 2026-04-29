@@ -4,7 +4,6 @@
         xmlns:src="using:PerfView"
         Title="Enter Feedback"
         x:CompileBindings="False"
-        Background="{DynamicResource ControlDarkerBackground}"
         Height="443" Width="722">
     <Grid>
         <Grid.RowDefinitions>

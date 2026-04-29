@@ -4,7 +4,6 @@
         xmlns:src="using:PerfView"
         xmlns:controls="using:Controls"
         x:CompileBindings="False"
-        Background="{DynamicResource ControlDarkerBackground}"
         Title="Executing User Defined Command" Height="90" Width="669" SizeToContent="Height">
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
     <!--

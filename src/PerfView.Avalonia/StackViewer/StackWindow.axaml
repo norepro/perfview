@@ -112,7 +112,7 @@
         CopyFilterParamsCommand, MergeFilterParamsCommand,
         CancelCommand, SaveCommand, SaveAsCommand, SaveFlameGraphCommand, UsersGuideCommand, Help
     -->
-    <DockPanel Name="DockPanel" Background="{DynamicResource ControlBrightDefaultBackground}">
+    <DockPanel Name="DockPanel">
         <DockPanel.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Drill Into">
@@ -214,7 +214,7 @@
                 <ColumnDefinition Width="1.5*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Menu Grid.Column="0" Background="{DynamicResource ControlDefaultBackground}" AutomationProperties.Name="Navigation">
+            <Menu Grid.Column="0" AutomationProperties.Name="Navigation">
                 <MenuItem Header="_File">
                     <MenuItem Header="Parent _Window" Click="DoOpenParent"/>
                     <MenuItem Header="Set Symbol _Path" Click="DoSetSymbolPath" ToolTip.Tip="Sets the locations to look for symbolic information (PDB files)."/>
@@ -233,7 +233,6 @@
                     <MenuItem Header="_Users Guide" />
                 </MenuItem>
             </Menu>
-            <Rectangle Grid.Column="1" Grid.ColumnSpan="10" Fill="{DynamicResource ControlDefaultBackground}"/>
             <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
                     Classes="link" Click="DoHyperlinkHelp" Tag="StackViewerQuickStart">Stack View Help (F1)</Button>
             <Button Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"

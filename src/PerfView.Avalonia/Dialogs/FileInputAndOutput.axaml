@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
         xmlns:controls="using:Controls"
-        Background="{DynamicResource ControlDarkerBackground}"
         Title="Enter Input and Output Files" Height="300" Width="669">
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
     <Grid>

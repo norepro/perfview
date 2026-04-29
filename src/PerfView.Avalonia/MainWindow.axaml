@@ -37,7 +37,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Menu Grid.Column="0" Background="{DynamicResource ControlDefaultBackground}" AutomationProperties.Name="Navigation">
+            <Menu Grid.Column="0" AutomationProperties.Name="Navigation">
                 <MenuItem Header="_File">
                     <MenuItem Header="_Clear Temp Files" Click="DoClearTempFiles" ToolTip.Tip="Some operations create temporary files.  This command clears all of these."/>
                     <MenuItem Header="Clear User Config" Click="DoClearUserConfig" ToolTip.Tip="Reset all user preferences back to their defaults when PerfView was first installed."/>
@@ -90,6 +90,7 @@
                     <MenuItem Header="Theme">
                         <MenuItem Header="Light" x:Name="Theme_Light" IsChecked="{Binding Path=ThemeViewModel.IsLightTheme}" ToggleType="Radio" Click="SetThemeLight"/>
                         <MenuItem Header="Dark" x:Name="Theme_Dark" IsChecked="{Binding Path=ThemeViewModel.IsDarkTheme}" ToggleType="Radio" Click="SetThemeDark"/>
+                        <MenuItem Header="Classic Dark" x:Name="Theme_ClassicDark" IsChecked="{Binding Path=ThemeViewModel.IsClassicDarkTheme}" ToggleType="Radio" Click="SetThemeClassicDark"/>
                         <MenuItem Header="System" x:Name="Theme_System" IsChecked="{Binding Path=ThemeViewModel.IsSystemTheme}" ToggleType="Radio" Click="SetThemeSystem"/>
                     </MenuItem>
                 </MenuItem>
@@ -111,7 +112,6 @@
                     <MenuItem Header="_About" Click="DoAbout"/>
                 </MenuItem>
             </Menu>
-            <Rectangle Grid.Column="1" Grid.ColumnSpan="7" Fill="{DynamicResource ControlDefaultBackground}"/>
             <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
                     Classes="link" Click="DoHyperlinkHelp" Tag="MainViewerQuickStart">Main View Help (F1)</Button>
             <Button Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0,0,0"
@@ -146,7 +146,6 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="100*"/>
                     </Grid.ColumnDefinitions>
-                    <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Fill="{DynamicResource ControlDefaultBackground}"/>
                     <Button Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0" Classes="link"
                             ToolTip.Tip="Only files that match this RegEx filter pattern are displayed."
                             Click="DoHyperlinkHelp" Tag="FileFilterTextBox">Filter:</Button>

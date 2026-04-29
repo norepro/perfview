@@ -26,7 +26,6 @@
     <!-- TODO_AVALONIA: SelectionUnit="CellOrRowHeader" not supported in Avalonia DataGrid -->
     <DataGrid Name="Grid"
         AutoGenerateColumns="False"
-        Background="{DynamicResource ControlDefaultBackground}"
         SelectionMode="Extended"
         CanUserSortColumns="False">
         <DataGrid.Columns>

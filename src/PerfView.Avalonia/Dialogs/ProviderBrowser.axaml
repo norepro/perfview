@@ -2,7 +2,6 @@
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
-        Background="{DynamicResource ControlDarkerBackground}"
         MinHeight="210" MinWidth="750"
         Title="ProviderBrowser" Height="481" Width="991">
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->

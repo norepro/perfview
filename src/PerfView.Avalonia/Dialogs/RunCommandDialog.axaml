@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
         xmlns:controls="using:Controls"
-        Background="{DynamicResource ControlDarkerBackground}"
         Title="Collecting ETW Data while running a command"
         Height="222" Width="1050" MinHeight="200" MinWidth="925"
         x:CompileBindings="False">

@@ -4,7 +4,6 @@
         xmlns:src="using:PerfView"
         xmlns:controls="using:Controls"
         x:CompileBindings="False"
-        Background="{DynamicResource ControlDarkerBackground}"
         Title="Source Name Lookup" Height="339" Width="619">
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->
     <!--

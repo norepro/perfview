@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
         x:CompileBindings="False"
-        Background="{DynamicResource ControlDarkerBackground}"
         Title="GitHub Device Authentication" Height="280" Width="500"
         CanResize="False">
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->

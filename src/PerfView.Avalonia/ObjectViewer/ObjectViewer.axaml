@@ -5,7 +5,7 @@
         x:CompileBindings="False"
         Title="ObjectViewer" Height="370" Width="732">
     <!-- TODO_AVALONIA: CommandBinding - commands need to be reimplemented for Avalonia -->
-    <DockPanel Name="DockPanel" Background="{DynamicResource ControlDefaultBackground}">
+    <DockPanel Name="DockPanel">
         <DockPanel.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Find" Click="DoFind_Click" />
@@ -20,14 +20,13 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Menu Grid.Column="0" Background="{DynamicResource ControlDefaultBackground}">
+            <Menu Grid.Column="0">
                 <MenuItem Header="_File">
                     <!-- TODO FIX NOW
                     <MenuItem Header="_Close" Click="DoClose"/>
                     -->
                 </MenuItem>
             </Menu>
-            <Rectangle Grid.Column="1" Grid.ColumnSpan="10" Fill="{DynamicResource ControlDefaultBackground}"/>
             <Button Grid.Column="1" Classes="link" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
                     Click="DoHyperlinkHelp" Tag="ObjectViewerQuickStart">Object Viewer Help (F1)</Button>
             <Button Grid.Column="2" Classes="link" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"

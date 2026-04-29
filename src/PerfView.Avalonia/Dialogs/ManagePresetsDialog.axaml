@@ -2,7 +2,6 @@
         xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:src="using:PerfView"
-        Background="{DynamicResource ControlDarkerBackground}"
         Title="Manage Presets" Height="462" Width="800">
     <!-- TODO_AVALONIA: Style conversion needed for keyed style 'TextBoxStyle' -->
     <!-- TODO_AVALONIA: CommandBinding not available in Avalonia -->

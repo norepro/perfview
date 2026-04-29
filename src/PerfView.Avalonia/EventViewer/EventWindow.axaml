@@ -15,7 +15,7 @@
             <Setter Property="Focusable" Value="True" />
         </Style>
     </Window.Styles>
-    <DockPanel Background="{DynamicResource BackgroundColour}">
+    <DockPanel>
         <!-- TODO_AVALONIA: CommandBinding - all command bindings need reimplementation for Avalonia -->
         <DockPanel.ContextMenu>
             <ContextMenu>
@@ -53,7 +53,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Menu DockPanel.Dock="Top" Background="{DynamicResource ControlDefaultBackground}" AutomationProperties.Name="Navigation">
+            <Menu DockPanel.Dock="Top" AutomationProperties.Name="Navigation">
                 <MenuItem Header="_File">
                     <MenuItem Header="_Parent Window" Click="DoOpenParent"/>
                     <MenuItem Header="_Close" Click="DoClose"/>
@@ -72,7 +72,6 @@
                     <MenuItem Header="_Users Guide" />
                 </MenuItem>
             </Menu>
-            <Rectangle Grid.Column="1" Grid.ColumnSpan="10" Fill="{DynamicResource ControlDefaultBackground}"/>
             <Button Grid.Column="1" Classes="link" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"
                     Click="DoHyperlinkHelp" Tag="EventViewerQuickStart">Event View Help (F1)</Button>
             <Button Grid.Column="2" Classes="link" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3,0"

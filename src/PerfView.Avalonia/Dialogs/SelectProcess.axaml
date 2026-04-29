@@ -16,12 +16,11 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="100*"/>
             </Grid.ColumnDefinitions>
-            <Rectangle Grid.Column="0" Grid.ColumnSpan="3" Fill="{DynamicResource ControlDefaultBackground}"/>
             <Button Classes="link" Padding="0" Grid.Column="0" VerticalAlignment="Center" Margin="5,0,0,0" ToolTip.Tip="Only processes that match this filter pattern are displayed."
                     Click="DoHyperlinkHelp" Tag="ProcessFilterTextBox">Filter:</Button>
             <TextBox Name="ProcessFilterTextBox" TextChanged="FilterTextChanged" Grid.Column="1" Margin="5,2,2,2" />
         </Grid>
-        <Grid DockPanel.Dock="Bottom" Background="{DynamicResource BackgroundColour}" >
+        <Grid DockPanel.Dock="Bottom" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -47,7 +46,6 @@
         </Grid>
         <Grid KeyDown="GridKeyDownHander">
             <DataGrid Name="Grid"
-              Background="{DynamicResource BackgroundColour}"
               AutoGenerateColumns="False"
               DoubleTapped="OKClicked"
               IsReadOnly="True"

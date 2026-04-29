@@ -14,9 +14,15 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="DataGridRowAlternateBackground" Color="#F0F0F0" />
+                    <SolidColorBrush x:Key="HelpRibbonBackground" Color="#E2E8F8" />
+                    <SolidColorBrush x:Key="HyperlinkButtonForegroundColor" Color="#FF0066CC" />
+                    <SolidColorBrush x:Key="HyperlinkButtonForegroundPointerOver" Color="#FF3399FF" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="DataGridRowAlternateBackground" Color="#2A2A2A" />
+                    <SolidColorBrush x:Key="HelpRibbonBackground" Color="#323838" />
+                    <SolidColorBrush x:Key="HyperlinkButtonForegroundColor" Color="#FF6CB3FF" />
+                    <SolidColorBrush x:Key="HyperlinkButtonForegroundPointerOver" Color="#FF99CCFF" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
             <!-- Compact ComboBox: override Fluent defaults -->
@@ -151,13 +157,17 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Padding" Value="0" />
-            <Setter Property="Foreground" Value="#FF4488FF" />
+            <Setter Property="Foreground" Value="{DynamicResource HyperlinkButtonForegroundColor}" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="MinHeight" Value="0" />
             <Setter Property="MinWidth" Value="0" />
         </Style>
+        <Style Selector="Button.link:pointerover">
+            <Setter Property="Foreground" Value="{DynamicResource HyperlinkButtonForegroundPointerOver}" />
+        </Style>
         <Style Selector="Button.link:pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource HyperlinkButtonForegroundPointerOver}" />
         </Style>
     </Application.Styles>
 </Application>

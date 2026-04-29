@@ -12,6 +12,7 @@ namespace PerfView
     {
         Light,
         Dark,
+        ClassicDark,
         System
     }
 
@@ -38,6 +39,12 @@ namespace PerfView
             set => SetTheme(Theme.System);
         }
 
+        public bool IsClassicDarkTheme
+        {
+            get => CurrentTheme == Theme.ClassicDark;
+            set => SetTheme(Theme.ClassicDark);
+        }
+
 #if !AVALONIA
         public class SetThemeCommand : RoutedCommand
         {
@@ -52,6 +59,8 @@ namespace PerfView
         public static SetThemeCommand SetLightThemeCommand = new SetThemeCommand(Theme.Light);
 
         public static SetThemeCommand SetDarkThemeCommand = new SetThemeCommand(Theme.Dark);
+
+        public static SetThemeCommand SetClassicDarkThemeCommand = new SetThemeCommand(Theme.ClassicDark);
 
         public static SetThemeCommand SetSystemThemeCommand = new SetThemeCommand(Theme.System);
 #endif
@@ -127,19 +136,98 @@ namespace PerfView
 
 #if AVALONIA
         /// <summary>
+        /// Overlay resource dictionary applied when the Classic Dark theme is active.
+        /// </summary>
+        private static global::Avalonia.Controls.ResourceDictionary s_classicDarkResources;
+
+        /// <summary>
+        /// Style overlay for Classic Dark link underlines.
+        /// </summary>
+        private static global::Avalonia.Styling.Style s_classicDarkLinkStyle;
+
+        /// <summary>
         /// Apply the theme variant to the running Avalonia application at runtime.
+        /// For ClassicDark, we use the Fluent Dark base and merge WPF-era color overrides.
         /// </summary>
         private static void ApplyAvaloniaTheme(Theme theme)
         {
-            if (global::Avalonia.Application.Current == null)
+            var app = global::Avalonia.Application.Current;
+            if (app == null)
                 return;
 
-            global::Avalonia.Application.Current.RequestedThemeVariant = theme switch
+            // Remove classic dark overlay if present
+            if (s_classicDarkResources != null)
             {
-                Theme.Light => global::Avalonia.Styling.ThemeVariant.Light,
-                Theme.Dark => global::Avalonia.Styling.ThemeVariant.Dark,
-                _ => global::Avalonia.Styling.ThemeVariant.Default,  // follows system
-            };
+                app.Resources.MergedDictionaries.Remove(s_classicDarkResources);
+                s_classicDarkResources = null;
+            }
+            if (s_classicDarkLinkStyle != null)
+            {
+                app.Styles.Remove(s_classicDarkLinkStyle);
+                s_classicDarkLinkStyle = null;
+            }
+
+            if (theme == Theme.ClassicDark)
+            {
+                app.RequestedThemeVariant = global::Avalonia.Styling.ThemeVariant.Dark;
+                try
+                {
+                    s_classicDarkResources = (global::Avalonia.Controls.ResourceDictionary)
+                        global::Avalonia.Markup.Xaml.AvaloniaXamlLoader.Load(
+                            new Uri("avares://PerfView.Avalonia/Assets/ClassicDarkTheme.axaml"));
+                    app.Resources.MergedDictionaries.Add(s_classicDarkResources);
+
+                    // Override app-level themed resources directly — merged ThemeDictionaries
+                    // can't override the app's own ThemeDictionaries at the same level.
+                    var darkDict = app.Resources.ThemeDictionaries[global::Avalonia.Styling.ThemeVariant.Dark]
+                        as global::Avalonia.Controls.ResourceDictionary;
+                    if (darkDict != null)
+                    {
+                        darkDict["HyperlinkButtonForegroundColor"] =
+                            new global::Avalonia.Media.SolidColorBrush(global::Avalonia.Media.Color.Parse("#FFEBEBEB"));
+                        darkDict["HyperlinkButtonForegroundPointerOver"] =
+                            new global::Avalonia.Media.SolidColorBrush(global::Avalonia.Media.Color.Parse("#FF6CB3FF"));
+                    }
+
+                    // Add style for underlined links (WPF dark theme uses white underlined links)
+                    // Use Inline.TextDecorationsProperty as attached property on Button — 
+                    // the ContentPresenter inherits it and applies to rendered text.
+                    s_classicDarkLinkStyle = new global::Avalonia.Styling.Style(x =>
+                        global::Avalonia.Styling.Selectors.Class(
+                            global::Avalonia.Styling.Selectors.OfType<global::Avalonia.Controls.Button>(x),
+                            "link"));
+                    s_classicDarkLinkStyle.Setters.Add(new global::Avalonia.Styling.Setter(
+                        global::Avalonia.Controls.Documents.Inline.TextDecorationsProperty,
+                        global::Avalonia.Media.TextDecorations.Underline));
+                    app.Styles.Add(s_classicDarkLinkStyle);
+                    App.AvaloniaLog($"[ClassicDark] Added link underline style. Selector: {s_classicDarkLinkStyle.Selector}");
+                }
+                catch (Exception ex)
+                {
+                    App.AvaloniaLog($"[ClassicDark] ERROR: {ex}");
+                }
+            }
+            else
+            {
+                // Restore default link color if switching away from Classic Dark
+                var darkDict2 = app.Resources.ThemeDictionaries.ContainsKey(global::Avalonia.Styling.ThemeVariant.Dark)
+                    ? app.Resources.ThemeDictionaries[global::Avalonia.Styling.ThemeVariant.Dark]
+                        as global::Avalonia.Controls.ResourceDictionary
+                    : null;
+                if (darkDict2 != null && darkDict2.ContainsKey("HyperlinkButtonForegroundColor"))
+                {
+                    darkDict2["HyperlinkButtonForegroundColor"] =
+                        new global::Avalonia.Media.SolidColorBrush(global::Avalonia.Media.Color.Parse("#FF6CB3FF"));
+                    darkDict2["HyperlinkButtonForegroundPointerOver"] =
+                        new global::Avalonia.Media.SolidColorBrush(global::Avalonia.Media.Color.Parse("#FF99CCFF"));
+                }
+                app.RequestedThemeVariant = theme switch
+                {
+                    Theme.Light => global::Avalonia.Styling.ThemeVariant.Light,
+                    Theme.Dark => global::Avalonia.Styling.ThemeVariant.Dark,
+                    _ => global::Avalonia.Styling.ThemeVariant.Default,  // follows system
+                };
+            }
         }
 #endif
     }

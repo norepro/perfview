@@ -1,0 +1,96 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--
+        Classic Dark theme: overrides Fluent Dark brush resources to match
+        the WPF PerfView dark theme (WPFDarkTheme by REghZy).
+        Only brush-level resources work here — Color resources referenced
+        via StaticResource in the Fluent theme are baked at parse time.
+        
+        WPF source colors:
+          BackgroundColour      #232323   (window bg)
+          ControlDarkerBg       #2A2A2A   (darker surfaces)
+          ControlDefaultBg      #2D2D2D   (standard surfaces)
+          ControlBrightDefaultBg #343434  (brighter surfaces)
+          ControlMouseOverBg    #3F3F3F   (hover)
+          ControlSelectedBg     #323232   (selected)
+          ControlDefaultBorder  #323232   (borders)
+          ControlDefaultFg      #EBEBEB   (text)
+          ScrollBarBg           #2E2E2E
+          ScrollBarFg           #4D4D4D
+    -->
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <!-- ============ Window / Region ============ -->
+            <SolidColorBrush x:Key="SystemRegionBrush" Color="#FF232323" />
+
+            <!-- ============ Button ============ -->
+            <SolidColorBrush x:Key="ButtonBackground" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#FF3F3F3F" />
+            <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#FF323232" />
+            <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="#FF2A2A2A" />
+            <SolidColorBrush x:Key="ButtonBorderBrush" Color="#FF323232" />
+            <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#FF3C3C3C" />
+
+            <!-- ============ TextBox ============ -->
+            <SolidColorBrush x:Key="TextControlBackground" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#FF343434" />
+            <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#FF2A2A2A" />
+            <SolidColorBrush x:Key="TextControlBorderBrush" Color="#FF323232" />
+            <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="#FF3C3C3C" />
+
+            <!-- ============ ComboBox ============ -->
+            <SolidColorBrush x:Key="ComboBoxBackground" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="#FF343434" />
+            <SolidColorBrush x:Key="ComboBoxBackgroundPressed" Color="#FF323232" />
+            <SolidColorBrush x:Key="ComboBoxBackgroundDisabled" Color="#FF2A2A2A" />
+            <SolidColorBrush x:Key="ComboBoxBorderBrush" Color="#FF323232" />
+            <SolidColorBrush x:Key="ComboBoxDropDownBackground" Color="#FF2D2D2D" />
+
+            <!-- ============ Menu ============ -->
+            <SolidColorBrush x:Key="MenuFlyoutPresenterBackground" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="MenuFlyoutPresenterBorderBrush" Color="#FF3C3C3C" />
+            <SolidColorBrush x:Key="MenuBarItemBackgroundPointerOver" Color="#FF3F3F3F" />
+            <SolidColorBrush x:Key="MenuBarItemBackgroundSelected" Color="#FF323232" />
+
+            <!-- ============ TabControl ============ -->
+            <SolidColorBrush x:Key="TabItemHeaderBackgroundUnselected" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="TabItemHeaderBackgroundSelected" Color="#FF343434" />
+            <SolidColorBrush x:Key="TabItemHeaderBackgroundUnselectedPointerOver" Color="#FF3F3F3F" />
+
+            <!-- ============ TreeView ============ -->
+            <SolidColorBrush x:Key="TreeViewItemBackgroundSelected" Color="#FF323232" />
+            <SolidColorBrush x:Key="TreeViewItemBackgroundSelectedDisabled" Color="#FF2A2A2A" />
+            <SolidColorBrush x:Key="TreeViewItemBackgroundPointerOver" Color="#FF3F3F3F" />
+            <SolidColorBrush x:Key="TreeViewItemBackgroundSelectedPointerOver" Color="#FF3F3F3F" />
+
+            <!-- ============ ListBox ============ -->
+            <SolidColorBrush x:Key="ListBoxBackground" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="ListBoxItemBackgroundPointerOver" Color="#FF3F3F3F" />
+            <SolidColorBrush x:Key="ListBoxItemBackgroundSelected" Color="#FF323232" />
+            <SolidColorBrush x:Key="ListBoxItemBackgroundSelectedPointerOver" Color="#FF3F3F3F" />
+
+            <!-- ============ CheckBox ============ -->
+            <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillUnchecked" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillUncheckedPointerOver" Color="#FF343434" />
+            <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeUnchecked" Color="#FF323232" />
+
+            <!-- ============ ScrollBar ============ -->
+            <SolidColorBrush x:Key="ScrollBarTrackFill" Color="#FF2E2E2E" />
+            <SolidColorBrush x:Key="ScrollBarThumbFill" Color="#FF4D4D4D" />
+            <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="#FF999999" />
+
+            <!-- ============ DataGrid ============ -->
+            <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundColor" Color="#FF343434" />
+            <SolidColorBrush x:Key="DataGridRowAlternateBackground" Color="#424124" />
+
+            <!-- ============ Expander ============ -->
+            <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="ExpanderContentBackground" Color="#FF272727" />
+
+            <!-- ============ App-specific ============ -->
+            <SolidColorBrush x:Key="HelpRibbonBackground" Color="#323838" />
+            <!-- WPF dark theme uses white underlined links instead of blue -->
+            <SolidColorBrush x:Key="HyperlinkButtonForegroundColor" Color="#FFEBEBEB" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
