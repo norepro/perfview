@@ -1070,7 +1070,7 @@ namespace PerfView
         private void DoCopyTimeRange(object sender, ExecutedRoutedEventArgs e)
         {
 #if AVALONIA
-            Clipboard.SetTextAsync(RangeUtilities.ToString(StartTextBox.Text, EndTextBox.Text)).Wait();
+            _ = Clipboard.SetTextAsync(RangeUtilities.ToString(StartTextBox.Text, EndTextBox.Text));
 #else
             Clipboard.SetText(RangeUtilities.ToString(StartTextBox.Text, EndTextBox.Text));
 #endif

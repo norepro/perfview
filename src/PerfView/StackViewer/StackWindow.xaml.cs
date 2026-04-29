@@ -1743,7 +1743,7 @@ namespace PerfView
         private void DoCopyTimeRange(object sender, ExecutedRoutedEventArgs e)
         {
 #if AVALONIA
-            Clipboard.SetTextAsync(RangeUtilities.ToString(StartTextBox.Text, EndTextBox.Text)).Wait();
+            _ = Clipboard.SetTextAsync(RangeUtilities.ToString(StartTextBox.Text, EndTextBox.Text));
 #else
             Clipboard.SetText(RangeUtilities.ToString(StartTextBox.Text, EndTextBox.Text));
 #endif
@@ -1933,7 +1933,7 @@ namespace PerfView
                 result = String.Join(",", Array.ConvertAll(scenarioList, x => x.ToString()));
             }
 #if AVALONIA
-            Clipboard.SetTextAsync(result).Wait();
+            _ = Clipboard.SetTextAsync(result);
 #else
             Clipboard.SetText(result);
 #endif
@@ -1965,7 +1965,7 @@ namespace PerfView
                 }
             }
 #if AVALONIA
-            Clipboard.SetTextAsync(sb.ToString()).Wait();
+            _ = Clipboard.SetTextAsync(sb.ToString());
 #else
             Clipboard.SetText(sb.ToString());
 #endif
@@ -2079,7 +2079,7 @@ namespace PerfView
             }
 
 #if AVALONIA
-            Clipboard.SetTextAsync(sb.ToString()).Wait();
+            _ = Clipboard.SetTextAsync(sb.ToString());
 #else
             Clipboard.SetText(sb.ToString());
 #endif

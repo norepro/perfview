@@ -51,7 +51,7 @@ namespace PerfView.Dialogs
         {
             string userCode = e.Parameter.ToString();
 #if AVALONIA
-            Clipboard.SetTextAsync(userCode).Wait();
+            _ = Clipboard.SetTextAsync(userCode);
 #else
             Clipboard.SetText(userCode);
 #endif
@@ -89,7 +89,7 @@ namespace PerfView.Dialogs
                 var userCode = DataContext.GetType().GetProperty("UserCode")?.GetValue(DataContext)?.ToString();
                 if (userCode != null)
                 {
-                    Clipboard.SetTextAsync(userCode).Wait();
+                    _ = Clipboard.SetTextAsync(userCode);
                     ((Button)sender).Content = "Copied";
                 }
             }
