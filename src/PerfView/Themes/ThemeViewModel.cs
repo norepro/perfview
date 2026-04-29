@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Security;
@@ -146,6 +146,11 @@ namespace PerfView
         private static global::Avalonia.Styling.Style s_classicDarkLinkStyle;
 
         /// <summary>
+        /// Styles overlay for Classic Dark DataGrid colors.
+        /// </summary>
+        private static global::Avalonia.Styling.Styles s_classicDarkDataGridStyles;
+
+        /// <summary>
         /// Apply the theme variant to the running Avalonia application at runtime.
         /// For ClassicDark, we use the Fluent Dark base and merge WPF-era color overrides.
         /// </summary>
@@ -166,6 +171,11 @@ namespace PerfView
                 app.Styles.Remove(s_classicDarkLinkStyle);
                 s_classicDarkLinkStyle = null;
             }
+            if (s_classicDarkDataGridStyles != null)
+            {
+                RemoveDataGridStylesFromAllWindows(s_classicDarkDataGridStyles);
+                s_classicDarkDataGridStyles = null;
+            }
 
             if (theme == Theme.ClassicDark)
             {
@@ -183,10 +193,7 @@ namespace PerfView
                         as global::Avalonia.Controls.ResourceDictionary;
                     if (darkDict != null)
                     {
-                        darkDict["HyperlinkButtonForegroundColor"] =
-                            new global::Avalonia.Media.SolidColorBrush(global::Avalonia.Media.Color.Parse("#FFEBEBEB"));
-                        darkDict["HyperlinkButtonForegroundPointerOver"] =
-                            new global::Avalonia.Media.SolidColorBrush(global::Avalonia.Media.Color.Parse("#FF6CB3FF"));
+                        ApplyClassicDarkOverrides(darkDict);
                     }
 
                     // Add style for underlined links (WPF dark theme uses white underlined links)
@@ -200,7 +207,12 @@ namespace PerfView
                         global::Avalonia.Controls.Documents.Inline.TextDecorationsProperty,
                         global::Avalonia.Media.TextDecorations.Underline));
                     app.Styles.Add(s_classicDarkLinkStyle);
-                    App.AvaloniaLog($"[ClassicDark] Added link underline style. Selector: {s_classicDarkLinkStyle.Selector}");
+
+                    // DataGrid styles must be applied at the window level (not app level)
+                    // because the DataGrid StyleInclude's ControlTheme takes precedence
+                    // over app-level styles. Build the styles once and apply to all windows.
+                    s_classicDarkDataGridStyles = BuildClassicDarkDataGridStyles();
+                    ApplyDataGridStylesToAllWindows(s_classicDarkDataGridStyles);
                 }
                 catch (Exception ex)
                 {
@@ -209,17 +221,14 @@ namespace PerfView
             }
             else
             {
-                // Restore default link color if switching away from Classic Dark
+                // Restore default dark theme colors if switching away from Classic Dark
                 var darkDict2 = app.Resources.ThemeDictionaries.ContainsKey(global::Avalonia.Styling.ThemeVariant.Dark)
                     ? app.Resources.ThemeDictionaries[global::Avalonia.Styling.ThemeVariant.Dark]
                         as global::Avalonia.Controls.ResourceDictionary
                     : null;
-                if (darkDict2 != null && darkDict2.ContainsKey("HyperlinkButtonForegroundColor"))
+                if (darkDict2 != null)
                 {
-                    darkDict2["HyperlinkButtonForegroundColor"] =
-                        new global::Avalonia.Media.SolidColorBrush(global::Avalonia.Media.Color.Parse("#FF6CB3FF"));
-                    darkDict2["HyperlinkButtonForegroundPointerOver"] =
-                        new global::Avalonia.Media.SolidColorBrush(global::Avalonia.Media.Color.Parse("#FF99CCFF"));
+                    RestoreDefaultDarkOverrides(darkDict2);
                 }
                 app.RequestedThemeVariant = theme switch
                 {
@@ -229,6 +238,140 @@ namespace PerfView
                 };
             }
         }
+
+        private static global::Avalonia.Media.SolidColorBrush MakeBrush(string color)
+            => new global::Avalonia.Media.SolidColorBrush(global::Avalonia.Media.Color.Parse(color));
+
+        /// <summary>Set Classic Dark color overrides on the app's Dark ThemeDictionary.</summary>
+        private static void ApplyClassicDarkOverrides(global::Avalonia.Controls.ResourceDictionary dict)
+        {
+            // Hyperlinks
+            dict["HyperlinkButtonForegroundColor"] = MakeBrush("#FFEBEBEB");
+            dict["HyperlinkButtonForegroundPointerOver"] = MakeBrush("#FF6CB3FF");
+
+            // DataGrid
+            dict["DataGridColumnHeaderBackgroundBrush"] = MakeBrush("#FF343434");
+            dict["DataGridColumnHeaderForegroundBrush"] = MakeBrush("#FFEBEBEB");
+            dict["DataGridColumnHeaderHoveredBackgroundBrush"] = MakeBrush("#FF3F3F3F");
+            dict["DataGridColumnHeaderPressedBackgroundBrush"] = MakeBrush("#FF323232");
+            dict["DataGridRowBackgroundBrush"] = MakeBrush("#FF2D2D2D");
+            dict["DataGridRowHoveredBackgroundColor"] = MakeBrush("#FF3F3F3F");
+            dict["DataGridRowAlternateBackground"] = MakeBrush("#FF424124");
+            dict["DataGridCellBackgroundBrush"] = MakeBrush("#00000000");
+        }
+
+        /// <summary>Restore default Fluent Dark colors on the app's Dark ThemeDictionary.</summary>
+        private static void RestoreDefaultDarkOverrides(global::Avalonia.Controls.ResourceDictionary dict)
+        {
+            var brush = new System.Func<string, global::Avalonia.Media.SolidColorBrush>(
+                c => new global::Avalonia.Media.SolidColorBrush(global::Avalonia.Media.Color.Parse(c)));
+
+            // Hyperlinks — restore default dark blue
+            dict["HyperlinkButtonForegroundColor"] = MakeBrush("#FF6CB3FF");
+            dict["HyperlinkButtonForegroundPointerOver"] = MakeBrush("#FF99CCFF");
+
+            // DataGrid — remove overrides (set transparent/default)
+            dict.Remove("DataGridColumnHeaderBackgroundBrush");
+            dict.Remove("DataGridColumnHeaderForegroundBrush");
+            dict.Remove("DataGridColumnHeaderHoveredBackgroundBrush");
+            dict.Remove("DataGridColumnHeaderPressedBackgroundBrush");
+            dict.Remove("DataGridRowBackgroundBrush");
+            dict.Remove("DataGridRowHoveredBackgroundColor");
+            dict.Remove("DataGridCellBackgroundBrush");
+            dict["DataGridRowAlternateBackground"] = MakeBrush("#FF2A2A2A");
+        }
+
+        /// <summary>Build the Classic Dark DataGrid style overrides (applied per-window).</summary>
+        internal static global::Avalonia.Styling.Styles BuildClassicDarkDataGridStyles()
+        {
+            var styles = new global::Avalonia.Styling.Styles();
+
+            // DataGridColumnHeader: gray background with white text
+            var headerStyle = new global::Avalonia.Styling.Style(x =>
+                global::Avalonia.Styling.Selectors.OfType(x, typeof(global::Avalonia.Controls.DataGridColumnHeader)));
+            headerStyle.Setters.Add(new global::Avalonia.Styling.Setter(
+                global::Avalonia.Controls.DataGridColumnHeader.BackgroundProperty, MakeBrush("#FF343434")));
+            headerStyle.Setters.Add(new global::Avalonia.Styling.Setter(
+                global::Avalonia.Controls.DataGridColumnHeader.ForegroundProperty, MakeBrush("#FFEBEBEB")));
+            styles.Add(headerStyle);
+
+            // DataGridRow: dark gray background (odd rows)
+            var rowStyle = new global::Avalonia.Styling.Style(x =>
+                global::Avalonia.Styling.Selectors.OfType(x, typeof(global::Avalonia.Controls.DataGridRow)));
+            rowStyle.Setters.Add(new global::Avalonia.Styling.Setter(
+                global::Avalonia.Controls.DataGridRow.BackgroundProperty, MakeBrush("#FF2D2D2D")));
+            styles.Add(rowStyle);
+
+            // DataGridRow alternating: gold/olive for even rows
+            var altRowStyle = new global::Avalonia.Styling.Style(x =>
+                global::Avalonia.Styling.Selectors.NthChild(
+                    global::Avalonia.Styling.Selectors.OfType(x, typeof(global::Avalonia.Controls.DataGridRow)),
+                    2, 0));
+            altRowStyle.Setters.Add(new global::Avalonia.Styling.Setter(
+                global::Avalonia.Controls.DataGridRow.BackgroundProperty, MakeBrush("#FF424124")));
+            styles.Add(altRowStyle);
+
+            return styles;
+        }
+
+        /// <summary>Build resource overrides needed alongside DataGrid styles (per-window).</summary>
+        internal static global::Avalonia.Controls.ResourceDictionary BuildClassicDarkDataGridResources()
+        {
+            // Make the template's BackgroundRectangle transparent so row Background shows through
+            var resources = new global::Avalonia.Controls.ResourceDictionary();
+            var darkDict = new global::Avalonia.Controls.ResourceDictionary();
+            darkDict["DataGridRowBackgroundBrush"] = MakeBrush("#00000000");
+            resources.ThemeDictionaries[global::Avalonia.Styling.ThemeVariant.Dark] = darkDict;
+            return resources;
+        }
+
+        /// <summary>Apply DataGrid styles to all open windows.</summary>
+        internal static void ApplyDataGridStylesToAllWindows(global::Avalonia.Styling.Styles template)
+        {
+            if (global::Avalonia.Application.Current?.ApplicationLifetime is
+                global::Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                foreach (var window in desktop.Windows)
+                {
+                    window.Styles.Add(BuildClassicDarkDataGridStyles());
+                    window.Resources.MergedDictionaries.Add(BuildClassicDarkDataGridResources());
+                }
+            }
+        }
+
+        /// <summary>Remove DataGrid styles from all open windows.</summary>
+        internal static void RemoveDataGridStylesFromAllWindows(global::Avalonia.Styling.Styles ignored)
+        {
+            if (global::Avalonia.Application.Current?.ApplicationLifetime is
+                global::Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                foreach (var window in desktop.Windows)
+                {
+                    // Remove DataGrid styles
+                    for (int i = window.Styles.Count - 1; i >= 0; i--)
+                    {
+                        if (window.Styles[i] is global::Avalonia.Styling.Styles s && s.Count > 0 &&
+                            s[0] is global::Avalonia.Styling.Style style &&
+                            style.Selector?.ToString() == "DataGridColumnHeader")
+                        {
+                            window.Styles.RemoveAt(i);
+                        }
+                    }
+                    // Remove DataGrid resource overrides
+                    for (int i = window.Resources.MergedDictionaries.Count - 1; i >= 0; i--)
+                    {
+                        if (window.Resources.MergedDictionaries[i] is global::Avalonia.Controls.ResourceDictionary rd &&
+                            rd.ThemeDictionaries.Count > 0)
+                        {
+                            window.Resources.MergedDictionaries.RemoveAt(i);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>Get the current Classic Dark DataGrid styles (for new windows).</summary>
+        internal static global::Avalonia.Styling.Styles ClassicDarkDataGridStyles => s_classicDarkDataGridStyles;
 #endif
     }
 }

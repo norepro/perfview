@@ -80,8 +80,18 @@
             <SolidColorBrush x:Key="ScrollBarThumbFillPointerOver" Color="#FF999999" />
 
             <!-- ============ DataGrid ============ -->
-            <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundColor" Color="#FF343434" />
-            <SolidColorBrush x:Key="DataGridRowAlternateBackground" Color="#424124" />
+            <!-- Column headers: gray background matching WPF -->
+            <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush" Color="#FF343434" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderForegroundBrush" Color="#FFEBEBEB" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderHoveredBackgroundBrush" Color="#FF3F3F3F" />
+            <SolidColorBrush x:Key="DataGridColumnHeaderPressedBackgroundBrush" Color="#FF323232" />
+            <!-- Row backgrounds -->
+            <SolidColorBrush x:Key="DataGridRowBackgroundBrush" Color="#FF2D2D2D" />
+            <SolidColorBrush x:Key="DataGridRowHoveredBackgroundColor" Color="#FF3F3F3F" />
+            <!-- Gold/olive alternating rows matching WPF dark theme -->
+            <SolidColorBrush x:Key="DataGridRowAlternateBackground" Color="#FF424124" />
+            <!-- Cell background -->
+            <SolidColorBrush x:Key="DataGridCellBackgroundBrush" Color="Transparent" />
 
             <!-- ============ Expander ============ -->
             <SolidColorBrush x:Key="ExpanderHeaderBackground" Color="#FF2D2D2D" />

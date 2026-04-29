@@ -15,7 +15,12 @@ namespace PerfView
         /// <summary>
         /// This constructor is only used for Design Viewer.
         /// </summary>
-        public WindowBase() { }
+        public WindowBase()
+        {
+#if AVALONIA
+            ApplyClassicDarkDataGridStyles();
+#endif
+        }
 
         public WindowBase(Window parentWindow)
         {
@@ -29,10 +34,24 @@ namespace PerfView
                 }
                 catch (System.Exception) { }
             }
+#if AVALONIA
+            ApplyClassicDarkDataGridStyles();
+#endif
         }
 
 #if AVALONIA
         public DispatcherAdapter Dispatcher { get; } = new();
+
+        private void ApplyClassicDarkDataGridStyles()
+        {
+            if (ThemeViewModel.ClassicDarkDataGridStyles != null)
+            {
+                // Each window needs its own copy — Styles can only have one owner.
+                Styles.Add(ThemeViewModel.BuildClassicDarkDataGridStyles());
+                // Also add resource overrides to make BackgroundRectangle transparent
+                Resources.MergedDictionaries.Add(ThemeViewModel.BuildClassicDarkDataGridResources());
+            }
+        }
 #endif
     }
 }
